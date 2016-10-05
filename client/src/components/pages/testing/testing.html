@@ -1,0 +1,47 @@
+<div class="main_layout testing_page">
+	<!-- TOOLBAR -->
+	<md-toolbar class="md-hue-2">
+		<div class="md-toolbar-tools">
+			<md-button ng-click="vm.startTesting()">
+				Start
+				<md-tooltip md-direction="bottom">Начать тестирование</md-tooltip>
+			</md-button>
+		</div>
+	</md-toolbar>
+	<!-- / TOOLBAR -->
+
+	<md-list>
+		<md-list-item class="md-3-line" ng-click="vm.addHost()">
+			<span>Add host</span>
+			<span flex></span>
+			<!--<md-button right>import file</md-button>-->
+			<md-button  type="file"
+			            class="md-raised"
+			            ngf-select="vm.upload($file, $invalidFiles)"
+			            accept="text/*"
+			            ngf-max-height="1000"
+			            ngf-max-size="5MB">
+				From File
+				<md-tooltip md-direction="bottom">Получить список хостов из файла</md-tooltip></md-button>
+		</md-list-item>
+
+		<md-divider></md-divider>
+
+		<md-card flex ng-repeat="(i, host) in vm.hosts" style="padding: 1em;">
+			<v-accordion class="vAccordion--default" multiple>
+				<v-pane ng-init="hidden=!host.length">
+					<v-pane-header ng-class="{empty_host:hidden}">
+						<md-input-container>
+							<label>Название группы хостов</label>
+							<input ng-model="host.name" required flex-gt-sm/>
+						</md-input-container>
+					</v-pane-header>
+					<v-pane-content ng-class="{_hidden:hidden}">
+						<host-group host-data="host"></host-group>
+					</v-pane-content>
+				</v-pane>
+			</v-accordion>
+		</md-card>
+	</md-list>
+
+</div>

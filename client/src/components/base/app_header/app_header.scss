@@ -1,0 +1,16 @@
+$height-header: 64px;
+.app_header{
+
+  width: 100%;
+  box-sizing: border-box;
+
+  md-toolbar{
+    background-color: #296cba !important;
+  }
+
+  h2{
+    font-weight: bold;
+    color: #fff;
+  }
+
+}
