@@ -4,7 +4,7 @@
   "description": "'The util for stress testing a web services'",
   "main": "app.js",
   "scripts": {
-    "start": "node server/app.js --gui --serverPort 8228"
+    "start": "node server/server.js -p 8778"
   },
   "dependencies": {
     "angular": "^1.5.8",

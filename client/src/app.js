@@ -15,7 +15,7 @@ require('ng-file-upload')
 const angular = require('angular')
 				require('angular-route')
 
-const wpApp = angular.module('wpApp', ['ngMaterial','ngRoute','vAccordion','ngAnimate', 'mainLayout', 'ngFileUpload'])
+const wpApp = angular.module('wpApp', ['ngMaterial','ngRoute','vAccordion', 'mainLayout', 'auth', 'ngAnimate', 'ngFileUpload'])
 
-require('./components/index')(wpApp)
+require('./auth')(wpApp)
 
