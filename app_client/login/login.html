@@ -1,0 +1,21 @@
+<div class="auth">
+
+	<md-content layout-padding>
+		<div>
+			<h1>Вход в систему</h1>
+			<md-input-container class="md-block">
+				<label>Логин</label>
+				<input ng-model="vm.login">
+			</md-input-container>
+			<md-input-container class="md-block">
+				<label>Пароль</label>
+				<input type="password" ng-model="vm.password">
+			</md-input-container>
+
+			<md-button md-no-ink class="md-raised" class="md-block"
+			ng-click="vm.signIn()">Войти</md-button>
+
+		</div>
+		</md-content>
+
+</div>

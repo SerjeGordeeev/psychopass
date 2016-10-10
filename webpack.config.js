@@ -1,12 +1,12 @@
 let webpack = require('webpack')
 
 module.exports = {
-    context: __dirname + '/client/src',
+    context: __dirname + '/app_client',
     entry: {
-        app: './app.js'
+        app: './main.js'
     },
     output: {
-        path: __dirname + '/server/public',
+        path: __dirname + '/app_client',
         filename: 'bundle.js'
     },
     module: {
@@ -23,7 +23,7 @@ module.exports = {
           {test: /\.scss$/, loader: 'style!css!sass!sass-resources'}
       ]
     },
-    sassResources: __dirname + '/client/src/styles/mixins.scss',
+    sassResources: __dirname + '/app_client/src/styles/mixins.scss',
     watch: true,
     devServer:{
         host: 'localhost',

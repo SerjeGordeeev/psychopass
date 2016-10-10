@@ -4,15 +4,19 @@
   "description": "'The util for stress testing a web services'",
   "main": "app.js",
   "scripts": {
-    "start": "node server/server.js -p 8778"
+    "start": "node app_server/app.js  PORT=8778"
   },
   "dependencies": {
     "angular": "^1.5.8",
     "express": "^4.14.0",
+    "express-jwt": "^5.1.0",
+    "jsonwebtoken": "^7.1.9",
     "lodash": "^4.15.0",
     "node-static": "^0.7.8",
     "openurl": "^1.1.1",
     "optimist": "git+https://github.com/substack/node-optimist.git",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "webpack": "^1.13.2"
   },
   "keywords": [
