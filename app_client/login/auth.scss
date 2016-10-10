@@ -1,10 +1,20 @@
 .auth{
   width: 70%;
+  transition: width .3s, height .3s;
+
   margin: 0 auto;
   background: #fff;
-  .md-button{
+  padding: 1em;
+  box-sizing: border-box;
+  .md-raised{
     background-color: #334aff !important;
     color: #fff !important;
   }
 }
 body{  background-color: #808080;}
+
+@media (min-width: 780px) {
+  .auth{
+    width: 50%;
+  }
+}

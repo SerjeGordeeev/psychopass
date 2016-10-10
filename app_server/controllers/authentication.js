@@ -1,6 +1,9 @@
 var passport = require('passport')
 var mongoose = require('mongoose')
 var User = mongoose.model('User')
+var generatePassword = require('password-generator');
+
+let sendMail = require('./mailer')
 
 var sendJSONresponse = function(res, status, content) {
   res.status(status)
@@ -15,15 +18,22 @@ module.exports.register = function(req, res) {
   //   })
   //   return
   // }
-
+  console.log('registration')
   var user = new User()
 
   user.name = req.body.name
   user.email = req.body.email
+  user.login = req.body.login
 
-  user.setPassword(req.body.password)
+  let password = generatePassword(12, false)
+  console.log(password)
+
+  sendMail('sergeygordeev95@gmail.com')
+
+  user.setPassword(password)
 
   user.save(function(err) {
+    console.log('Saved')
     var token
     token = user.generateJwt()
     res.status(200)
@@ -35,13 +45,6 @@ module.exports.register = function(req, res) {
 }
 
 module.exports.login = function(req, res) {
-  console.log(req)
-  // if(!req.body.login || !req.body.password) {
-  //   sendJSONresponse(res, 400, {
-  //     "message": "All fields required"
-  //   })
-  //   return
-  // }
 
   passport.authenticate('local', function(err, user, info){
     var token

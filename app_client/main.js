@@ -30,10 +30,13 @@ require('../node_modules/angular-material/angular-material.min.css')
 
 	function run($rootScope, $location, authentication) {
 		$rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute) {
-			if (!authentication.isLoggedIn()) {
+			//if (!authentication.isLoggedIn()) {
 				$location.path('/auth');
-			}
-		});
+			//}
+			//else{
+
+			//}
+		})
 	}
 
 	requireAll(require.context("./common", true, /\.js$/))

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const dbURI = 'mongodb://localhost/psychopassDB'
+const dbURI = 'mongodb://localhost/psychoPassDB'
 let gracefulShutdown
 
 
