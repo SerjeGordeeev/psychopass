@@ -12,14 +12,14 @@ var transporter = nodemailer.createTransport("SMTP",{
 });
 
 
-module.exports = function(mail){
+module.exports = function(mail, password, user){
     // setup e-mail data with unicode symbols
     var mailOptions = {
         from: 'FIST', // sender address
         to: mail, // list of receivers
-        subject: 'Hello ✔', // Subject line
-        text: 'Hello world 🐴', // plaintext body
-        html: '<b>Hello world 🐴</b>' // html body
+        subject: 'Регистрация в системе PsychoPass', // Subject line
+        text: ` Здравствуйте ${user.name}. Благодарим вас за регистрацию в системе. \n Данные для входа: \n Логин: ${user.login} \n Пароль: ${password} `, // plaintext body
+        html: '' // html body
     };
 
 // send mail with defined transport object

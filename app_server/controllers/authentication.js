@@ -26,9 +26,8 @@ module.exports.register = function(req, res) {
   user.login = req.body.login
 
   let password = generatePassword(12, false)
-  console.log(password)
 
-  sendMail('sergeygordeev95@gmail.com')
+  sendMail(user.email ,password,user)
 
   user.setPassword(password)
 
