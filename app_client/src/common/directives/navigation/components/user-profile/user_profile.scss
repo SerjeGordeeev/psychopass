@@ -1,6 +1,11 @@
 .user_profile {
   color: #bbbbbb;
-  md-icon svg{
-    fill: #353535 !important;
+  md-icon {
+    &:hover svg{fill: #5097ff !important;}
+    svg{
+      fill: #949494 !important;
+      transition: fill .2s;
+    }
   }
+
 }

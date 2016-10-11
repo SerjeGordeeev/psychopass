@@ -16,7 +16,7 @@
     }
 
     vm.user.role = vm.roleAssoc[vm.user.role]
-    console.log()
+    console.log(vm.user)
 
     vm.logout = logout
     //console.log('userProfile', authentication.currentUser())

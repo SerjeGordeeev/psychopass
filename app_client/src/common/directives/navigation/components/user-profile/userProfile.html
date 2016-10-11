@@ -1,6 +1,9 @@
 <div class="user_profile" layout>
-    <h3><span>{{::vm.user.name}}</span></h3>
-    <h3><span>{{::vm.user.role}}</span></h3>
+    <div class="layout-column">
+        <span>{{::vm.user.name}}</span>
+        <span style="font-size: .8em;">{{::vm.user.role}}</span>
+    </div>
+
     <md-button class="md-icon-button" aria-label="Выйти" ng-click="vm.logout()">
         <md-icon md-svg-icon="/src/img/ic_exit_to_app_black_24px.svg"></md-icon>
     </md-button>

@@ -1,7 +1,6 @@
 <div class="top_menu">
     <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-        <md-nav-item md-nav-click="goto('page1')" name="page1">Организации</md-nav-item>
-        <md-nav-item md-nav-click="goto('page2')" name="page2">Группы</md-nav-item>
-        <md-nav-item md-nav-click="goto('page3')" name="page3">Психологи</md-nav-item>
+        <!--<md-nav-item md-nav-click="goto('page1')" name="page1">Организации</md-nav-item>-->
+        <md-nav-item ng-repeat="page in vm.pages">{{::page.name}}</md-nav-item>
     </md-nav-bar>
 </div>

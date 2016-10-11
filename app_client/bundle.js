@@ -80,7 +80,7 @@
 		});
 	}
 
-	requireAll(__webpack_require__(37));
+	requireAll(__webpack_require__(15));
 	function requireAll(requireContext) {
 		return requireContext.keys().map(requireContext);
 	}
@@ -30593,15 +30593,33 @@
 
 /***/ },
 /* 15 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	var map = {
+		"./auth/authCtrl.js": 16,
+		"./common/directives/navigation/components/top-menu/topMenuCtrl.js": 19,
+		"./common/directives/navigation/components/top-menu/topMenuDir.js": 20,
+		"./common/directives/navigation/components/user-profile/userProfileCtrl.js": 24,
+		"./common/directives/navigation/components/user-profile/userProfileDir.js": 25,
+		"./common/directives/navigation/navigationCtrl.js": 29,
+		"./common/directives/navigation/navigationDir.js": 30,
+		"./common/services/authentication.service.js": 34,
+		"./common/services/data.service.js": 35,
+		"./home/homeCtrl.js": 36
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 15;
 
-	angular.module('psApp').controller('homeCtrl', homeCtrl);
-
-	function homeCtrl(authentication) {
-		console.log('Home controller is running', authentication.isLoggedIn());
-	}
 
 /***/ },
 /* 16 */
@@ -30701,46 +30719,57 @@
 
 
 /***/ },
-/* 19 */,
-/* 20 */
+/* 19 */
 /***/ function(module, exports) {
 
 	'use strict';
 
 	angular.module('psApp').controller('topMenuCtrl', topMenuCtrl);
 
-	function topMenuCtrl() {
+	userProfileCtrl.$inject = ['authentication'];
+
+	function topMenuCtrl(authentication) {
 	  var vm = this;
+
+	  vm.user = authentication.currentUser();
+
+	  vm.accessPages = [{
+	    href: '/groups',
+	    access: ['admin', 'psycholog', 'org']
+	  }, {
+	    href: '/groups',
+	    access: ['admin', 'psycholog', 'org']
+	  }];
 
 	  console.log('topMenu');
 	}
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('topMenu', topMenu);
 
-	__webpack_require__(22);
+	__webpack_require__(21);
 	function topMenu() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(24),
+	    template: __webpack_require__(23),
 	    controller: 'topMenuCtrl',
 	    controllerAs: 'vm'
 	  };
 	}
 
 /***/ },
-/* 22 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(23);
+	var content = __webpack_require__(22);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -30760,7 +30789,7 @@
 	}
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -30774,13 +30803,13 @@
 
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"top_menu\">\n    <md-nav-bar md-selected-nav-item=\"currentNavItem\" nav-bar-aria-label=\"navigation links\">\n        <md-nav-item md-nav-click=\"goto('page1')\" name=\"page1\">Организации</md-nav-item>\n        <md-nav-item md-nav-click=\"goto('page2')\" name=\"page2\">Группы</md-nav-item>\n        <md-nav-item md-nav-click=\"goto('page3')\" name=\"page3\">Психологи</md-nav-item>\n    </md-nav-bar>\n</div>";
+	module.exports = "<div class=\"top_menu\">\n    <md-nav-bar md-selected-nav-item=\"currentNavItem\" nav-bar-aria-label=\"navigation links\">\n        <!--<md-nav-item md-nav-click=\"goto('page1')\" name=\"page1\">Организации</md-nav-item>-->\n        <md-nav-item ng-repeat=\"page in vm.pages\">{{::page.name}}</md-nav-item>\n    </md-nav-bar>\n</div>";
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30800,7 +30829,7 @@
 	  };
 
 	  vm.user.role = vm.roleAssoc[vm.user.role];
-	  console.log();
+	  console.log(vm.user);
 
 	  vm.logout = logout;
 	  //console.log('userProfile', authentication.currentUser())
@@ -30812,31 +30841,31 @@
 	}
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('userProfile', userProfile);
 
-	__webpack_require__(27);
+	__webpack_require__(26);
 	function userProfile() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(29),
+	    template: __webpack_require__(28),
 	    controller: 'userProfileCtrl',
 	    controllerAs: 'vm'
 	  };
 	}
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(28);
+	var content = __webpack_require__(27);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -30856,7 +30885,7 @@
 	}
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -30864,19 +30893,19 @@
 
 
 	// module
-	exports.push([module.id, ".user_profile {\n  color: #bbbbbb; }\n  .user_profile md-icon svg {\n    fill: #353535 !important; }\n", ""]);
+	exports.push([module.id, ".user_profile {\n  color: #bbbbbb; }\n  .user_profile md-icon:hover svg {\n    fill: #5097ff !important; }\n  .user_profile md-icon svg {\n    fill: #949494 !important;\n    transition: fill .2s; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"user_profile\" layout>\n    <h3><span>{{::vm.user.name}}</span></h3>\n    <h3><span>{{::vm.user.role}}</span></h3>\n    <md-button class=\"md-icon-button\" aria-label=\"Выйти\" ng-click=\"vm.logout()\">\n        <md-icon md-svg-icon=\"/src/img/ic_exit_to_app_black_24px.svg\"></md-icon>\n    </md-button>\n</div>";
+	module.exports = "<div class=\"user_profile\" layout>\n    <div class=\"layout-column\">\n        <span>{{::vm.user.name}}</span>\n        <span style=\"font-size: .8em;\">{{::vm.user.role}}</span>\n    </div>\n\n    <md-button class=\"md-icon-button\" aria-label=\"Выйти\" ng-click=\"vm.logout()\">\n        <md-icon md-svg-icon=\"/src/img/ic_exit_to_app_black_24px.svg\"></md-icon>\n    </md-button>\n</div>";
 
 /***/ },
-/* 30 */
+/* 29 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30889,30 +30918,30 @@
 	}
 
 /***/ },
-/* 31 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('navigation', navigation);
 
-	__webpack_require__(32);
+	__webpack_require__(31);
 	function navigation() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(34),
+	    template: __webpack_require__(33),
 	    controller: 'navigationCtrl as navvm'
 	  };
 	}
 
 /***/ },
-/* 32 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(33);
+	var content = __webpack_require__(32);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -30932,7 +30961,7 @@
 	}
 
 /***/ },
-/* 33 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -30946,13 +30975,13 @@
 
 
 /***/ },
-/* 34 */
+/* 33 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"navigation navbar navbar-default\">\n  <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <h2>\n        <span>PsychopassApp</span>\n      </h2>\n      <top-menu></top-menu>\n      <span flex></span>\n      <user-profile></user-profile>\n    </div>\n  </md-toolbar>\n</div>\n";
 
 /***/ },
-/* 35 */
+/* 34 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30991,9 +31020,11 @@
 	      var payload = token.split('.')[1];
 	      payload = $window.atob(payload);
 	      payload = JSON.parse(payload);
+	      console.log(payload);
 	      return {
 	        email: payload.email,
-	        name: decodeURIComponent(escape(payload.name))
+	        name: decodeURIComponent(escape(payload.name)),
+	        role: payload.role
 	      };
 	    }
 	  };
@@ -31026,7 +31057,7 @@
 	}
 
 /***/ },
-/* 36 */
+/* 35 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31050,34 +31081,16 @@
 	}
 
 /***/ },
-/* 37 */
-/***/ function(module, exports, __webpack_require__) {
+/* 36 */
+/***/ function(module, exports) {
 
-	var map = {
-		"./auth/authCtrl.js": 16,
-		"./common/directives/navigation/components/top-menu/topMenuCtrl.js": 20,
-		"./common/directives/navigation/components/top-menu/topMenuDir.js": 21,
-		"./common/directives/navigation/components/user-profile/userProfileCtrl.js": 25,
-		"./common/directives/navigation/components/user-profile/userProfileDir.js": 26,
-		"./common/directives/navigation/navigationCtrl.js": 30,
-		"./common/directives/navigation/navigationDir.js": 31,
-		"./common/services/authentication.service.js": 35,
-		"./common/services/data.service.js": 36,
-		"./home/homeCtrl.js": 15
-	};
-	function webpackContext(req) {
-		return __webpack_require__(webpackContextResolve(req));
-	};
-	function webpackContextResolve(req) {
-		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
-	};
-	webpackContext.keys = function webpackContextKeys() {
-		return Object.keys(map);
-	};
-	webpackContext.resolve = webpackContextResolve;
-	module.exports = webpackContext;
-	webpackContext.id = 37;
+	'use strict';
 
+	angular.module('psApp').controller('homeCtrl', homeCtrl);
+
+	function homeCtrl(authentication) {
+		console.log('Home controller is running', authentication.isLoggedIn());
+	}
 
 /***/ }
 /******/ ]);
