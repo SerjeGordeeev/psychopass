@@ -1,3 +1,52 @@
+<div class="auth">
 
-	<h2 style="text-align: center">Авторизуйся или умри</h2>
-	<md-button ng-href="/home" flex>Go Home</md-button>
+	<md-content layout-padding>
+		<div ng-if="!vm.showSignUpForm">
+			<h3>Вход в систему</h3>
+			<md-input-container class="md-block">
+				<label>Логин</label>
+				<input ng-model="vm.signInData.login">
+			</md-input-container>
+			<md-input-container class="md-block">
+				<label>Пароль</label>
+				<input type="password" ng-model="vm.signInData.password">
+			</md-input-container>
+
+			<md-button md-no-ink class="md-raised" class="md-block"
+			ng-click="vm.signIn()">Войти</md-button>
+			<md-button md-no-ink class="md-primary" class="md-block"
+					   ng-click="vm.showSignUpForm = true">Регистрация</md-button>
+
+		</div>
+
+		<div ng-if="vm.showSignUpForm">
+			<form name="signUpForm">
+				<h3>Регистрация в системе</h3>
+
+				<md-input-container class="md-block"><label>Имя</label><input required ng-model="vm.signUpData.name"></md-input-container>
+				<!--<md-input-container><label>Фамилия</label><input required ng-model="vm.lastName"></md-input-container>
+				<md-input-container><label>Отчество</label><input required ng-model="vm.thirdName"></md-input-container>-->
+
+
+				<md-input-container class="md-block">
+					<label>Логин</label>
+					<input required ng-model="vm.signUpData.login">
+				</md-input-container>
+
+				<!--<md-input-container><label>Пароль</label><input required type="password" ng-model="vm.password"></md-input-container>
+				<md-input-container><label>Повторите пароль</label><input required type="password" ng-model="vm.rePassword"></md-input-container>-->
+
+				<md-input-container class="md-block">
+					<label>Email</label>
+					<input required type="email" ng-model="vm.signUpData.email">
+				</md-input-container>
+
+				<md-button md-no-ink class="md-primary" class="md-block"
+						   ng-click="vm.showSignUpForm = false">Назад</md-button>
+				<md-button type="submit" md-no-ink class="md-raised" class="md-block"
+						   ng-click="vm.signUp()">Зарегистрироваться</md-button>
+			</form>
+		</div>
+	</md-content>
+
+</div>

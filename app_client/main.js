@@ -6,15 +6,19 @@ require('../node_modules/angular-material/angular-material.min.css')
 
 	angular.module('psApp', ['ngMaterial','ngRoute']);
 
+
 	function config ($routeProvider, $locationProvider) {
 		$routeProvider
-			.when('/', {
-				templateUrl: 'home/home.html',
+			.when('/',{
+				redirectTo: '/home'
+			})
+			.when('/home', {
+				templateUrl: 'src/home/home.html',
 				controller: 'homeCtrl',
 				controllerAs: 'vm'
 			})
 			.when('/auth', {
-				templateUrl: 'auth/auth.html',
+				templateUrl: 'src/auth/auth.html',
 				controller: 'authCtrl',
 				controllerAs: 'vm'
 			})
@@ -39,9 +43,8 @@ require('../node_modules/angular-material/angular-material.min.css')
 		})
 	}
 
-	requireAll(require.context("./common", true, /\.js$/))
-	require('./home/homeCtrl')
-	require('./auth/authCtrl')
+
+	requireAll(require.context("./src", true, /\.js$/))
 	function requireAll(requireContext){
 		return requireContext.keys().map(requireContext)
 	}
