@@ -60,8 +60,8 @@
 			controller: 'homeCtrl',
 			controllerAs: 'vm'
 		}).when('/auth', {
-			templateUrl: 'login/login.html',
-			controller: 'loginCtrl',
+			templateUrl: 'auth/auth.html',
+			controller: 'authCtrl',
 			controllerAs: 'vm'
 		}).otherwise({ redirectTo: '/' });
 
@@ -72,18 +72,15 @@
 
 	function run($rootScope, $location, authentication) {
 		$rootScope.$on('$routeChangeStart', function (event, nextRoute, currentRoute) {
-			//if (!authentication.isLoggedIn()) {
-			$location.path('/auth');
-			//}
-			//else{
-
-			//}
+			if (!authentication.isLoggedIn()) {
+				$location.path('/auth');
+			} else {}
 		});
 	}
 
 	requireAll(__webpack_require__(15));
 	__webpack_require__(20);
-	__webpack_require__(21);
+	__webpack_require__(27);
 	function requireAll(requireContext) {
 		return requireContext.keys().map(requireContext);
 	}
@@ -30599,6 +30596,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
+		"./directives/main_layout/mainLayoutCtrl.js": 30,
+		"./directives/main_layout/mainLayoutDir.js": 31,
 		"./directives/navigation/navigationCtrl.js": 16,
 		"./directives/navigation/navigationDir.js": 17,
 		"./services/authentication.service.js": 18,
@@ -30629,15 +30628,11 @@
 	navigationCtrl.$inject = ['$location', 'authentication'];
 	function navigationCtrl($location, authentication) {
 	  var vm = this;
-
-	  // vm.isLoggedIn = authentication.isLoggedIn();
-	  //
-	  // vm.currentUser = authentication.currentUser();
 	}
 
 /***/ },
 /* 17 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -30645,8 +30640,8 @@
 
 	function navigation() {
 	  return {
-	    restrict: 'EA',
-	    templateUrl: '/common/directives/navigation/navigation.html',
+	    restrict: 'E',
+	    template: __webpack_require__(32),
 	    controller: 'navigationCtrl as navvm'
 	  };
 	}
@@ -30762,12 +30757,56 @@
 	}
 
 /***/ },
-/* 21 */
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(26);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./../../node_modules/sass-resources-loader/lib/loader.js!./auth.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./../../node_modules/sass-resources-loader/lib/loader.js!./auth.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".auth {\n  width: 70%;\n  transition: width .3s, height .3s;\n  margin: 0 auto;\n  background: #fff;\n  padding: 1em;\n  box-sizing: border-box; }\n  .auth .md-raised {\n    background-color: #334aff !important;\n    color: #fff !important; }\n\nbody {\n  background-color: #bbbbbb; }\n\n@media (min-width: 780px) {\n  .auth {\n    width: 50%; } }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(22);
+	__webpack_require__(25);
 	angular.module('psApp').controller('loginCtrl', loginCtrl);
 
 	function loginCtrl(authentication) {
@@ -30819,44 +30858,44 @@
 	}
 
 /***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
+/* 28 */,
+/* 29 */,
+/* 30 */
+/***/ function(module, exports) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
+	'use strict';
 
-	// load the styles
-	var content = __webpack_require__(23);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./../../node_modules/sass-resources-loader/lib/loader.js!./auth.scss", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./../../node_modules/sass-resources-loader/lib/loader.js!./auth.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
+	angular.module('psApp').controller('mainLayoutCtrl', mainLayoutCtrl);
+
+	function mainLayoutCtrl() {
+	  var vm = this;
+
+	  console.log('mainLayout');
 	}
 
 /***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
+/* 31 */
+/***/ function(module, exports) {
 
-	exports = module.exports = __webpack_require__(13)();
-	// imports
+	'use strict';
 
+	angular.module('psApp').directive('mainLayout', mainLayout);
 
-	// module
-	exports.push([module.id, ".auth {\n  width: 70%;\n  transition: width .3s, height .3s;\n  margin: 0 auto;\n  background: #fff;\n  padding: 1em;\n  box-sizing: border-box; }\n  .auth .md-raised {\n    background-color: #334aff !important;\n    color: #fff !important; }\n\nbody {\n  background-color: #808080; }\n\n@media (min-width: 780px) {\n  .auth {\n    width: 50%; } }\n", ""]);
+	function mainLayout() {
+	  return {
+	    restrict: 'E',
+	    templateUrl: '/common/directives/main_layout/mainLayout.html',
+	    controller: 'mainLayoutCtrl',
+	    controllerAs: 'vm',
+	    scope: {}
+	  };
+	}
 
-	// exports
+/***/ },
+/* 32 */
+/***/ function(module, exports) {
 
+	module.exports = "<div class=\"navbar navbar-default\">\n  NavigationDir\n</div>\n";
 
 /***/ }
 /******/ ]);

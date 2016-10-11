@@ -21,18 +21,20 @@ module.exports.register = function(req, res) {
   console.log('registration')
   var user = new User()
 
+  let password = generatePassword(12, false)
+
   user.name = req.body.name
   user.email = req.body.email
   user.login = req.body.login
+  user.openPassword = password
 
-  let password = generatePassword(12, false)
+  console.log(password)
 
-  sendMail(user.email ,password,user)
+  //sendMail(user.email ,password,user) //посылаем данные для входа
 
   user.setPassword(password)
 
   user.save(function(err) {
-    console.log('Saved')
     var token
     token = user.generateJwt()
     res.status(200)

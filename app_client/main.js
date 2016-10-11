@@ -14,8 +14,8 @@ require('../node_modules/angular-material/angular-material.min.css')
 				controllerAs: 'vm'
 			})
 			.when('/auth', {
-				templateUrl: 'login/login.html',
-				controller: 'loginCtrl',
+				templateUrl: 'auth/auth.html',
+				controller: 'authCtrl',
 				controllerAs: 'vm'
 			})
 			.otherwise({redirectTo: '/'});
@@ -30,18 +30,18 @@ require('../node_modules/angular-material/angular-material.min.css')
 
 	function run($rootScope, $location, authentication) {
 		$rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute) {
-			//if (!authentication.isLoggedIn()) {
+			if (!authentication.isLoggedIn()) {
 				$location.path('/auth');
-			//}
-			//else{
+			}
+			else{
 
-			//}
+			}
 		})
 	}
 
 	requireAll(require.context("./common", true, /\.js$/))
 	require('./home/homeCtrl')
-	require('./login/loginCtrl')
+	require('./auth/authCtrl')
 	function requireAll(requireContext){
 		return requireContext.keys().map(requireContext)
 	}

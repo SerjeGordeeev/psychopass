@@ -3,7 +3,7 @@ const dbURI = 'mongodb://localhost/psychoPassDB'
 let gracefulShutdown
 
 
-mongoose.connect(dbURI);
+mongoose.connect(dbURI)
 
 // CONNECTION EVENTS
 mongoose.connection.on('connected', function() {
