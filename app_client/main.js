@@ -30,7 +30,7 @@ require('../node_modules/angular-material/angular-material.min.css')
 			.when('/organisations', {
 				templateUrl: 'src/components/organisations/organisations.html',
 				controller: 'organisationsCtrl',
-				controllerAs: 'vm'
+				controllerAs: 'orgs'
 			})
 			.when('/members', {
 				templateUrl: 'src/components/members/members.html',

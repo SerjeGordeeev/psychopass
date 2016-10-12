@@ -72,7 +72,7 @@
 		}).when('/organisations', {
 			templateUrl: 'src/components/organisations/organisations.html',
 			controller: 'organisationsCtrl',
-			controllerAs: 'vm'
+			controllerAs: 'orgs'
 		}).when('/members', {
 			templateUrl: 'src/components/members/members.html',
 			controller: 'membersCtrl',
@@ -92,7 +92,7 @@
 		});
 	}
 
-	requireAll(__webpack_require__(44));
+	requireAll(__webpack_require__(15));
 	function requireAll(requireContext) {
 		return requireContext.keys().map(requireContext);
 	}
@@ -30604,52 +30604,27 @@
 
 
 /***/ },
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */,
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */,
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./auth/authCtrl.js": 45,
-		"./common/directives/navigation/components/top-menu/topMenuCtrl.js": 48,
-		"./common/directives/navigation/components/top-menu/topMenuDir.js": 49,
-		"./common/directives/navigation/components/user-profile/userProfileCtrl.js": 53,
-		"./common/directives/navigation/components/user-profile/userProfileDir.js": 54,
-		"./common/directives/navigation/navigationCtrl.js": 58,
-		"./common/directives/navigation/navigationDir.js": 59,
-		"./common/services/authentication.service.js": 63,
-		"./common/services/organisations.service.js": 69,
-		"./home/homeCtrl.js": 65,
-		"./members/memberCtrl.js": 68,
-		"./organisations/organisationsCtrl.js": 66,
-		"./psychologs/psychologsCtrl.js": 67
+		"./auth/authCtrl.js": 16,
+		"./common/directives/header/components/top-menu/topMenuCtrl.js": 19,
+		"./common/directives/header/components/top-menu/topMenuDir.js": 20,
+		"./common/directives/header/components/user-profile/userProfileCtrl.js": 24,
+		"./common/directives/header/components/user-profile/userProfileDir.js": 25,
+		"./common/directives/header/navigationCtrl.js": 29,
+		"./common/directives/header/navigationDir.js": 30,
+		"./common/directives/nav-bar/navBarCtrl.js": 34,
+		"./common/directives/nav-bar/navBarDir.js": 35,
+		"./common/services/authentication.service.js": 39,
+		"./common/services/organisations.service.js": 40,
+		"./home/homeCtrl.js": 41,
+		"./members/memberCtrl.js": 42,
+		"./organisations/organisationsCtrl.js": 43,
+		"./organisations/tool-bar/toolBarCtrl.js": 44,
+		"./organisations/tool-bar/toolBarDir.js": 45,
+		"./psychologs/psychologsCtrl.js": 49
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -30662,16 +30637,16 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 44;
+	webpackContext.id = 15;
 
 
 /***/ },
-/* 45 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(46);
+	__webpack_require__(17);
 	angular.module('psApp').controller('authCtrl', authCtrl);
 
 	function authCtrl(authentication, $location) {
@@ -30723,13 +30698,13 @@
 	}
 
 /***/ },
-/* 46 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(47);
+	var content = __webpack_require__(18);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -30749,7 +30724,7 @@
 	}
 
 /***/ },
-/* 47 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -30757,13 +30732,13 @@
 
 
 	// module
-	exports.push([module.id, ".auth {\n  width: 70%;\n  transition: width .3s, height .3s;\n  margin: 0 auto;\n  background: #fff;\n  padding: 1em;\n  box-sizing: border-box; }\n  .auth .md-raised {\n    background-color: #334aff !important;\n    color: #fff !important; }\n\nbody {\n  background-color: #bbbbbb; }\n\n@media (min-width: 780px) {\n  .auth {\n    width: 50%; } }\n", ""]);
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.auth {\n  width: 70%;\n  transition: width .3s, height .3s;\n  margin: 0 auto;\n  background: #fff;\n  padding: 1em;\n  box-sizing: border-box; }\n  .auth .md-raised {\n    background-color: #334aff !important;\n    color: #fff !important; }\n\nbody {\n  background-color: #bbbbbb; }\n\n@media (min-width: 780px) {\n  .auth {\n    width: 50%; } }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 48 */
+/* 19 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30810,31 +30785,31 @@
 	}
 
 /***/ },
-/* 49 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('topMenu', topMenu);
 
-	__webpack_require__(50);
+	__webpack_require__(21);
 	function topMenu() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(52),
+	    template: __webpack_require__(23),
 	    controller: 'topMenuCtrl',
 	    controllerAs: 'tm'
 	  };
 	}
 
 /***/ },
-/* 50 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(51);
+	var content = __webpack_require__(22);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -30854,7 +30829,7 @@
 	}
 
 /***/ },
-/* 51 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -30862,19 +30837,19 @@
 
 
 	// module
-	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n\n.top_menu {\n  margin: 0 1em;\n  color: #949494 !important; }\n  .top_menu a {\n    font-size: .8em;\n    text-transform: uppercase;\n    margin: 0 .5em;\n    color: #949494;\n    transition: color .2s; }\n    .top_menu a:hover {\n      color: #67b3ff; }\n  .top_menu .active_link {\n    color: #67b3ff;\n    border-bottom: #67b3ff solid .1em; }\n", ""]);
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.top_menu {\n  margin: 0 1em;\n  color: #949494 !important; }\n  .top_menu a {\n    font-size: .8em;\n    text-transform: uppercase;\n    margin: 0 .5em;\n    color: #949494;\n    transition: color .2s; }\n    .top_menu a:hover {\n      color: #67b3ff; }\n  .top_menu .active_link {\n    color: #67b3ff;\n    border-bottom: #67b3ff solid .1em; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 52 */
+/* 23 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"top_menu\">\n        <a ng-href=\"{{page.href}}\" ng-class=\"{'active_link':tm.activePage.indexOf(page.href)>-1}\" name=\"page.title\" ng-repeat=\"page in tm.pages\">{{page.title}}</a>\n</div>";
 
 /***/ },
-/* 53 */
+/* 24 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30906,31 +30881,31 @@
 	}
 
 /***/ },
-/* 54 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('userProfile', userProfile);
 
-	__webpack_require__(55);
+	__webpack_require__(26);
 	function userProfile() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(57),
+	    template: __webpack_require__(28),
 	    controller: 'userProfileCtrl',
 	    controllerAs: 'vm'
 	  };
 	}
 
 /***/ },
-/* 55 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(56);
+	var content = __webpack_require__(27);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -30950,7 +30925,7 @@
 	}
 
 /***/ },
-/* 56 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -30958,19 +30933,19 @@
 
 
 	// module
-	exports.push([module.id, ".user_profile {\n  color: #bbbbbb; }\n  .user_profile md-icon:hover svg {\n    fill: #5097ff !important; }\n  .user_profile md-icon svg {\n    fill: #949494 !important;\n    transition: fill .2s; }\n", ""]);
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.user_profile {\n  color: #bbbbbb; }\n  .user_profile md-icon:hover svg {\n    fill: #5097ff !important; }\n  .user_profile md-icon svg {\n    fill: #949494 !important;\n    transition: fill .2s; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 57 */
+/* 28 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"user_profile\" layout>\n    <div class=\"layout-column\">\n        <span>{{::vm.user.name}}</span>\n        <span style=\"font-size: .8em;\">{{::vm.user.role}}</span>\n    </div>\n\n    <md-button class=\"md-icon-button\" aria-label=\"Выйти\" ng-click=\"vm.logout()\">\n        <md-icon md-svg-icon=\"/src/img/ic_exit_to_app_black_24px.svg\"></md-icon>\n    </md-button>\n</div>";
 
 /***/ },
-/* 58 */
+/* 29 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30983,30 +30958,30 @@
 	}
 
 /***/ },
-/* 59 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('navigation', navigation);
 
-	__webpack_require__(60);
+	__webpack_require__(31);
 	function navigation() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(62),
+	    template: __webpack_require__(33),
 	    controller: 'navigationCtrl as navvm'
 	  };
 	}
 
 /***/ },
-/* 60 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(61);
+	var content = __webpack_require__(32);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31026,7 +31001,7 @@
 	}
 
 /***/ },
-/* 61 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31034,19 +31009,95 @@
 
 
 	// module
-	exports.push([module.id, ".navigation h2 {\n  color: #bbbbbb; }\n\n.navigation md-toolbar {\n  background-color: #ffffff !important; }\n", ""]);
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.navigation md-card {\n  margin: 0 !important; }\n\n.navigation h2 {\n  color: #bbbbbb; }\n\n.navigation md-toolbar {\n  background-color: #ffffff !important; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 62 */
+/* 33 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"navigation navbar navbar-default\">\n  <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <h2>\n        <a ng-href=\"/\">PsychopassApp</a>\n      </h2>\n      <top-menu></top-menu>\n      <span flex></span>\n      <user-profile></user-profile>\n    </div>\n  </md-toolbar>\n</div>\n";
+	module.exports = "<div class=\"navigation navbar navbar-default\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n      <div class=\"md-toolbar-tools\">\n        <h2>\n          <a ng-href=\"/\">PsychopassApp</a>\n        </h2>\n        <top-menu></top-menu>\n        <span flex></span>\n        <user-profile></user-profile>\n      </div>\n    </md-toolbar>\n  </md-card>\n</div>\n";
 
 /***/ },
-/* 63 */
+/* 34 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('navBarCtrl', navBarCtrl);
+
+	navBarCtrl.$inject = ['$location', 'authentication'];
+	function navBarCtrl($location, authentication) {
+	  var vm = this;
+	}
+
+/***/ },
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').directive('navBar', navBar);
+
+	__webpack_require__(36);
+	function navBar() {
+	  return {
+	    restrict: 'E',
+	    template: __webpack_require__(38),
+	    controller: 'navBarCtrl as navb'
+	  };
+	}
+
+/***/ },
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(37);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./nav-bar.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./nav-bar.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 38 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\" navbar navbar-default\">\n  Navbar\n</div>\n";
+
+/***/ },
+/* 39 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31122,66 +31173,7 @@
 	}
 
 /***/ },
-/* 64 */,
-/* 65 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('homeCtrl', homeCtrl);
-
-	function homeCtrl(authentication) {
-		console.log('Home controller is running', authentication.isLoggedIn());
-	}
-
-/***/ },
-/* 66 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('organisationsCtrl', organisationsCtrl);
-
-	organisationsCtrl.$inject = ['$$organisations', 'authentication'];
-
-	function organisationsCtrl($$organisations, authentication) {
-		var vm = this;
-
-		$$organisations.getList().then(function (data) {
-			console.log(data);
-		});
-	}
-
-/***/ },
-/* 67 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('psychologsCtrl', psychologsCtrl);
-
-	psychologsCtrl.$inject = ['authentication'];
-
-	function psychologsCtrl(authentication) {
-		var vm = this;
-	}
-
-/***/ },
-/* 68 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('membersCtrl', membersCtrl);
-
-	membersCtrl.$inject = ['authentication'];
-
-	function membersCtrl(authentication) {
-		var vm = this;
-	}
-
-/***/ },
-/* 69 */
+/* 40 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31198,6 +31190,160 @@
 	  return {
 	    getList: getList
 	  };
+	}
+
+/***/ },
+/* 41 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('homeCtrl', homeCtrl);
+
+	function homeCtrl(authentication) {
+		console.log('Home controller is running', authentication.isLoggedIn());
+	}
+
+/***/ },
+/* 42 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('membersCtrl', membersCtrl);
+
+	membersCtrl.$inject = ['authentication'];
+
+	function membersCtrl(authentication) {
+		var vm = this;
+	}
+
+/***/ },
+/* 43 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('organisationsCtrl', organisationsCtrl);
+
+	organisationsCtrl.$inject = ['$$organisations', 'authentication'];
+
+	function organisationsCtrl($$organisations, authentication) {
+		var vm = this;
+		vm.orgs = [];
+
+		vm.filters = [{
+			//value: null,
+			title: 'Тип организации',
+			options: [{ name: 'Срань', id: 1 }, { name: 'Говно', id: 2 }]
+		}, {
+			//value: null,
+			title: 'Форма подчинения',
+			options: [{ name: 'Диктатура', id: 1 }, { name: 'Монархия', id: 2 }]
+		}];
+
+		$$organisations.getList().then(function (data) {
+			vm.orgs = data.data;
+		});
+
+		function orgGetterSetter(value) {
+			console.log(value);
+		}
+	}
+
+/***/ },
+/* 44 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('toolBarCtrl', toolBarCtrl);
+
+	toolBarCtrl.$inject = ['$scope', '$location', 'authentication'];
+	function toolBarCtrl($scope, $location, authentication) {
+	  var vm = this;
+	  //vm.filters  = $scope.filters
+	  console.log($scope.filters);
+	}
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').directive('toolBar', toolBar);
+
+	__webpack_require__(46);
+	function toolBar() {
+	  return {
+	    restrict: 'E',
+	    template: __webpack_require__(48),
+	    controller: 'toolBarCtrl as tb',
+	    scope: {
+	      filters: '='
+	    }
+	  };
+	}
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(47);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../node_modules/css-loader/index.js!./../../../../../node_modules/sass-loader/index.js!./../../../../../node_modules/sass-resources-loader/lib/loader.js!./toolBar.scss", function() {
+				var newContent = require("!!./../../../../../node_modules/css-loader/index.js!./../../../../../node_modules/sass-loader/index.js!./../../../../../node_modules/sass-resources-loader/lib/loader.js!./toolBar.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.tool_bar md-toolbar {\n  background-color: #ffffff !important; }\n  .tool_bar md-toolbar .md-toolbar-tools {\n    padding-top: 18px;\n    color: #5a5a5a;\n    height: auto !important;\n    max-height: inherit !important; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 48 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"tool_bar\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <div ng-repeat=\"filter in filters\">\n        <md-input-container ng-style=\"{'min-width': filter.title.length*12+'px'}\">\n          <label>{{filter.title}}</label>\n          <md-select ng-model=\"filter.value\">\n            <md-option ng-value=\"null\">Все</md-option>\n            <md-option ng-repeat=\"option in filter.options\" ng-value=\"option.id\">\n              {{option.name}}\n            </md-option>\n          </md-select>\n        </md-input-container>\n      </div>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n  </md-card>\n</div>\n";
+
+/***/ },
+/* 49 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('psychologsCtrl', psychologsCtrl);
+
+	psychologsCtrl.$inject = ['authentication'];
+
+	function psychologsCtrl(authentication) {
+		var vm = this;
 	}
 
 /***/ }

@@ -1,5 +1,15 @@
 <div class="organisations main_layout">
 	<navigation></navigation>
-	<h1>Организации</h1>
-
+	<div class="page_content">
+		<span class="page_title">Организации</span>
+		<tool-bar filters="orgs.filters"></tool-bar>
+		<md-card>
+			<md-list class="layout-fill">
+				<md-list-item class="md-2-line" ng-repeat="org in orgs.orgs">
+					<h2>{{org.name}}</h2>
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+		</md-card>
+	</div>
 </div>

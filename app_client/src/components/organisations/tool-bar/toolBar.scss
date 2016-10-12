@@ -1,0 +1,12 @@
+.tool_bar{
+  
+  md-toolbar {
+    background-color: #ffffff !important;
+    .md-toolbar-tools{
+      padding-top: 18px;
+      color: #5a5a5a;
+      height: auto !important;
+      max-height: inherit !important;
+    }
+  }
+}

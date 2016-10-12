@@ -1,0 +1,20 @@
+<div class="tool_bar">
+  <md-card>
+    <md-toolbar class="md-hue-2">
+    <div class="md-toolbar-tools">
+      <div ng-repeat="filter in filters">
+        <md-input-container ng-style="{'min-width': filter.title.length*12+'px'}">
+          <label>{{filter.title}}</label>
+          <md-select ng-model="filter.value">
+            <md-option ng-value="null">Все</md-option>
+            <md-option ng-repeat="option in filter.options" ng-value="option.id">
+              {{option.name}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <span flex></span>
+    </div>
+  </md-toolbar>
+  </md-card>
+</div>
