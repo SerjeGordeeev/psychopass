@@ -30609,6 +30609,8 @@
 
 	var map = {
 		"./auth/authCtrl.js": 16,
+		"./backend/services/authentication.service.js": 50,
+		"./backend/services/organisations.service.js": 51,
 		"./common/directives/header/components/top-menu/topMenuCtrl.js": 19,
 		"./common/directives/header/components/top-menu/topMenuDir.js": 20,
 		"./common/directives/header/components/user-profile/userProfileCtrl.js": 24,
@@ -30617,8 +30619,6 @@
 		"./common/directives/header/navigationDir.js": 30,
 		"./common/directives/nav-bar/navBarCtrl.js": 34,
 		"./common/directives/nav-bar/navBarDir.js": 35,
-		"./common/services/authentication.service.js": 39,
-		"./common/services/organisations.service.js": 40,
 		"./home/homeCtrl.js": 41,
 		"./members/memberCtrl.js": 42,
 		"./organisations/organisationsCtrl.js": 43,
@@ -30649,11 +30649,12 @@
 	__webpack_require__(17);
 	angular.module('psApp').controller('authCtrl', authCtrl);
 
-	function authCtrl(authentication, $location) {
+	function authCtrl(authentication, $$organisations, $location) {
 
 		var vm = this;
 
 		vm.showSignUpForm = false;
+		vm.orgs = [];
 
 		vm.login = null;
 		vm.password = null;
@@ -30672,6 +30673,10 @@
 
 		vm.signIn = signIn;
 		vm.signUp = signUp;
+
+		$$organisations.getList().then(function (resp) {
+			vm.orgs = resp.data;
+		});
 
 		function signIn() {
 			authentication.login({
@@ -30732,7 +30737,7 @@
 
 
 	// module
-	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.auth {\n  width: 70%;\n  transition: width .3s, height .3s;\n  margin: 0 auto;\n  background: #fff;\n  padding: 1em;\n  box-sizing: border-box; }\n  .auth .md-raised {\n    background-color: #334aff !important;\n    color: #fff !important; }\n\nbody {\n  background-color: #bbbbbb; }\n\n@media (min-width: 780px) {\n  .auth {\n    width: 50%; } }\n", ""]);
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item:hover .delete_button {\n    display: block; }\n  md-list-item .delete_button {\n    display: none; }\n    md-list-item .delete_button svg {\n      fill: #000;\n      transition: fill .2s; }\n    md-list-item .delete_button:hover svg {\n      fill: #ff0415; }\n\n.auth {\n  width: 70%;\n  transition: width .3s, height .3s;\n  margin: 0 auto;\n  background: #fff;\n  padding: 1em;\n  box-sizing: border-box; }\n  .auth .md-raised {\n    background-color: #334aff !important;\n    color: #fff !important; }\n\nbody {\n  background-color: #bbbbbb; }\n\n@media (min-width: 780px) {\n  .auth {\n    width: 50%; } }\n", ""]);
 
 	// exports
 
@@ -30762,11 +30767,15 @@
 	  }, {
 	    title: 'Организации',
 	    href: '/organisations',
-	    access: ['admin', 'org']
+	    access: ['admin', 'org', 'psycholog']
 	  }, {
 	    title: 'Участники',
 	    href: '/members',
 	    access: ['admin', 'psycholog', 'org']
+	  }, {
+	    title: 'Руководство группой',
+	    href: '/mygroup',
+	    access: ['psycholog']
 	  }];
 
 	  getPages();
@@ -30837,7 +30846,7 @@
 
 
 	// module
-	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.top_menu {\n  margin: 0 1em;\n  color: #949494 !important; }\n  .top_menu a {\n    font-size: .8em;\n    text-transform: uppercase;\n    margin: 0 .5em;\n    color: #949494;\n    transition: color .2s; }\n    .top_menu a:hover {\n      color: #67b3ff; }\n  .top_menu .active_link {\n    color: #67b3ff;\n    border-bottom: #67b3ff solid .1em; }\n", ""]);
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item:hover .delete_button {\n    display: block; }\n  md-list-item .delete_button {\n    display: none; }\n    md-list-item .delete_button svg {\n      fill: #000;\n      transition: fill .2s; }\n    md-list-item .delete_button:hover svg {\n      fill: #ff0415; }\n\n.top_menu {\n  margin: 0 1em;\n  color: #949494 !important; }\n  .top_menu a {\n    font-size: .8em;\n    text-transform: uppercase;\n    margin: 0 .5em;\n    color: #949494;\n    transition: color .2s; }\n    .top_menu a:hover {\n      color: #67b3ff; }\n  .top_menu .active_link {\n    color: #67b3ff;\n    border-bottom: #67b3ff solid .1em; }\n", ""]);
 
 	// exports
 
@@ -30933,7 +30942,7 @@
 
 
 	// module
-	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.user_profile {\n  color: #bbbbbb; }\n  .user_profile md-icon:hover svg {\n    fill: #5097ff !important; }\n  .user_profile md-icon svg {\n    fill: #949494 !important;\n    transition: fill .2s; }\n", ""]);
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item:hover .delete_button {\n    display: block; }\n  md-list-item .delete_button {\n    display: none; }\n    md-list-item .delete_button svg {\n      fill: #000;\n      transition: fill .2s; }\n    md-list-item .delete_button:hover svg {\n      fill: #ff0415; }\n\n.user_profile {\n  color: #bbbbbb; }\n  .user_profile md-icon:hover svg {\n    fill: #5097ff !important; }\n  .user_profile md-icon svg {\n    fill: #949494 !important;\n    transition: fill .2s; }\n", ""]);
 
 	// exports
 
@@ -31009,7 +31018,7 @@
 
 
 	// module
-	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.navigation md-card {\n  margin: 0 !important; }\n\n.navigation h2 {\n  color: #bbbbbb; }\n\n.navigation md-toolbar {\n  background-color: #ffffff !important; }\n", ""]);
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item:hover .delete_button {\n    display: block; }\n  md-list-item .delete_button {\n    display: none; }\n    md-list-item .delete_button svg {\n      fill: #000;\n      transition: fill .2s; }\n    md-list-item .delete_button:hover svg {\n      fill: #ff0415; }\n\n.navigation md-card {\n  margin: 0 !important; }\n\n.navigation h2 {\n  color: #bbbbbb; }\n\n.navigation md-toolbar {\n  background-color: #ffffff !important; }\n", ""]);
 
 	// exports
 
@@ -31085,7 +31094,7 @@
 
 
 	// module
-	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n", ""]);
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item:hover .delete_button {\n    display: block; }\n  md-list-item .delete_button {\n    display: none; }\n    md-list-item .delete_button svg {\n      fill: #000;\n      transition: fill .2s; }\n    md-list-item .delete_button:hover svg {\n      fill: #ff0415; }\n", ""]);
 
 	// exports
 
@@ -31097,7 +31106,220 @@
 	module.exports = "<div class=\" navbar navbar-default\">\n  Navbar\n</div>\n";
 
 /***/ },
-/* 39 */
+/* 39 */,
+/* 40 */,
+/* 41 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('homeCtrl', homeCtrl);
+
+	function homeCtrl(authentication) {
+		console.log('Home controller is running', authentication.isLoggedIn());
+	}
+
+/***/ },
+/* 42 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('membersCtrl', membersCtrl);
+
+	membersCtrl.$inject = ['authentication'];
+
+	function membersCtrl(authentication) {
+		var vm = this;
+	}
+
+/***/ },
+/* 43 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('organisationsCtrl', organisationsCtrl);
+
+	organisationsCtrl.$inject = ['$$organisations', 'authentication'];
+
+	function organisationsCtrl($$organisations, authentication) {
+
+		var vm = this;
+
+		vm.orgs = [];
+		vm.filters = [];
+		vm.crudRights = ['admin', 'org'];
+
+		vm.psychoFilter = psychoFilter;
+		vm.add = add;
+		vm.remove = remove;
+		vm.update = update;
+		vm.checkCRUDRights = checkCRUDRights;
+
+		init();
+
+		createFilters(['Учебные', 'Психологические'], 'Тип организации');
+		function init() {
+			$$organisations.getList().then(function (data) {
+				vm.orgs = data.data;
+			});
+		}
+
+		function createFilters(options, title) {
+			var filter = { title: title, options: [] };
+
+			options.forEach(function (option, index) {
+				filter.options.push({
+					name: option,
+					id: option.id || index
+				});
+			});
+
+			vm.filters.push(filter);
+		}
+
+		function psychoFilter(org, index) {
+			if (vm.filters[0].value == null) {
+				return true;
+			} else {
+				return !!vm.filters[0].value == org.is_psycho;
+			}
+		}
+
+		function checkCRUDRights() {
+			var userRole = authentication.currentUser().role;
+			return vm.crudRights.includes(userRole);
+		}
+
+		function add() {
+			$$organisations.post({
+				name: null,
+				is_psycho: false
+			}).then(function (data) {
+				//vm.orgs = data.data
+				init();
+			});
+		}
+
+		function remove(id) {
+			$$organisations.remove({
+				id: id
+			}).then(function (data) {
+				//vm.orgs = data.data
+				init();
+			});
+		}
+
+		function update(org) {
+			$$organisations.put({
+				id: org._id,
+				name: org.name,
+				is_psycho: org.is_psycho
+			}).then(function (data) {
+				//vm.orgs = data.data
+				init();
+			});
+		}
+	}
+
+/***/ },
+/* 44 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('toolBarCtrl', toolBarCtrl);
+
+	toolBarCtrl.$inject = ['$scope', '$location', 'authentication'];
+	function toolBarCtrl($scope, $location, authentication) {
+	  var vm = this;
+	  //vm.filters  = $scope.filters
+	  console.log($scope.filters);
+	}
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').directive('toolBar', toolBar);
+
+	__webpack_require__(46);
+	function toolBar() {
+	  return {
+	    restrict: 'E',
+	    template: __webpack_require__(48),
+	    controller: 'toolBarCtrl as tb',
+	    scope: {
+	      filters: '='
+	    }
+	  };
+	}
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(47);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../node_modules/css-loader/index.js!./../../../../../node_modules/sass-loader/index.js!./../../../../../node_modules/sass-resources-loader/lib/loader.js!./toolBar.scss", function() {
+				var newContent = require("!!./../../../../../node_modules/css-loader/index.js!./../../../../../node_modules/sass-loader/index.js!./../../../../../node_modules/sass-resources-loader/lib/loader.js!./toolBar.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item:hover .delete_button {\n    display: block; }\n  md-list-item .delete_button {\n    display: none; }\n    md-list-item .delete_button svg {\n      fill: #000;\n      transition: fill .2s; }\n    md-list-item .delete_button:hover svg {\n      fill: #ff0415; }\n\n.tool_bar md-toolbar {\n  background-color: #ffffff !important; }\n  .tool_bar md-toolbar .md-toolbar-tools {\n    padding-top: 18px;\n    color: #5a5a5a;\n    height: auto !important;\n    max-height: inherit !important; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 48 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"tool_bar\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <div ng-repeat=\"filter in filters\">\n        <md-input-container ng-style=\"{'min-width': filter.title.length*12+'px'}\">\n          <label>{{filter.title}}</label>\n          <md-select ng-model=\"filter.value\">\n            <md-option ng-value=\"null\">Все</md-option>\n            <md-option ng-repeat=\"option in filter.options\" ng-value=\"option.id\">\n              {{option.name}}\n            </md-option>\n          </md-select>\n        </md-input-container>\n      </div>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n  </md-card>\n</div>\n";
+
+/***/ },
+/* 49 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('psychologsCtrl', psychologsCtrl);
+
+	psychologsCtrl.$inject = ['authentication'];
+
+	function psychologsCtrl(authentication) {
+		var vm = this;
+	}
+
+/***/ },
+/* 50 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31173,7 +31395,7 @@
 	}
 
 /***/ },
-/* 40 */
+/* 51 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31182,168 +31404,29 @@
 
 	organisations.$inject = ['$http', 'authentication'];
 	function organisations($http, authentication) {
-	  var pid = authentication.currentUser().pid;
+
 	  var getList = function getList() {
-	    return $http.get('/api/organisations', {});
+	    return $http.get('/api/organisations');
+	  };
+
+	  var post = function post(payload) {
+	    return $http.post('/api/organisations', payload);
+	  };
+
+	  var remove = function remove(payload) {
+	    return $http.delete('/api/organisations?id=' + payload.id);
+	  };
+
+	  var put = function put(payload) {
+	    return $http.put('/api/organisations?id=' + payload.id, payload);
 	  };
 
 	  return {
-	    getList: getList
+	    getList: getList,
+	    post: post,
+	    remove: remove,
+	    put: put
 	  };
-	}
-
-/***/ },
-/* 41 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('homeCtrl', homeCtrl);
-
-	function homeCtrl(authentication) {
-		console.log('Home controller is running', authentication.isLoggedIn());
-	}
-
-/***/ },
-/* 42 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('membersCtrl', membersCtrl);
-
-	membersCtrl.$inject = ['authentication'];
-
-	function membersCtrl(authentication) {
-		var vm = this;
-	}
-
-/***/ },
-/* 43 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('organisationsCtrl', organisationsCtrl);
-
-	organisationsCtrl.$inject = ['$$organisations', 'authentication'];
-
-	function organisationsCtrl($$organisations, authentication) {
-		var vm = this;
-		vm.orgs = [];
-
-		vm.filters = [{
-			//value: null,
-			title: 'Тип организации',
-			options: [{ name: 'Срань', id: 1 }, { name: 'Говно', id: 2 }]
-		}, {
-			//value: null,
-			title: 'Форма подчинения',
-			options: [{ name: 'Диктатура', id: 1 }, { name: 'Монархия', id: 2 }]
-		}];
-
-		$$organisations.getList().then(function (data) {
-			vm.orgs = data.data;
-		});
-
-		function orgGetterSetter(value) {
-			console.log(value);
-		}
-	}
-
-/***/ },
-/* 44 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('toolBarCtrl', toolBarCtrl);
-
-	toolBarCtrl.$inject = ['$scope', '$location', 'authentication'];
-	function toolBarCtrl($scope, $location, authentication) {
-	  var vm = this;
-	  //vm.filters  = $scope.filters
-	  console.log($scope.filters);
-	}
-
-/***/ },
-/* 45 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	angular.module('psApp').directive('toolBar', toolBar);
-
-	__webpack_require__(46);
-	function toolBar() {
-	  return {
-	    restrict: 'E',
-	    template: __webpack_require__(48),
-	    controller: 'toolBarCtrl as tb',
-	    scope: {
-	      filters: '='
-	    }
-	  };
-	}
-
-/***/ },
-/* 46 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(47);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../node_modules/css-loader/index.js!./../../../../../node_modules/sass-loader/index.js!./../../../../../node_modules/sass-resources-loader/lib/loader.js!./toolBar.scss", function() {
-				var newContent = require("!!./../../../../../node_modules/css-loader/index.js!./../../../../../node_modules/sass-loader/index.js!./../../../../../node_modules/sass-resources-loader/lib/loader.js!./toolBar.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 47 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.tool_bar md-toolbar {\n  background-color: #ffffff !important; }\n  .tool_bar md-toolbar .md-toolbar-tools {\n    padding-top: 18px;\n    color: #5a5a5a;\n    height: auto !important;\n    max-height: inherit !important; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 48 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"tool_bar\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <div ng-repeat=\"filter in filters\">\n        <md-input-container ng-style=\"{'min-width': filter.title.length*12+'px'}\">\n          <label>{{filter.title}}</label>\n          <md-select ng-model=\"filter.value\">\n            <md-option ng-value=\"null\">Все</md-option>\n            <md-option ng-repeat=\"option in filter.options\" ng-value=\"option.id\">\n              {{option.name}}\n            </md-option>\n          </md-select>\n        </md-input-container>\n      </div>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n  </md-card>\n</div>\n";
-
-/***/ },
-/* 49 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('psychologsCtrl', psychologsCtrl);
-
-	psychologsCtrl.$inject = ['authentication'];
-
-	function psychologsCtrl(authentication) {
-		var vm = this;
 	}
 
 /***/ }

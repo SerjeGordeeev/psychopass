@@ -19,5 +19,8 @@ router.post('/login', ctrlAuth.login);
 
 //organisations
 router.get('/organisations', ctrlOrgs.getList);
+router.post('/organisations', ctrlOrgs.add);
+router.delete('/organisations', ctrlOrgs.delete);
+router.put('/organisations', ctrlOrgs.update);
 
 module.exports = router;

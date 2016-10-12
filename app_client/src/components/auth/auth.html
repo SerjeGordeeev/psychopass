@@ -36,6 +36,16 @@
 				<!--<md-input-container><label>Пароль</label><input required type="password" ng-model="vm.password"></md-input-container>
 				<md-input-container><label>Повторите пароль</label><input required type="password" ng-model="vm.rePassword"></md-input-container>-->
 
+
+				<md-input-container class="md-block">
+					<label>Организация</label>
+					<md-select ng-model="vm.signUpData.org">
+						<md-option ng-repeat="org in vm.orgs | orderBy: 'name' " ng-value="org._id">
+							{{org.name}}
+						</md-option>
+					</md-select>
+				</md-input-container>
+
 				<md-input-container class="md-block">
 					<label>Email</label>
 					<input required type="email" ng-model="vm.signUpData.email">

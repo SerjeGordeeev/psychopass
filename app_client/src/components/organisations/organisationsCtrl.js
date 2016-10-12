@@ -6,28 +6,82 @@ angular
 organisationsCtrl.$inject = ['$$organisations','authentication']
 
 function organisationsCtrl($$organisations, authentication) {
+
 	var vm = this
+
 	vm.orgs = []
+	vm.filters = []
+	vm.crudRights = ['admin','org']
 
-	vm.filters = [
-		{
-			//value: null,
-			title:'Тип организации',
-			options: [{name:'Срань',id:1}, {name:'Говно',id:2}]
-		},
-		{
-			//value: null,
-			title:'Форма подчинения',
-			options: [{name:'Диктатура',id:1}, {name:'Монархия',id:2}]
+	vm.psychoFilter = psychoFilter
+	vm.add = add
+	vm.remove = remove
+	vm.update = update
+	vm.checkCRUDRights = checkCRUDRights
+
+	init()
+
+	createFilters(['Учебные', 'Психологические'], 'Тип организации')
+	function init(){
+		$$organisations.getList().then(data=>{
+			vm.orgs = data.data
+		})
+	}
+
+	function createFilters(options, title){
+		let filter = {title: title, options: []}
+
+		options.forEach((option, index) => {
+			filter.options.push({
+				name: option,
+				id: option.id || index
+			})
+		})
+
+		vm.filters.push(filter)
+	}
+
+	function psychoFilter(org, index){
+		if(vm.filters[0].value == null){
+			return true
 		}
-	]
+		else{
+			return !!vm.filters[0].value == org.is_psycho
+		}
+	}
 
-	
-	$$organisations.getList().then(data=>{
-		vm.orgs = data.data
-	})
+	function checkCRUDRights(){
+		let userRole = authentication.currentUser().role
+		return vm.crudRights.includes(userRole)
+	}
 
-	function orgGetterSetter(value){
-		console.log(value)
+	function add(){
+		$$organisations.post({
+			name: null,
+			is_psycho: false
+		}).then(data=>{
+			//vm.orgs = data.data
+			init()
+		})
+	}
+
+	function remove(id){
+		$$organisations.remove({
+			id: id
+		}).then(data=>{
+			//vm.orgs = data.data
+			init()
+		})
+	}
+
+	function update(org){
+		$$organisations.put({
+			id: org._id,
+			name: org.name,
+			is_psycho: org.is_psycho
+		}).then(data=>{
+			//vm.orgs = data.data
+			init()
+		})
 	}
 }

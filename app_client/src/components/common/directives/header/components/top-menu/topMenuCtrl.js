@@ -22,12 +22,16 @@
       {
         title:'Организации',
         href:'/organisations',
-        access: ['admin', 'org']
+        access: ['admin', 'org', 'psycholog']
       },
       {
         title:'Участники',
         href:'/members',
         access: ['admin','psycholog', 'org']
+      },{
+        title:'Руководство группой',
+        href:'/mygroup',
+        access: ['psycholog']
       }
     ]
 

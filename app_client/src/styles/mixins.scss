@@ -12,8 +12,20 @@
   }
 }
 
+@mixin svgColorAnim($from, $to){
+  & svg {
+    fill: $from;
+    transition: fill .2s;
+  }
+  &:hover svg{
+    fill: $to;
+  }
+}
+
+$cold-color: #67b3ff;
+
 .main_layout{
-  background: #67b3ff;
+  background: $cold-color;
   width: 100vw;
   height: 100vh;
   .page_content{
@@ -29,5 +41,23 @@
       box-sizing: border-box;
       display: block;
     }
+  }
+}
+
+
+.add{
+  padding: 6px 12px !important;
+  color: #fff !important;
+  background-color: $cold-color !important;
+  border: 2px dashed $cold-color !important;
+  box-shadow: none !important;
+}
+
+md-list-item{
+  &:hover .delete_button{display: block;}
+  padding: 0 1em;
+  .delete_button{
+    display: none;
+    @include svgColorAnim(#000, #ff0415);
   }
 }

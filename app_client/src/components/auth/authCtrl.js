@@ -3,11 +3,12 @@ angular
 	.module('psApp')
 	.controller('authCtrl', authCtrl);
 
-function authCtrl (authentication, $location) {
+function authCtrl (authentication, $$organisations, $location) {
 
 	let vm = this
 	
 	vm.showSignUpForm = false
+	vm.orgs = []
 
 	vm.login = null
 	vm.password = null
@@ -26,6 +27,10 @@ function authCtrl (authentication, $location) {
 	
 	vm.signIn = signIn
 	vm.signUp = signUp
+
+	$$organisations.getList().then(resp=>{
+		vm.orgs = resp.data
+	})
 	
 	function signIn(){
 		authentication.login({

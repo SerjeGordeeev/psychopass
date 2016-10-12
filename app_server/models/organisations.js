@@ -3,7 +3,7 @@ const mongoose = require( 'mongoose' )
 var organisationSchema = new mongoose.Schema({
 	name: {
 		type: String,
-		required: true
+		required: false
 	},
 	is_psycho: {
 		type: Boolean,
