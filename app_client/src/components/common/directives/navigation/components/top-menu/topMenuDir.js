@@ -9,6 +9,6 @@
       restrict: 'E',
       template: require('./topMenu.html'),
       controller: 'topMenuCtrl',
-      controllerAs: 'vm'
+      controllerAs: 'tm'
     }
   }

@@ -1,5 +1,5 @@
 var nodemailer = require('nodemailer');
-var sendgrid = require('sendgrid')('SerjeGordeev')
+//var sendgrid = require('sendgrid')('SerjeGordeev')
 
 
 // create reusable transporter object using the default SMTP transport

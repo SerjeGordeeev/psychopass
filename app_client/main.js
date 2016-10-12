@@ -4,7 +4,7 @@ const angular = require('angular')
 require('angular-material')
 require('../node_modules/angular-material/angular-material.min.css')
 
-	angular.module('psApp', ['ngMaterial','ngRoute']);
+	angular.module('psApp', ['ngMaterial','ngRoute'])
 
 
 	function config ($routeProvider, $locationProvider) {
@@ -13,29 +13,44 @@ require('../node_modules/angular-material/angular-material.min.css')
 				redirectTo: '/home'
 			})
 			.when('/home', {
-				templateUrl: 'src/home/home.html',
+				templateUrl: 'src/components/home/home.html',
 				controller: 'homeCtrl',
 				controllerAs: 'vm'
 			})
 			.when('/auth', {
-				templateUrl: 'src/auth/auth.html',
+				templateUrl: 'src/components/auth/auth.html',
 				controller: 'authCtrl',
 				controllerAs: 'vm'
 			})
-			.otherwise({redirectTo: '/'});
+			.when('/psychologs', {
+				templateUrl: 'src/components/psychologs/psychologs.html',
+				controller: 'psychologsCtrl',
+				controllerAs: 'vm'
+			})
+			.when('/organisations', {
+				templateUrl: 'src/components/organisations/organisations.html',
+				controller: 'organisationsCtrl',
+				controllerAs: 'vm'
+			})
+			.when('/members', {
+				templateUrl: 'src/components/members/members.html',
+				controller: 'membersCtrl',
+				controllerAs: 'vm'
+			})
+			.otherwise({redirectTo: '/'})
 		
-		$locationProvider.html5Mode(true);
+		$locationProvider.html5Mode(true)
 	}
 
 	angular
 		.module('psApp')
 		.config(['$routeProvider', '$locationProvider', config])
-		.run(['$rootScope', '$location', 'authentication', run]);
+		.run(['$rootScope', '$location', 'authentication', run])
 
 	function run($rootScope, $location, authentication) {
 		$rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute) {
 			if (!authentication.isLoggedIn()) {
-				$location.path('/auth');
+				$location.path('/auth')
 			}
 			else{
 
@@ -44,7 +59,7 @@ require('../node_modules/angular-material/angular-material.min.css')
 	}
 
 
-	requireAll(require.context("./src", true, /\.js$/))
+	requireAll(require.context("./src/components", true, /\.js$/))
 	function requireAll(requireContext){
 		return requireContext.keys().map(requireContext)
 	}

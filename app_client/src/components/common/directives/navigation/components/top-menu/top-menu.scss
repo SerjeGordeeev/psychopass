@@ -1,0 +1,20 @@
+.main_layout{
+  background: #67b3ff;
+  width: 100vw;
+  height: 100vh;
+}
+
+.top_menu{
+  margin: 0 1em;
+  color: #949494 !important;
+  a{
+    font-size: .8em;
+    text-transform: uppercase;
+    margin: 0 .5em;
+    @include colorAnim(#949494, #67b3ff);
+  }
+  .active_link{
+    color: #67b3ff;
+    border-bottom: #67b3ff solid .1em;
+  }
+}
