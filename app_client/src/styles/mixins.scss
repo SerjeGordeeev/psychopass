@@ -28,10 +28,17 @@ $cold-color: #67b3ff;
   background: $cold-color;
   width: 100vw;
   height: 100vh;
+
   .page_content{
      height: calc(100vh - 64px);
+     max-height: calc(100vh - 64px);
+
      background-color: #d2d2d2;
      box-sizing: border-box;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+
     .page_title{
       font-size: 1.5em;
       padding: .4em;
@@ -54,11 +61,17 @@ $cold-color: #67b3ff;
 }
 
 md-list-item{
-  &:hover .delete_button{display: block;}
+  //&:hover .delete_button{display: block;}
   padding: 0 1em;
+  .md-raised{
+    background: $cold-color !important;
+    color: #fff !important;
+  }
   .delete_button{
-    display: none;
-    @include svgColorAnim(#000, #ff0415);
+   // display: none;
+    background: #e04136 !important;
+    svg{fill:#fff}
+    //@include svgColorAnim(#000, #ff0415);
   }
   md-input-container{
     input:focus{

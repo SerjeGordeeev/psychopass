@@ -19,8 +19,21 @@
       var payload
     
       if(token){
-        payload = token.split('.')[1]
-        payload = $window.atob(payload)
+
+        try{
+          payload = token.split('.')
+          console.log(payload)
+          payload = $window.atob(payload[1])
+        }
+        catch(err){
+          throw err
+          console.log(err,payload)
+        }
+
+
+
+
+
         payload = JSON.parse(payload)
     
         return payload.exp > Date.now() / 1000
@@ -33,7 +46,13 @@
       if(isLoggedIn()){
         var token = getToken()
         var payload = token.split('.')[1]
+
+        token.split('.').forEach(t=>{
+          console.log(t)
+        })
+
         payload = $window.atob(payload)
+
         payload = JSON.parse(payload)
         //console.log(payload)
         return {

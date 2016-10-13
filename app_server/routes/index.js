@@ -6,6 +6,7 @@ var auth = jwt({
 	userProperty: 'payload'
 });
 
+console.log('ROUTS')
 var ctrlProfile = require('../controllers/profile');
 var ctrlAuth = require('../controllers/authentication');
 var ctrlOrgs = require('../controllers/organisations');

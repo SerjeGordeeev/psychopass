@@ -1,18 +1,36 @@
 const mongoose = require('mongoose')
 const Organisation = mongoose.model('Organisation')
 const User = mongoose.model('User')
-
+const async = require('async')
 const url = require('url')
 
 module.exports.getList = function (req, res) {
 
-	Organisation.find({},(err,data)=>{
-		if(err) throw err
+	Organisation.find(req.query.id?{_id:mongoose.Types.ObjectId(req.query.id)}:{}, (err, organisation)=>{
+		if(err) dataError(res)
 		else{
-			res.status(200)
-			res.end(JSON.stringify(data))
+
+			if(req.query.with_members){
+				async.filter(organisation, function(org, callback){
+					let query = User.find({'organisation': org._id})
+					query.select('name')
+					query.exec({'organisation': org._id}, function (err, users) {
+						org.members = users
+						callback(null, !err)
+					})
+				},function(err, results){
+					console.log(results)
+					res.status(200)
+					res.end(JSON.stringify(organisation))
+				})
+			}
+			else{
+				res.status(200)
+				res.end(JSON.stringify(organisation))
+			}
 		}
 	})
+
 
 }
 

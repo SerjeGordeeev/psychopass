@@ -8,6 +8,10 @@ var organisationSchema = new mongoose.Schema({
 	is_psycho: {
 		type: Boolean,
 		required: true
+	},
+	members: {
+		type: Array,
+		required: false
 	}
 })
 

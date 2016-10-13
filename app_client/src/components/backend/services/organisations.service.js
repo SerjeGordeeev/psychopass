@@ -6,8 +6,9 @@
   organisations.$inject = ['$http', 'authentication']
   function organisations ($http, authentication) {
 
-    var getList = function () {
-      return $http.get('/api/organisations')
+    var getList = function (payload) {
+
+      return $http.get('/api/organisations' + generateQueryString(payload))
     }
 
     var post = function (payload) {
@@ -32,5 +33,15 @@
       remove: remove,
       put: put,
       getMembers: getMembers
+    }
+
+    function generateQueryString(payload){
+      let query =''
+
+      for(let param in payload){
+        query+=`${param}=${payload[param]}&`
+      }
+
+      return query.length?`?${query.slice(0,-1)}`:''
     }
   }
