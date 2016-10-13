@@ -42,6 +42,10 @@ function organisationsCtrl($$organisations, authentication) {
 	}
 
 	function psychoFilter(org, index){
+		if(!arguments.length){
+			return !!vm.filters[0].value
+		}
+
 		if(vm.filters[0].value == null){
 			return true
 		}
@@ -58,7 +62,7 @@ function organisationsCtrl($$organisations, authentication) {
 	function add(){
 		$$organisations.post({
 			name: null,
-			is_psycho: false
+			is_psycho: psychoFilter()
 		}).then(data=>{
 			//vm.orgs = data.data
 			init()

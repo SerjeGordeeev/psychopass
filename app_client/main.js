@@ -32,12 +32,17 @@ require('../node_modules/angular-material/angular-material.min.css')
 				controller: 'organisationsCtrl',
 				controllerAs: 'orgs'
 			})
+			.when('/organisations/:id', {
+				templateUrl: 'src/components/organisations/edit/organisation.html',
+				controller: 'organisationCtrl',
+				controllerAs: 'org'
+			})
 			.when('/members', {
 				templateUrl: 'src/components/members/members.html',
 				controller: 'membersCtrl',
 				controllerAs: 'vm'
 			})
-			.otherwise({redirectTo: '/'})
+			//.otherwise({redirectTo: '/'})
 		
 		$locationProvider.html5Mode(true)
 	}

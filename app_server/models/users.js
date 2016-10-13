@@ -6,27 +6,12 @@ const jwt = require('jsonwebtoken')
 //const MY_SECRET = process.env.SECRET
 
 var userSchema = new mongoose.Schema({
-	name: {
-		type: String,
-		required: true
-	},
-	email: {
-		type: String,
-		unique: true,
-		required: true
-	},
-	login: {
-		type: String,
-		required: true
-	},
-	openPassword: {
-		type: String,
-		required: true
-	},
-	role:{
-		type: String,
-		required: true
-	},
+	name: { type: String, required: true },
+	email: { type: String, unique: true, required: true },
+	login: { type: String, required: true },
+	openPassword: { type: String, required: true },
+	organisation: { type: String, required: false },
+	role:{ type: String, required: true },
 	hash: String,
 	salt: String
 })
@@ -50,6 +35,7 @@ userSchema.methods.generateJwt = function() {
 		email: this.email,
 		name: this.name,
 		role: this.role,
+		organisation: this.organisation,
 		exp: parseInt(expiry.getTime() / 1000),
 	}, 'MY_SECRET') // DO NOT KEEP YOUR SECRET IN THE CODE!
 }

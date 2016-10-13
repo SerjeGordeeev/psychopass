@@ -39,7 +39,8 @@
         return {
           email : payload.email,
           name : decodeURIComponent(escape(payload.name)),
-          role: payload.role
+          role: payload.role,
+          organisation: payload.organisation
         }
       }
     }

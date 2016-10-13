@@ -26,6 +26,8 @@ module.exports.register = function(req, res) {
   user.name = req.body.name
   user.email = req.body.email
   user.login = req.body.login
+  user.organisation = req.body.organisation
+
   user.openPassword = password
   user.role = 'psycholog'
 

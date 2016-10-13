@@ -8,7 +8,7 @@
 			<md-button class="md-raised  add" ng-click="orgs.add()" flex="80">
 				<span>Добавить организацию</span>
 			</md-button>
-			<md-button class="md-raised  add" ng-click="orgs.import()" flex="20">
+			<md-button class="md-raised  add" ng-click="orgs.import()" flex="15">
 				<span>Импорт Excel</span>
 			</md-button>
 		</md-list-item>
@@ -23,16 +23,19 @@
 						<input ng-disabled="!mayCRUD" placeholder="Название организации" ng-model="org.name" ng-blur="orgs.update(org)">
 					</md-input-container>
 
-					<md-input-container  md-no-float class="md-block" flex="40">
+					<md-input-container  md-no-float class="md-block" flex="20">
 						<label>Тип организации</label>
-						<md-select ng-model="org.is_psycho">
-							<md-option ng-repeat="option in vm.filters[0].options | orderBy: 'name' " ng-value="org.is_psycho">
-								{{option.name}}
-							</md-option>
+						<md-select ng-disabled="!mayCRUD" ng-model="org.is_psycho" ng-change="orgs.update(org)">
+							<md-option ng-value="false">Учебная</md-option>
+							<md-option ng-value="true">Психологическая</md-option>
 						</md-select>
 					</md-input-container>
 
 					<span flex></span>
+					<md-button flex ng-if="mayCRUD" class="md-raised" aria-label="Удалить организацию" ng-href="organisations/{{org._id}}">
+						Представители
+					</md-button>
+
 					<md-button ng-if="mayCRUD" class="md-icon-button delete_button" aria-label="Удалить организацию" ng-click="orgs.remove(org._id)">
 						<md-icon md-svg-icon="/src/img/ic_delete_forever_black_24px.svg"></md-icon>
 					</md-button>

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const Organisation = mongoose.model('Organisation')
+const User = mongoose.model('User')
+
 const url = require('url')
 
 module.exports.getList = function (req, res) {
@@ -73,6 +75,16 @@ module.exports.update = function (req, res) {
 				}
 			})
 		}
+	})
+
+}
+
+module.exports.getMembers = function(req, res){
+
+	User.find({'organisation': req.query.id}, function (err, doc) {
+		res.status(200)
+		console.log(doc)
+		res.end('OK')
 	})
 
 }

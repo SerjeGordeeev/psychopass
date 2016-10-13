@@ -22,7 +22,8 @@ function authCtrl (authentication, $$organisations, $location) {
 			name: null,
 			login: null,
 			password: null,
-			email: null
+			email: null,
+			organisation: null
 	}
 	
 	vm.signIn = signIn
@@ -47,7 +48,8 @@ function authCtrl (authentication, $$organisations, $location) {
 		authentication.register({
 			name: vm.signUpData.name,
 			login: vm.signUpData.login,
-			email: vm.signUpData.email
+			email: vm.signUpData.email,
+			organisation: vm.signUpData.organisation
 		}).then(data=>{
 			$location.path('/')
 		}).catch(data=>{

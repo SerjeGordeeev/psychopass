@@ -23,4 +23,6 @@ router.post('/organisations', ctrlOrgs.add);
 router.delete('/organisations', ctrlOrgs.delete);
 router.put('/organisations', ctrlOrgs.update);
 
+router.get('/organisations/:id', ctrlOrgs.getMembers);
+
 module.exports = router;

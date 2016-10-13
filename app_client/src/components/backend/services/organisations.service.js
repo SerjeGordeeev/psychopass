@@ -15,17 +15,22 @@
     }
 
     var remove = function (payload) {
-      return $http.delete('/api/organisations?id='+payload.id)
+      return $http.delete('/api/organisations?id=' + payload.id)
     }
 
     var put = function (payload) {
-      return $http.put('/api/organisations?id='+payload.id, payload)
+      return $http.put('/api/organisations?id=' + payload.id, payload)
+    }
+
+    var getMembers = function(payload){
+      return $http.get('/api/organisations?id=' + payload.id)
     }
 
     return {
       getList : getList,
       post: post,
       remove: remove,
-      put: put
+      put: put,
+      getMembers: getMembers
     }
   }

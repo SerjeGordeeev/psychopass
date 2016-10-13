@@ -60,4 +60,13 @@ md-list-item{
     display: none;
     @include svgColorAnim(#000, #ff0415);
   }
+  md-input-container{
+    input:focus{
+      border-color: $cold-color !important;
+     }
+
+    md-option[selected]{
+      color: $cold-color !important;
+    }
+  }
 }
