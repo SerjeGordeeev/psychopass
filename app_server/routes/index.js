@@ -13,6 +13,9 @@ const ctrlGroups = require('../controllers/groups');
 
 // profiles
 router.get('/profiles', ctrlProfiles.getList);
+//router.post('/profiles', ctrlProfiles.add);
+//router.delete('/profiles', ctrlProfiles.delete);
+router.put('/profiles', ctrlProfiles.update);
 
 // authentication
 router.post('/register', ctrlAuth.register);

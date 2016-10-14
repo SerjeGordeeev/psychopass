@@ -15,7 +15,7 @@
 
 		<md-card>
 			<md-list class="layout-fill">
-				<md-list-item class="md-2-line" ng-repeat="group in groups.groups | filter: groups.psychoFilter | orderBy: 'name'">
+				<md-list-item class="md-2-line" ng-repeat="group in groups.groups  | orderBy: 'name'">
 
 
 					<md-input-container  md-no-float class="md-block" flex="40">
@@ -26,7 +26,8 @@
 					<md-input-container  md-no-float class="md-block" flex="20">
 						<label>Психолог</label>
 						<md-select ng-disabled="!mayCRUD" ng-model="group.mentor" ng-change="groups.update(group)">
-							<md-option ng-value="mentor.id" ng-repeat="mentor in groups.mentors">{{mentor.name}}</md-option>
+							<md-option ng-value="null">Не назначен</md-option>
+							<md-option ng-value="mentor._id" ng-repeat="mentor in groups.mentors | filter: groups.mentorFilter(group)">{{mentor.name}}</md-option>
 						</md-select>
 					</md-input-container>
 

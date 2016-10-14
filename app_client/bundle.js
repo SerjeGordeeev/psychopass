@@ -52,9 +52,10 @@
 	__webpack_require__(5);
 	__webpack_require__(11);
 
-	angular.module('psApp', ['ngMaterial', 'ngRoute']);
+	angular.module('psApp', ['ngMaterial', 'ngRoute', 'alert']);
 
-	function config($routeProvider, $locationProvider) {
+	function config($routeProvider, $locationProvider, flashAlertProvider) {
+		flashAlertProvider.setAlertTime(2000);
 		$routeProvider.when('/', {
 			redirectTo: '/home'
 		}).when('/home', {
@@ -95,7 +96,7 @@
 		$locationProvider.html5Mode(true);
 	}
 
-	angular.module('psApp').config(['$routeProvider', '$locationProvider', config]).run(['$rootScope', '$location', 'authentication', run]);
+	angular.module('psApp').config(['$routeProvider', '$locationProvider', 'flashAlertProvider', config]).run(['$rootScope', '$location', 'authentication', run]);
 
 	function run($rootScope, $location, authentication) {
 		$rootScope.$on('$routeChangeStart', function (event, nextRoute, currentRoute) {
@@ -123,7 +124,7 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	'use strict';var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};/**
+	'use strict';var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};/**
 	 * @license AngularJS v1.5.8
 	 * (c) 2010-2016 Google, Inc. http://angularjs.org
 	 * License: MIT
@@ -6726,7 +6727,7 @@
 	/**
 	 * @constructor
 	 */var Lexer=function Lexer(options){this.options=options;};Lexer.prototype={constructor:Lexer,lex:function lex(text){this.text=text;this.index=0;this.tokens=[];while(this.index<this.text.length){var ch=this.text.charAt(this.index);if(ch==='"'||ch==="'"){this.readString(ch);}else if(this.isNumber(ch)||ch==='.'&&this.isNumber(this.peek())){this.readNumber();}else if(this.isIdentifierStart(this.peekMultichar())){this.readIdent();}else if(this.is(ch,'(){}[].,;:?')){this.tokens.push({index:this.index,text:ch});this.index++;}else if(this.isWhitespace(ch)){this.index++;}else{var ch2=ch+this.peek();var ch3=ch2+this.peek(2);var op1=OPERATORS[ch];var op2=OPERATORS[ch2];var op3=OPERATORS[ch3];if(op1||op2||op3){var token=op3?ch3:op2?ch2:ch;this.tokens.push({index:this.index,text:token,operator:true});this.index+=token.length;}else{this.throwError('Unexpected next character ',this.index,this.index+1);}}}return this.tokens;},is:function is(ch,chars){return chars.indexOf(ch)!==-1;},peek:function peek(i){var num=i||1;return this.index+num<this.text.length?this.text.charAt(this.index+num):false;},isNumber:function isNumber(ch){return'0'<=ch&&ch<='9'&&typeof ch==="string";},isWhitespace:function isWhitespace(ch){// IE treats non-breaking space as \u00A0
-	return ch===' '||ch==='\r'||ch==='\t'||ch==='\n'||ch==='\v'||ch==='\xA0';},isIdentifierStart:function isIdentifierStart(ch){return this.options.isIdentifierStart?this.options.isIdentifierStart(ch,this.codePointAt(ch)):this.isValidIdentifierStart(ch);},isValidIdentifierStart:function isValidIdentifierStart(ch){return'a'<=ch&&ch<='z'||'A'<=ch&&ch<='Z'||'_'===ch||ch==='$';},isIdentifierContinue:function isIdentifierContinue(ch){return this.options.isIdentifierContinue?this.options.isIdentifierContinue(ch,this.codePointAt(ch)):this.isValidIdentifierContinue(ch);},isValidIdentifierContinue:function isValidIdentifierContinue(ch,cp){return this.isValidIdentifierStart(ch,cp)||this.isNumber(ch);},codePointAt:function codePointAt(ch){if(ch.length===1)return ch.charCodeAt(0);/*jshint bitwise: false*/return(ch.charCodeAt(0)<<10)+ch.charCodeAt(1)-0x35FDC00;/*jshint bitwise: true*/},peekMultichar:function peekMultichar(){var ch=this.text.charAt(this.index);var peek=this.peek();if(!peek){return ch;}var cp1=ch.charCodeAt(0);var cp2=peek.charCodeAt(0);if(cp1>=0xD800&&cp1<=0xDBFF&&cp2>=0xDC00&&cp2<=0xDFFF){return ch+peek;}return ch;},isExpOperator:function isExpOperator(ch){return ch==='-'||ch==='+'||this.isNumber(ch);},throwError:function throwError(error,start,end){end=end||this.index;var colStr=isDefined(start)?'s '+start+'-'+this.index+' ['+this.text.substring(start,end)+']':' '+end;throw $parseMinErr('lexerr','Lexer Error: {0} at column{1} in expression [{2}].',error,colStr,this.text);},readNumber:function readNumber(){var number='';var start=this.index;while(this.index<this.text.length){var ch=lowercase(this.text.charAt(this.index));if(ch=='.'||this.isNumber(ch)){number+=ch;}else{var peekCh=this.peek();if(ch=='e'&&this.isExpOperator(peekCh)){number+=ch;}else if(this.isExpOperator(ch)&&peekCh&&this.isNumber(peekCh)&&number.charAt(number.length-1)=='e'){number+=ch;}else if(this.isExpOperator(ch)&&(!peekCh||!this.isNumber(peekCh))&&number.charAt(number.length-1)=='e'){this.throwError('Invalid exponent');}else{break;}}this.index++;}this.tokens.push({index:start,text:number,constant:true,value:Number(number)});},readIdent:function readIdent(){var start=this.index;this.index+=this.peekMultichar().length;while(this.index<this.text.length){var ch=this.peekMultichar();if(!this.isIdentifierContinue(ch)){break;}this.index+=ch.length;}this.tokens.push({index:start,text:this.text.slice(start,this.index),identifier:true});},readString:function readString(quote){var start=this.index;this.index++;var string='';var rawString=quote;var escape=false;while(this.index<this.text.length){var ch=this.text.charAt(this.index);rawString+=ch;if(escape){if(ch==='u'){var hex=this.text.substring(this.index+1,this.index+5);if(!hex.match(/[\da-f]{4}/i)){this.throwError('Invalid unicode escape [\\u'+hex+']');}this.index+=4;string+=String.fromCharCode(parseInt(hex,16));}else{var rep=ESCAPE[ch];string=string+(rep||ch);}escape=false;}else if(ch==='\\'){escape=true;}else if(ch===quote){this.index++;this.tokens.push({index:start,text:rawString,constant:true,value:string});return;}else{string+=ch;}this.index++;}this.throwError('Unterminated quote',start);}};var AST=function AST(lexer,options){this.lexer=lexer;this.options=options;};AST.Program='Program';AST.ExpressionStatement='ExpressionStatement';AST.AssignmentExpression='AssignmentExpression';AST.ConditionalExpression='ConditionalExpression';AST.LogicalExpression='LogicalExpression';AST.BinaryExpression='BinaryExpression';AST.UnaryExpression='UnaryExpression';AST.CallExpression='CallExpression';AST.MemberExpression='MemberExpression';AST.Identifier='Identifier';AST.Literal='Literal';AST.ArrayExpression='ArrayExpression';AST.Property='Property';AST.ObjectExpression='ObjectExpression';AST.ThisExpression='ThisExpression';AST.LocalsExpression='LocalsExpression';// Internal use only
+	return ch===' '||ch==='\r'||ch==='\t'||ch==='\n'||ch==='\v'||ch===' ';},isIdentifierStart:function isIdentifierStart(ch){return this.options.isIdentifierStart?this.options.isIdentifierStart(ch,this.codePointAt(ch)):this.isValidIdentifierStart(ch);},isValidIdentifierStart:function isValidIdentifierStart(ch){return'a'<=ch&&ch<='z'||'A'<=ch&&ch<='Z'||'_'===ch||ch==='$';},isIdentifierContinue:function isIdentifierContinue(ch){return this.options.isIdentifierContinue?this.options.isIdentifierContinue(ch,this.codePointAt(ch)):this.isValidIdentifierContinue(ch);},isValidIdentifierContinue:function isValidIdentifierContinue(ch,cp){return this.isValidIdentifierStart(ch,cp)||this.isNumber(ch);},codePointAt:function codePointAt(ch){if(ch.length===1)return ch.charCodeAt(0);/*jshint bitwise: false*/return(ch.charCodeAt(0)<<10)+ch.charCodeAt(1)-0x35FDC00;/*jshint bitwise: true*/},peekMultichar:function peekMultichar(){var ch=this.text.charAt(this.index);var peek=this.peek();if(!peek){return ch;}var cp1=ch.charCodeAt(0);var cp2=peek.charCodeAt(0);if(cp1>=0xD800&&cp1<=0xDBFF&&cp2>=0xDC00&&cp2<=0xDFFF){return ch+peek;}return ch;},isExpOperator:function isExpOperator(ch){return ch==='-'||ch==='+'||this.isNumber(ch);},throwError:function throwError(error,start,end){end=end||this.index;var colStr=isDefined(start)?'s '+start+'-'+this.index+' ['+this.text.substring(start,end)+']':' '+end;throw $parseMinErr('lexerr','Lexer Error: {0} at column{1} in expression [{2}].',error,colStr,this.text);},readNumber:function readNumber(){var number='';var start=this.index;while(this.index<this.text.length){var ch=lowercase(this.text.charAt(this.index));if(ch=='.'||this.isNumber(ch)){number+=ch;}else{var peekCh=this.peek();if(ch=='e'&&this.isExpOperator(peekCh)){number+=ch;}else if(this.isExpOperator(ch)&&peekCh&&this.isNumber(peekCh)&&number.charAt(number.length-1)=='e'){number+=ch;}else if(this.isExpOperator(ch)&&(!peekCh||!this.isNumber(peekCh))&&number.charAt(number.length-1)=='e'){this.throwError('Invalid exponent');}else{break;}}this.index++;}this.tokens.push({index:start,text:number,constant:true,value:Number(number)});},readIdent:function readIdent(){var start=this.index;this.index+=this.peekMultichar().length;while(this.index<this.text.length){var ch=this.peekMultichar();if(!this.isIdentifierContinue(ch)){break;}this.index+=ch.length;}this.tokens.push({index:start,text:this.text.slice(start,this.index),identifier:true});},readString:function readString(quote){var start=this.index;this.index++;var string='';var rawString=quote;var escape=false;while(this.index<this.text.length){var ch=this.text.charAt(this.index);rawString+=ch;if(escape){if(ch==='u'){var hex=this.text.substring(this.index+1,this.index+5);if(!hex.match(/[\da-f]{4}/i)){this.throwError('Invalid unicode escape [\\u'+hex+']');}this.index+=4;string+=String.fromCharCode(parseInt(hex,16));}else{var rep=ESCAPE[ch];string=string+(rep||ch);}escape=false;}else if(ch==='\\'){escape=true;}else if(ch===quote){this.index++;this.tokens.push({index:start,text:rawString,constant:true,value:string});return;}else{string+=ch;}this.index++;}this.throwError('Unterminated quote',start);}};var AST=function AST(lexer,options){this.lexer=lexer;this.options=options;};AST.Program='Program';AST.ExpressionStatement='ExpressionStatement';AST.AssignmentExpression='AssignmentExpression';AST.ConditionalExpression='ConditionalExpression';AST.LogicalExpression='LogicalExpression';AST.BinaryExpression='BinaryExpression';AST.UnaryExpression='UnaryExpression';AST.CallExpression='CallExpression';AST.MemberExpression='MemberExpression';AST.Identifier='Identifier';AST.Literal='Literal';AST.ArrayExpression='ArrayExpression';AST.Property='Property';AST.ObjectExpression='ObjectExpression';AST.ThisExpression='ThisExpression';AST.LocalsExpression='LocalsExpression';// Internal use only
 	AST.NGValueParameter='NGValueParameter';AST.prototype={ast:function ast(text){this.text=text;this.tokens=this.lexer.lex(text);var value=this.program();if(this.tokens.length!==0){this.throwError('is an unexpected token',this.tokens[0]);}return value;},program:function program(){var body=[];while(true){if(this.tokens.length>0&&!this.peek('}',')',';',']'))body.push(this.expressionStatement());if(!this.expect(';')){return{type:AST.Program,body:body};}}},expressionStatement:function expressionStatement(){return{type:AST.ExpressionStatement,expression:this.filterChain()};},filterChain:function filterChain(){var left=this.expression();var token;while(token=this.expect('|')){left=this.filter(left);}return left;},expression:function expression(){return this.assignment();},assignment:function assignment(){var result=this.ternary();if(this.expect('=')){result={type:AST.AssignmentExpression,left:result,right:this.assignment(),operator:'='};}return result;},ternary:function ternary(){var test=this.logicalOR();var alternate;var consequent;if(this.expect('?')){alternate=this.expression();if(this.consume(':')){consequent=this.expression();return{type:AST.ConditionalExpression,test:test,alternate:alternate,consequent:consequent};}}return test;},logicalOR:function logicalOR(){var left=this.logicalAND();while(this.expect('||')){left={type:AST.LogicalExpression,operator:'||',left:left,right:this.logicalAND()};}return left;},logicalAND:function logicalAND(){var left=this.equality();while(this.expect('&&')){left={type:AST.LogicalExpression,operator:'&&',left:left,right:this.equality()};}return left;},equality:function equality(){var left=this.relational();var token;while(token=this.expect('==','!=','===','!==')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.relational()};}return left;},relational:function relational(){var left=this.additive();var token;while(token=this.expect('<','>','<=','>=')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.additive()};}return left;},additive:function additive(){var left=this.multiplicative();var token;while(token=this.expect('+','-')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.multiplicative()};}return left;},multiplicative:function multiplicative(){var left=this.unary();var token;while(token=this.expect('*','/','%')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.unary()};}return left;},unary:function unary(){var token;if(token=this.expect('+','-','!')){return{type:AST.UnaryExpression,operator:token.text,prefix:true,argument:this.unary()};}else{return this.primary();}},primary:function primary(){var primary;if(this.expect('(')){primary=this.filterChain();this.consume(')');}else if(this.expect('[')){primary=this.arrayDeclaration();}else if(this.expect('{')){primary=this.object();}else if(this.selfReferential.hasOwnProperty(this.peek().text)){primary=copy(this.selfReferential[this.consume().text]);}else if(this.options.literals.hasOwnProperty(this.peek().text)){primary={type:AST.Literal,value:this.options.literals[this.consume().text]};}else if(this.peek().identifier){primary=this.identifier();}else if(this.peek().constant){primary=this.constant();}else{this.throwError('not a primary expression',this.peek());}var next;while(next=this.expect('(','[','.')){if(next.text==='('){primary={type:AST.CallExpression,callee:primary,arguments:this.parseArguments()};this.consume(')');}else if(next.text==='['){primary={type:AST.MemberExpression,object:primary,property:this.expression(),computed:true};this.consume(']');}else if(next.text==='.'){primary={type:AST.MemberExpression,object:primary,property:this.identifier(),computed:false};}else{this.throwError('IMPOSSIBLE');}}return primary;},filter:function filter(baseExpression){var args=[baseExpression];var result={type:AST.CallExpression,callee:this.identifier(),arguments:args,filter:true};while(this.expect(':')){args.push(this.expression());}return result;},parseArguments:function parseArguments(){var args=[];if(this.peekToken().text!==')'){do{args.push(this.filterChain());}while(this.expect(','));}return args;},identifier:function identifier(){var token=this.consume();if(!token.identifier){this.throwError('is not a valid identifier',token);}return{type:AST.Identifier,name:token.text};},constant:function constant(){// TODO check that it is a constant
 	return{type:AST.Literal,value:this.consume().value};},arrayDeclaration:function arrayDeclaration(){var elements=[];if(this.peekToken().text!==']'){do{if(this.peek(']')){// Support trailing commas per ES5.1.
 	break;}elements.push(this.expression());}while(this.expect(','));}this.consume(']');return{type:AST.ArrayExpression,elements:elements};},object:function object(){var properties=[],property;if(this.peekToken().text!=='}'){do{if(this.peek('}')){// Support trailing commas per ES5.1.
@@ -9324,7 +9325,7 @@
 	 * @param  {string} decimalSep   The string to act as the decimal separator (e.g. `.`)
 	 * @param  {[type]} fractionSize The size of the fractional part of the number
 	 * @return {string}              The number formatted as a string
-	 */function formatNumber(number,pattern,groupSep,decimalSep,fractionSize){if(!(isString(number)||isNumber(number))||isNaN(number))return'';var isInfinity=!isFinite(number);var isZero=false;var numStr=Math.abs(number)+'',formattedText='',parsedNumber;if(isInfinity){formattedText='\u221E';}else{parsedNumber=parse(numStr);roundNumber(parsedNumber,fractionSize,pattern.minFrac,pattern.maxFrac);var digits=parsedNumber.d;var integerLen=parsedNumber.i;var exponent=parsedNumber.e;var decimals=[];isZero=digits.reduce(function(isZero,d){return isZero&&!d;},true);// pad zeros for small numbers
+	 */function formatNumber(number,pattern,groupSep,decimalSep,fractionSize){if(!(isString(number)||isNumber(number))||isNaN(number))return'';var isInfinity=!isFinite(number);var isZero=false;var numStr=Math.abs(number)+'',formattedText='',parsedNumber;if(isInfinity){formattedText='∞';}else{parsedNumber=parse(numStr);roundNumber(parsedNumber,fractionSize,pattern.minFrac,pattern.maxFrac);var digits=parsedNumber.d;var integerLen=parsedNumber.i;var exponent=parsedNumber.e;var decimals=[];isZero=digits.reduce(function(isZero,d){return isZero&&!d;},true);// pad zeros for small numbers
 	while(integerLen<0){digits.unshift(0);integerLen++;}// extract decimals digits
 	if(integerLen>0){decimals=digits.splice(integerLen,digits.length);}else{decimals=digits;digits=[0];}// format the integer digits with grouping separators
 	var groups=[];if(digits.length>=pattern.lgSize){groups.unshift(digits.splice(-pattern.lgSize,digits.length).join(''));}while(digits.length>pattern.gSize){groups.unshift(digits.splice(-pattern.gSize,digits.length).join(''));}if(digits.length){groups.unshift(digits.join(''));}formattedText=groups.join(groupSep);// append the decimal digits
@@ -16811,7 +16812,7 @@
 	 */var minlengthDirective=function minlengthDirective(){return{restrict:'A',require:'?ngModel',link:function link(scope,elm,attr,ctrl){if(!ctrl)return;var minlength=0;attr.$observe('minlength',function(value){minlength=toInt(value)||0;ctrl.$validate();});ctrl.$validators.minlength=function(modelValue,viewValue){return ctrl.$isEmpty(viewValue)||viewValue.length>=minlength;};}};};if(window.angular.bootstrap){//AngularJS is already loaded, so we can return here...
 	if(window.console){console.log('WARNING: Tried to load angular more than once.');}return;}//try to bind to jquery now so that one can write jqLite(document).ready()
 	//but we will rebind on bootstrap again.
-	bindJQuery();publishExternalAPI(angular);angular.module("ngLocale",[],["$provide",function($provide){var PLURAL_CATEGORY={ZERO:"zero",ONE:"one",TWO:"two",FEW:"few",MANY:"many",OTHER:"other"};function getDecimals(n){n=n+'';var i=n.indexOf('.');return i==-1?0:n.length-i-1;}function getVF(n,opt_precision){var v=opt_precision;if(undefined===v){v=Math.min(getDecimals(n),3);}var base=Math.pow(10,v);var f=(n*base|0)%base;return{v:v,f:f};}$provide.value("$locale",{"DATETIME_FORMATS":{"AMPMS":["AM","PM"],"DAY":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"ERANAMES":["Before Christ","Anno Domini"],"ERAS":["BC","AD"],"FIRSTDAYOFWEEK":6,"MONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"SHORTDAY":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"SHORTMONTH":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"STANDALONEMONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"WEEKENDRANGE":[5,6],"fullDate":"EEEE, MMMM d, y","longDate":"MMMM d, y","medium":"MMM d, y h:mm:ss a","mediumDate":"MMM d, y","mediumTime":"h:mm:ss a","short":"M/d/yy h:mm a","shortDate":"M/d/yy","shortTime":"h:mm a"},"NUMBER_FORMATS":{"CURRENCY_SYM":"$","DECIMAL_SEP":".","GROUP_SEP":",","PATTERNS":[{"gSize":3,"lgSize":3,"maxFrac":3,"minFrac":0,"minInt":1,"negPre":"-","negSuf":"","posPre":"","posSuf":""},{"gSize":3,"lgSize":3,"maxFrac":2,"minFrac":2,"minInt":1,"negPre":'-\xA4',"negSuf":"","posPre":'\xA4',"posSuf":""}]},"id":"en-us","localeID":"en_US","pluralCat":function pluralCat(n,opt_precision){var i=n|0;var vf=getVF(n,opt_precision);if(i==1&&vf.v==0){return PLURAL_CATEGORY.ONE;}return PLURAL_CATEGORY.OTHER;}});}]);jqLite(window.document).ready(function(){angularInit(window.document,bootstrap);});})(window);!window.angular.$$csp().noInlineStyle&&window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
+	bindJQuery();publishExternalAPI(angular);angular.module("ngLocale",[],["$provide",function($provide){var PLURAL_CATEGORY={ZERO:"zero",ONE:"one",TWO:"two",FEW:"few",MANY:"many",OTHER:"other"};function getDecimals(n){n=n+'';var i=n.indexOf('.');return i==-1?0:n.length-i-1;}function getVF(n,opt_precision){var v=opt_precision;if(undefined===v){v=Math.min(getDecimals(n),3);}var base=Math.pow(10,v);var f=(n*base|0)%base;return{v:v,f:f};}$provide.value("$locale",{"DATETIME_FORMATS":{"AMPMS":["AM","PM"],"DAY":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"ERANAMES":["Before Christ","Anno Domini"],"ERAS":["BC","AD"],"FIRSTDAYOFWEEK":6,"MONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"SHORTDAY":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"SHORTMONTH":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"STANDALONEMONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"WEEKENDRANGE":[5,6],"fullDate":"EEEE, MMMM d, y","longDate":"MMMM d, y","medium":"MMM d, y h:mm:ss a","mediumDate":"MMM d, y","mediumTime":"h:mm:ss a","short":"M/d/yy h:mm a","shortDate":"M/d/yy","shortTime":"h:mm a"},"NUMBER_FORMATS":{"CURRENCY_SYM":"$","DECIMAL_SEP":".","GROUP_SEP":",","PATTERNS":[{"gSize":3,"lgSize":3,"maxFrac":3,"minFrac":0,"minInt":1,"negPre":"-","negSuf":"","posPre":"","posSuf":""},{"gSize":3,"lgSize":3,"maxFrac":2,"minFrac":2,"minInt":1,"negPre":'-¤',"negSuf":"","posPre":'¤',"posSuf":""}]},"id":"en-us","localeID":"en_US","pluralCat":function pluralCat(n,opt_precision){var i=n|0;var vf=getVF(n,opt_precision);if(i==1&&vf.v==0){return PLURAL_CATEGORY.ONE;}return PLURAL_CATEGORY.OTHER;}});}]);jqLite(window.document).ready(function(){angularInit(window.document,bootstrap);});})(window);!window.angular.$$csp().noInlineStyle&&window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
 /* 3 */
@@ -19744,7 +19745,7 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	"use strict";var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};/*!
+	"use strict";var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};/*!
 	 * Angular Material Design
 	 * https://github.com/angular/material
 	 * @license MIT
@@ -30623,26 +30624,27 @@
 	var map = {
 		"./auth/authCtrl.js": 16,
 		"./backend/services/authentication.service.js": 19,
-		"./backend/services/groups.service.js": 51,
-		"./backend/services/organisations.service.js": 20,
-		"./backend/services/profiles.service.js": 52,
-		"./common/directives/header/components/top-menu/topMenuCtrl.js": 21,
-		"./common/directives/header/components/top-menu/topMenuDir.js": 22,
-		"./common/directives/header/components/user-profile/userProfileCtrl.js": 26,
-		"./common/directives/header/components/user-profile/userProfileDir.js": 27,
-		"./common/directives/header/navigationCtrl.js": 31,
-		"./common/directives/header/navigationDir.js": 32,
-		"./common/directives/nav-bar/navBarCtrl.js": 36,
-		"./common/directives/nav-bar/navBarDir.js": 37,
-		"./common/directives/tool-bar/toolBarCtrl.js": 41,
-		"./common/directives/tool-bar/toolBarDir.js": 42,
-		"./groups/edit/groupCtrl.js": 53,
-		"./groups/groupsCtrl.js": 54,
-		"./home/homeCtrl.js": 46,
-		"./members/memberCtrl.js": 47,
-		"./organisations/edit/organisationCtrl.js": 48,
-		"./organisations/organisationsCtrl.js": 49,
-		"./psychologs/psychologsCtrl.js": 50
+		"./backend/services/groups.service.js": 20,
+		"./backend/services/organisations.service.js": 21,
+		"./backend/services/profiles.service.js": 22,
+		"./common/directives/alert/flash-alert.js": 69,
+		"./common/directives/header/components/top-menu/topMenuCtrl.js": 23,
+		"./common/directives/header/components/top-menu/topMenuDir.js": 24,
+		"./common/directives/header/components/user-profile/userProfileCtrl.js": 28,
+		"./common/directives/header/components/user-profile/userProfileDir.js": 29,
+		"./common/directives/header/navigationCtrl.js": 33,
+		"./common/directives/header/navigationDir.js": 34,
+		"./common/directives/nav-bar/navBarCtrl.js": 38,
+		"./common/directives/nav-bar/navBarDir.js": 39,
+		"./common/directives/tool-bar/toolBarCtrl.js": 43,
+		"./common/directives/tool-bar/toolBarDir.js": 44,
+		"./groups/edit/groupCtrl.js": 48,
+		"./groups/groupsCtrl.js": 49,
+		"./home/homeCtrl.js": 50,
+		"./members/memberCtrl.js": 51,
+		"./organisations/edit/organisationCtrl.js": 52,
+		"./organisations/organisationsCtrl.js": 53,
+		"./psychologs/psychologsCtrl.js": 54
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -30863,6 +30865,50 @@
 
 	'use strict';
 
+	angular.module('psApp').service('$$groups', groups);
+
+	groups.$inject = ['$http'];
+	function groups($http) {
+
+	  var getList = function getList(payload) {
+	    return $http.get('/api/groups' + generateQueryString(payload));
+	  };
+
+	  var post = function post(payload) {
+	    return $http.post('/api/groups', payload);
+	  };
+
+	  var remove = function remove(payload) {
+	    return $http.delete('/api/groups?id=' + payload.id);
+	  };
+
+	  var put = function put(payload) {
+	    return $http.put('/api/groups?id=' + payload.id, payload);
+	  };
+
+	  return {
+	    getList: getList,
+	    post: post,
+	    remove: remove,
+	    put: put
+	  };
+
+	  function generateQueryString(payload) {
+	    var query = '';
+
+	    for (var param in payload) {
+	      query += param + '=' + payload[param] + '&';
+	    }
+	    return query.length ? '?' + query.slice(0, -1) : '';
+	  }
+	}
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	'use strict';
+
 	angular.module('psApp').service('$$organisations', organisations);
 
 	organisations.$inject = ['$http'];
@@ -30903,7 +30949,51 @@
 	}
 
 /***/ },
-/* 21 */
+/* 22 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').service('$$profiles', profiles);
+
+	profiles.$inject = ['$http'];
+	function profiles($http) {
+
+	  var getList = function getList(payload) {
+	    return $http.get('/api/profiles' + generateQueryString(payload));
+	  };
+
+	  var post = function post(payload) {
+	    return $http.post('/api/profiles', payload);
+	  };
+
+	  var remove = function remove(payload) {
+	    return $http.delete('/api/profiles?id=' + payload.id);
+	  };
+
+	  var put = function put(payload) {
+	    return $http.put('/api/profiles?id=' + payload.id, payload);
+	  };
+
+	  return {
+	    getList: getList,
+	    post: post,
+	    remove: remove,
+	    put: put
+	  };
+
+	  function generateQueryString(payload) {
+	    var query = '';
+
+	    for (var param in payload) {
+	      query += param + '=' + payload[param] + '&';
+	    }
+	    return query.length ? '?' + query.slice(0, -1) : '';
+	  }
+	}
+
+/***/ },
+/* 23 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30962,31 +31052,31 @@
 	}
 
 /***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('topMenu', topMenu);
 
-	__webpack_require__(23);
+	__webpack_require__(25);
 	function topMenu() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(25),
+	    template: __webpack_require__(27),
 	    controller: 'topMenuCtrl',
 	    controllerAs: 'tm'
 	  };
 	}
 
 /***/ },
-/* 23 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(24);
+	var content = __webpack_require__(26);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31006,7 +31096,7 @@
 	}
 
 /***/ },
-/* 24 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31020,13 +31110,13 @@
 
 
 /***/ },
-/* 25 */
+/* 27 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"top_menu\">\n        <a ng-href=\"{{page.href}}\" ng-class=\"{'active_link':tm.activePage.indexOf(page.href)>-1}\" name=\"page.title\" ng-repeat=\"page in tm.pages\">{{page.title}}</a>\n</div>";
 
 /***/ },
-/* 26 */
+/* 28 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31053,31 +31143,31 @@
 	}
 
 /***/ },
-/* 27 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('userProfile', userProfile);
 
-	__webpack_require__(28);
+	__webpack_require__(30);
 	function userProfile() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(30),
+	    template: __webpack_require__(32),
 	    controller: 'userProfileCtrl',
 	    controllerAs: 'vm'
 	  };
 	}
 
 /***/ },
-/* 28 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(29);
+	var content = __webpack_require__(31);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31097,7 +31187,7 @@
 	}
 
 /***/ },
-/* 29 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31111,13 +31201,13 @@
 
 
 /***/ },
-/* 30 */
+/* 32 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"user_profile\" layout>\n    <div class=\"layout-column\">\n        <span>{{::vm.user.name}}</span>\n        <span style=\"font-size: .8em;\">{{::vm.user.role}}</span>\n    </div>\n\n    <md-button class=\"md-icon-button\" aria-label=\"Выйти\" ng-click=\"vm.logout()\">\n        <md-icon md-svg-icon=\"/src/img/ic_exit_to_app_black_24px.svg\"></md-icon>\n    </md-button>\n</div>";
 
 /***/ },
-/* 31 */
+/* 33 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31130,30 +31220,30 @@
 	}
 
 /***/ },
-/* 32 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('navigation', navigation);
 
-	__webpack_require__(33);
+	__webpack_require__(35);
 	function navigation() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(35),
+	    template: __webpack_require__(37),
 	    controller: 'navigationCtrl as navvm'
 	  };
 	}
 
 /***/ },
-/* 33 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(34);
+	var content = __webpack_require__(36);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31173,7 +31263,7 @@
 	}
 
 /***/ },
-/* 34 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31187,13 +31277,13 @@
 
 
 /***/ },
-/* 35 */
+/* 37 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"navigation navbar navbar-default\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n      <div class=\"md-toolbar-tools\">\n        <h2>\n          <a ng-href=\"/\">PsychopassApp</a>\n        </h2>\n        <top-menu></top-menu>\n        <span flex></span>\n        <user-profile></user-profile>\n      </div>\n    </md-toolbar>\n  </md-card>\n</div>\n";
 
 /***/ },
-/* 36 */
+/* 38 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31206,30 +31296,30 @@
 	}
 
 /***/ },
-/* 37 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('navBar', navBar);
 
-	__webpack_require__(38);
+	__webpack_require__(40);
 	function navBar() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(40),
+	    template: __webpack_require__(42),
 	    controller: 'navBarCtrl as navb'
 	  };
 	}
 
 /***/ },
-/* 38 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(39);
+	var content = __webpack_require__(41);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31249,7 +31339,7 @@
 	}
 
 /***/ },
-/* 39 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31263,13 +31353,13 @@
 
 
 /***/ },
-/* 40 */
+/* 42 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\" navbar navbar-default\">\n  Navbar\n</div>\n";
 
 /***/ },
-/* 41 */
+/* 43 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31280,22 +31370,22 @@
 	function toolBarCtrl($scope, $location, authentication) {
 	  var vm = this;
 	  //vm.filters  = $scope.filters
-	  console.log($scope.filters);
+	  // console.log($scope.filters)
 	}
 
 /***/ },
-/* 42 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('toolBar', toolBar);
 
-	__webpack_require__(43);
+	__webpack_require__(45);
 	function toolBar() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(45),
+	    template: __webpack_require__(47),
 	    controller: 'toolBarCtrl as tb',
 	    scope: {
 	      filters: '='
@@ -31304,13 +31394,13 @@
 	}
 
 /***/ },
-/* 43 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(44);
+	var content = __webpack_require__(46);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31330,7 +31420,7 @@
 	}
 
 /***/ },
-/* 44 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31344,13 +31434,148 @@
 
 
 /***/ },
-/* 45 */
+/* 47 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"tool_bar\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <div ng-repeat=\"filter in filters\">\n        <md-input-container ng-style=\"{'min-width': filter.title.length*12+'px'}\">\n          <label>{{filter.title}}</label>\n          <md-select ng-model=\"filter.value\">\n            <md-option ng-value=\"null\">Все</md-option>\n            <md-option ng-repeat=\"option in filter.options\" ng-value=\"option.value\">\n              {{option.name}}\n            </md-option>\n          </md-select>\n        </md-input-container>\n      </div>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n  </md-card>\n</div>\n";
 
 /***/ },
-/* 46 */
+/* 48 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('groupCtrl', groupCtrl);
+
+	groupCtrl.$inject = ['$$groups', '$routeParams'];
+
+	function groupCtrl($$groups, $routeParams) {
+
+		var vm = this;
+
+		vm.members = [];
+		vm.group = {
+			id: $routeParams.id,
+			name: null,
+			mentor: null,
+			members: []
+		};
+
+		$$groups.getList({
+			id: vm.group.id,
+			with_members: true
+		}).then(function (res) {
+			vm.group.name = res.data[0].name;
+			vm.group.mentor = res.data[0].mentor;
+			vm.group.members = res.data[0].members;
+		});
+	}
+
+/***/ },
+/* 49 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('groupsCtrl', groupsCtrl);
+
+	groupsCtrl.$inject = ['$$groups', 'authentication', '$$profiles', 'flashAlert'];
+
+	function groupsCtrl($$groups, authentication, $$profiles, flashAlert) {
+
+		var vm = this;
+
+		vm.groups = [];
+		vm.mentors = [];
+		vm.filters = [];
+		vm.crudRights = ['admin', 'org'];
+
+		vm.filters = [{
+			value: null,
+			title: 'Психолог',
+			options: [{ name: 'Назначен', value: true }, { name: 'Не назначен', value: false }]
+		}];
+
+		vm.add = add;
+		vm.remove = remove;
+		vm.update = update;
+		vm.checkCRUDRights = checkCRUDRights;
+		vm.mentorFilter = mentorFilter;
+
+		init();
+
+		function init() {
+			$$groups.getList().then(function (resp) {
+				vm.groups = resp.data;
+			});
+
+			$$profiles.getList({
+				role: 'psycholog'
+			}).then(function (resp) {
+				vm.mentors = resp.data;
+			});
+		}
+
+		function checkCRUDRights() {
+			var userRole = authentication.currentUser().role;
+			return vm.crudRights.includes(userRole);
+		}
+
+		function add() {
+			$$groups.post({
+				name: null,
+				mentor: null
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function remove(id) {
+			$$groups.remove({
+				id: id
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function update(group) {
+			$$groups.put({
+				id: group._id,
+				name: group.name,
+				mentor: group.mentor
+			}).then(function (resp) {
+				//console.log(resp, group)
+				$$profiles.put({
+					id: group.mentor,
+					group: group._id
+				}).then(function (data) {
+					flashAlert.success(data.data.message);
+				}).catch(function (data) {
+					flashAlert.error(data.data.message);
+				}).finally(init);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function mentorFilter(group) {
+			return function (mentor) {
+				//console.log(mentor,group)
+				if (mentor.group) {
+					if (mentor._id == group.mentor) return true;
+					return false;
+				}
+				return true;
+			};
+		}
+	}
+
+/***/ },
+/* 50 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31362,7 +31587,7 @@
 	}
 
 /***/ },
-/* 47 */
+/* 51 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31376,7 +31601,7 @@
 	}
 
 /***/ },
-/* 48 */
+/* 52 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31421,22 +31646,21 @@
 	}
 
 /***/ },
-/* 49 */
+/* 53 */
 /***/ function(module, exports) {
 
 	'use strict';
 
 	angular.module('psApp').controller('organisationsCtrl', organisationsCtrl);
 
-	organisationsCtrl.$inject = ['$$organisations', 'authentication'];
+	organisationsCtrl.$inject = ['$$organisations', 'authentication', 'flashAlert'];
 
-	function organisationsCtrl($$organisations, authentication) {
+	function organisationsCtrl($$organisations, authentication, flashAlert) {
 
 		var vm = this;
 
 		vm.orgs = [];
-		vm.filters = [];
-		vm.crudRights = ['admin', 'org'];
+		vm.filters = [], vm.crudRights = ['admin', 'org'];
 
 		vm.psychoFilter = psychoFilter;
 		vm.add = add;
@@ -31467,15 +31691,8 @@
 		}
 
 		function psychoFilter(org, index) {
-			if (!arguments.length) {
-				return !!vm.filters[0].value;
-			}
-
-			if (vm.filters[0].value == null) {
-				return true;
-			} else {
-				return !!vm.filters[0].value == org.is_psycho;
-			}
+			if (!arguments.length) return !!vm.filters[0].value;
+			if (vm.filters[0].value == null) return true;else return !!vm.filters[0].value == org.is_psycho;
 		}
 
 		function checkCRUDRights() {
@@ -31488,18 +31705,20 @@
 				name: null,
 				is_psycho: psychoFilter()
 			}).then(function (data) {
-				//vm.orgs = data.data
-				init();
-			});
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
 		}
 
 		function remove(id) {
 			$$organisations.remove({
 				id: id
 			}).then(function (data) {
-				//vm.orgs = data.data
-				init();
-			});
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
 		}
 
 		function update(org) {
@@ -31508,14 +31727,15 @@
 				name: org.name,
 				is_psycho: org.is_psycho
 			}).then(function (data) {
-				//vm.orgs = data.data
-				init();
-			});
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
 		}
 	}
 
 /***/ },
-/* 50 */
+/* 54 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31529,201 +31749,125 @@
 	}
 
 /***/ },
-/* 51 */
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */
 /***/ function(module, exports) {
 
-	'use strict';
+	module.exports = "<div class='alert-container'>\n  <div class='repeat-animation' ng-repeat='alert in alerts' ng-click=\"alert.remove()\">\n    <div class='alert' ng-class='alert.typeOfAlert' ng-bind='alert.msg'></div>\n  </div>\n</div>";
 
-	angular.module('psApp').service('$$groups', groups);
+/***/ },
+/* 60 */
+/***/ function(module, exports, __webpack_require__) {
 
-	groups.$inject = ['$http'];
-	function groups($http) {
+	// style-loader: Adds some css to the DOM by adding a <style> tag
 
-	  var getList = function getList(payload) {
-	    return $http.get('/api/groups' + generateQueryString(payload));
-	  };
+	// load the styles
+	var content = __webpack_require__(61);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./alert.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./alert.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
 
-	  var post = function post(payload) {
-	    return $http.post('/api/groups', payload);
-	  };
+/***/ },
+/* 61 */
+/***/ function(module, exports, __webpack_require__) {
 
-	  var remove = function remove(payload) {
-	    return $http.delete('/api/groups?id=' + payload.id);
-	  };
+	exports = module.exports = __webpack_require__(13)();
+	// imports
 
-	  var put = function put(payload) {
-	    return $http.put('/api/groups?id=' + payload.id, payload);
-	  };
 
+	// module
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\nalert-flash {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  color: #fff;\n  z-index: 100; }\n  alert-flash .alert {\n    padding: .5em;\n    font-size: 1em;\n    opacity: .8; }\n  alert-flash .alert-success {\n    background-color: #29ff31; }\n  alert-flash .alert-danger {\n    background-color: #ff0415; }\n  alert-flash .alert-info {\n    background-color: #0aa0ff; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	__webpack_require__(60);
+	angular.module("alert", []).constant("alertConfig", {
+	  success: "alert-success",
+	  error: "alert-danger",
+	  info: "alert-info"
+	}).provider("flashAlert", function () {
+	  var a = [],
+	      b = 5e3;
 	  return {
-	    getList: getList,
-	    post: post,
-	    remove: remove,
-	    put: put
+	    setAlertTime: function setAlertTime(a) {
+	      b = a;
+	    },
+	    $get: ["$timeout", "alertConfig", function (c, d) {
+	      return {
+	        success: function success(a) {
+	          this.add("success", a);
+	        },
+	        error: function error(a) {
+	          this.add("error", a);
+	        },
+	        info: function info(a) {
+	          this.add("info", a);
+	        },
+	        getAlert: function getAlert() {
+	          return a;
+	        },
+	        add: function add(b, c) {
+	          var e = {
+	            typeOfAlert: d[b],
+	            msg: c,
+	            remove: function remove() {
+	              a.splice(0, 1);
+	            }
+	          };
+
+	          a.push(e), this.hideAlert(e);
+	        },
+	        hideAlert: function hideAlert() {
+	          c(function () {
+	            a.shift();
+	          }, b);
+	        }
+	      };
+	    }]
 	  };
-
-	  function generateQueryString(payload) {
-	    var query = '';
-
-	    for (var param in payload) {
-	      query += param + '=' + payload[param] + '&';
-	    }
-	    return query.length ? '?' + query.slice(0, -1) : '';
-	  }
-	}
-
-/***/ },
-/* 52 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').service('$$profiles', profiles);
-
-	profiles.$inject = ['$http'];
-	function profiles($http) {
-
-	  var getList = function getList(payload) {
-	    return $http.get('/api/profiles' + generateQueryString(payload));
-	  };
-
-	  var post = function post(payload) {
-	    return $http.post('/api/profiles', payload);
-	  };
-
-	  var remove = function remove(payload) {
-	    return $http.delete('/api/profiles?id=' + payload.id);
-	  };
-
-	  var put = function put(payload) {
-	    return $http.put('/api/profiles?id=' + payload.id, payload);
-	  };
-
+	}).directive("alertFlash", ["flashAlert", function (a) {
 	  return {
-	    getList: getList,
-	    post: post,
-	    remove: remove,
-	    put: put
-	  };
-
-	  function generateQueryString(payload) {
-	    var query = '';
-
-	    for (var param in payload) {
-	      query += param + '=' + payload[param] + '&';
+	    restrict: "E",
+	    template: __webpack_require__(59),
+	    scope: {},
+	    link: function link(b) {
+	      b.$watch(a.getAlert, function () {
+	        b.alerts = a.getAlert();
+	      });
 	    }
-	    return query.length ? '?' + query.slice(0, -1) : '';
-	  }
-	}
-
-/***/ },
-/* 53 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('groupCtrl', groupCtrl);
-
-	groupCtrl.$inject = ['$$groups', '$routeParams'];
-
-	function groupCtrl($$groups, $routeParams) {
-
-		var vm = this;
-
-		vm.members = [];
-		vm.group = {
-			id: $routeParams.id,
-			name: null,
-			mentor: null,
-			members: []
-		};
-
-		vm.filters = [{
-			title: 'Психолог',
-			options: [{ name: 'Назначен', value: true }, { name: 'Не назначен', value: false }]
-		}];
-
-		$$groups.getList({
-			id: vm.group.id,
-			with_members: true
-		}).then(function (res) {
-			vm.group.name = res.data[0].name;
-			vm.group.mentor = res.data[0].mentor;
-			vm.group.members = res.data[0].members;
-		});
-	}
-
-/***/ },
-/* 54 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('groupsCtrl', groupsCtrl);
-
-	groupsCtrl.$inject = ['$$groups', 'authentication', '$$profiles'];
-
-	function groupsCtrl($$groups, authentication, $$profiles) {
-
-		var vm = this;
-
-		vm.groups = [];
-		vm.mentors = [];
-		vm.filters = [];
-		vm.crudRights = ['admin', 'org'];
-
-		vm.add = add;
-		vm.remove = remove;
-		vm.update = update;
-		vm.checkCRUDRights = checkCRUDRights;
-
-		init();
-
-		function init() {
-			$$groups.getList().then(function (resp) {
-				vm.groups = resp.data;
-			});
-
-			$$profiles.getList({
-				role: 'psycholog',
-				group: null
-			}).then(function (resp) {
-				vm.mentors = resp.data;
-			});
-		}
-
-		function checkCRUDRights() {
-			var userRole = authentication.currentUser().role;
-			return vm.crudRights.includes(userRole);
-		}
-
-		function add() {
-			$$groups.post({
-				name: null,
-				mentor: null
-			}).then(function (data) {
-				init();
-			});
-		}
-
-		function remove(id) {
-			$$groups.remove({
-				id: id
-			}).then(function (data) {
-				init();
-			});
-		}
-
-		function update(group) {
-			$$groups.put({
-				id: group._id,
-				name: group.name,
-				mentor: group.mentor
-			}).then(function (data) {
-				init();
-			});
-		}
-	}
+	  };
+	}]);
 
 /***/ }
 /******/ ]);

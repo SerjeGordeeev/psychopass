@@ -7,6 +7,6 @@
   function toolBarCtrl($scope, $location, authentication) {
     var vm = this
     //vm.filters  = $scope.filters
-    console.log($scope.filters)
+   // console.log($scope.filters)
 
   }

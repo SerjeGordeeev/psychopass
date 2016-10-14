@@ -1,0 +1,5 @@
+<div class='alert-container'>
+  <div class='repeat-animation' ng-repeat='alert in alerts' ng-click="alert.remove()">
+    <div class='alert' ng-class='alert.typeOfAlert' ng-bind='alert.msg'></div>
+  </div>
+</div>

@@ -4,10 +4,11 @@ const angular = require('angular')
 require('angular-material')
 require('../node_modules/angular-material/angular-material.min.css')
 
-	angular.module('psApp', ['ngMaterial','ngRoute'])
+	angular.module('psApp', ['ngMaterial','ngRoute','alert'])
 
 
-	function config ($routeProvider, $locationProvider) {
+	function config ($routeProvider, $locationProvider, flashAlertProvider) {
+		flashAlertProvider.setAlertTime(2000)
 		$routeProvider
 			.when('/',{
 				redirectTo: '/home'
@@ -59,7 +60,7 @@ require('../node_modules/angular-material/angular-material.min.css')
 
 	angular
 		.module('psApp')
-		.config(['$routeProvider', '$locationProvider', config])
+		.config(['$routeProvider', '$locationProvider','flashAlertProvider', config])
 		.run(['$rootScope', '$location', 'authentication', run])
 
 	function run($rootScope, $location, authentication) {

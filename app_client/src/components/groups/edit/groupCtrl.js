@@ -16,16 +16,7 @@ function groupCtrl($$groups, $routeParams) {
 		mentor: null,
 		members: []
 	}
-
-	vm.filters = [
-		{
-			title: 'Психолог',
-			options: [
-				{name: 'Назначен', value:true},
-				{name: 'Не назначен', value:false}
-			]
-		}
-	]
+	
 
 	$$groups.getList({
 		id: vm.group.id,

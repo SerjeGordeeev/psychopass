@@ -12,7 +12,7 @@ module.exports.getList = function (req, res) {
 		else{
 			if(req.query.with_members){
 				async.filter(groups, function(group, callback){
-					let query = User.find({'group': group._id})
+					let query = User.find({'group': group._id, role: 'student'})
 					query.select('name email role organisation')
 					query.exec({'group': group._id}, function (err, users) {
 						group.members = users

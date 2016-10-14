@@ -3,14 +3,14 @@ angular
 	.module('psApp')
 	.controller('organisationsCtrl', organisationsCtrl)
 
-organisationsCtrl.$inject = ['$$organisations','authentication']
+organisationsCtrl.$inject = ['$$organisations','authentication','flashAlert']
 
-function organisationsCtrl($$organisations, authentication) {
+function organisationsCtrl($$organisations, authentication,flashAlert) {
 
 	var vm = this
 
 	vm.orgs = []
-	vm.filters = []
+	vm.filters = [],
 	vm.crudRights = ['admin','org']
 
 	vm.psychoFilter = psychoFilter
@@ -42,16 +42,9 @@ function organisationsCtrl($$organisations, authentication) {
 	}
 
 	function psychoFilter(org, index){
-		if(!arguments.length){
-			return !!vm.filters[0].value
-		}
-
-		if(vm.filters[0].value == null){
-			return true
-		}
-		else{
-			return !!vm.filters[0].value == org.is_psycho
-		}
+		if(!arguments.length) return !!vm.filters[0].value
+		if(vm.filters[0].value == null) return true
+		else return !!vm.filters[0].value == org.is_psycho
 	}
 
 	function checkCRUDRights(){
@@ -64,18 +57,20 @@ function organisationsCtrl($$organisations, authentication) {
 			name: null,
 			is_psycho: psychoFilter()
 		}).then(data=>{
-			//vm.orgs = data.data
-			init()
-		})
+			flashAlert.success(data.data.message)
+		}).catch(data=>{
+			flashAlert.error(data.data.message)
+		}).finally(init)
 	}
 
 	function remove(id){
 		$$organisations.remove({
 			id: id
 		}).then(data=>{
-			//vm.orgs = data.data
-			init()
-		})
+			flashAlert.success(data.data.message)
+		}).catch(data=>{
+			flashAlert.error(data.data.message)
+		}).finally(init)
 	}
 
 	function update(org){
@@ -84,8 +79,9 @@ function organisationsCtrl($$organisations, authentication) {
 			name: org.name,
 			is_psycho: org.is_psycho
 		}).then(data=>{
-			//vm.orgs = data.data
-			init()
-		})
+			flashAlert.success(data.data.message)
+		}).catch(data=>{
+			flashAlert.error(data.data.message)
+		}).finally(init)
 	}
 }

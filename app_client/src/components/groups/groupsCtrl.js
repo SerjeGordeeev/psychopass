@@ -3,9 +3,9 @@ angular
 	.module('psApp')
 	.controller('groupsCtrl', groupsCtrl)
 
-groupsCtrl.$inject = ['$$groups','authentication', '$$profiles']
+groupsCtrl.$inject = ['$$groups','authentication', '$$profiles','flashAlert']
 
-function groupsCtrl($$groups, authentication, $$profiles) {
+function groupsCtrl($$groups, authentication, $$profiles, flashAlert) {
 
 	var vm = this
 
@@ -14,10 +14,22 @@ function groupsCtrl($$groups, authentication, $$profiles) {
 	vm.filters = []
 	vm.crudRights = ['admin','org']
 
+	vm.filters = [
+		{
+			value: null,
+			title: 'Психолог',
+			options: [
+				{name: 'Назначен', value:true},
+				{name: 'Не назначен', value:false}
+			]
+		}
+	]
+
 	vm.add = add
 	vm.remove = remove
 	vm.update = update
 	vm.checkCRUDRights = checkCRUDRights
+	vm.mentorFilter = mentorFilter
 
 	init()
 
@@ -27,8 +39,7 @@ function groupsCtrl($$groups, authentication, $$profiles) {
 		})
 
 		$$profiles.getList({
-			role:'psycholog',
-			group: null
+			role:'psycholog'
 		}).then(resp=>{
 			vm.mentors = resp.data
 		})
@@ -44,16 +55,20 @@ function groupsCtrl($$groups, authentication, $$profiles) {
 			name: null,
 			mentor: null
 		}).then(data=>{
-			init()
-		})
+			flashAlert.success(data.data.message)
+		}).catch(data=>{
+			flashAlert.error(data.data.message)
+		}).finally(init)
 	}
 
 	function remove(id){
 		$$groups.remove({
 			id: id
 		}).then(data=>{
-			init()
-		})
+			flashAlert.success(data.data.message)
+		}).catch(data=>{
+			flashAlert.error(data.data.message)
+		}).finally(init)
 	}
 
 	function update(group){
@@ -61,8 +76,29 @@ function groupsCtrl($$groups, authentication, $$profiles) {
 			id: group._id,
 			name: group.name,
 			mentor: group.mentor
-		}).then(data=>{
-			init()
-		})
+		}).then(resp=>{
+			//console.log(resp, group)
+			$$profiles.put({
+				id:group.mentor,
+				group:group._id
+			}).then(data=>{
+				flashAlert.success(data.data.message)
+			}).catch(data=>{
+				flashAlert.error(data.data.message)
+			}).finally(init)
+		}).catch(data=>{
+			flashAlert.error(data.data.message)
+		}).finally(init)
+	}
+	
+	function mentorFilter(group){
+			return (mentor)=>{
+				//console.log(mentor,group)
+				if(mentor.group){
+					if(mentor._id == group.mentor) return true
+					return false
+				}
+				return true
+			}
 	}
 }

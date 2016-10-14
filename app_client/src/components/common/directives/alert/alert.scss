@@ -1,0 +1,24 @@
+alert-flash{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: #fff;
+  z-index: 100;
+
+    .alert{
+      padding: .5em;
+      font-size: 1em;
+      opacity: .8;
+    }
+    .alert-success{
+      background-color: #29ff31;
+    }
+    .alert-danger{
+      background-color: #ff0415;
+    }
+    .alert-info{
+      background-color: #0aa0ff;
+    }
+
+}
