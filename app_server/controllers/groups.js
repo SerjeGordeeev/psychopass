@@ -5,6 +5,7 @@ const Group = mongoose.model('Group')
 const async = require('async')
 const url = require('url')
 
+
 module.exports.getList = function (req, res) {
 	Group.find(req.query.id?{_id:mongoose.Types.ObjectId(req.query.id)}:{}, (err, groups)=>{
 		if(err) dataError(res)
@@ -72,11 +73,10 @@ module.exports.add = function (req, res) {
 }
 
 module.exports.update = function (req, res) {
-	Group.findOne({'_id': mongoose.Types.ObjectId(req.query.id)}, function (err, doc) {
+	Group.findOne({'_id': mongoose.Types.ObjectId(req.body.id)}, function (err, doc) {
 		if (err) dataError(res)
 		else {
-			doc.name = req.body.name
-			doc.mentor = req.body.mentor
+			updateData(doc, req.body)
 			doc.save(err=> {
 				if (err) dataError(res)
 				else {

@@ -94,10 +94,3 @@ module.exports.update = function (req, res) {
 
 }
 
-function dataError(res){
-		console.error(org)
-		res.status(422)
-		res.end(JSON.stringify({
-			message: 'Ошибка в данных'
-		}))
-	}

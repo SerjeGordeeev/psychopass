@@ -3,7 +3,7 @@ var mongoose = require('mongoose')
 var User = mongoose.model('User')
 var generatePassword = require('password-generator');
 
-let sendMail = require('./mailer')
+let sendMail = require('./utils/mailer')
 
 var sendJSONresponse = function(res, status, content) {
   res.status(status)
