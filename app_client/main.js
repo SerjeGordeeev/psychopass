@@ -37,6 +37,16 @@ require('../node_modules/angular-material/angular-material.min.css')
 				controller: 'organisationCtrl',
 				controllerAs: 'org'
 			})
+			.when('/groups', {
+				templateUrl: 'src/components/groups/groups.html',
+				controller: 'groupsCtrl',
+				controllerAs: 'groups'
+			})
+			.when('/groups/:id', {
+				templateUrl: 'src/components/groups/edit/group.html',
+				controller: 'groupCtrl',
+				controllerAs: 'group'
+			})
 			.when('/members', {
 				templateUrl: 'src/components/members/members.html',
 				controller: 'membersCtrl',

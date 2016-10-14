@@ -28,10 +28,21 @@
         title:'Участники',
         href:'/members',
         access: ['admin','psycholog', 'org']
-      },{
+      },
+      {
+        title:'Группы',
+        href:'/groups',
+        access: ['admin', 'org']
+      },
+      {
         title:'Руководство группой',
         href:'/mygroup',
         access: ['psycholog']
+      },
+      {
+        title:'Характеристики',
+        href:'/props',
+        access: ['admin','psycholog', 'org']
       }
     ]
 

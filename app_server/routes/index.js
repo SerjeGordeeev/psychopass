@@ -1,18 +1,18 @@
-var express = require('express');
-var router = express.Router();
-var jwt = require('express-jwt');
-var auth = jwt({
+const express = require('express');
+const router = express.Router();
+const jwt = require('express-jwt');
+const auth = jwt({
 	secret: 'MY_SECRET',
 	userProperty: 'payload'
 });
 
-console.log('ROUTS')
-var ctrlProfile = require('../controllers/profile');
-var ctrlAuth = require('../controllers/authentication');
-var ctrlOrgs = require('../controllers/organisations');
+const ctrlProfiles = require('../controllers/profiles');
+const ctrlAuth = require('../controllers/authentication');
+const ctrlOrgs = require('../controllers/organisations');
+const ctrlGroups = require('../controllers/groups');
 
-// profile
-router.get('/profile', auth, ctrlProfile.profileRead);
+// profiles
+router.get('/profiles', ctrlProfiles.getList);
 
 // authentication
 router.post('/register', ctrlAuth.register);
@@ -24,6 +24,10 @@ router.post('/organisations', ctrlOrgs.add);
 router.delete('/organisations', ctrlOrgs.delete);
 router.put('/organisations', ctrlOrgs.update);
 
-router.get('/organisations/:id', ctrlOrgs.getMembers);
+//groups
+router.get('/groups', ctrlGroups.getList);
+router.post('/groups', ctrlGroups.add);
+router.delete('/groups', ctrlGroups.delete);
+router.put('/groups', ctrlGroups.update);
 
 module.exports = router;

@@ -30,6 +30,7 @@ module.exports.register = function(req, res) {
 
   user.openPassword = password
   user.role = 'psycholog'
+  user.group = null
 
   console.log(password)
 

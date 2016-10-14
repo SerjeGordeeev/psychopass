@@ -8,12 +8,7 @@
     var vm = this;
 
     vm.user = authentication.currentUser()
-
-    vm.roleAssoc = {
-        psycholog: "Психолог",
-        admin: "Администратор",
-        org: "Организатор"
-    }
+    vm.roleAssoc = authentication.roleTitle()
 
     vm.user.role = vm.roleAssoc[vm.user.role]
     //console.log(vm.user)

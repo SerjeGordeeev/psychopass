@@ -5,6 +5,22 @@
 
   authentication.$inject = ['$http', '$window']
   function authentication ($http, $window) {
+    let vm = this
+    vm.roleAssoc = {
+      psycholog: "Психолог",
+      admin: "Администратор",
+      org: "Организатор"
+    }
+
+
+    var roleTitle = function(role){
+      if(role){
+        return vm.roleAssoc[role]
+      }
+      else{
+        return vm.roleAssoc
+      }
+    }
     
     var saveToken = function (token) {
       $window.localStorage['mean-token'] = token
@@ -19,21 +35,9 @@
       var payload
     
       if(token){
-
-        try{
-          payload = token.split('.')
-          console.log(payload)
-          payload = $window.atob(payload[1])
-        }
-        catch(err){
-          throw err
-          console.log(err,payload)
-        }
-
-
-
-
-
+        
+        payload = token.split('.')[1]
+        payload = $window.atob(payload)
         payload = JSON.parse(payload)
     
         return payload.exp > Date.now() / 1000
@@ -87,6 +91,7 @@
       isLoggedIn : isLoggedIn,
       register : register,
       login : login,
-      logout : logout
+      logout : logout,
+      roleTitle : roleTitle
     }
   }

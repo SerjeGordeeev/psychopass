@@ -1,25 +1,25 @@
 
   angular
     .module('psApp')
-    .service('$$organisations', organisations)
+    .service('$$groups', groups)
 
-  organisations.$inject = ['$http']
-  function organisations ($http) {
+  groups.$inject = ['$http']
+  function groups ($http) {
 
     var getList = function (payload) {
-      return $http.get('/api/organisations' + generateQueryString(payload))
+      return $http.get('/api/groups' + generateQueryString(payload))
     }
 
     var post = function (payload) {
-      return $http.post('/api/organisations', payload)
+      return $http.post('/api/groups', payload)
     }
 
     var remove = function (payload) {
-      return $http.delete('/api/organisations?id=' + payload.id)
+      return $http.delete('/api/groups?id=' + payload.id)
     }
 
     var put = function (payload) {
-      return $http.put('/api/organisations?id=' + payload.id, payload)
+      return $http.put('/api/groups?id=' + payload.id, payload)
     }
 
     return {
@@ -35,7 +35,6 @@
       for(let param in payload){
         query+=`${param}=${payload[param]}&`
       }
-
       return query.length?`?${query.slice(0,-1)}`:''
     }
   }

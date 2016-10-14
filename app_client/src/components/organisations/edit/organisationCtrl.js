@@ -16,8 +16,16 @@ function organisationCtrl($$organisations, authentication, $routeParams) {
 		is_psycho: null,
 		members: []
 	}
-	
-	console.log($routeParams)
+
+	vm.filters = [
+		{
+			title: 'Группа',
+			options: [
+				{name: 'Назначена', value:true},
+				{name: 'Не назначена', value:false}
+			]
+		}
+	]
 
 	$$organisations.getList({
 		id: vm.org.id,
@@ -27,6 +35,8 @@ function organisationCtrl($$organisations, authentication, $routeParams) {
 		vm.org.is_psycho = res.data[0].is_psycho
 		vm.org.members = res.data[0].members
 	})
+	
+	vm.roleTitle = authentication.roleTitle
 
 	/*	.getMembers({
 		id: $routeParams.id

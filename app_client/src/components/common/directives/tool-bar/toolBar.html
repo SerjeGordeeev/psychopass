@@ -7,7 +7,7 @@
           <label>{{filter.title}}</label>
           <md-select ng-model="filter.value">
             <md-option ng-value="null">Все</md-option>
-            <md-option ng-repeat="option in filter.options" ng-value="option.id">
+            <md-option ng-repeat="option in filter.options" ng-value="option.value">
               {{option.name}}
             </md-option>
           </md-select>

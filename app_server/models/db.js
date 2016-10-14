@@ -46,3 +46,4 @@ process.on('SIGTERM', function() {
 // BRING IN YOUR SCHEMAS & MODELS
 require('./users')
 require('./organisations')
+require('./groups')

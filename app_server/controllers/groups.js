@@ -1,39 +1,38 @@
 const mongoose = require('mongoose')
 const Organisation = mongoose.model('Organisation')
 const User = mongoose.model('User')
+const Group = mongoose.model('Group')
 const async = require('async')
 const url = require('url')
 
 module.exports.getList = function (req, res) {
-
-	Organisation.find(req.query.id?{_id:mongoose.Types.ObjectId(req.query.id)}:{}, (err, organisation)=>{
+	Group.find(req.query.id?{_id:mongoose.Types.ObjectId(req.query.id)}:{}, (err, groups)=>{
 		if(err) dataError(res)
 		else{
 			if(req.query.with_members){
-				async.filter(organisation, function(org, callback){
-					let query = User.find({'organisation': org._id})
-					query.select('name email role group')
-					query.exec({'organisation': org._id}, function (err, users) {
-						org.members = users
+				async.filter(groups, function(group, callback){
+					let query = User.find({'group': group._id})
+					query.select('name email role organisation')
+					query.exec({'group': group._id}, function (err, users) {
+						group.members = users
 						callback(null, !err)
 					})
 				},function(err, results){
 					//console.log(results)
 					res.status(200)
-					res.end(JSON.stringify(organisation))
+					res.end(JSON.stringify(groups))
 				})
 			}
 			else{
 				res.status(200)
-				res.end(JSON.stringify(organisation))
+				res.end(JSON.stringify(groups))
 			}
 		}
 	})
 }
 
 module.exports.delete = function (req, res) {
-	//console.log('DELETE', req.query.id)
-	Organisation.findOne({'_id': mongoose.Types.ObjectId(req.query.id)}, (err, data)=>{
+	Group.findOne({'_id': mongoose.Types.ObjectId(req.query.id)}, (err, data)=>{
 		if(err) dataError(res)
 		else {
 			data.remove(err=>{
@@ -41,7 +40,7 @@ module.exports.delete = function (req, res) {
 				else{
 					res.status(200)
 					res.end(JSON.stringify({
-						message: 'Организация успешно удалена'
+						message: 'Группа успешно удалена'
 					}))
 				}
 			})
@@ -54,17 +53,18 @@ module.exports.add = function (req, res) {
 	//console.log(req.path)
 	//orgs.push({id: 666, name: null, is_psycho: false})
 
-	let org = new Organisation()
-	//org.id = 1312
-	org.name = req.body.name
-	org.is_psycho = req.body.is_psycho
+	let group = new Group()
+	//group.id = 1312
+	group.name = req.body.name
+	group.members = []
+	group.mentor = null
 
-	org.save(function(err){
+	group.save(function(err){
 		if(err) dataError(res)
 		else{
 			res.status(200)
 			res.end(JSON.stringify({
-				message: 'Организация успешно добавлена'
+				message: 'Группа успешно добавлена'
 			}))
 		}
 	})
@@ -72,14 +72,11 @@ module.exports.add = function (req, res) {
 }
 
 module.exports.update = function (req, res) {
-	//console.log(req.path)
-	//orgs.push({id: 666, name: null, is_psycho: false})
-
-	Organisation.findOne({'_id': mongoose.Types.ObjectId(req.query.id)}, function (err, doc) {
+	Group.findOne({'_id': mongoose.Types.ObjectId(req.query.id)}, function (err, doc) {
 		if (err) dataError(res)
 		else {
 			doc.name = req.body.name
-			doc.is_psycho = req.body.is_psycho
+			doc.mentor = req.body.mentor
 			doc.save(err=> {
 				if (err) dataError(res)
 				else {
@@ -93,11 +90,3 @@ module.exports.update = function (req, res) {
 	})
 
 }
-
-function dataError(res){
-		console.error(org)
-		res.status(422)
-		res.end(JSON.stringify({
-			message: 'Ошибка в данных'
-		}))
-	}

@@ -34,7 +34,7 @@ function organisationsCtrl($$organisations, authentication) {
 		options.forEach((option, index) => {
 			filter.options.push({
 				name: option,
-				id: option.id || index
+				value: option.id || index
 			})
 		})
 
