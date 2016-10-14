@@ -18,7 +18,7 @@ module.exports.register = function(req, res) {
   //   })
   //   return
   // }
-  console.log('registration')
+
   var user = new User()
 
   let password = generatePassword(12, false)
@@ -32,7 +32,7 @@ module.exports.register = function(req, res) {
   user.role = 'psycholog'
   user.group = null
 
-  console.log(password)
+  console.log('Registration', user.name, user.login, password)
 
   //sendMail(user.email ,password,user) //посылаем данные для входа
 

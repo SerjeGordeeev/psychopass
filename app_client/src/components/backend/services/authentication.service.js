@@ -50,11 +50,7 @@
       if(isLoggedIn()){
         var token = getToken()
         var payload = token.split('.')[1]
-
-        token.split('.').forEach(t=>{
-          console.log(t)
-        })
-
+        
         payload = $window.atob(payload)
 
         payload = JSON.parse(payload)

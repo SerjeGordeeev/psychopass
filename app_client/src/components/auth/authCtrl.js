@@ -53,7 +53,7 @@ function authCtrl (authentication, $$organisations, $location) {
 		}).then(data=>{
 			$location.path('/')
 		}).catch(data=>{
-			console.log(data)
+			//console.log(data)
 		})
 	}
 
