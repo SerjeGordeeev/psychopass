@@ -3,9 +3,9 @@ angular
 	.module('psApp')
 	.controller('organisationsCtrl', organisationsCtrl)
 
-organisationsCtrl.$inject = ['$$organisations','authentication','flashAlert']
+organisationsCtrl.$inject = ['$$organisations','authentication','flashAlert', '$$profiles']
 
-function organisationsCtrl($$organisations, authentication,flashAlert) {
+function organisationsCtrl($$organisations, authentication, flashAlert, $$profiles) {
 
 	var vm = this
 
@@ -27,6 +27,13 @@ function organisationsCtrl($$organisations, authentication,flashAlert) {
 			with_members: true
 		}).then(data=>{
 			vm.orgs = data.data
+			console.log('asdsada',data.data)
+			$$profiles.getList().then(resp=>{
+
+				vm.orgs.forEach(org=>{
+					org.membersCount = resp.data.filter(member=>member.organisation == org._id).length
+				}) 
+			})
 		})
 	}
 

@@ -30624,28 +30624,28 @@
 	var map = {
 		"./auth/authCtrl.js": 16,
 		"./backend/services/authentication.service.js": 19,
-		"./backend/services/groups.service.js": 20,
-		"./backend/services/organisations.service.js": 21,
-		"./backend/services/profiles.service.js": 22,
-		"./common/directives/alert/flash-alert.js": 23,
-		"./common/directives/header/components/top-menu/topMenuCtrl.js": 27,
-		"./common/directives/header/components/top-menu/topMenuDir.js": 28,
-		"./common/directives/header/components/user-profile/userProfileCtrl.js": 32,
-		"./common/directives/header/components/user-profile/userProfileDir.js": 33,
-		"./common/directives/header/navigationCtrl.js": 37,
-		"./common/directives/header/navigationDir.js": 38,
-		"./common/directives/nav-bar/navBarCtrl.js": 42,
-		"./common/directives/nav-bar/navBarDir.js": 43,
-		"./common/directives/tool-bar/toolBarCtrl.js": 47,
-		"./common/directives/tool-bar/toolBarDir.js": 48,
-		"./groups/edit/dialog/addMembersCtrl.js": 62,
-		"./groups/edit/groupCtrl.js": 52,
-		"./groups/groupsCtrl.js": 53,
-		"./home/homeCtrl.js": 54,
-		"./members/memberCtrl.js": 55,
-		"./organisations/edit/organisationCtrl.js": 56,
-		"./organisations/organisationsCtrl.js": 57,
-		"./psychologs/psychologsCtrl.js": 58
+		"./backend/services/groups.service.js": 23,
+		"./backend/services/organisations.service.js": 24,
+		"./backend/services/profiles.service.js": 25,
+		"./common/directives/alert/flash-alert.js": 26,
+		"./common/directives/header/components/top-menu/topMenuCtrl.js": 30,
+		"./common/directives/header/components/top-menu/topMenuDir.js": 31,
+		"./common/directives/header/components/user-profile/userProfileCtrl.js": 35,
+		"./common/directives/header/components/user-profile/userProfileDir.js": 36,
+		"./common/directives/header/navigationCtrl.js": 40,
+		"./common/directives/header/navigationDir.js": 41,
+		"./common/directives/nav-bar/navBarCtrl.js": 45,
+		"./common/directives/nav-bar/navBarDir.js": 46,
+		"./common/directives/tool-bar/toolBarCtrl.js": 50,
+		"./common/directives/tool-bar/toolBarDir.js": 51,
+		"./groups/edit/dialog/addMembersCtrl.js": 55,
+		"./groups/edit/groupCtrl.js": 56,
+		"./groups/groupsCtrl.js": 58,
+		"./home/homeCtrl.js": 59,
+		"./members/memberCtrl.js": 60,
+		"./organisations/edit/organisationCtrl.js": 61,
+		"./organisations/organisationsCtrl.js": 62,
+		"./psychologs/psychologsCtrl.js": 63
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -30775,7 +30775,7 @@
 
 	authentication.$inject = ['$http', '$window'];
 
-	var decodeToken = __webpack_require__(59);
+	var decodeToken = __webpack_require__(20);
 
 	function authentication($http, $window) {
 	  var vm = this;
@@ -30879,6 +30879,107 @@
 
 /***/ },
 /* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var base64_url_decode = __webpack_require__(21);
+
+	module.exports = function (token, options) {
+	  if (typeof token !== 'string') {
+	    throw new Error('Invalid token specified');
+	  }
+
+	  options = options || {};
+	  var pos = options.header === true ? 0 : 1;
+	  return JSON.parse(base64_url_decode(token.split('.')[pos]));
+	};
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var atob = __webpack_require__(22);
+
+	function b64DecodeUnicode(str) {
+	  return decodeURIComponent(atob(str).replace(/(.)/g, function (m, p) {
+	    var code = p.charCodeAt(0).toString(16).toUpperCase();
+	    if (code.length < 2) {
+	      code = '0' + code;
+	    }
+	    return '%' + code;
+	  }));
+	}
+
+	module.exports = function (str) {
+	  var output = str.replace(/-/g, "+").replace(/_/g, "/");
+	  switch (output.length % 4) {
+	    case 0:
+	      break;
+	    case 2:
+	      output += "==";
+	      break;
+	    case 3:
+	      output += "=";
+	      break;
+	    default:
+	      throw "Illegal base64url string!";
+	  }
+
+	  try {
+	    return b64DecodeUnicode(output);
+	  } catch (err) {
+	    return atob(output);
+	  }
+	};
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * The code was extracted from:
+	 * https://github.com/davidchambers/Base64.js
+	 */
+
+	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+	function InvalidCharacterError(message) {
+	  this.message = message;
+	}
+
+	InvalidCharacterError.prototype = new Error();
+	InvalidCharacterError.prototype.name = 'InvalidCharacterError';
+
+	function polyfill(input) {
+	  var str = String(input).replace(/=+$/, '');
+	  if (str.length % 4 == 1) {
+	    throw new InvalidCharacterError("'atob' failed: The string to be decoded is not correctly encoded.");
+	  }
+	  for (
+	  // initialize result and counters
+	  var bc = 0, bs, buffer, idx = 0, output = '';
+	  // get next character
+	  buffer = str.charAt(idx++);
+	  // character found in table? initialize bit storage and add its ascii value;
+	  ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer,
+	  // and if not first of each 4 characters,
+	  // convert the first 8 bits to one ascii character
+	  bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0) {
+	    // try to find character in table (0-63, not found => -1)
+	    buffer = chars.indexOf(buffer);
+	  }
+	  return output;
+	}
+
+	module.exports = typeof window !== 'undefined' && window.atob && window.atob.bind(window) || polyfill;
+
+/***/ },
+/* 23 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30922,7 +31023,7 @@
 	}
 
 /***/ },
-/* 21 */
+/* 24 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30967,7 +31068,7 @@
 	}
 
 /***/ },
-/* 22 */
+/* 25 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31011,12 +31112,12 @@
 	}
 
 /***/ },
-/* 23 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	__webpack_require__(24);
+	__webpack_require__(27);
 	angular.module("alert", []).constant("alertConfig", {
 	  success: "alert-success",
 	  error: "alert-danger",
@@ -31064,7 +31165,7 @@
 	}).directive("alertFlash", ["flashAlert", function (a) {
 	  return {
 	    restrict: "E",
-	    template: __webpack_require__(26),
+	    template: __webpack_require__(29),
 	    scope: {},
 	    link: function link(b) {
 	      b.$watch(a.getAlert, function () {
@@ -31075,13 +31176,13 @@
 	}]);
 
 /***/ },
-/* 24 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(25);
+	var content = __webpack_require__(28);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31101,7 +31202,7 @@
 	}
 
 /***/ },
-/* 25 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31115,13 +31216,13 @@
 
 
 /***/ },
-/* 26 */
+/* 29 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class='alert-container'>\n  <div class='repeat-animation' ng-repeat='alert in alerts' ng-click=\"alert.remove()\">\n    <div class='alert' ng-class='alert.typeOfAlert' ng-bind='alert.msg'></div>\n  </div>\n</div>";
 
 /***/ },
-/* 27 */
+/* 30 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31180,31 +31281,31 @@
 	}
 
 /***/ },
-/* 28 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('topMenu', topMenu);
 
-	__webpack_require__(29);
+	__webpack_require__(32);
 	function topMenu() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(31),
+	    template: __webpack_require__(34),
 	    controller: 'topMenuCtrl',
 	    controllerAs: 'tm'
 	  };
 	}
 
 /***/ },
-/* 29 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(30);
+	var content = __webpack_require__(33);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31224,7 +31325,7 @@
 	}
 
 /***/ },
-/* 30 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31238,13 +31339,13 @@
 
 
 /***/ },
-/* 31 */
+/* 34 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"top_menu\">\n        <a ng-href=\"{{page.href}}\" ng-class=\"{'active_link':tm.activePage.indexOf(page.href)>-1}\" name=\"page.title\" ng-repeat=\"page in tm.pages\">{{page.title}}</a>\n</div>";
 
 /***/ },
-/* 32 */
+/* 35 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31271,31 +31372,31 @@
 	}
 
 /***/ },
-/* 33 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('userProfile', userProfile);
 
-	__webpack_require__(34);
+	__webpack_require__(37);
 	function userProfile() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(36),
+	    template: __webpack_require__(39),
 	    controller: 'userProfileCtrl',
 	    controllerAs: 'vm'
 	  };
 	}
 
 /***/ },
-/* 34 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(35);
+	var content = __webpack_require__(38);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31315,7 +31416,7 @@
 	}
 
 /***/ },
-/* 35 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31329,13 +31430,13 @@
 
 
 /***/ },
-/* 36 */
+/* 39 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"user_profile\" layout>\n    <div class=\"layout-column\">\n        <span>{{::vm.user.name}}</span>\n        <span style=\"font-size: .8em;\">{{::vm.user.role}}</span>\n    </div>\n\n    <md-button class=\"md-icon-button\" aria-label=\"Выйти\" ng-click=\"vm.logout()\">\n        <md-icon md-svg-icon=\"/src/img/ic_exit_to_app_black_24px.svg\"></md-icon>\n    </md-button>\n</div>";
 
 /***/ },
-/* 37 */
+/* 40 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31348,30 +31449,30 @@
 	}
 
 /***/ },
-/* 38 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('navigation', navigation);
 
-	__webpack_require__(39);
+	__webpack_require__(42);
 	function navigation() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(41),
+	    template: __webpack_require__(44),
 	    controller: 'navigationCtrl as navvm'
 	  };
 	}
 
 /***/ },
-/* 39 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(40);
+	var content = __webpack_require__(43);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31391,7 +31492,7 @@
 	}
 
 /***/ },
-/* 40 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31405,13 +31506,13 @@
 
 
 /***/ },
-/* 41 */
+/* 44 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"navigation navbar navbar-default\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n      <div class=\"md-toolbar-tools\">\n        <h2>\n          <a ng-href=\"/\">PsychopassApp</a>\n        </h2>\n        <top-menu></top-menu>\n        <span flex></span>\n        <user-profile></user-profile>\n      </div>\n    </md-toolbar>\n  </md-card>\n</div>\n";
 
 /***/ },
-/* 42 */
+/* 45 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31424,30 +31525,30 @@
 	}
 
 /***/ },
-/* 43 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('navBar', navBar);
 
-	__webpack_require__(44);
+	__webpack_require__(47);
 	function navBar() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(46),
+	    template: __webpack_require__(49),
 	    controller: 'navBarCtrl as navb'
 	  };
 	}
 
 /***/ },
-/* 44 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(45);
+	var content = __webpack_require__(48);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31467,7 +31568,7 @@
 	}
 
 /***/ },
-/* 45 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31481,13 +31582,13 @@
 
 
 /***/ },
-/* 46 */
+/* 49 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\" navbar navbar-default\">\n  Navbar\n</div>\n";
 
 /***/ },
-/* 47 */
+/* 50 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31502,18 +31603,18 @@
 	}
 
 /***/ },
-/* 48 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('toolBar', toolBar);
 
-	__webpack_require__(49);
+	__webpack_require__(52);
 	function toolBar() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(51),
+	    template: __webpack_require__(54),
 	    controller: 'toolBarCtrl as tb',
 	    scope: {
 	      filters: '='
@@ -31522,13 +31623,13 @@
 	}
 
 /***/ },
-/* 49 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(50);
+	var content = __webpack_require__(53);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31548,7 +31649,7 @@
 	}
 
 /***/ },
-/* 50 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31562,13 +31663,31 @@
 
 
 /***/ },
-/* 51 */
+/* 54 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"tool_bar\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <div ng-repeat=\"filter in filters\">\n        <md-input-container ng-style=\"{'min-width': filter.title.length*12+'px'}\">\n          <label>{{filter.title}}</label>\n          <md-select ng-model=\"filter.value\">\n            <md-option ng-value=\"null\">Все</md-option>\n            <md-option ng-repeat=\"option in filter.options\" ng-value=\"option.value\">\n              {{option.name}}\n            </md-option>\n          </md-select>\n        </md-input-container>\n      </div>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n  </md-card>\n</div>\n";
 
 /***/ },
-/* 52 */
+/* 55 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = function ($$groups, $routeParams, $mdDialog, $mdMedia, $scope, authentication) {
+		$scope.hide = function () {
+			$mdDialog.hide();
+		};
+		$scope.cancel = function () {
+			$mdDialog.cancel();
+		};
+		$scope.answer = function (answer) {
+			$mdDialog.hide(answer);
+		};
+	};
+
+/***/ },
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31604,8 +31723,8 @@
 		function showDialog(ev) {
 			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
 			$mdDialog.show({
-				controller: __webpack_require__(62),
-				template: __webpack_require__(63),
+				controller: __webpack_require__(55),
+				template: __webpack_require__(57),
 				parent: angular.element(document.body),
 				targetEvent: ev,
 				clickOutsideToClose: true,
@@ -31624,7 +31743,13 @@
 	}
 
 /***/ },
-/* 53 */
+/* 57 */
+/***/ function(module, exports) {
+
+	module.exports = "<md-dialog aria-label=\"Mango (Fruit)\"  ng-cloak>\n\t<form>\n\t\t<md-toolbar>\n\t\t\t<div class=\"md-toolbar-tools\">\n\t\t\t\t<h2>Mango (Fruit)</h2>\n\t\t\t\t<span flex></span>\n\t\t\t</div>\n\t\t</md-toolbar>\n\t\t<md-dialog-content>\n\t\t\t<div class=\"md-dialog-content\">\n\t\t\t\t<h2>Using .md-dialog-content class that sets the padding as the spec</h2>\n\t\t\t\t<p>\n\t\t\t\t\tThe mango is a juicy stone fruit belonging to the genus Mangifera, consisting of numerous tropical fruiting trees, cultivated mostly for edible fruit. The majority of these species are found in nature as wild mangoes. They all belong to the flowering plant family Anacardiaceae. The mango is native to South and Southeast Asia, from where it has been distributed worldwide to become one of the most cultivated fruits in the tropics.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tThe highest concentration of Mangifera genus is in the western part of Malesia (Sumatra, Java and Borneo) and in Burma and India. While other Mangifera species (e.g. horse mango, M. foetida) are also grown on a more localized basis, Mangifera indica&mdash;the \"common mango\" or \"Indian mango\"&mdash;is the only mango tree commonly cultivated in many tropical and subtropical regions.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tIt originated in Indian subcontinent (present day India and Pakistan) and Burma. It is the national fruit of India, Pakistan, and the Philippines, and the national tree of Bangladesh. In several cultures, its fruit and leaves are ritually used as floral decorations at weddings, public celebrations, and religious ceremonies.\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions layout=\"row\">\n\t\t\t<md-button href=\"http://en.wikipedia.org/wiki/Mango\" target=\"_blank\" md-autofocus>\n\t\t\t\tMore on Wikipedia\n\t\t\t</md-button>\n\t\t\t<span flex></span>\n\t\t\t<md-button ng-click=\"answer('not useful')\">\n\t\t\t\tNot Useful\n\t\t\t</md-button>\n\t\t\t<md-button ng-click=\"answer('useful')\" style=\"margin-right:20px;\">\n\t\t\t\tUseful\n\t\t\t</md-button>\n\t\t</md-dialog-actions>\n\t</form>\n</md-dialog>\n";
+
+/***/ },
+/* 58 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31738,7 +31863,7 @@
 	}
 
 /***/ },
-/* 54 */
+/* 59 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31750,7 +31875,7 @@
 	}
 
 /***/ },
-/* 55 */
+/* 60 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31805,7 +31930,7 @@
 	}
 
 /***/ },
-/* 56 */
+/* 61 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31905,16 +32030,16 @@
 	}
 
 /***/ },
-/* 57 */
+/* 62 */
 /***/ function(module, exports) {
 
 	'use strict';
 
 	angular.module('psApp').controller('organisationsCtrl', organisationsCtrl);
 
-	organisationsCtrl.$inject = ['$$organisations', 'authentication', 'flashAlert'];
+	organisationsCtrl.$inject = ['$$organisations', 'authentication', 'flashAlert', '$$profiles'];
 
-	function organisationsCtrl($$organisations, authentication, flashAlert) {
+	function organisationsCtrl($$organisations, authentication, flashAlert, $$profiles) {
 
 		var vm = this;
 
@@ -31935,6 +32060,15 @@
 				with_members: true
 			}).then(function (data) {
 				vm.orgs = data.data;
+				console.log('asdsada', data.data);
+				$$profiles.getList().then(function (resp) {
+
+					vm.orgs.forEach(function (org) {
+						org.membersCount = resp.data.filter(function (member) {
+							return member.organisation == org._id;
+						}).length;
+					});
+				});
 			});
 		}
 
@@ -31991,7 +32125,7 @@
 	}
 
 /***/ },
-/* 58 */
+/* 63 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32031,131 +32165,6 @@
 			});
 		}
 	}
-
-/***/ },
-/* 59 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var base64_url_decode = __webpack_require__(60);
-
-	module.exports = function (token, options) {
-	  if (typeof token !== 'string') {
-	    throw new Error('Invalid token specified');
-	  }
-
-	  options = options || {};
-	  var pos = options.header === true ? 0 : 1;
-	  return JSON.parse(base64_url_decode(token.split('.')[pos]));
-	};
-
-/***/ },
-/* 60 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var atob = __webpack_require__(61);
-
-	function b64DecodeUnicode(str) {
-	  return decodeURIComponent(atob(str).replace(/(.)/g, function (m, p) {
-	    var code = p.charCodeAt(0).toString(16).toUpperCase();
-	    if (code.length < 2) {
-	      code = '0' + code;
-	    }
-	    return '%' + code;
-	  }));
-	}
-
-	module.exports = function (str) {
-	  var output = str.replace(/-/g, "+").replace(/_/g, "/");
-	  switch (output.length % 4) {
-	    case 0:
-	      break;
-	    case 2:
-	      output += "==";
-	      break;
-	    case 3:
-	      output += "=";
-	      break;
-	    default:
-	      throw "Illegal base64url string!";
-	  }
-
-	  try {
-	    return b64DecodeUnicode(output);
-	  } catch (err) {
-	    return atob(output);
-	  }
-	};
-
-/***/ },
-/* 61 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	/**
-	 * The code was extracted from:
-	 * https://github.com/davidchambers/Base64.js
-	 */
-
-	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-	function InvalidCharacterError(message) {
-	  this.message = message;
-	}
-
-	InvalidCharacterError.prototype = new Error();
-	InvalidCharacterError.prototype.name = 'InvalidCharacterError';
-
-	function polyfill(input) {
-	  var str = String(input).replace(/=+$/, '');
-	  if (str.length % 4 == 1) {
-	    throw new InvalidCharacterError("'atob' failed: The string to be decoded is not correctly encoded.");
-	  }
-	  for (
-	  // initialize result and counters
-	  var bc = 0, bs, buffer, idx = 0, output = '';
-	  // get next character
-	  buffer = str.charAt(idx++);
-	  // character found in table? initialize bit storage and add its ascii value;
-	  ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer,
-	  // and if not first of each 4 characters,
-	  // convert the first 8 bits to one ascii character
-	  bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0) {
-	    // try to find character in table (0-63, not found => -1)
-	    buffer = chars.indexOf(buffer);
-	  }
-	  return output;
-	}
-
-	module.exports = typeof window !== 'undefined' && window.atob && window.atob.bind(window) || polyfill;
-
-/***/ },
-/* 62 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	module.exports = function ($$groups, $routeParams, $mdDialog, $mdMedia, $scope, authentication) {
-		$scope.hide = function () {
-			$mdDialog.hide();
-		};
-		$scope.cancel = function () {
-			$mdDialog.cancel();
-		};
-		$scope.answer = function (answer) {
-			$mdDialog.hide(answer);
-		};
-	};
-
-/***/ },
-/* 63 */
-/***/ function(module, exports) {
-
-	module.exports = "<md-dialog aria-label=\"Mango (Fruit)\"  ng-cloak>\n\t<form>\n\t\t<md-toolbar>\n\t\t\t<div class=\"md-toolbar-tools\">\n\t\t\t\t<h2>Mango (Fruit)</h2>\n\t\t\t\t<span flex></span>\n\t\t\t</div>\n\t\t</md-toolbar>\n\t\t<md-dialog-content>\n\t\t\t<div class=\"md-dialog-content\">\n\t\t\t\t<h2>Using .md-dialog-content class that sets the padding as the spec</h2>\n\t\t\t\t<p>\n\t\t\t\t\tThe mango is a juicy stone fruit belonging to the genus Mangifera, consisting of numerous tropical fruiting trees, cultivated mostly for edible fruit. The majority of these species are found in nature as wild mangoes. They all belong to the flowering plant family Anacardiaceae. The mango is native to South and Southeast Asia, from where it has been distributed worldwide to become one of the most cultivated fruits in the tropics.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tThe highest concentration of Mangifera genus is in the western part of Malesia (Sumatra, Java and Borneo) and in Burma and India. While other Mangifera species (e.g. horse mango, M. foetida) are also grown on a more localized basis, Mangifera indica&mdash;the \"common mango\" or \"Indian mango\"&mdash;is the only mango tree commonly cultivated in many tropical and subtropical regions.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tIt originated in Indian subcontinent (present day India and Pakistan) and Burma. It is the national fruit of India, Pakistan, and the Philippines, and the national tree of Bangladesh. In several cultures, its fruit and leaves are ritually used as floral decorations at weddings, public celebrations, and religious ceremonies.\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions layout=\"row\">\n\t\t\t<md-button href=\"http://en.wikipedia.org/wiki/Mango\" target=\"_blank\" md-autofocus>\n\t\t\t\tMore on Wikipedia\n\t\t\t</md-button>\n\t\t\t<span flex></span>\n\t\t\t<md-button ng-click=\"answer('not useful')\">\n\t\t\t\tNot Useful\n\t\t\t</md-button>\n\t\t\t<md-button ng-click=\"answer('useful')\" style=\"margin-right:20px;\">\n\t\t\t\tUseful\n\t\t\t</md-button>\n\t\t</md-dialog-actions>\n\t</form>\n</md-dialog>\n";
 
 /***/ }
 /******/ ]);
