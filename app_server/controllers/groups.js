@@ -8,7 +8,7 @@ const url = require('url')
 
 module.exports.getList = function (req, res) {
 	Group.find(req.query.id?{_id:mongoose.Types.ObjectId(req.query.id)}:{}, (err, groups)=>{
-		if(err) dataError(res)
+		if(err) dataError(res,err)
 		else{
 			if(req.query.with_members){
 				async.filter(groups, function(group, callback){
@@ -21,12 +21,12 @@ module.exports.getList = function (req, res) {
 				},function(err, results){
 					//console.log(results)
 					res.status(200)
-					res.end(JSON.stringify(groups))
+					res.json(groups)
 				})
 			}
 			else{
 				res.status(200)
-				res.end(JSON.stringify(groups))
+				res.json(groups)
 			}
 		}
 	})
@@ -34,15 +34,15 @@ module.exports.getList = function (req, res) {
 
 module.exports.delete = function (req, res) {
 	Group.findOne({'_id': mongoose.Types.ObjectId(req.query.id)}, (err, data)=>{
-		if(err) dataError(res)
+		if(err) dataError(res,err)
 		else {
 			data.remove(err=>{
-				if(err) dataError(res)
+				if(err) dataError(res,err)
 				else{
 					res.status(200)
-					res.end(JSON.stringify({
+					res.json({
 						message: 'Группа успешно удалена'
-					}))
+					})
 				}
 			})
 		}
@@ -61,12 +61,12 @@ module.exports.add = function (req, res) {
 	group.mentor = null
 
 	group.save(function(err){
-		if(err) dataError(res)
+		if(err) dataError(res,err)
 		else{
 			res.status(200)
-			res.end(JSON.stringify({
+			res.json({
 				message: 'Группа успешно добавлена'
-			}))
+			})
 		}
 	})
 
@@ -74,16 +74,16 @@ module.exports.add = function (req, res) {
 
 module.exports.update = function (req, res) {
 	Group.findOne({'_id': mongoose.Types.ObjectId(req.body.id)}, function (err, doc) {
-		if (err) dataError(res)
+		if (err) dataError(res,err)
 		else {
 			updateData(doc, req.body)
 			doc.save(err=> {
-				if (err) dataError(res)
+				if (err) dataError(res,err)
 				else {
 					res.status(200)
-					res.end(JSON.stringify({
+					res.json({
 						message: 'Данные сохранены'
-					}))
+					})
 				}
 			})
 		}

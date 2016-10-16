@@ -28,6 +28,7 @@ function authCtrl (authentication, $$organisations, $location) {
 	
 	vm.signIn = signIn
 	vm.signUp = signUp
+	
 
 	$$organisations.getList().then(resp=>{
 		vm.orgs = resp.data
@@ -56,5 +57,7 @@ function authCtrl (authentication, $$organisations, $location) {
 			//console.log(data)
 		})
 	}
+	
+	
 
 }

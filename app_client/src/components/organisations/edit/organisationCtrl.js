@@ -3,9 +3,9 @@ angular
 	.module('psApp')
 	.controller('organisationCtrl', organisationCtrl)
 
-organisationCtrl.$inject = ['$$organisations','$$groups' ,'authentication','$routeParams']
+organisationCtrl.$inject = ['$$organisations','$$groups', '$$profiles','authentication','$routeParams', 'flashAlert']
 
-function organisationCtrl($$organisations, $$groups, authentication, $routeParams) {
+function organisationCtrl($$organisations, $$groups, $$profiles, authentication, $routeParams, flashAlert) {
 
 	var vm = this
 
@@ -28,14 +28,19 @@ function organisationCtrl($$organisations, $$groups, authentication, $routeParam
 	]
 
 	vm.roleTitle = authentication.roleTitle
+	vm.checkCRUDRights = authentication.checkCRUDRights
+
+	vm.add = add
+	vm.remove = remove
+	vm.update = update
 
 	init()
 
 	function init(){
-		getOrganisations()
+		getOrganisation()
 	}
 
-	function getOrganisations(){
+	function getOrganisation(){
 		$$organisations.getList({
 			id: vm.org.id,
 			with_members: true
@@ -58,8 +63,40 @@ function organisationCtrl($$organisations, $$groups, authentication, $routeParam
 						return group._id == member.group
 					})
 				})
-				console.log(vm.org.members)
 			})
+	}
+
+	function add(){
+		$$profiles.post({
+			name: null,
+			role: 'student',
+			organisation: vm.org.id
+		}).then(data=>{
+			flashAlert.success(data.data.message)
+		}).catch(data=>{
+			flashAlert.error(data.data.message)
+		}).finally(init)
+	}
+
+	function remove(id){
+		$$profiles.remove({
+			id: id
+		}).then(data=>{
+			flashAlert.success(data.data.message)
+		}).catch(data=>{
+			flashAlert.error(data.data.message)
+		}).finally(init)
+	}
+
+	function update(member){
+		$$profiles.put({
+			id: member._id,
+			name: member.name
+		}).then(data=>{
+			flashAlert.success(data.data.message)
+		}).catch(data=>{
+			flashAlert.error(data.data.message)
+		}).finally(init)
 	}
 
 

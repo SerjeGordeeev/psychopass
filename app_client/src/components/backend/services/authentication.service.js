@@ -7,10 +7,13 @@
   function authentication ($http, $window) {
     let vm = this
     vm.roleAssoc = {
-      psycholog: "Психолог",
-      admin: "Администратор",
-      org: "Организатор"
+      psycholog: 'Психолог',
+      admin: 'Администратор',
+      org: 'Организатор',
+      student: 'Участник'
     }
+
+    vm.crudRights = ['admin', 'org']
 
 
     var roleTitle = function(role){
@@ -79,6 +82,11 @@
     var logout = function() {
       $window.localStorage.removeItem('mean-token')
     }
+
+    function checkCRUDRights(){
+      let userRole = currentUser().role
+      return vm.crudRights.includes(userRole)
+    }
     
     return {
       currentUser : currentUser,
@@ -88,6 +96,7 @@
       register : register,
       login : login,
       logout : logout,
-      roleTitle : roleTitle
+      roleTitle : roleTitle,
+      checkCRUDRights: checkCRUDRights
     }
   }

@@ -774,7 +774,7 @@
 	 * ```
 	 *
 	 * See https://github.com/angular/angular.js/pull/14221 for more information.
-	 */function toJson(obj,pretty){if(isUndefined(obj))return undefined;if(!isNumber(pretty)){pretty=pretty?2:null;}return JSON.stringify(obj,toJsonReplacer,pretty);}/**
+	 */function toJson(obj,pretty){if(isUndefined(obj))return undefined;if(!isNumber(pretty)){pretty=pretty?2:null;}return obj,toJsonReplacer,pretty);}/**
 	 * @ngdoc function
 	 * @name angular.fromJson
 	 * @module ng
@@ -1304,7 +1304,7 @@
 	 * Creates a shallow copy of an object, an array or a primitive.
 	 *
 	 * Assumes that there are no proto properties for objects.
-	 */function shallowCopy(src,dst){if(isArray(src)){dst=dst||[];for(var i=0,ii=src.length;i<ii;i++){dst[i]=src[i];}}else if(isObject(src)){dst=dst||{};for(var key in src){if(!(key.charAt(0)==='$'&&key.charAt(1)==='$')){dst[key]=src[key];}}}return dst||src;}/* global toDebugString: true */function serializeObject(obj){var seen=[];return JSON.stringify(obj,function(key,val){val=toJsonReplacer(key,val);if(isObject(val)){if(seen.indexOf(val)>=0)return'...';seen.push(val);}return val;});}function toDebugString(obj){if(typeof obj==='function'){return obj.toString().replace(/ \{[\s\S]*$/,'');}else if(isUndefined(obj)){return'undefined';}else if(typeof obj!=='string'){return serializeObject(obj);}return obj;}/* global angularModule: true,
+	 */function shallowCopy(src,dst){if(isArray(src)){dst=dst||[];for(var i=0,ii=src.length;i<ii;i++){dst[i]=src[i];}}else if(isObject(src)){dst=dst||{};for(var key in src){if(!(key.charAt(0)==='$'&&key.charAt(1)==='$')){dst[key]=src[key];}}}return dst||src;}/* global toDebugString: true */function serializeObject(obj){var seen=[];return obj,function(key,val){val=toJsonReplacer(key,val);if(isObject(val)){if(seen.indexOf(val)>=0)return'...';seen.push(val);}return val;});}function toDebugString(obj){if(typeof obj==='function'){return obj.toString().replace(/ \{[\s\S]*$/,'');}else if(isUndefined(obj)){return'undefined';}else if(typeof obj!=='string'){return serializeObject(obj);}return obj;}/* global angularModule: true,
 	  version: true,
 
 	  $CompileProvider,
@@ -30603,7 +30603,7 @@
 
 		if(sourceMap) {
 			// http://stackoverflow.com/a/26603875
-			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(sourceMap)))) + " */";
 		}
 
 		var blob = new Blob([css], { type: "text/css" });
@@ -30776,10 +30776,13 @@
 	function authentication($http, $window) {
 	  var vm = this;
 	  vm.roleAssoc = {
-	    psycholog: "Психолог",
-	    admin: "Администратор",
-	    org: "Организатор"
+	    psycholog: 'Психолог',
+	    admin: 'Администратор',
+	    org: 'Организатор',
+	    student: 'Участник'
 	  };
+
+	  vm.crudRights = ['admin', 'org'];
 
 	  var roleTitle = function roleTitle(role) {
 	    if (role) {
@@ -30847,6 +30850,11 @@
 	    $window.localStorage.removeItem('mean-token');
 	  };
 
+	  function checkCRUDRights() {
+	    var userRole = currentUser().role;
+	    return vm.crudRights.includes(userRole);
+	  }
+
 	  return {
 	    currentUser: currentUser,
 	    saveToken: saveToken,
@@ -30855,7 +30863,8 @@
 	    register: register,
 	    login: login,
 	    logout: logout,
-	    roleTitle: roleTitle
+	    roleTitle: roleTitle,
+	    checkCRUDRights: checkCRUDRights
 	  };
 	}
 
@@ -31663,14 +31672,16 @@
 				name: group.name,
 				mentor: group.mentor
 			}).then(function (resp) {
-				$$profiles.put({
-					id: group.mentor || group.oldMentor,
-					group: group._id
-				}).then(function (data) {
-					flashAlert.success(data.data.message);
-				}).catch(function (data) {
-					flashAlert.error(data.data.message);
-				}).finally(init);
+				if (group.mentor != group.oldMentor) {
+					$$profiles.put({
+						id: group.mentor || group.oldMentor,
+						group: group._id
+					}).then(function (data) {
+						flashAlert.success(data.data.message);
+					}).catch(function (data) {
+						flashAlert.error(data.data.message);
+					}).finally(init);
+				} else flashAlert.success(resp.data.message);
 			}).catch(function (data) {
 				flashAlert.error(data.data.message);
 			}).finally(init);
@@ -31727,9 +31738,9 @@
 
 	angular.module('psApp').controller('organisationCtrl', organisationCtrl);
 
-	organisationCtrl.$inject = ['$$organisations', '$$groups', 'authentication', '$routeParams'];
+	organisationCtrl.$inject = ['$$organisations', '$$groups', '$$profiles', 'authentication', '$routeParams', 'flashAlert'];
 
-	function organisationCtrl($$organisations, $$groups, authentication, $routeParams) {
+	function organisationCtrl($$organisations, $$groups, $$profiles, authentication, $routeParams, flashAlert) {
 
 		var vm = this;
 
@@ -31747,14 +31758,19 @@
 		}];
 
 		vm.roleTitle = authentication.roleTitle;
+		vm.checkCRUDRights = authentication.checkCRUDRights;
+
+		vm.add = add;
+		vm.remove = remove;
+		vm.update = update;
 
 		init();
 
 		function init() {
-			getOrganisations();
+			getOrganisation();
 		}
 
-		function getOrganisations() {
+		function getOrganisation() {
 			$$organisations.getList({
 				id: vm.org.id,
 				with_members: true
@@ -31777,8 +31793,40 @@
 						return group._id == member.group;
 					});
 				});
-				console.log(vm.org.members);
 			});
+		}
+
+		function add() {
+			$$profiles.post({
+				name: null,
+				role: 'student',
+				organisation: vm.org.id
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function remove(id) {
+			$$profiles.remove({
+				id: id
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function update(member) {
+			$$profiles.put({
+				id: member._id,
+				name: member.name
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
 		}
 	}
 
@@ -31803,7 +31851,7 @@
 		vm.add = add;
 		vm.remove = remove;
 		vm.update = update;
-		vm.checkCRUDRights = checkCRUDRights;
+		vm.checkCRUDRights = authentication.checkCRUDRights;
 
 		init();
 
@@ -31832,11 +31880,6 @@
 		function psychoFilter(org, index) {
 			if (!arguments.length) return !!vm.filters[0].value;
 			if (vm.filters[0].value == null) return true;else return !!vm.filters[0].value == org.is_psycho;
-		}
-
-		function checkCRUDRights() {
-			var userRole = authentication.currentUser().role;
-			return vm.crudRights.includes(userRole);
 		}
 
 		function add() {

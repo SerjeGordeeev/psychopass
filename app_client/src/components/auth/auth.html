@@ -39,7 +39,7 @@
 
 				<md-input-container class="md-block">
 					<label>Организация</label>
-					<md-select ng-model="vm.signUpData.organisation">
+					<md-select required ng-model="vm.signUpData.organisation">
 						<md-option ng-repeat="org in vm.orgs |filter: {is_psycho:true} | orderBy: 'name' " ng-value="org._id">
 							{{org.name}}
 						</md-option>

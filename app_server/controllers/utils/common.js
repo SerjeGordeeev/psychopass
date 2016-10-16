@@ -1,9 +1,9 @@
-global.dataError = function dataError(res){
-	console.error(org)
+global.dataError = function dataError(res,err){
+	console.warn(err)
 	res.status(422)
-	res.end(JSON.stringify({
+	res.json({
 		message: 'Ошибка в данных'
-	}))
+	})
 }
 
 global.cleanQueryObj = function cleanQueryObj(queryObj){
@@ -21,11 +21,11 @@ global.updateData = function updateData(obj, data){
 }
 
 global.updatingResponse = function(err,doc){
-	if (err) dataError(res)
+	if (err) dataError(res,err)
 	else {
 		res.status(200)
-		res.end(JSON.stringify({
+		res.json({
 			message: 'Данные сохранены'
-		}))
+		})
 	}
 }

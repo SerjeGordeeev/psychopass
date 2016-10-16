@@ -83,14 +83,17 @@ function groupsCtrl($$groups, authentication, $$profiles, flashAlert) {
 			name: group.name,
 			mentor: group.mentor
 		}).then(resp=>{
-			$$profiles.put({
-				id: group.mentor || group.oldMentor,
-				group: group._id
-			}).then(data=>{
-				flashAlert.success(data.data.message)
-			}).catch(data=>{
-				flashAlert.error(data.data.message)
-			}).finally(init)
+			if(group.mentor != group.oldMentor){
+				$$profiles.put({
+					id: group.mentor || group.oldMentor,
+					group: group._id
+				}).then(data=>{
+					flashAlert.success(data.data.message)
+				}).catch(data=>{
+					flashAlert.error(data.data.message)
+				}).finally(init)
+			}
+			else flashAlert.success(resp.data.message)
 		}).catch(data=>{
 			flashAlert.error(data.data.message)
 		}).finally(init)

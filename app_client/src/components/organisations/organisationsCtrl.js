@@ -17,7 +17,7 @@ function organisationsCtrl($$organisations, authentication,flashAlert) {
 	vm.add = add
 	vm.remove = remove
 	vm.update = update
-	vm.checkCRUDRights = checkCRUDRights
+	vm.checkCRUDRights = authentication.checkCRUDRights
 
 	init()
 
@@ -47,11 +47,6 @@ function organisationsCtrl($$organisations, authentication,flashAlert) {
 		if(!arguments.length) return !!vm.filters[0].value
 		if(vm.filters[0].value == null) return true
 		else return !!vm.filters[0].value == org.is_psycho
-	}
-
-	function checkCRUDRights(){
-		let userRole = authentication.currentUser().role
-		return vm.crudRights.includes(userRole)
 	}
 
 	function add(){
