@@ -14,7 +14,18 @@ global.cleanQueryObj = function cleanQueryObj(queryObj){
 }
 
 global.updateData = function updateData(obj, data){
+	
 	for(let prop in data){
 		obj[prop] = data[prop]
+	}
+}
+
+global.updatingResponse = function(err,doc){
+	if (err) dataError(res)
+	else {
+		res.status(200)
+		res.end(JSON.stringify({
+			message: 'Данные сохранены'
+		}))
 	}
 }

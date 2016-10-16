@@ -25,7 +25,7 @@
 
 					<md-input-container  md-no-float class="md-block" flex="20">
 						<label>Тип организации</label>
-						<md-select ng-disabled="!mayCRUD" ng-model="org.is_psycho" ng-change="orgs.update(org)">
+						<md-select ng-disabled="!mayCRUD || org.members.length" ng-model="org.is_psycho" ng-change="orgs.update(org)">
 							<md-option ng-value="false">Учебная</md-option>
 							<md-option ng-value="true">Психологическая</md-option>
 						</md-select>
@@ -34,13 +34,13 @@
 					<span flex></span>
 
 					<md-input-container  class="md-block">
-						<md-button flex ng-if="mayCRUD" style="margin:0" class="md-raised" aria-label="Удалить организацию" ng-href="organisations/{{org._id}}">
+						<md-button flex ng-if="mayCRUD" style="margin:0" class="md-raised" aria-label="Представители организации" ng-href="organisations/{{org._id}}">
 							Представители
 						</md-button>
 					</md-input-container>
 
 					<md-input-container  class="md-block">
-						<md-button ng-if="mayCRUD" class="md-icon-button delete_button" aria-label="Удалить организацию" ng-click="orgs.remove(org._id)">
+						<md-button ng-disabled="org.members.length" ng-if="mayCRUD" class="md-icon-button delete_button" aria-label="Удалить организацию" ng-click="orgs.remove(org._id)">
 							<md-icon md-svg-icon="/src/img/ic_delete_forever_black_24px.svg"></md-icon>
 						</md-button>
 					</md-input-container>

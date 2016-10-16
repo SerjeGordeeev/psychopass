@@ -30,12 +30,17 @@ function groupsCtrl($$groups, authentication, $$profiles, flashAlert) {
 	vm.update = update
 	vm.checkCRUDRights = checkCRUDRights
 	vm.mentorFilter = mentorFilter
+	vm.withMentorFilter = withMentorFilter
 
 	init()
 
 	function init(){
 		$$groups.getList().then(resp=>{
 			vm.groups = resp.data
+			vm.groups.forEach(group =>{
+				group.oldMentor = group.mentor
+			})
+
 		})
 
 		$$profiles.getList({
@@ -72,15 +77,15 @@ function groupsCtrl($$groups, authentication, $$profiles, flashAlert) {
 	}
 
 	function update(group){
+		console.log(group)
 		$$groups.put({
 			id: group._id,
 			name: group.name,
 			mentor: group.mentor
 		}).then(resp=>{
-			//console.log(resp, group)
 			$$profiles.put({
-				id:group.mentor,
-				group:group._id
+				id: group.mentor || group.oldMentor,
+				group: group._id
 			}).then(data=>{
 				flashAlert.success(data.data.message)
 			}).catch(data=>{
@@ -100,5 +105,10 @@ function groupsCtrl($$groups, authentication, $$profiles, flashAlert) {
 				}
 				return true
 			}
+	}
+
+	function withMentorFilter(group) {
+		if(vm.filters[0].value === null) return true
+		return !!group.mentor == vm.filters[0].value
 	}
 }

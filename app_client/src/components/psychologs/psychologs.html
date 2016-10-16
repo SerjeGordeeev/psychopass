@@ -2,5 +2,16 @@
 	<navigation></navigation>
 	<div class="page_content">
 		<span class="page_title">Психологи</span>
+
+		<md-card>
+			<md-list class="layout-fill">
+				<md-list-item class="md-2-line" ng-repeat="pslg in ps.psychologs  | orderBy: 'name'">
+					<h5 flex>{{::pslg.name}}</h5>
+					<h5 flex>{{::pslg.email}}</h5>
+					<h5 flex>{{::pslg.groupData.name}}</h5>
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+		</md-card>
 	</div>
 </div>

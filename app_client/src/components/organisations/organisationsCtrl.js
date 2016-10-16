@@ -23,7 +23,9 @@ function organisationsCtrl($$organisations, authentication,flashAlert) {
 
 	createFilters(['Учебные', 'Психологические'], 'Тип организации')
 	function init(){
-		$$organisations.getList().then(data=>{
+		$$organisations.getList({
+			with_members: true
+		}).then(data=>{
 			vm.orgs = data.data
 		})
 	}

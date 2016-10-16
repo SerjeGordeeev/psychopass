@@ -69,7 +69,7 @@
 		}).when('/psychologs', {
 			templateUrl: 'src/components/psychologs/psychologs.html',
 			controller: 'psychologsCtrl',
-			controllerAs: 'vm'
+			controllerAs: 'ps'
 		}).when('/organisations', {
 			templateUrl: 'src/components/organisations/organisations.html',
 			controller: 'organisationsCtrl',
@@ -30627,24 +30627,24 @@
 		"./backend/services/groups.service.js": 20,
 		"./backend/services/organisations.service.js": 21,
 		"./backend/services/profiles.service.js": 22,
-		"./common/directives/alert/flash-alert.js": 69,
-		"./common/directives/header/components/top-menu/topMenuCtrl.js": 23,
-		"./common/directives/header/components/top-menu/topMenuDir.js": 24,
-		"./common/directives/header/components/user-profile/userProfileCtrl.js": 28,
-		"./common/directives/header/components/user-profile/userProfileDir.js": 29,
-		"./common/directives/header/navigationCtrl.js": 33,
-		"./common/directives/header/navigationDir.js": 34,
-		"./common/directives/nav-bar/navBarCtrl.js": 38,
-		"./common/directives/nav-bar/navBarDir.js": 39,
-		"./common/directives/tool-bar/toolBarCtrl.js": 43,
-		"./common/directives/tool-bar/toolBarDir.js": 44,
-		"./groups/edit/groupCtrl.js": 48,
-		"./groups/groupsCtrl.js": 49,
-		"./home/homeCtrl.js": 50,
-		"./members/memberCtrl.js": 51,
-		"./organisations/edit/organisationCtrl.js": 52,
-		"./organisations/organisationsCtrl.js": 53,
-		"./psychologs/psychologsCtrl.js": 54
+		"./common/directives/alert/flash-alert.js": 23,
+		"./common/directives/header/components/top-menu/topMenuCtrl.js": 27,
+		"./common/directives/header/components/top-menu/topMenuDir.js": 28,
+		"./common/directives/header/components/user-profile/userProfileCtrl.js": 32,
+		"./common/directives/header/components/user-profile/userProfileDir.js": 33,
+		"./common/directives/header/navigationCtrl.js": 37,
+		"./common/directives/header/navigationDir.js": 38,
+		"./common/directives/nav-bar/navBarCtrl.js": 42,
+		"./common/directives/nav-bar/navBarDir.js": 43,
+		"./common/directives/tool-bar/toolBarCtrl.js": 47,
+		"./common/directives/tool-bar/toolBarDir.js": 48,
+		"./groups/edit/groupCtrl.js": 52,
+		"./groups/groupsCtrl.js": 53,
+		"./home/homeCtrl.js": 54,
+		"./members/memberCtrl.js": 55,
+		"./organisations/edit/organisationCtrl.js": 56,
+		"./organisations/organisationsCtrl.js": 57,
+		"./psychologs/psychologsCtrl.js": 58
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -30759,7 +30759,7 @@
 
 
 	// module
-	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.auth {\n  width: 70%;\n  transition: width .3s, height .3s;\n  margin: 0 auto;\n  background: #fff;\n  padding: 1em;\n  box-sizing: border-box; }\n  .auth .md-raised {\n    background-color: #334aff !important;\n    color: #fff !important; }\n\nbody {\n  background-color: #bbbbbb; }\n\n@media (min-width: 780px) {\n  .auth {\n    width: 50%; } }\n", ""]);
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.auth {\n  width: 70%;\n  transition: width .3s, height .3s;\n  margin: 0 auto;\n  background: #fff;\n  padding: 1em;\n  box-sizing: border-box; }\n  .auth .md-raised {\n    background-color: #334aff !important;\n    color: #fff !important; }\n\nbody {\n  background-color: #bbbbbb; }\n\n@media (min-width: 780px) {\n  .auth {\n    width: 50%; } }\n", ""]);
 
 	// exports
 
@@ -30994,6 +30994,116 @@
 
 /***/ },
 /* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	__webpack_require__(24);
+	angular.module("alert", []).constant("alertConfig", {
+	  success: "alert-success",
+	  error: "alert-danger",
+	  info: "alert-info"
+	}).provider("flashAlert", function () {
+	  var a = [],
+	      b = 5e3;
+	  return {
+	    setAlertTime: function setAlertTime(a) {
+	      b = a;
+	    },
+	    $get: ["$timeout", "alertConfig", function (c, d) {
+	      return {
+	        success: function success(a) {
+	          this.add("success", a);
+	        },
+	        error: function error(a) {
+	          this.add("error", a);
+	        },
+	        info: function info(a) {
+	          this.add("info", a);
+	        },
+	        getAlert: function getAlert() {
+	          return a;
+	        },
+	        add: function add(b, c) {
+	          var e = {
+	            typeOfAlert: d[b],
+	            msg: c,
+	            remove: function remove() {
+	              a.splice(0, 1);
+	            }
+	          };
+
+	          a.push(e), this.hideAlert(e);
+	        },
+	        hideAlert: function hideAlert() {
+	          c(function () {
+	            a.shift();
+	          }, b);
+	        }
+	      };
+	    }]
+	  };
+	}).directive("alertFlash", ["flashAlert", function (a) {
+	  return {
+	    restrict: "E",
+	    template: __webpack_require__(26),
+	    scope: {},
+	    link: function link(b) {
+	      b.$watch(a.getAlert, function () {
+	        b.alerts = a.getAlert();
+	      });
+	    }
+	  };
+	}]);
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(25);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./alert.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./alert.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\nalert-flash {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  color: #fff;\n  z-index: 100; }\n  alert-flash .alert {\n    padding: .5em;\n    font-size: 1em;\n    opacity: .8; }\n  alert-flash .alert-success {\n    background-color: #29ff31; }\n  alert-flash .alert-danger {\n    background-color: #ff0415; }\n  alert-flash .alert-info {\n    background-color: #0aa0ff; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 26 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class='alert-container'>\n  <div class='repeat-animation' ng-repeat='alert in alerts' ng-click=\"alert.remove()\">\n    <div class='alert' ng-class='alert.typeOfAlert' ng-bind='alert.msg'></div>\n  </div>\n</div>";
+
+/***/ },
+/* 27 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31042,41 +31152,41 @@
 	    vm.accessPages.forEach(function (page) {
 	      if (page.access.includes(vm.userRole)) {
 	        vm.pages.push(page);
-	        console.log(page);
+	        //console.log(page)
 	      } else {
-	        // console.log(page.access.includes(vm.userRole),page.access, vm.userRole)
-	      }
+	          // console.log(page.access.includes(vm.userRole),page.access, vm.userRole)
+	        }
 	    });
 	    //console.log(vm.pages)
 	  }
 	}
 
 /***/ },
-/* 24 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('topMenu', topMenu);
 
-	__webpack_require__(25);
+	__webpack_require__(29);
 	function topMenu() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(27),
+	    template: __webpack_require__(31),
 	    controller: 'topMenuCtrl',
 	    controllerAs: 'tm'
 	  };
 	}
 
 /***/ },
-/* 25 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(26);
+	var content = __webpack_require__(30);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31096,7 +31206,7 @@
 	}
 
 /***/ },
-/* 26 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31104,19 +31214,19 @@
 
 
 	// module
-	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.top_menu {\n  margin: 0 1em;\n  color: #949494 !important; }\n  .top_menu a {\n    font-size: .8em;\n    text-transform: uppercase;\n    margin: 0 .5em;\n    color: #949494;\n    transition: color .2s; }\n    .top_menu a:hover {\n      color: #67b3ff; }\n  .top_menu .active_link {\n    color: #67b3ff;\n    border-bottom: #67b3ff solid .1em; }\n", ""]);
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.top_menu {\n  margin: 0 1em;\n  color: #949494 !important; }\n  .top_menu a {\n    font-size: .8em;\n    text-transform: uppercase;\n    margin: 0 .5em;\n    color: #949494;\n    transition: color .2s; }\n    .top_menu a:hover {\n      color: #67b3ff; }\n  .top_menu .active_link {\n    color: #67b3ff;\n    border-bottom: #67b3ff solid .1em; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 27 */
+/* 31 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"top_menu\">\n        <a ng-href=\"{{page.href}}\" ng-class=\"{'active_link':tm.activePage.indexOf(page.href)>-1}\" name=\"page.title\" ng-repeat=\"page in tm.pages\">{{page.title}}</a>\n</div>";
 
 /***/ },
-/* 28 */
+/* 32 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31143,31 +31253,31 @@
 	}
 
 /***/ },
-/* 29 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('userProfile', userProfile);
 
-	__webpack_require__(30);
+	__webpack_require__(34);
 	function userProfile() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(32),
+	    template: __webpack_require__(36),
 	    controller: 'userProfileCtrl',
 	    controllerAs: 'vm'
 	  };
 	}
 
 /***/ },
-/* 30 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(31);
+	var content = __webpack_require__(35);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31187,7 +31297,7 @@
 	}
 
 /***/ },
-/* 31 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31195,19 +31305,19 @@
 
 
 	// module
-	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.user_profile {\n  color: #bbbbbb; }\n  .user_profile md-icon:hover svg {\n    fill: #5097ff !important; }\n  .user_profile md-icon svg {\n    fill: #949494 !important;\n    transition: fill .2s; }\n", ""]);
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.user_profile {\n  color: #bbbbbb; }\n  .user_profile md-icon:hover svg {\n    fill: #5097ff !important; }\n  .user_profile md-icon svg {\n    fill: #949494 !important;\n    transition: fill .2s; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 32 */
+/* 36 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"user_profile\" layout>\n    <div class=\"layout-column\">\n        <span>{{::vm.user.name}}</span>\n        <span style=\"font-size: .8em;\">{{::vm.user.role}}</span>\n    </div>\n\n    <md-button class=\"md-icon-button\" aria-label=\"Выйти\" ng-click=\"vm.logout()\">\n        <md-icon md-svg-icon=\"/src/img/ic_exit_to_app_black_24px.svg\"></md-icon>\n    </md-button>\n</div>";
 
 /***/ },
-/* 33 */
+/* 37 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31220,30 +31330,30 @@
 	}
 
 /***/ },
-/* 34 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('navigation', navigation);
 
-	__webpack_require__(35);
+	__webpack_require__(39);
 	function navigation() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(37),
+	    template: __webpack_require__(41),
 	    controller: 'navigationCtrl as navvm'
 	  };
 	}
 
 /***/ },
-/* 35 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(36);
+	var content = __webpack_require__(40);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31263,7 +31373,7 @@
 	}
 
 /***/ },
-/* 36 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31271,19 +31381,19 @@
 
 
 	// module
-	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.navigation md-card {\n  margin: 0 !important; }\n\n.navigation h2 {\n  color: #bbbbbb; }\n\n.navigation md-toolbar {\n  background-color: #ffffff !important;\n  box-shadow: 2px 6px 7px -6px rgba(0, 0, 0, 0.75) !important; }\n", ""]);
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.navigation md-card {\n  margin: 0 !important; }\n\n.navigation h2 {\n  color: #bbbbbb; }\n\n.navigation md-toolbar {\n  background-color: #ffffff !important;\n  box-shadow: 2px 6px 7px -6px rgba(0, 0, 0, 0.75) !important; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 37 */
+/* 41 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"navigation navbar navbar-default\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n      <div class=\"md-toolbar-tools\">\n        <h2>\n          <a ng-href=\"/\">PsychopassApp</a>\n        </h2>\n        <top-menu></top-menu>\n        <span flex></span>\n        <user-profile></user-profile>\n      </div>\n    </md-toolbar>\n  </md-card>\n</div>\n";
 
 /***/ },
-/* 38 */
+/* 42 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31296,30 +31406,30 @@
 	}
 
 /***/ },
-/* 39 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('navBar', navBar);
 
-	__webpack_require__(40);
+	__webpack_require__(44);
 	function navBar() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(42),
+	    template: __webpack_require__(46),
 	    controller: 'navBarCtrl as navb'
 	  };
 	}
 
 /***/ },
-/* 40 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(41);
+	var content = __webpack_require__(45);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31339,7 +31449,7 @@
 	}
 
 /***/ },
-/* 41 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31347,19 +31457,19 @@
 
 
 	// module
-	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n", ""]);
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 42 */
+/* 46 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\" navbar navbar-default\">\n  Navbar\n</div>\n";
 
 /***/ },
-/* 43 */
+/* 47 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31374,18 +31484,18 @@
 	}
 
 /***/ },
-/* 44 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('toolBar', toolBar);
 
-	__webpack_require__(45);
+	__webpack_require__(49);
 	function toolBar() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(47),
+	    template: __webpack_require__(51),
 	    controller: 'toolBarCtrl as tb',
 	    scope: {
 	      filters: '='
@@ -31394,13 +31504,13 @@
 	}
 
 /***/ },
-/* 45 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(46);
+	var content = __webpack_require__(50);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31420,7 +31530,7 @@
 	}
 
 /***/ },
-/* 46 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31428,19 +31538,19 @@
 
 
 	// module
-	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.tool_bar md-toolbar {\n  background-color: #ffffff !important; }\n  .tool_bar md-toolbar .md-toolbar-tools {\n    padding-top: 18px;\n    color: #5a5a5a;\n    height: auto !important;\n    max-height: inherit !important; }\n", ""]);
+	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.tool_bar md-toolbar {\n  background-color: #ffffff !important; }\n  .tool_bar md-toolbar .md-toolbar-tools {\n    padding-top: 18px;\n    color: #5a5a5a;\n    height: auto !important;\n    max-height: inherit !important; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 47 */
+/* 51 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"tool_bar\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <div ng-repeat=\"filter in filters\">\n        <md-input-container ng-style=\"{'min-width': filter.title.length*12+'px'}\">\n          <label>{{filter.title}}</label>\n          <md-select ng-model=\"filter.value\">\n            <md-option ng-value=\"null\">Все</md-option>\n            <md-option ng-repeat=\"option in filter.options\" ng-value=\"option.value\">\n              {{option.name}}\n            </md-option>\n          </md-select>\n        </md-input-container>\n      </div>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n  </md-card>\n</div>\n";
 
 /***/ },
-/* 48 */
+/* 52 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31472,7 +31582,7 @@
 	}
 
 /***/ },
-/* 49 */
+/* 53 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31501,12 +31611,16 @@
 		vm.update = update;
 		vm.checkCRUDRights = checkCRUDRights;
 		vm.mentorFilter = mentorFilter;
+		vm.withMentorFilter = withMentorFilter;
 
 		init();
 
 		function init() {
 			$$groups.getList().then(function (resp) {
 				vm.groups = resp.data;
+				vm.groups.forEach(function (group) {
+					group.oldMentor = group.mentor;
+				});
 			});
 
 			$$profiles.getList({
@@ -31543,14 +31657,14 @@
 		}
 
 		function update(group) {
+			console.log(group);
 			$$groups.put({
 				id: group._id,
 				name: group.name,
 				mentor: group.mentor
 			}).then(function (resp) {
-				//console.log(resp, group)
 				$$profiles.put({
-					id: group.mentor,
+					id: group.mentor || group.oldMentor,
 					group: group._id
 				}).then(function (data) {
 					flashAlert.success(data.data.message);
@@ -31572,10 +31686,15 @@
 				return true;
 			};
 		}
+
+		function withMentorFilter(group) {
+			if (vm.filters[0].value === null) return true;
+			return !!group.mentor == vm.filters[0].value;
+		}
 	}
 
 /***/ },
-/* 50 */
+/* 54 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31587,7 +31706,7 @@
 	}
 
 /***/ },
-/* 51 */
+/* 55 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31601,16 +31720,16 @@
 	}
 
 /***/ },
-/* 52 */
+/* 56 */
 /***/ function(module, exports) {
 
 	'use strict';
 
 	angular.module('psApp').controller('organisationCtrl', organisationCtrl);
 
-	organisationCtrl.$inject = ['$$organisations', 'authentication', '$routeParams'];
+	organisationCtrl.$inject = ['$$organisations', '$$groups', 'authentication', '$routeParams'];
 
-	function organisationCtrl($$organisations, authentication, $routeParams) {
+	function organisationCtrl($$organisations, $$groups, authentication, $routeParams) {
 
 		var vm = this;
 
@@ -31627,26 +31746,44 @@
 			options: [{ name: 'Назначена', value: true }, { name: 'Не назначена', value: false }]
 		}];
 
-		$$organisations.getList({
-			id: vm.org.id,
-			with_members: true
-		}).then(function (res) {
-			vm.org.name = res.data[0].name;
-			vm.org.is_psycho = res.data[0].is_psycho;
-			vm.org.members = res.data[0].members;
-		});
-
 		vm.roleTitle = authentication.roleTitle;
 
-		/*	.getMembers({
-	 	id: $routeParams.id
-	 }).then(resp =>{
-	 	vm.members = resp.data
-	 })*/
+		init();
+
+		function init() {
+			getOrganisations();
+		}
+
+		function getOrganisations() {
+			$$organisations.getList({
+				id: vm.org.id,
+				with_members: true
+			}).then(function (res) {
+				vm.org.name = res.data[0].name;
+				vm.org.is_psycho = res.data[0].is_psycho;
+				vm.org.members = res.data[0].members;
+				getGroups();
+			});
+		}
+
+		function getGroups() {
+			// let membersIds = vm.org.members.map(member=>{
+			// 	return member._id
+			// })
+			$$groups.getList().then(function (resp) {
+				var groups = resp.data;
+				vm.org.members.map(function (member) {
+					member.groupData = groups.find(function (group) {
+						return group._id == member.group;
+					});
+				});
+				console.log(vm.org.members);
+			});
+		}
 	}
 
 /***/ },
-/* 53 */
+/* 57 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31672,7 +31809,9 @@
 
 		createFilters(['Учебные', 'Психологические'], 'Тип организации');
 		function init() {
-			$$organisations.getList().then(function (data) {
+			$$organisations.getList({
+				with_members: true
+			}).then(function (data) {
 				vm.orgs = data.data;
 			});
 		}
@@ -31735,139 +31874,46 @@
 	}
 
 /***/ },
-/* 54 */
+/* 58 */
 /***/ function(module, exports) {
 
 	'use strict';
 
 	angular.module('psApp').controller('psychologsCtrl', psychologsCtrl);
 
-	psychologsCtrl.$inject = ['authentication'];
+	psychologsCtrl.$inject = ['authentication', '$$profiles', '$$groups'];
 
-	function psychologsCtrl(authentication) {
+	function psychologsCtrl(authentication, $$profiles, $$groups) {
 		var vm = this;
-	}
 
-/***/ },
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */
-/***/ function(module, exports) {
+		vm.psychologs = [];
 
-	module.exports = "<div class='alert-container'>\n  <div class='repeat-animation' ng-repeat='alert in alerts' ng-click=\"alert.remove()\">\n    <div class='alert' ng-class='alert.typeOfAlert' ng-bind='alert.msg'></div>\n  </div>\n</div>";
+		init();
 
-/***/ },
-/* 60 */
-/***/ function(module, exports, __webpack_require__) {
+		function init() {
+			getPsychologs();
+		}
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(61);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./alert.scss", function() {
-				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./alert.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
+		function getPsychologs() {
+			$$profiles.getList({
+				role: 'psycholog'
+			}).then(function (resp) {
+				vm.psychologs = resp.data;
+				getGroups();
 			});
 		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
+
+		function getGroups() {
+			$$groups.getList().then(function (resp) {
+				var groups = resp.data;
+				vm.psychologs.map(function (pslg) {
+					pslg.groupData = groups.find(function (group) {
+						return group._id == pslg.group;
+					});
+				});
+			});
+		}
 	}
-
-/***/ },
-/* 61 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\nalert-flash {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  color: #fff;\n  z-index: 100; }\n  alert-flash .alert {\n    padding: .5em;\n    font-size: 1em;\n    opacity: .8; }\n  alert-flash .alert-success {\n    background-color: #29ff31; }\n  alert-flash .alert-danger {\n    background-color: #ff0415; }\n  alert-flash .alert-info {\n    background-color: #0aa0ff; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	__webpack_require__(60);
-	angular.module("alert", []).constant("alertConfig", {
-	  success: "alert-success",
-	  error: "alert-danger",
-	  info: "alert-info"
-	}).provider("flashAlert", function () {
-	  var a = [],
-	      b = 5e3;
-	  return {
-	    setAlertTime: function setAlertTime(a) {
-	      b = a;
-	    },
-	    $get: ["$timeout", "alertConfig", function (c, d) {
-	      return {
-	        success: function success(a) {
-	          this.add("success", a);
-	        },
-	        error: function error(a) {
-	          this.add("error", a);
-	        },
-	        info: function info(a) {
-	          this.add("info", a);
-	        },
-	        getAlert: function getAlert() {
-	          return a;
-	        },
-	        add: function add(b, c) {
-	          var e = {
-	            typeOfAlert: d[b],
-	            msg: c,
-	            remove: function remove() {
-	              a.splice(0, 1);
-	            }
-	          };
-
-	          a.push(e), this.hideAlert(e);
-	        },
-	        hideAlert: function hideAlert() {
-	          c(function () {
-	            a.shift();
-	          }, b);
-	        }
-	      };
-	    }]
-	  };
-	}).directive("alertFlash", ["flashAlert", function (a) {
-	  return {
-	    restrict: "E",
-	    template: __webpack_require__(59),
-	    scope: {},
-	    link: function link(b) {
-	      b.$watch(a.getAlert, function () {
-	        b.alerts = a.getAlert();
-	      });
-	    }
-	  };
-	}]);
 
 /***/ }
 /******/ ]);

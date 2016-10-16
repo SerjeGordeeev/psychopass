@@ -52,7 +52,7 @@
       vm.accessPages.forEach(page=>{
         if(page.access.includes(vm.userRole)){
           vm.pages.push(page)
-          console.log(page)
+          //console.log(page)
         }else{
          // console.log(page.access.includes(vm.userRole),page.access, vm.userRole)
         }

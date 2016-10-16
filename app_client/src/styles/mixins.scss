@@ -60,6 +60,12 @@ $cold-color: #67b3ff;
   box-shadow: none !important;
 }
 
+.delete_button{
+  &[disabled]{
+    opacity: .5 !important;
+  }
+}
+
 md-list-item{
   //&:hover .delete_button{display: block;}
   padding: 0 1em;

@@ -26,7 +26,7 @@ require('../node_modules/angular-material/angular-material.min.css')
 			.when('/psychologs', {
 				templateUrl: 'src/components/psychologs/psychologs.html',
 				controller: 'psychologsCtrl',
-				controllerAs: 'vm'
+				controllerAs: 'ps'
 			})
 			.when('/organisations', {
 				templateUrl: 'src/components/organisations/organisations.html',
