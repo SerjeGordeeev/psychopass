@@ -89,7 +89,7 @@
 		}).when('/members', {
 			templateUrl: 'src/components/members/members.html',
 			controller: 'membersCtrl',
-			controllerAs: 'vm'
+			controllerAs: 'ms'
 		});
 		//.otherwise({redirectTo: '/'})
 
@@ -774,7 +774,7 @@
 	 * ```
 	 *
 	 * See https://github.com/angular/angular.js/pull/14221 for more information.
-	 */function toJson(obj,pretty){if(isUndefined(obj))return undefined;if(!isNumber(pretty)){pretty=pretty?2:null;}return obj,toJsonReplacer,pretty);}/**
+	 */function toJson(obj,pretty){if(isUndefined(obj))return undefined;if(!isNumber(pretty)){pretty=pretty?2:null;}return JSON.stringify(obj,toJsonReplacer,pretty);}/**
 	 * @ngdoc function
 	 * @name angular.fromJson
 	 * @module ng
@@ -1304,7 +1304,7 @@
 	 * Creates a shallow copy of an object, an array or a primitive.
 	 *
 	 * Assumes that there are no proto properties for objects.
-	 */function shallowCopy(src,dst){if(isArray(src)){dst=dst||[];for(var i=0,ii=src.length;i<ii;i++){dst[i]=src[i];}}else if(isObject(src)){dst=dst||{};for(var key in src){if(!(key.charAt(0)==='$'&&key.charAt(1)==='$')){dst[key]=src[key];}}}return dst||src;}/* global toDebugString: true */function serializeObject(obj){var seen=[];return obj,function(key,val){val=toJsonReplacer(key,val);if(isObject(val)){if(seen.indexOf(val)>=0)return'...';seen.push(val);}return val;});}function toDebugString(obj){if(typeof obj==='function'){return obj.toString().replace(/ \{[\s\S]*$/,'');}else if(isUndefined(obj)){return'undefined';}else if(typeof obj!=='string'){return serializeObject(obj);}return obj;}/* global angularModule: true,
+	 */function shallowCopy(src,dst){if(isArray(src)){dst=dst||[];for(var i=0,ii=src.length;i<ii;i++){dst[i]=src[i];}}else if(isObject(src)){dst=dst||{};for(var key in src){if(!(key.charAt(0)==='$'&&key.charAt(1)==='$')){dst[key]=src[key];}}}return dst||src;}/* global toDebugString: true */function serializeObject(obj){var seen=[];return JSON.stringify(obj,function(key,val){val=toJsonReplacer(key,val);if(isObject(val)){if(seen.indexOf(val)>=0)return'...';seen.push(val);}return val;});}function toDebugString(obj){if(typeof obj==='function'){return obj.toString().replace(/ \{[\s\S]*$/,'');}else if(isUndefined(obj)){return'undefined';}else if(typeof obj!=='string'){return serializeObject(obj);}return obj;}/* global angularModule: true,
 	  version: true,
 
 	  $CompileProvider,
@@ -30603,7 +30603,7 @@
 
 		if(sourceMap) {
 			// http://stackoverflow.com/a/26603875
-			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(sourceMap)))) + " */";
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
 		}
 
 		var blob = new Blob([css], { type: "text/css" });
@@ -30638,6 +30638,7 @@
 		"./common/directives/nav-bar/navBarDir.js": 43,
 		"./common/directives/tool-bar/toolBarCtrl.js": 47,
 		"./common/directives/tool-bar/toolBarDir.js": 48,
+		"./groups/edit/dialog/addMembersCtrl.js": 62,
 		"./groups/edit/groupCtrl.js": 52,
 		"./groups/groupsCtrl.js": 53,
 		"./home/homeCtrl.js": 54,
@@ -30766,13 +30767,16 @@
 
 /***/ },
 /* 19 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').service('authentication', authentication);
 
 	authentication.$inject = ['$http', '$window'];
+
+	var decodeToken = __webpack_require__(59);
+
 	function authentication($http, $window) {
 	  var vm = this;
 	  vm.roleAssoc = {
@@ -30792,8 +30796,8 @@
 	    }
 	  };
 
-	  var saveToken = function saveToken(token) {
-	    $window.localStorage['mean-token'] = token;
+	  var saveToken = function saveToken(data) {
+	    $window.localStorage['mean-token'] = data.token;
 	  };
 
 	  var getToken = function getToken() {
@@ -30806,11 +30810,14 @@
 
 	    if (token) {
 
-	      payload = token.split('.')[1];
-	      payload = $window.atob(payload);
-	      payload = JSON.parse(payload);
+	      // payload = token.split('.')[1]
+	      // payload = $window.atob(payload)
+	      // payload = JSON.parse(payload)
 
-	      return payload.exp > Date.now() / 1000;
+
+	      return decodeToken(token).exp > Date.now() / 1000;
+
+	      // return payload.exp > Date.now() / 1000
 	    } else {
 	      return false;
 	    }
@@ -30819,15 +30826,17 @@
 	  var currentUser = function currentUser() {
 	    if (isLoggedIn()) {
 	      var token = getToken();
-	      var payload = token.split('.')[1];
+	      // var payload = token.split('.')[1]
 
-	      payload = $window.atob(payload);
+	      // payload = $window.atob(payload)
 
-	      payload = JSON.parse(payload);
+	      //payload = JSON.parse(payload)
 	      //console.log(payload)
+	      var payload = decodeToken(token);
+
 	      return {
 	        email: payload.email,
-	        name: decodeURIComponent(escape(payload.name)),
+	        name: payload.name,
 	        role: payload.role,
 	        organisation: payload.organisation
 	      };
@@ -30842,7 +30851,7 @@
 
 	  var login = function login(user) {
 	    return $http.post('/api/login', user).success(function (data) {
-	      saveToken(data.token);
+	      saveToken(data);
 	    });
 	  };
 
@@ -31560,15 +31569,15 @@
 
 /***/ },
 /* 52 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').controller('groupCtrl', groupCtrl);
 
-	groupCtrl.$inject = ['$$groups', '$routeParams'];
+	groupCtrl.$inject = ['$$groups', '$routeParams', 'authentication', '$mdDialog', '$mdMedia', '$scope'];
 
-	function groupCtrl($$groups, $routeParams) {
+	function groupCtrl($$groups, $routeParams, authentication, $mdDialog, $mdMedia, $scope) {
 
 		var vm = this;
 
@@ -31580,6 +31589,9 @@
 			members: []
 		};
 
+		vm.checkCRUDRights = authentication.checkCRUDRights;
+		vm.showDialog = showDialog;
+
 		$$groups.getList({
 			id: vm.group.id,
 			with_members: true
@@ -31588,6 +31600,27 @@
 			vm.group.mentor = res.data[0].mentor;
 			vm.group.members = res.data[0].members;
 		});
+
+		function showDialog(ev) {
+			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+			$mdDialog.show({
+				controller: __webpack_require__(62),
+				template: __webpack_require__(63),
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				clickOutsideToClose: true,
+				fullscreen: useFullScreen
+			}).then(function (answer) {
+				$scope.status = 'You said the information was "' + answer + '".';
+			}, function () {
+				$scope.status = 'You cancelled the dialog.';
+			});
+			$scope.$watch(function () {
+				return $mdMedia('xs') || $mdMedia('sm');
+			}, function (wantsFullScreen) {
+				$scope.customFullscreen = wantsFullScreen === true;
+			});
+		};
 	}
 
 /***/ },
@@ -31724,10 +31757,51 @@
 
 	angular.module('psApp').controller('membersCtrl', membersCtrl);
 
-	membersCtrl.$inject = ['authentication'];
+	membersCtrl.$inject = ['authentication', '$$groups', '$$profiles', '$$organisations'];
 
-	function membersCtrl(authentication) {
+	function membersCtrl(authentication, $$groups, $$profiles, $$organisations) {
 		var vm = this;
+
+		vm.members = [];
+
+		init();
+
+		function init() {
+			getPsychologs();
+		}
+
+		function getPsychologs() {
+			$$profiles.getList({
+				role: 'student'
+			}).then(function (resp) {
+				vm.members = resp.data;
+				getGroups();
+				getOrganisations();
+			});
+		}
+
+		function getGroups() {
+			$$groups.getList().then(function (resp) {
+				var groups = resp.data;
+				vm.members.forEach(function (member) {
+					member.groupData = groups.find(function (group) {
+						return group._id == member.group;
+					});
+				});
+			});
+		}
+
+		function getOrganisations() {
+			$$organisations.getList().then(function (resp) {
+				var organisations = resp.data;
+				//console.log(organisations, vm.members)
+				vm.members.forEach(function (member) {
+					member.organisationData = organisations.find(function (org) {
+						return org._id == member.organisation;
+					});
+				});
+			});
+		}
 	}
 
 /***/ },
@@ -31957,6 +32031,131 @@
 			});
 		}
 	}
+
+/***/ },
+/* 59 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var base64_url_decode = __webpack_require__(60);
+
+	module.exports = function (token, options) {
+	  if (typeof token !== 'string') {
+	    throw new Error('Invalid token specified');
+	  }
+
+	  options = options || {};
+	  var pos = options.header === true ? 0 : 1;
+	  return JSON.parse(base64_url_decode(token.split('.')[pos]));
+	};
+
+/***/ },
+/* 60 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var atob = __webpack_require__(61);
+
+	function b64DecodeUnicode(str) {
+	  return decodeURIComponent(atob(str).replace(/(.)/g, function (m, p) {
+	    var code = p.charCodeAt(0).toString(16).toUpperCase();
+	    if (code.length < 2) {
+	      code = '0' + code;
+	    }
+	    return '%' + code;
+	  }));
+	}
+
+	module.exports = function (str) {
+	  var output = str.replace(/-/g, "+").replace(/_/g, "/");
+	  switch (output.length % 4) {
+	    case 0:
+	      break;
+	    case 2:
+	      output += "==";
+	      break;
+	    case 3:
+	      output += "=";
+	      break;
+	    default:
+	      throw "Illegal base64url string!";
+	  }
+
+	  try {
+	    return b64DecodeUnicode(output);
+	  } catch (err) {
+	    return atob(output);
+	  }
+	};
+
+/***/ },
+/* 61 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * The code was extracted from:
+	 * https://github.com/davidchambers/Base64.js
+	 */
+
+	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+	function InvalidCharacterError(message) {
+	  this.message = message;
+	}
+
+	InvalidCharacterError.prototype = new Error();
+	InvalidCharacterError.prototype.name = 'InvalidCharacterError';
+
+	function polyfill(input) {
+	  var str = String(input).replace(/=+$/, '');
+	  if (str.length % 4 == 1) {
+	    throw new InvalidCharacterError("'atob' failed: The string to be decoded is not correctly encoded.");
+	  }
+	  for (
+	  // initialize result and counters
+	  var bc = 0, bs, buffer, idx = 0, output = '';
+	  // get next character
+	  buffer = str.charAt(idx++);
+	  // character found in table? initialize bit storage and add its ascii value;
+	  ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer,
+	  // and if not first of each 4 characters,
+	  // convert the first 8 bits to one ascii character
+	  bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0) {
+	    // try to find character in table (0-63, not found => -1)
+	    buffer = chars.indexOf(buffer);
+	  }
+	  return output;
+	}
+
+	module.exports = typeof window !== 'undefined' && window.atob && window.atob.bind(window) || polyfill;
+
+/***/ },
+/* 62 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = function ($$groups, $routeParams, $mdDialog, $mdMedia, $scope, authentication) {
+		$scope.hide = function () {
+			$mdDialog.hide();
+		};
+		$scope.cancel = function () {
+			$mdDialog.cancel();
+		};
+		$scope.answer = function (answer) {
+			$mdDialog.hide(answer);
+		};
+	};
+
+/***/ },
+/* 63 */
+/***/ function(module, exports) {
+
+	module.exports = "<md-dialog aria-label=\"Mango (Fruit)\"  ng-cloak>\n\t<form>\n\t\t<md-toolbar>\n\t\t\t<div class=\"md-toolbar-tools\">\n\t\t\t\t<h2>Mango (Fruit)</h2>\n\t\t\t\t<span flex></span>\n\t\t\t</div>\n\t\t</md-toolbar>\n\t\t<md-dialog-content>\n\t\t\t<div class=\"md-dialog-content\">\n\t\t\t\t<h2>Using .md-dialog-content class that sets the padding as the spec</h2>\n\t\t\t\t<p>\n\t\t\t\t\tThe mango is a juicy stone fruit belonging to the genus Mangifera, consisting of numerous tropical fruiting trees, cultivated mostly for edible fruit. The majority of these species are found in nature as wild mangoes. They all belong to the flowering plant family Anacardiaceae. The mango is native to South and Southeast Asia, from where it has been distributed worldwide to become one of the most cultivated fruits in the tropics.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tThe highest concentration of Mangifera genus is in the western part of Malesia (Sumatra, Java and Borneo) and in Burma and India. While other Mangifera species (e.g. horse mango, M. foetida) are also grown on a more localized basis, Mangifera indica&mdash;the \"common mango\" or \"Indian mango\"&mdash;is the only mango tree commonly cultivated in many tropical and subtropical regions.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tIt originated in Indian subcontinent (present day India and Pakistan) and Burma. It is the national fruit of India, Pakistan, and the Philippines, and the national tree of Bangladesh. In several cultures, its fruit and leaves are ritually used as floral decorations at weddings, public celebrations, and religious ceremonies.\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions layout=\"row\">\n\t\t\t<md-button href=\"http://en.wikipedia.org/wiki/Mango\" target=\"_blank\" md-autofocus>\n\t\t\t\tMore on Wikipedia\n\t\t\t</md-button>\n\t\t\t<span flex></span>\n\t\t\t<md-button ng-click=\"answer('not useful')\">\n\t\t\t\tNot Useful\n\t\t\t</md-button>\n\t\t\t<md-button ng-click=\"answer('useful')\" style=\"margin-right:20px;\">\n\t\t\t\tUseful\n\t\t\t</md-button>\n\t\t</md-dialog-actions>\n\t</form>\n</md-dialog>\n";
 
 /***/ }
 /******/ ]);

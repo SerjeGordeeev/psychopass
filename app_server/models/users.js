@@ -32,7 +32,7 @@ userSchema.methods.generateJwt = function() {
 	var expiry = new Date()
 	expiry.setDate(expiry.getDate() + 7)
 
-	return jwt.sign({
+	let token = jwt.sign({
 		_id: this._id,
 		email: this.email,
 		name: this.name,
@@ -41,16 +41,24 @@ userSchema.methods.generateJwt = function() {
 		group: this.group,
 		exp: parseInt(expiry.getTime() / 1000),
 	}, 'MY_SECRET') // DO NOT KEEP YOUR SECRET IN THE CODE!
+
+	jwt.verify(token)
+
+	return token
 }
 
 userSchema.methods.userData = function() {
+	var expiry = new Date()
+	expiry.setDate(expiry.getDate() + 7)
+
 	return {
 		_id: this._id,
 		email: this.email,
 		name: this.name,
 		role: this.role,
 		organisation: this.organisation,
-		group: this.group
+		group: this.group,
+		exp: parseInt(expiry.getTime() / 1000)
 	}
 }
 

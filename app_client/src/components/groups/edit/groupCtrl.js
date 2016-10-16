@@ -3,9 +3,9 @@ angular
 	.module('psApp')
 	.controller('groupCtrl', groupCtrl)
 
-groupCtrl.$inject = ['$$groups','$routeParams']
+groupCtrl.$inject = ['$$groups','$routeParams', 'authentication', '$mdDialog', '$mdMedia', '$scope']
 
-function groupCtrl($$groups, $routeParams) {
+function groupCtrl($$groups, $routeParams, authentication, $mdDialog, $mdMedia, $scope) {
 
 	var vm = this
 
@@ -16,7 +16,9 @@ function groupCtrl($$groups, $routeParams) {
 		mentor: null,
 		members: []
 	}
-	
+
+	vm.checkCRUDRights = authentication.checkCRUDRights
+	vm.showDialog = showDialog
 
 	$$groups.getList({
 		id: vm.group.id,
@@ -26,6 +28,27 @@ function groupCtrl($$groups, $routeParams) {
 		vm.group.mentor = res.data[0].mentor
 		vm.group.members = res.data[0].members
 	})
+
+	function showDialog(ev) {
+		var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+		$mdDialog.show({
+			controller: require('./dialog/addMembersCtrl'),
+			template: require('./dialog/dialog.tmpl.html'),
+			parent: angular.element(document.body),
+			targetEvent: ev,
+			clickOutsideToClose:true,
+			fullscreen: useFullScreen
+		}).then(function(answer) {
+				$scope.status = 'You said the information was "' + answer + '".';
+			}, function() {
+				$scope.status = 'You cancelled the dialog.';
+			});
+		$scope.$watch(function() {
+			return $mdMedia('xs') || $mdMedia('sm');
+		}, function(wantsFullScreen) {
+			$scope.customFullscreen = (wantsFullScreen === true);
+		});
+	};
 
 }
 

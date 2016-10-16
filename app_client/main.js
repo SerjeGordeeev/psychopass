@@ -51,7 +51,7 @@ require('../node_modules/angular-material/angular-material.min.css')
 			.when('/members', {
 				templateUrl: 'src/components/members/members.html',
 				controller: 'membersCtrl',
-				controllerAs: 'vm'
+				controllerAs: 'ms'
 			})
 			//.otherwise({redirectTo: '/'})
 		

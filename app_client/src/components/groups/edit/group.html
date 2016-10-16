@@ -1,8 +1,14 @@
-<div class="organisations main_layout">
+<div class="organisations main_layout" ng-init="mayCRUD = group.checkCRUDRights()">
 	<navigation></navigation>
 	<div class="page_content">
 		<span class="page_title">{{group.group.name}}</span>
-		<tool-bar filters="group.filters"></tool-bar>
+		<!--<tool-bar filters="group.filters"></tool-bar>-->
+
+		<md-list-item ng-if="mayCRUD">
+			<md-button class="md-raised  add" ng-click="group.showDialog($event)" flex>
+				<span>Добавить участников</span>
+			</md-button>
+		</md-list-item>
 
 		<md-card>
 			<md-list class="layout-fill">

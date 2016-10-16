@@ -80,7 +80,7 @@ module.exports.add = function (req, res) {
     user.login = generateLogin(12, false)
     while(data.find(profile=>profile.login == user.login)){
       user.login = generateLogin(12, false)
-      console.log(user.login)
+      //console.log(user.login)
     }
 
     user.save(function(err){

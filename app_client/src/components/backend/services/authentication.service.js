@@ -4,6 +4,9 @@
     .service('authentication', authentication)
 
   authentication.$inject = ['$http', '$window']
+
+  let decodeToken = require('jwt-decode')
+
   function authentication ($http, $window) {
     let vm = this
     vm.roleAssoc = {
@@ -25,8 +28,8 @@
       }
     }
     
-    var saveToken = function (token) {
-      $window.localStorage['mean-token'] = token
+    var saveToken = function (data) {
+      $window.localStorage['mean-token'] = data.token
     }
     
     var getToken = function () {
@@ -39,11 +42,14 @@
     
       if(token){
         
-        payload = token.split('.')[1]
-        payload = $window.atob(payload)
-        payload = JSON.parse(payload)
-    
-        return payload.exp > Date.now() / 1000
+        // payload = token.split('.')[1]
+        // payload = $window.atob(payload)
+        // payload = JSON.parse(payload)
+
+
+        return decodeToken(token).exp > Date.now() / 1000
+
+       // return payload.exp > Date.now() / 1000
       } else {
         return false
       }
@@ -52,15 +58,17 @@
     var currentUser = function() {
       if(isLoggedIn()){
         var token = getToken()
-        var payload = token.split('.')[1]
-        
-        payload = $window.atob(payload)
+       // var payload = token.split('.')[1]
 
-        payload = JSON.parse(payload)
+       // payload = $window.atob(payload)
+
+        //payload = JSON.parse(payload)
         //console.log(payload)
+        let payload =  decodeToken(token)
+
         return {
           email : payload.email,
-          name : decodeURIComponent(escape(payload.name)),
+          name : payload.name,
           role: payload.role,
           organisation: payload.organisation
         }
@@ -75,7 +83,7 @@
     
     var login = function(user) {
       return $http.post('/api/login', user).success(function(data) {
-        saveToken(data.token)
+        saveToken(data)
       })
     }
     
