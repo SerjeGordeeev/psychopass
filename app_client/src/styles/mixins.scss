@@ -24,6 +24,11 @@
 
 $cold-color: #67b3ff;
 
+ng-view{
+  width: 100vw;
+  height: 100vh;
+}
+
 .main_layout{
   background: $cold-color;
   width: 100vw;

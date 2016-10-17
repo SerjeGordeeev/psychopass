@@ -8,7 +8,7 @@ require('../node_modules/angular-material/angular-material.min.css')
 
 
 	function config ($routeProvider, $locationProvider, flashAlertProvider) {
-		flashAlertProvider.setAlertTime(2000)
+		flashAlertProvider.setAlertTime(3000)
 		$routeProvider
 			.when('/',{
 				redirectTo: '/home'

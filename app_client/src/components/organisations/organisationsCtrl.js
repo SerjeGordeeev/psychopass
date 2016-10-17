@@ -27,9 +27,7 @@ function organisationsCtrl($$organisations, authentication, flashAlert, $$profil
 			with_members: true
 		}).then(data=>{
 			vm.orgs = data.data
-			console.log('asdsada',data.data)
 			$$profiles.getList().then(resp=>{
-
 				vm.orgs.forEach(org=>{
 					org.membersCount = resp.data.filter(member=>member.organisation == org._id).length
 				}) 

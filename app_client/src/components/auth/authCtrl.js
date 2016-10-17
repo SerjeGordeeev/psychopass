@@ -3,7 +3,7 @@ angular
 	.module('psApp')
 	.controller('authCtrl', authCtrl);
 
-function authCtrl (authentication, $$organisations, $location) {
+function authCtrl (authentication, $$organisations, $location, flashAlert) {
 
 	let vm = this
 	
@@ -39,9 +39,10 @@ function authCtrl (authentication, $$organisations, $location) {
 			login: vm.signInData.login,
 			password: vm.signInData.password
 		}).then(data=>{
+			flashAlert.info('Приветствуем')
 			$location.path('/')
 		}).catch(data=>{
-			//console.log(data)
+			flashAlert.error('Неверный логин или пароль')
 		})
 	}
 
@@ -52,9 +53,10 @@ function authCtrl (authentication, $$organisations, $location) {
 			email: vm.signUpData.email,
 			organisation: vm.signUpData.organisation
 		}).then(data=>{
+			console.log(data)
 			$location.path('/')
 		}).catch(data=>{
-			//console.log(data)
+			flashAlert.error(data.data.message)
 		})
 	}
 	
