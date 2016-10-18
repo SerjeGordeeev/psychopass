@@ -1,10 +1,24 @@
 require('./dialog.scss')
-module.exports = function($$organisations, $$groups, $$profiles, $routeParams, $mdDialog, $mdMedia, $scope, authentication){
+module.exports = function($$organisations, $$groups, $$profiles, $routeParams, $mdDialog, $mdMedia, $rootScope, $scope, authentication, flashAlert){
 
 	let vm = this
 
 	vm.groups = []
 	vm.members = []
+	vm.groupId = $routeParams.id
+	
+	vm.filters={
+		organisation:{
+			value: null,
+			f: (member)=>{
+				if(vm.filters.organisation.value === null) return true
+				if(vm.filters.organisation.value == member.organisation) return true
+				return false
+			}
+		}
+	}
+
+	vm.addMembersToGroup = addMembersToGroup
 
 	init()
 	function init(){
@@ -28,6 +42,29 @@ module.exports = function($$organisations, $$groups, $$profiles, $routeParams, $
 				})
 			})
 		})
+	}
+
+	function addMembersToGroup(){
+
+		let newMembers = {
+			ids: [],
+			members: []
+		}
+
+		vm.members.forEach(member => {
+			if(member.selected){
+				member.group = vm.groupId
+				newMembers.ids.push(member._id)
+				newMembers.members.push(member)
+			}
+		})
+
+		$$profiles.put(newMembers).then(resp=>{
+			flashAlert.success(resp.data.message)
+		}).catch(err=>{
+			flashAlert.error('Error')
+		})
+
 	}
 
 	$scope.hide = function() {

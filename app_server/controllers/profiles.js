@@ -16,12 +16,16 @@ module.exports.getList = function (req, res) {
 
 module.exports.update = function (req, res) {
 
-  User.findOne({'_id': mongoose.Types.ObjectId(req.body.id)}, function (err, doc) {
-    if (err) dataError(res,err)
-    else {
-      //let queries = []
-      updateData(doc, req.body)
-      if(doc.group){
+  if(req.body.ids.length){
+    console.log(req.body.ids)
+  }
+  else{
+    User.findOne({'_id': mongoose.Types.ObjectId(req.body.id)}, function (err, doc) {
+      if (err) dataError(res,err)
+      else {
+        //let queries = []
+        updateData(doc, req.body)
+        if(doc.group){
           User.update({group: doc.group}, { group: null }, {}, function(err){
             if(err) dataError(err)
             else doc.save(function(err){
@@ -34,18 +38,19 @@ module.exports.update = function (req, res) {
               }
             })
           })
-      }
-      else doc.save(function(err){
-        if (err) dataError(res,err)
-        else {
-          res.status(200)
-          res.json({
-            message: 'Данные сохранены'
-          })
         }
-      })
-    }
-  })
+        else doc.save(function(err){
+          if (err) dataError(res,err)
+          else {
+            res.status(200)
+            res.json({
+              message: 'Данные сохранены'
+            })
+          }
+        })
+      }
+    })
+  }
 
 }
 

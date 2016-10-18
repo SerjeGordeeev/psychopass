@@ -19,6 +19,7 @@
     }
 
     var put = function (payload) {
+      if(payload.ids) return $http.put('/api/profiles?ids=' + payload.ids.toString(), payload)
       return $http.put('/api/profiles?id=' + payload.id, payload)
     }
 

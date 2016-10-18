@@ -18,7 +18,7 @@
 		<md-dialog-content>
 			<div class="md-dialog-content">
 				<md-list class="layout-fill">
-					<md-list-item class="md-2-line" ng-repeat="member in dlg.members">
+					<md-list-item class="md-2-line" ng-repeat="member in dlg.members | filter: dlg.filters.organisation.f">
 						<md-checkbox class="md-primary" ng-model="member.selected" aria-label="Выбрать участника">
 							{{ member.selected }}
 						</md-checkbox>
@@ -36,7 +36,7 @@
 		</md-dialog-content>
 		<md-dialog-actions layout="row">
 			<span flex></span>
-			<md-button ng-click="answer('useful')" style="margin-right:20px;">
+			<md-button class="md-raised" ng-click="dlg.addMembersToGroup()" style="margin-right:20px;">
 				Добавить
 			</md-button>
 		</md-dialog-actions>
