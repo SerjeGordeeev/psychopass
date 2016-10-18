@@ -47,3 +47,4 @@ process.on('SIGTERM', function() {
 require('./users')
 require('./organisations')
 require('./groups')
+require('./props')

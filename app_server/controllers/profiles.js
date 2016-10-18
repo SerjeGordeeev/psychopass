@@ -16,8 +16,26 @@ module.exports.getList = function (req, res) {
 
 module.exports.update = function (req, res) {
 
-  if(req.body.ids.length){
-    console.log(req.body.ids)
+  if(req.body.ids){
+      console.log(req.body.ids)
+      async.filter(req.body.members, function(member, callback) {
+        User.findOne({'_id':  mongoose.Types.ObjectId(member._id)}, (err,user)=>{
+            if(err) dataError(res,err)
+            else{
+              updateData(user, member)
+              user.save((err)=>{
+                if(err) dataError(res,err)
+                else callback(null, !err)
+              })
+            }
+        })
+      },function(err, results){
+        if(err) dataError(res,err)
+        else {
+          res.status(200)
+          res.json({message:'Участники успешно добавлены в группу'})
+        }
+      })
   }
   else{
     User.findOne({'_id': mongoose.Types.ObjectId(req.body.id)}, function (err, doc) {

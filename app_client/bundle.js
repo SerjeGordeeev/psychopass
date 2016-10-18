@@ -90,8 +90,15 @@
 			templateUrl: 'src/components/members/members.html',
 			controller: 'membersCtrl',
 			controllerAs: 'ms'
-		});
-		//.otherwise({redirectTo: '/'})
+		}).when('/props', {
+			templateUrl: 'src/components/props/props.html',
+			controller: 'propsCtrl',
+			controllerAs: 'prs'
+		}).when('/my_group', {
+			templateUrl: 'src/components/my-group/myGroup.html',
+			controller: 'myGroupCtrl',
+			controllerAs: 'mg'
+		}).otherwise({ redirectTo: '/' });
 
 		$locationProvider.html5Mode(true);
 	}
@@ -30627,6 +30634,7 @@
 		"./backend/services/groups.service.js": 23,
 		"./backend/services/organisations.service.js": 24,
 		"./backend/services/profiles.service.js": 25,
+		"./backend/services/props.service.js": 68,
 		"./common/directives/alert/flash-alert.js": 26,
 		"./common/directives/header/components/top-menu/topMenuCtrl.js": 30,
 		"./common/directives/header/components/top-menu/topMenuDir.js": 31,
@@ -30643,8 +30651,10 @@
 		"./groups/groupsCtrl.js": 58,
 		"./home/homeCtrl.js": 59,
 		"./members/memberCtrl.js": 60,
+		"./my-group/myGroupCtrl.js": 71,
 		"./organisations/edit/organisationCtrl.js": 61,
 		"./organisations/organisationsCtrl.js": 62,
+		"./props/propsCtrl.js": 67,
 		"./psychologs/psychologsCtrl.js": 63
 	};
 	function webpackContext(req) {
@@ -30824,7 +30834,8 @@
 	        email: payload.email,
 	        name: payload.name,
 	        role: payload.role,
-	        organisation: payload.organisation
+	        organisation: payload.organisation,
+	        group: payload.group
 	      };
 	    }
 	  };
@@ -31233,18 +31244,18 @@
 	  }, {
 	    title: 'Организации',
 	    href: '/organisations',
-	    access: ['admin', 'org', 'psycholog']
+	    access: ['admin', 'org']
 	  }, {
 	    title: 'Участники',
 	    href: '/members',
-	    access: ['admin', 'psycholog', 'org']
+	    access: ['admin', 'org']
 	  }, {
 	    title: 'Группы',
 	    href: '/groups',
 	    access: ['admin', 'org']
 	  }, {
 	    title: 'Руководство группой',
-	    href: '/mygroup',
+	    href: '/my_group',
 	    access: ['psycholog']
 	  }, {
 	    title: 'Характеристики',
@@ -31724,6 +31735,7 @@
 
 			$$profiles.put(newMembers).then(function (resp) {
 				flashAlert.success(resp.data.message);
+				$scope.hide();
 			}).catch(function (err) {
 				flashAlert.error('Error');
 			});
@@ -31748,9 +31760,9 @@
 
 	angular.module('psApp').controller('groupCtrl', groupCtrl);
 
-	groupCtrl.$inject = ['$$groups', '$routeParams', 'authentication', '$mdDialog', '$mdMedia', '$scope'];
+	groupCtrl.$inject = ['$$groups', '$routeParams', 'authentication', '$mdDialog', '$mdMedia', '$scope', '$$profiles', 'flashAlert'];
 
-	function groupCtrl($$groups, $routeParams, authentication, $mdDialog, $mdMedia, $scope) {
+	function groupCtrl($$groups, $routeParams, authentication, $mdDialog, $mdMedia, $scope, $$profiles, flashAlert) {
 
 		var vm = this;
 
@@ -31764,15 +31776,20 @@
 
 		vm.checkCRUDRights = authentication.checkCRUDRights;
 		vm.showDialog = showDialog;
+		vm.remove = remove;
 
-		$$groups.getList({
-			id: vm.group.id,
-			with_members: true
-		}).then(function (res) {
-			vm.group.name = res.data[0].name;
-			vm.group.mentor = res.data[0].mentor;
-			vm.group.members = res.data[0].members;
-		});
+		init();
+
+		function init() {
+			$$groups.getList({
+				id: vm.group.id,
+				with_members: true
+			}).then(function (res) {
+				vm.group.name = res.data[0].name;
+				vm.group.mentor = res.data[0].mentor;
+				vm.group.members = res.data[0].members;
+			});
+		}
 
 		function showDialog(ev) {
 			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
@@ -31785,16 +31802,32 @@
 				clickOutsideToClose: true,
 				fullscreen: useFullScreen
 			}).then(function (answer) {
-				$scope.status = 'You said the information was "' + answer + '".';
+				reloadData();
 			}, function () {
-				$scope.status = 'You cancelled the dialog.';
+				//$scope.status = 'You cancelled the dialog.';
 			});
 			$scope.$watch(function () {
 				return $mdMedia('xs') || $mdMedia('sm');
 			}, function (wantsFullScreen) {
 				$scope.customFullscreen = wantsFullScreen === true;
 			});
-		};
+		}
+
+		function remove(id) {
+			$$profiles.put({
+				id: id,
+				group: null
+			}).then(function (resp) {
+				flashAlert.success('Участник успешно удален из группы');
+				reloadData();
+			}).catch(function (err) {
+				flashAlert.error('Error');
+			});
+		}
+
+		function reloadData() {
+			init();
+		}
 	}
 
 /***/ },
@@ -31842,6 +31875,15 @@
 				vm.groups = resp.data;
 				vm.groups.forEach(function (group) {
 					group.oldMentor = group.mentor;
+					$$profiles.getList({
+						role: 'student'
+					}).then(function (resp) {
+						vm.groups.forEach(function (group) {
+							group.membersCount = resp.data.filter(function (member) {
+								return member.group == group._id;
+							}).length;
+						});
+					});
 				});
 			});
 
@@ -32254,10 +32296,197 @@
 
 
 	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.add_members_dialog {\n  width: 80%; }\n  .add_members_dialog .md-toolbar-tools {\n    background-color: #67b3ff !important; }\n", ""]);
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.add_members_dialog {\n  width: 80%; }\n  .add_members_dialog .md-toolbar-tools, .add_members_dialog .md-raised {\n    background-color: #67b3ff !important;\n    color: #fff; }\n", ""]);
 
 	// exports
 
+
+/***/ },
+/* 66 */,
+/* 67 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('propsCtrl', propsCtrl);
+
+	propsCtrl.$inject = ['$$props', 'authentication', 'flashAlert', '$$profiles'];
+
+	function propsCtrl($$props, authentication, flashAlert, $$profiles) {
+
+		var vm = this;
+
+		vm.props = [];
+		vm.filters = [], vm.crudRights = ['admin', 'org'];
+
+		vm.psychoFilter = psychoFilter;
+		vm.add = add;
+		vm.remove = remove;
+		vm.update = update;
+		vm.checkCRUDRights = authentication.checkCRUDRights;
+
+		init();
+
+		createFilters(['Числовые', 'Формальные'], 'Тип характеристик');
+
+		function init() {
+			$$props.getList().then(function (data) {
+				vm.props = data.data;
+				/*			$$profiles.getList().then(resp=>{
+	   				vm.props.forEach(org=>{
+	   					org.membersCount = resp.data.filter(member=>member.organisation == org._id).length
+	   				}) 
+	   			})*/
+			});
+		}
+
+		function createFilters(options, title) {
+			var filter = { title: title, options: [] };
+
+			options.forEach(function (option, index) {
+				filter.options.push({
+					name: option,
+					value: option.id || index
+				});
+			});
+
+			vm.filters.push(filter);
+		}
+
+		function psychoFilter(org, index) {
+			if (!arguments.length) return !!vm.filters[0].value;
+			if (vm.filters[0].value == null) return true;else return !!vm.filters[0].value == org.is_psycho;
+		}
+
+		function add() {
+			$$props.post({
+				name: null,
+				type: null
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function remove(id) {
+			$$props.remove({
+				id: id
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function update(prop) {
+			console.log(prop);
+			$$props.put({
+				id: prop._id,
+				name: prop.name,
+				type: prop.type,
+				min: prop.min,
+				max: prop.max,
+				description: prop.description
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+	}
+
+/***/ },
+/* 68 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').service('$$props', props);
+
+	props.$inject = ['$http'];
+	function props($http) {
+
+	  var getList = function getList(payload) {
+	    return $http.get('/api/props' + generateQueryString(payload));
+	  };
+
+	  var post = function post(payload) {
+	    return $http.post('/api/props', payload);
+	  };
+
+	  var remove = function remove(payload) {
+	    return $http.delete('/api/props?id=' + payload.id);
+	  };
+
+	  var put = function put(payload) {
+	    if (payload.ids) return $http.put('/api/props?ids=' + payload.ids.toString(), payload);
+	    return $http.put('/api/props?id=' + payload.id, payload);
+	  };
+
+	  return {
+	    getList: getList,
+	    post: post,
+	    remove: remove,
+	    put: put
+	  };
+
+	  function generateQueryString(payload) {
+	    var query = '';
+
+	    for (var param in payload) {
+	      query += param + '=' + payload[param] + '&';
+	    }
+	    return query.length ? '?' + query.slice(0, -1) : '';
+	  }
+	}
+
+/***/ },
+/* 69 */,
+/* 70 */,
+/* 71 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('myGroupCtrl', myGroupCtrl);
+
+	myGroupCtrl.$inject = ['authentication', '$$profiles', '$$groups'];
+
+	function myGroupCtrl(authentication, $$profiles, $$groups) {
+		var vm = this;
+
+		vm.group = {
+			id: authentication.currentUser().group
+		};
+
+		init();
+
+		function init() {
+
+			if (vm.group.id) {
+				getMembers();
+				getGroup();
+			}
+			console.log(vm);
+		}
+
+		function getMembers() {
+			$$profiles.getList({
+				group: vm.group.id
+			}).then(function (resp) {
+				vm.group.members = resp.data;
+			});
+		}
+
+		function getGroup() {
+			$$groups.getList({
+				id: vm.group.id
+			}).then(function (resp) {
+				vm.group.groupData = resp.data[0];
+			});
+		}
+	}
 
 /***/ }
 /******/ ]);

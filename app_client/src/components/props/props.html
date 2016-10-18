@@ -1,0 +1,64 @@
+<div class="organisations main_layout" ng-init="mayCRUD = prs.checkCRUDRights()">
+	<navigation></navigation>
+	<div class="page_content">
+		<span class="page_title">Перечень психологических характеристик</span>
+		<!--<tool-bar filters="prs.filters"></tool-bar>-->
+
+		<md-list-item ng-if="mayCRUD">
+			<md-button class="md-raised  add" ng-click="prs.add()" flex>
+				<span>Добавить характеристику</span>
+			</md-button>
+<!--			<md-button class="md-raised  add" ng-click="prs.import()" flex="15">
+				<span>Импорт CSV</span>
+			</md-button>-->
+		</md-list-item>
+
+		<md-card>
+			<md-list class="layout-fill">
+				<md-list-item class="md-2-line" ng-repeat="prop in prs.props">
+
+
+					<md-input-container  md-no-float class="md-block" flex="20">
+						<!--<label>Название организации</label>-->
+						<input ng-disabled="!mayCRUD" placeholder="Название характеристики" ng-model="prop.name" ng-blur="prs.update(prop)">
+					</md-input-container>
+					<md-input-container  md-no-float class="md-block" flex="">
+						<!--<label>Название организации</label>-->
+						<input ng-disabled="!mayCRUD" placeholder="Описание" ng-model="prop.description" ng-blur="prs.update(prop)">
+					</md-input-container>
+
+
+					<md-input-container  md-no-float class="md-block" flex="15">
+						<label>Тип характеристики</label>
+						<md-select ng-model="prop.type" ng-change="prs.update(prop)">
+							<md-option ng-value="'number'">Числовая</md-option>
+							<md-option ng-value="'formal'">Формальная</md-option>
+						</md-select>
+					</md-input-container>
+
+					<md-input-container ng-if="prop.type == 'number'" md-no-float class="md-block" flex="10">
+						<label>Макс</label>
+						<input ng-disabled="!mayCRUD"  ng-model="prop.max" ng-blur="prs.update(prop)">
+					</md-input-container>
+					<md-input-container ng-if="prop.type == 'number'" md-no-float class="md-block" flex="10">
+						<label>Мин</label>
+						<input ng-disabled="!mayCRUD" ng-model="prop.min" ng-blur="prs.update(prop)">
+					</md-input-container>
+
+
+					<md-input-container  class="md-block">
+						<md-button ng-if="mayCRUD" class="md-icon-button delete_button" aria-label="Удалить характеристику" ng-click="prs.remove(org._id)">
+							<md-icon md-svg-icon="/src/img/ic_delete_forever_black_24px.svg"></md-icon>
+						</md-button>
+					</md-input-container>
+
+					<md-divider ng-if="!$last"></md-divider>
+
+				</md-list-item>
+
+				<md-list-item ng-if="!prs.props.length">На данный момент не создано ни одной характеристики</md-list-item>
+
+			</md-list>
+		</md-card>
+	</div>
+</div>

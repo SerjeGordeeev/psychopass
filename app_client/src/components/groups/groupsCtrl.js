@@ -39,6 +39,13 @@ function groupsCtrl($$groups, authentication, $$profiles, flashAlert) {
 			vm.groups = resp.data
 			vm.groups.forEach(group =>{
 				group.oldMentor = group.mentor
+				$$profiles.getList({
+					role: 'student'
+				}).then(resp=>{
+					vm.groups.forEach(group=>{
+						group.membersCount = resp.data.filter(member=>member.group == group._id).length
+					})
+				})
 			})
 
 		})

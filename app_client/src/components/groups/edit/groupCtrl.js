@@ -3,9 +3,9 @@ angular
 	.module('psApp')
 	.controller('groupCtrl', groupCtrl)
 
-groupCtrl.$inject = ['$$groups','$routeParams', 'authentication', '$mdDialog', '$mdMedia', '$scope']
+groupCtrl.$inject = ['$$groups','$routeParams', 'authentication', '$mdDialog', '$mdMedia', '$scope', '$$profiles', 'flashAlert']
 
-function groupCtrl($$groups, $routeParams, authentication, $mdDialog, $mdMedia, $scope) {
+function groupCtrl($$groups, $routeParams, authentication, $mdDialog, $mdMedia, $scope, $$profiles, flashAlert) {
 
 	var vm = this
 
@@ -19,15 +19,20 @@ function groupCtrl($$groups, $routeParams, authentication, $mdDialog, $mdMedia, 
 
 	vm.checkCRUDRights = authentication.checkCRUDRights
 	vm.showDialog = showDialog
+	vm.remove = remove
 
-	$$groups.getList({
-		id: vm.group.id,
-		with_members: true
-	}).then(res => {
-		vm.group.name = res.data[0].name
-		vm.group.mentor = res.data[0].mentor
-		vm.group.members = res.data[0].members
-	})
+	init()
+
+	function init(){
+		$$groups.getList({
+			id: vm.group.id,
+			with_members: true
+		}).then(res => {
+			vm.group.name = res.data[0].name
+			vm.group.mentor = res.data[0].mentor
+			vm.group.members = res.data[0].members
+		})
+	}
 
 	function showDialog(ev) {
 		var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
@@ -40,16 +45,32 @@ function groupCtrl($$groups, $routeParams, authentication, $mdDialog, $mdMedia, 
 			clickOutsideToClose:true,
 			fullscreen: useFullScreen
 		}).then(function(answer) {
-				$scope.status = 'You said the information was "' + answer + '".';
+				reloadData()
 			}, function() {
-				$scope.status = 'You cancelled the dialog.';
+				//$scope.status = 'You cancelled the dialog.';
 			});
 		$scope.$watch(function() {
 			return $mdMedia('xs') || $mdMedia('sm');
 		}, function(wantsFullScreen) {
 			$scope.customFullscreen = (wantsFullScreen === true);
 		});
-	};
+	}
+
+	function remove(id){
+		$$profiles.put({
+			id: id,
+			group: null
+		}).then(resp=>{
+			flashAlert.success('Участник успешно удален из группы')
+			reloadData()
+		}).catch(err=>{
+			flashAlert.error('Error')
+		})
+	}
+
+	function reloadData() {
+		init()
+	}
 
 }
 

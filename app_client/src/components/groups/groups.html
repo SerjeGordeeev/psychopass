@@ -34,12 +34,12 @@
 
 					<md-input-container  class="md-block">
 						<md-button flex ng-if="mayCRUD" style="margin:0" class="md-raised" aria-label="Удалить группу" ng-href="groups/{{group._id}}">
-							Участники
+							Участники <b>({{group.membersCount}})</b>
 						</md-button>
 					</md-input-container>
 
 					<md-input-container  class="md-block">
-						<md-button ng-if="mayCRUD" class="md-icon-button delete_button" aria-label="Удалить группу" ng-click="groups.remove(group._id)">
+						<md-button ng-disabled="group.membersCount > 0"  ng-if="mayCRUD" class="md-icon-button delete_button" aria-label="Удалить группу" ng-click="groups.remove(group._id)">
 							<md-icon md-svg-icon="/src/img/ic_delete_forever_black_24px.svg"></md-icon>
 						</md-button>
 					</md-input-container>

@@ -61,6 +61,7 @@ module.exports = function($$organisations, $$groups, $$profiles, $routeParams, $
 
 		$$profiles.put(newMembers).then(resp=>{
 			flashAlert.success(resp.data.message)
+			$scope.hide()
 		}).catch(err=>{
 			flashAlert.error('Error')
 		})

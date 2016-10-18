@@ -10,6 +10,7 @@ const ctrlProfiles = require('../controllers/profiles');
 const ctrlAuth = require('../controllers/authentication');
 const ctrlOrgs = require('../controllers/organisations');
 const ctrlGroups = require('../controllers/groups');
+const ctrlProps = require('../controllers/props');
 
 // profiles
 router.get('/profiles', ctrlProfiles.getList);
@@ -32,5 +33,12 @@ router.get('/groups', ctrlGroups.getList);
 router.post('/groups', ctrlGroups.add);
 router.delete('/groups', ctrlGroups.delete);
 router.put('/groups', ctrlGroups.update);
+
+//properties
+router.get('/props', ctrlProps.getList);
+router.post('/props', ctrlProps.add);
+router.delete('/props', ctrlProps.delete);
+router.put('/props', ctrlProps.update);
+
 
 module.exports = router;

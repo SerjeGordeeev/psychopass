@@ -53,7 +53,16 @@ require('../node_modules/angular-material/angular-material.min.css')
 				controller: 'membersCtrl',
 				controllerAs: 'ms'
 			})
-			//.otherwise({redirectTo: '/'})
+			.when('/props', {
+				templateUrl: 'src/components/props/props.html',
+				controller: 'propsCtrl',
+				controllerAs: 'prs'
+			}).when('/my_group', {
+				templateUrl: 'src/components/my-group/myGroup.html',
+				controller: 'myGroupCtrl',
+				controllerAs: 'mg'
+			})
+			.otherwise({redirectTo: '/'})
 		
 		$locationProvider.html5Mode(true)
 	}

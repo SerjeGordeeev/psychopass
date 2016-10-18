@@ -54,7 +54,8 @@
           email : payload.email,
           name : payload.name,
           role: payload.role,
-          organisation: payload.organisation
+          organisation: payload.organisation,
+          group: payload.group
         }
       }
     }

@@ -13,9 +13,15 @@
 		<md-card>
 			<md-list class="layout-fill">
 				<md-list-item class="md-2-line" ng-repeat="member in group.group.members">
-					<div flex="30" class="md-list-item-text">
+					<div flex class="md-list-item-text">
 						<h3>{{::member.name}}</h3>
 					</div>
+					<span flex></span>
+					<md-input-container  class="md-block">
+						<md-button ng-if="mayCRUD" class="md-icon-button delete_button" aria-label="Удалить участника из группы" ng-click="group.remove(member._id)">
+							<md-icon md-svg-icon="/src/img/disconnected-chains.svg"></md-icon>
+						</md-button>
+					</md-input-container>
 					<md-divider ng-if="!$last"></md-divider>
 				</md-list-item>
 				<md-list-item ng-if="!group.group.members.length">На данный момент у этой группы нет участников</md-list-item>
