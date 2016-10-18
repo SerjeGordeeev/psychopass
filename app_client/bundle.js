@@ -52,7 +52,9 @@
 	__webpack_require__(5);
 	__webpack_require__(11);
 
-	angular.module('psApp', ['ngMaterial', 'ngRoute', 'alert']);
+	__webpack_require__(69);
+	__webpack_require__(71);
+	angular.module('psApp', ['ngMaterial', 'ngRoute', 'alert', 'vAccordion']);
 
 	function config($routeProvider, $locationProvider, flashAlertProvider) {
 		flashAlertProvider.setAlertTime(3000);
@@ -30634,28 +30636,28 @@
 		"./backend/services/groups.service.js": 23,
 		"./backend/services/organisations.service.js": 24,
 		"./backend/services/profiles.service.js": 25,
-		"./backend/services/props.service.js": 68,
-		"./common/directives/alert/flash-alert.js": 26,
-		"./common/directives/header/components/top-menu/topMenuCtrl.js": 30,
-		"./common/directives/header/components/top-menu/topMenuDir.js": 31,
-		"./common/directives/header/components/user-profile/userProfileCtrl.js": 35,
-		"./common/directives/header/components/user-profile/userProfileDir.js": 36,
-		"./common/directives/header/navigationCtrl.js": 40,
-		"./common/directives/header/navigationDir.js": 41,
-		"./common/directives/nav-bar/navBarCtrl.js": 45,
-		"./common/directives/nav-bar/navBarDir.js": 46,
-		"./common/directives/tool-bar/toolBarCtrl.js": 50,
-		"./common/directives/tool-bar/toolBarDir.js": 51,
-		"./groups/edit/dialog/addMembersCtrl.js": 55,
-		"./groups/edit/groupCtrl.js": 56,
-		"./groups/groupsCtrl.js": 58,
-		"./home/homeCtrl.js": 59,
-		"./members/memberCtrl.js": 60,
-		"./my-group/myGroupCtrl.js": 71,
-		"./organisations/edit/organisationCtrl.js": 61,
-		"./organisations/organisationsCtrl.js": 62,
+		"./backend/services/props.service.js": 26,
+		"./common/directives/alert/flash-alert.js": 27,
+		"./common/directives/header/components/top-menu/topMenuCtrl.js": 31,
+		"./common/directives/header/components/top-menu/topMenuDir.js": 32,
+		"./common/directives/header/components/user-profile/userProfileCtrl.js": 36,
+		"./common/directives/header/components/user-profile/userProfileDir.js": 37,
+		"./common/directives/header/navigationCtrl.js": 41,
+		"./common/directives/header/navigationDir.js": 42,
+		"./common/directives/nav-bar/navBarCtrl.js": 46,
+		"./common/directives/nav-bar/navBarDir.js": 47,
+		"./common/directives/tool-bar/toolBarCtrl.js": 51,
+		"./common/directives/tool-bar/toolBarDir.js": 52,
+		"./groups/edit/dialog/addMembersCtrl.js": 56,
+		"./groups/edit/groupCtrl.js": 59,
+		"./groups/groupsCtrl.js": 61,
+		"./home/homeCtrl.js": 62,
+		"./members/memberCtrl.js": 63,
+		"./my-group/myGroupCtrl.js": 64,
+		"./organisations/edit/organisationCtrl.js": 65,
+		"./organisations/organisationsCtrl.js": 66,
 		"./props/propsCtrl.js": 67,
-		"./psychologs/psychologsCtrl.js": 63
+		"./psychologs/psychologsCtrl.js": 68
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -31111,11 +31113,56 @@
 
 /***/ },
 /* 26 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').service('$$props', props);
+
+	props.$inject = ['$http'];
+	function props($http) {
+
+	  var getList = function getList(payload) {
+	    return $http.get('/api/props' + generateQueryString(payload));
+	  };
+
+	  var post = function post(payload) {
+	    return $http.post('/api/props', payload);
+	  };
+
+	  var remove = function remove(payload) {
+	    return $http.delete('/api/props?id=' + payload.id);
+	  };
+
+	  var put = function put(payload) {
+	    if (payload.ids) return $http.put('/api/props?ids=' + payload.ids.toString(), payload);
+	    return $http.put('/api/props?id=' + payload.id, payload);
+	  };
+
+	  return {
+	    getList: getList,
+	    post: post,
+	    remove: remove,
+	    put: put
+	  };
+
+	  function generateQueryString(payload) {
+	    var query = '';
+
+	    for (var param in payload) {
+	      query += param + '=' + payload[param] + '&';
+	    }
+	    return query.length ? '?' + query.slice(0, -1) : '';
+	  }
+	}
+
+/***/ },
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	__webpack_require__(27);
+	__webpack_require__(28);
 	angular.module("alert", []).constant("alertConfig", {
 	  success: "alert-success",
 	  error: "alert-danger",
@@ -31163,7 +31210,7 @@
 	}).directive("alertFlash", ["flashAlert", function (a) {
 	  return {
 	    restrict: "E",
-	    template: __webpack_require__(29),
+	    template: __webpack_require__(30),
 	    scope: {},
 	    link: function link(b) {
 	      b.$watch(a.getAlert, function () {
@@ -31174,13 +31221,13 @@
 	}]);
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(28);
+	var content = __webpack_require__(29);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31200,7 +31247,7 @@
 	}
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31214,13 +31261,13 @@
 
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class='alert-container'>\n  <div class='repeat-animation' ng-repeat='alert in alerts' ng-click=\"alert.remove()\">\n    <div class='alert' ng-class='alert.typeOfAlert' ng-bind='alert.msg'></div>\n  </div>\n</div>";
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31279,31 +31326,31 @@
 	}
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('topMenu', topMenu);
 
-	__webpack_require__(32);
+	__webpack_require__(33);
 	function topMenu() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(34),
+	    template: __webpack_require__(35),
 	    controller: 'topMenuCtrl',
 	    controllerAs: 'tm'
 	  };
 	}
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(33);
+	var content = __webpack_require__(34);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31323,7 +31370,7 @@
 	}
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31337,13 +31384,13 @@
 
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"top_menu\">\n        <a ng-href=\"{{page.href}}\" ng-class=\"{'active_link':tm.activePage.indexOf(page.href)>-1}\" name=\"page.title\" ng-repeat=\"page in tm.pages\">{{page.title}}</a>\n</div>";
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31370,31 +31417,31 @@
 	}
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('userProfile', userProfile);
 
-	__webpack_require__(37);
+	__webpack_require__(38);
 	function userProfile() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(39),
+	    template: __webpack_require__(40),
 	    controller: 'userProfileCtrl',
 	    controllerAs: 'vm'
 	  };
 	}
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(38);
+	var content = __webpack_require__(39);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31414,7 +31461,7 @@
 	}
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31428,13 +31475,13 @@
 
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"user_profile\" layout>\n    <div class=\"layout-column\">\n        <span>{{::vm.user.name}}</span>\n        <span style=\"font-size: .8em;\">{{::vm.user.role}}</span>\n    </div>\n\n    <md-button class=\"md-icon-button\" aria-label=\"Выйти\" ng-click=\"vm.logout()\">\n        <md-icon md-svg-icon=\"/src/img/ic_exit_to_app_black_24px.svg\"></md-icon>\n    </md-button>\n</div>";
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31447,30 +31494,30 @@
 	}
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('navigation', navigation);
 
-	__webpack_require__(42);
+	__webpack_require__(43);
 	function navigation() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(44),
+	    template: __webpack_require__(45),
 	    controller: 'navigationCtrl as navvm'
 	  };
 	}
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(43);
+	var content = __webpack_require__(44);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31490,7 +31537,7 @@
 	}
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31504,13 +31551,13 @@
 
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"navigation navbar navbar-default\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n      <div class=\"md-toolbar-tools\">\n        <h2>\n          <a ng-href=\"/\">PsychopassApp</a>\n        </h2>\n        <top-menu></top-menu>\n        <span flex></span>\n        <user-profile></user-profile>\n      </div>\n    </md-toolbar>\n  </md-card>\n</div>\n";
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31523,30 +31570,30 @@
 	}
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('navBar', navBar);
 
-	__webpack_require__(47);
+	__webpack_require__(48);
 	function navBar() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(49),
+	    template: __webpack_require__(50),
 	    controller: 'navBarCtrl as navb'
 	  };
 	}
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(48);
+	var content = __webpack_require__(49);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31566,7 +31613,7 @@
 	}
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31580,13 +31627,13 @@
 
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\" navbar navbar-default\">\n  Navbar\n</div>\n";
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31601,18 +31648,18 @@
 	}
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('toolBar', toolBar);
 
-	__webpack_require__(52);
+	__webpack_require__(53);
 	function toolBar() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(54),
+	    template: __webpack_require__(55),
 	    controller: 'toolBarCtrl as tb',
 	    scope: {
 	      filters: '='
@@ -31621,13 +31668,13 @@
 	}
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(53);
+	var content = __webpack_require__(54);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31647,7 +31694,7 @@
 	}
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31661,18 +31708,18 @@
 
 
 /***/ },
-/* 54 */
+/* 55 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"tool_bar\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <div ng-repeat=\"filter in filters\">\n        <md-input-container ng-style=\"{'min-width': filter.title.length*12+'px'}\">\n          <label>{{filter.title}}</label>\n          <md-select ng-model=\"filter.value\">\n            <md-option ng-value=\"null\">Все</md-option>\n            <md-option ng-repeat=\"option in filter.options\" ng-value=\"option.value\">\n              {{option.name}}\n            </md-option>\n          </md-select>\n        </md-input-container>\n      </div>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n  </md-card>\n</div>\n";
 
 /***/ },
-/* 55 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(64);
+	__webpack_require__(57);
 	module.exports = function ($$organisations, $$groups, $$profiles, $routeParams, $mdDialog, $mdMedia, $rootScope, $scope, authentication, flashAlert) {
 
 		var vm = this;
@@ -31753,7 +31800,47 @@
 	};
 
 /***/ },
-/* 56 */
+/* 57 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(58);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./dialog.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./dialog.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 58 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.add_members_dialog {\n  width: 80%; }\n  .add_members_dialog .md-toolbar-tools, .add_members_dialog .md-raised {\n    background-color: #67b3ff !important;\n    color: #fff; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31794,9 +31881,9 @@
 		function showDialog(ev) {
 			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
 			$mdDialog.show({
-				controller: __webpack_require__(55),
+				controller: __webpack_require__(56),
 				controllerAs: 'dlg',
-				template: __webpack_require__(57),
+				template: __webpack_require__(60),
 				parent: angular.element(document.body),
 				targetEvent: ev,
 				clickOutsideToClose: true,
@@ -31831,13 +31918,13 @@
 	}
 
 /***/ },
-/* 57 */
+/* 60 */
 /***/ function(module, exports) {
 
 	module.exports = "<md-dialog class=\"add_members_dialog\" aria-label=\"Добавить участников\"  ng-cloak>\n\t<form>\n\t\t<md-toolbar>\n\t\t\t<div class=\"md-toolbar-tools\">\n\t\t\t\t<h2>Добавить участников</h2>\n\t\t\t\t<span flex></span>\n\t\t\t\t<md-input-container  md-no-float class=\"md-block\" flex=\"20\">\n\t\t\t\t\t<label>Организация</label>\n\t\t\t\t\t<md-select ng-model=\"dlg.filters.organisation.value\">\n\t\t\t\t\t\t<md-option ng-value=\"null\">Все</md-option>\n\t\t\t\t\t\t<md-option ng-repeat=\"org in dlg.organisations\" ng-value=\"org._id\">\n\t\t\t\t\t\t\t{{org.name}}\n\t\t\t\t\t\t</md-option>\n\t\t\t\t\t</md-select>\n\t\t\t\t</md-input-container>\n\t\t\t</div>\n\t\t</md-toolbar>\n\t\t<md-dialog-content>\n\t\t\t<div class=\"md-dialog-content\">\n\t\t\t\t<md-list class=\"layout-fill\">\n\t\t\t\t\t<md-list-item class=\"md-2-line\" ng-repeat=\"member in dlg.members | filter: dlg.filters.organisation.f\">\n\t\t\t\t\t\t<md-checkbox class=\"md-primary\" ng-model=\"member.selected\" aria-label=\"Выбрать участника\">\n\t\t\t\t\t\t\t{{ member.selected }}\n\t\t\t\t\t\t</md-checkbox>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.organisationData.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<md-divider ng-if=\"!$last\"></md-divider>\n\t\t\t\t\t</md-list-item>\n\t\t\t\t\t<md-list-item ng-if=\"!dlg.members.length\">На данный момент нет участников без группы</md-list-item>\n\t\t\t\t</md-list>\n\t\t\t</div>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions layout=\"row\">\n\t\t\t<span flex></span>\n\t\t\t<md-button class=\"md-raised\" ng-click=\"dlg.addMembersToGroup()\" style=\"margin-right:20px;\">\n\t\t\t\tДобавить\n\t\t\t</md-button>\n\t\t</md-dialog-actions>\n\t</form>\n</md-dialog>\n";
 
 /***/ },
-/* 58 */
+/* 61 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31960,7 +32047,7 @@
 	}
 
 /***/ },
-/* 59 */
+/* 62 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31972,7 +32059,7 @@
 	}
 
 /***/ },
-/* 60 */
+/* 63 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32027,7 +32114,61 @@
 	}
 
 /***/ },
-/* 61 */
+/* 64 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(73);
+	angular.module('psApp').controller('myGroupCtrl', myGroupCtrl);
+
+	myGroupCtrl.$inject = ['authentication', '$$profiles', '$$groups', '$$props'];
+
+	function myGroupCtrl(authentication, $$profiles, $$groups, $$props) {
+		var vm = this;
+
+		vm.group = {
+			id: authentication.currentUser().group
+		};
+		vm.props = [];
+
+		init();
+
+		function init() {
+
+			if (vm.group.id) {
+				getMembers();
+				getGroup();
+				getProps();
+			}
+			console.log(vm);
+		}
+
+		function getMembers() {
+			$$profiles.getList({
+				group: vm.group.id
+			}).then(function (resp) {
+				vm.group.members = resp.data;
+			});
+		}
+
+		function getGroup() {
+			$$groups.getList({
+				id: vm.group.id
+			}).then(function (resp) {
+				vm.group.groupData = resp.data[0];
+			});
+		}
+
+		function getProps() {
+			$$props.getList().then(function (resp) {
+				vm.props = resp.data;
+			});
+		}
+	}
+
+/***/ },
+/* 65 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32127,7 +32268,7 @@
 	}
 
 /***/ },
-/* 62 */
+/* 66 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32220,89 +32361,6 @@
 	}
 
 /***/ },
-/* 63 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('psychologsCtrl', psychologsCtrl);
-
-	psychologsCtrl.$inject = ['authentication', '$$profiles', '$$groups'];
-
-	function psychologsCtrl(authentication, $$profiles, $$groups) {
-		var vm = this;
-
-		vm.psychologs = [];
-
-		init();
-
-		function init() {
-			getPsychologs();
-		}
-
-		function getPsychologs() {
-			$$profiles.getList({
-				role: 'psycholog'
-			}).then(function (resp) {
-				vm.psychologs = resp.data;
-				getGroups();
-			});
-		}
-
-		function getGroups() {
-			$$groups.getList().then(function (resp) {
-				var groups = resp.data;
-				vm.psychologs.map(function (pslg) {
-					pslg.groupData = groups.find(function (group) {
-						return group._id == pslg.group;
-					});
-				});
-			});
-		}
-	}
-
-/***/ },
-/* 64 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(65);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./dialog.scss", function() {
-				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./dialog.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 65 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.add_members_dialog {\n  width: 80%; }\n  .add_members_dialog .md-toolbar-tools, .add_members_dialog .md-raised {\n    background-color: #67b3ff !important;\n    color: #fff; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 66 */,
 /* 67 */
 /***/ function(module, exports) {
 
@@ -32402,91 +32460,764 @@
 
 	'use strict';
 
-	angular.module('psApp').service('$$props', props);
+	angular.module('psApp').controller('psychologsCtrl', psychologsCtrl);
 
-	props.$inject = ['$http'];
-	function props($http) {
+	psychologsCtrl.$inject = ['authentication', '$$profiles', '$$groups'];
 
-	  var getList = function getList(payload) {
-	    return $http.get('/api/props' + generateQueryString(payload));
-	  };
-
-	  var post = function post(payload) {
-	    return $http.post('/api/props', payload);
-	  };
-
-	  var remove = function remove(payload) {
-	    return $http.delete('/api/props?id=' + payload.id);
-	  };
-
-	  var put = function put(payload) {
-	    if (payload.ids) return $http.put('/api/props?ids=' + payload.ids.toString(), payload);
-	    return $http.put('/api/props?id=' + payload.id, payload);
-	  };
-
-	  return {
-	    getList: getList,
-	    post: post,
-	    remove: remove,
-	    put: put
-	  };
-
-	  function generateQueryString(payload) {
-	    var query = '';
-
-	    for (var param in payload) {
-	      query += param + '=' + payload[param] + '&';
-	    }
-	    return query.length ? '?' + query.slice(0, -1) : '';
-	  }
-	}
-
-/***/ },
-/* 69 */,
-/* 70 */,
-/* 71 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('myGroupCtrl', myGroupCtrl);
-
-	myGroupCtrl.$inject = ['authentication', '$$profiles', '$$groups'];
-
-	function myGroupCtrl(authentication, $$profiles, $$groups) {
+	function psychologsCtrl(authentication, $$profiles, $$groups) {
 		var vm = this;
 
-		vm.group = {
-			id: authentication.currentUser().group
-		};
+		vm.psychologs = [];
 
 		init();
 
 		function init() {
-
-			if (vm.group.id) {
-				getMembers();
-				getGroup();
-			}
-			console.log(vm);
+			getPsychologs();
 		}
 
-		function getMembers() {
+		function getPsychologs() {
 			$$profiles.getList({
-				group: vm.group.id
+				role: 'psycholog'
 			}).then(function (resp) {
-				vm.group.members = resp.data;
+				vm.psychologs = resp.data;
+				getGroups();
 			});
 		}
 
-		function getGroup() {
-			$$groups.getList({
-				id: vm.group.id
-			}).then(function (resp) {
-				vm.group.groupData = resp.data[0];
+		function getGroups() {
+			$$groups.getList().then(function (resp) {
+				var groups = resp.data;
+				vm.psychologs.map(function (pslg) {
+					pslg.groupData = groups.find(function (group) {
+						return group._id == pslg.group;
+					});
+				});
 			});
 		}
 	}
+
+/***/ },
+/* 69 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(70);
+	module.exports = 'vAccordion';
+
+/***/ },
+/* 70 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * vAccordion - AngularJS multi-level accordion component
+	 * @version v1.6.0
+	 * @link http://lukaszwatroba.github.io/v-accordion
+	 * @author Łukasz Wątroba <l@lukaszwatroba.com>
+	 * @license MIT License, http://www.opensource.org/licenses/MIT
+	 */
+
+	(function (angular) {
+	  'use strict';
+
+	  // Config
+
+	  angular.module('vAccordion.config', []).constant('accordionConfig', {
+	    states: {
+	      expanded: 'is-expanded'
+	    },
+	    expandAnimationDuration: 0.5
+	  }).animation('.is-expanded', ['$animateCss', 'accordionConfig', function ($animateCss, accordionConfig) {
+	    return {
+	      addClass: function addClass(element, className, done) {
+	        var paneContent = angular.element(element[0].querySelector('v-pane-content')),
+	            paneInner = angular.element(paneContent[0].querySelector('div'));
+
+	        var height = paneInner[0].offsetHeight;
+
+	        var expandAnimation = $animateCss(paneContent, {
+	          easing: 'ease',
+	          from: { maxHeight: '0px' },
+	          to: { maxHeight: height + 'px' },
+	          duration: accordionConfig.expandAnimationDuration
+	        });
+
+	        expandAnimation.start().done(function () {
+	          paneContent.css('max-height', 'none');
+	          done();
+	        });
+
+	        return function (isCancelled) {
+	          if (isCancelled) {
+	            paneContent.css('max-height', 'none');
+	          }
+	        };
+	      },
+	      removeClass: function removeClass(element, className, done) {
+	        var paneContent = angular.element(element[0].querySelector('v-pane-content')),
+	            paneInner = angular.element(paneContent[0].querySelector('div'));
+
+	        var height = paneInner[0].offsetHeight;
+
+	        var collapseAnimation = $animateCss(paneContent, {
+	          easing: 'ease',
+	          from: { maxHeight: height + 'px' },
+	          to: { maxHeight: '0px' },
+	          duration: accordionConfig.expandAnimationDuration
+	        });
+
+	        collapseAnimation.start().done(done);
+
+	        return function (isCancelled) {
+	          if (isCancelled) {
+	            paneContent.css('max-height', '0px');
+	          }
+	        };
+	      }
+	    };
+	  }]);
+
+	  // Modules
+	  angular.module('vAccordion.directives', []);
+	  angular.module('vAccordion', ['vAccordion.config', 'vAccordion.directives']);
+
+	  // vAccordion directive
+	  angular.module('vAccordion.directives').directive('vAccordion', vAccordionDirective);
+
+	  function vAccordionDirective($timeout) {
+	    return {
+	      restrict: 'E',
+	      transclude: true,
+	      controller: vAccordionController,
+	      scope: {
+	        control: '=?',
+	        expandCb: '&?onexpand',
+	        collapseCb: '&?oncollapse',
+	        id: '@?'
+	      },
+	      link: {
+	        pre: function pre(scope, iElement, iAttrs) {
+	          scope.allowMultiple = angular.isDefined(iAttrs.multiple) && (iAttrs.multiple === '' || iAttrs.multiple === 'true');
+	        },
+	        post: function post(scope, iElement, iAttrs, ctrl, transclude) {
+	          transclude(scope.$parent.$new(), function (clone, transclusionScope) {
+	            transclusionScope.$accordion = scope.internalControl;
+	            if (scope.id) {
+	              transclusionScope.$accordion.id = scope.id;
+	            }
+	            iElement.append(clone);
+	          });
+
+	          iAttrs.$set('role', 'tablist');
+
+	          if (scope.allowMultiple) {
+	            iAttrs.$set('aria-multiselectable', 'true');
+	          }
+
+	          if (angular.isDefined(scope.control)) {
+	            checkCustomControlAPIMethods();
+
+	            var mergedControl = angular.extend({}, scope.internalControl, scope.control);
+	            scope.control = scope.internalControl = mergedControl;
+	          } else {
+	            scope.control = scope.internalControl;
+	          }
+
+	          function checkCustomControlAPIMethods() {
+	            var protectedApiMethods = ['toggle', 'expand', 'collapse', 'expandAll', 'collapseAll', 'hasExpandedPane'];
+
+	            angular.forEach(protectedApiMethods, function (iteratedMethodName) {
+	              if (scope.control[iteratedMethodName]) {
+	                throw new Error('The `' + iteratedMethodName + '` method can not be overwritten');
+	              }
+	            });
+	          }
+
+	          $timeout(function () {
+	            var eventName = angular.isDefined(ctrl.getAccordionId()) ? ctrl.getAccordionId() + ':onReady' : 'vAccordion:onReady';
+	            scope.$emit(eventName);
+	          }, 0);
+	        }
+	      }
+	    };
+	  }
+	  vAccordionDirective.$inject = ['$timeout'];
+
+	  // vAccordion directive controller
+	  function vAccordionController($scope) {
+	    var ctrl = this;
+	    var isDisabled = false;
+
+	    $scope.panes = [];
+
+	    $scope.expandCb = angular.isFunction($scope.expandCb) ? $scope.expandCb : angular.noop;
+	    $scope.collapseCb = angular.isFunction($scope.collapseCb) ? $scope.collapseCb : angular.noop;
+
+	    ctrl.hasExpandedPane = function hasExpandedPane() {
+	      var bool = false;
+
+	      for (var i = 0, length = $scope.panes.length; i < length; i++) {
+	        var iteratedPane = $scope.panes[i];
+
+	        if (iteratedPane.isExpanded) {
+	          bool = true;
+	          break;
+	        }
+	      }
+
+	      return bool;
+	    };
+
+	    ctrl.getPaneByIndex = function getPaneByIndex(index) {
+	      var thePane;
+
+	      angular.forEach($scope.panes, function (iteratedPane) {
+	        if (iteratedPane.$parent && angular.isDefined(iteratedPane.$parent.$index) && iteratedPane.$parent.$index === index) {
+	          thePane = iteratedPane;
+	        }
+	      });
+
+	      return thePane ? thePane : $scope.panes[index];
+	    };
+
+	    ctrl.getPaneIndex = function getPaneIndex(pane) {
+	      var theIndex;
+
+	      angular.forEach($scope.panes, function (iteratedPane) {
+	        if (iteratedPane.$parent && angular.isDefined(iteratedPane.$parent.$index) && iteratedPane === pane) {
+	          theIndex = iteratedPane.$parent.$index;
+	        }
+	      });
+
+	      return angular.isDefined(theIndex) ? theIndex : $scope.panes.indexOf(pane);
+	    };
+
+	    ctrl.getPaneById = function getPaneById(id) {
+	      var thePane;
+
+	      angular.forEach($scope.panes, function (iteratedPane) {
+	        if (iteratedPane.id && iteratedPane.id === id) {
+	          thePane = iteratedPane;
+	        }
+	      });
+
+	      return thePane;
+	    };
+
+	    ctrl.getPaneId = function getPaneId(pane) {
+	      return pane.id;
+	    };
+
+	    ctrl.getAccordionId = function getAccordionId() {
+	      return $scope.id;
+	    };
+
+	    ctrl.disable = function disable() {
+	      isDisabled = true;
+	    };
+
+	    ctrl.enable = function enable() {
+	      isDisabled = false;
+	    };
+
+	    ctrl.addPane = function addPane(paneToAdd) {
+	      if (!$scope.allowMultiple) {
+	        if (ctrl.hasExpandedPane() && paneToAdd.isExpanded) {
+	          throw new Error('The `multiple` attribute can\'t be found');
+	        }
+	      }
+
+	      $scope.panes.push(paneToAdd);
+
+	      if (paneToAdd.isExpanded) {
+	        $scope.expandCb({ index: ctrl.getPaneIndex(paneToAdd), id: paneToAdd.id, pane: paneToAdd });
+	      }
+	    };
+
+	    ctrl.focusNext = function focusNext() {
+	      var length = $scope.panes.length;
+
+	      for (var i = 0; i < length; i++) {
+	        var iteratedPane = $scope.panes[i];
+
+	        if (iteratedPane.isFocused) {
+	          var paneToFocusIndex = i + 1;
+
+	          if (paneToFocusIndex > $scope.panes.length - 1) {
+	            paneToFocusIndex = 0;
+	          }
+
+	          var paneToFocus = $scope.panes[paneToFocusIndex];
+	          paneToFocus.paneElement.find('v-pane-header')[0].focus();
+
+	          break;
+	        }
+	      }
+	    };
+
+	    ctrl.focusPrevious = function focusPrevious() {
+	      var length = $scope.panes.length;
+
+	      for (var i = 0; i < length; i++) {
+	        var iteratedPane = $scope.panes[i];
+
+	        if (iteratedPane.isFocused) {
+	          var paneToFocusIndex = i - 1;
+
+	          if (paneToFocusIndex < 0) {
+	            paneToFocusIndex = $scope.panes.length - 1;
+	          }
+
+	          var paneToFocus = $scope.panes[paneToFocusIndex];
+	          paneToFocus.paneElement.find('v-pane-header')[0].focus();
+
+	          break;
+	        }
+	      }
+	    };
+
+	    ctrl.toggle = function toggle(paneToToggle) {
+	      if (isDisabled || !paneToToggle) {
+	        return;
+	      }
+
+	      if (!$scope.allowMultiple) {
+	        ctrl.collapseAll(paneToToggle);
+	      }
+
+	      paneToToggle.isExpanded = !paneToToggle.isExpanded;
+
+	      if (paneToToggle.isExpanded) {
+	        $scope.expandCb({ index: ctrl.getPaneIndex(paneToToggle), id: paneToToggle.id, pane: paneToToggle });
+	      } else {
+	        $scope.collapseCb({ index: ctrl.getPaneIndex(paneToToggle), id: paneToToggle.id, pane: paneToToggle });
+	      }
+	    };
+
+	    ctrl.expand = function expand(paneToExpand) {
+	      if (isDisabled || !paneToExpand) {
+	        return;
+	      }
+
+	      if (!$scope.allowMultiple) {
+	        ctrl.collapseAll(paneToExpand);
+	      }
+
+	      if (!paneToExpand.isExpanded) {
+	        paneToExpand.isExpanded = true;
+	        $scope.expandCb({ index: ctrl.getPaneIndex(paneToExpand), id: paneToExpand.id, pane: paneToExpand });
+	      }
+	    };
+
+	    ctrl.collapse = function collapse(paneToCollapse) {
+	      if (isDisabled || !paneToCollapse) {
+	        return;
+	      }
+
+	      if (paneToCollapse.isExpanded) {
+	        paneToCollapse.isExpanded = false;
+	        $scope.collapseCb({ index: ctrl.getPaneIndex(paneToCollapse), id: paneToCollapse.id, pane: paneToCollapse });
+	      }
+	    };
+
+	    ctrl.expandAll = function expandAll() {
+	      if (isDisabled) {
+	        return;
+	      }
+
+	      if ($scope.allowMultiple) {
+	        angular.forEach($scope.panes, function (iteratedPane) {
+	          ctrl.expand(iteratedPane);
+	        });
+	      } else {
+	        throw new Error('The `multiple` attribute can\'t be found');
+	      }
+	    };
+
+	    ctrl.collapseAll = function collapseAll(exceptionalPane) {
+	      if (isDisabled) {
+	        return;
+	      }
+
+	      angular.forEach($scope.panes, function (iteratedPane) {
+	        if (iteratedPane !== exceptionalPane) {
+	          ctrl.collapse(iteratedPane);
+	        }
+	      });
+	    };
+
+	    // API
+	    $scope.internalControl = {
+	      toggle: function toggle(indexOrId) {
+	        if (angular.isString(indexOrId)) {
+	          ctrl.toggle(ctrl.getPaneById(indexOrId));
+	        } else {
+	          ctrl.toggle(ctrl.getPaneByIndex(indexOrId));
+	        }
+	      },
+	      expand: function expand(indexOrId) {
+	        if (angular.isString(indexOrId)) {
+	          ctrl.expand(ctrl.getPaneById(indexOrId));
+	        } else {
+	          ctrl.expand(ctrl.getPaneByIndex(indexOrId));
+	        }
+	      },
+	      collapse: function collapse(indexOrId) {
+	        if (angular.isString(indexOrId)) {
+	          ctrl.collapse(ctrl.getPaneById(indexOrId));
+	        } else {
+	          ctrl.collapse(ctrl.getPaneByIndex(indexOrId));
+	        }
+	      },
+	      expandAll: ctrl.expandAll,
+	      collapseAll: ctrl.collapseAll,
+	      hasExpandedPane: ctrl.hasExpandedPane
+	    };
+	  }
+	  vAccordionController.$inject = ['$scope'];
+
+	  // vPane directive
+	  angular.module('vAccordion.directives').directive('vPane', vPaneDirective);
+
+	  function vPaneDirective($timeout, $animate, accordionConfig) {
+	    return {
+	      restrict: 'E',
+	      require: '^vAccordion',
+	      transclude: true,
+	      controller: vPaneController,
+	      scope: {
+	        isExpanded: '=?expanded',
+	        isDisabled: '=?ngDisabled',
+	        id: '@?'
+	      },
+	      link: function link(scope, iElement, iAttrs, accordionCtrl, transclude) {
+	        transclude(scope.$parent.$new(), function (clone, transclusionScope) {
+	          transclusionScope.$pane = scope.internalControl;
+	          if (scope.id) {
+	            transclusionScope.$pane.id = scope.id;
+	          }
+	          iElement.append(clone);
+	        });
+
+	        if (!angular.isDefined(scope.isExpanded)) {
+	          scope.isExpanded = angular.isDefined(iAttrs.expanded) && iAttrs.expanded === '';
+	        }
+
+	        if (angular.isDefined(iAttrs.disabled)) {
+	          scope.isDisabled = true;
+	        }
+
+	        var states = accordionConfig.states;
+
+	        var paneHeader = iElement.find('v-pane-header'),
+	            paneContent = iElement.find('v-pane-content'),
+	            paneInner = paneContent.find('div');
+
+	        var accordionId = accordionCtrl.getAccordionId();
+
+	        if (!paneHeader[0]) {
+	          throw new Error('The `v-pane-header` directive can\'t be found');
+	        }
+
+	        if (!paneContent[0]) {
+	          throw new Error('The `v-pane-content` directive can\'t be found');
+	        }
+
+	        scope.paneElement = iElement;
+	        scope.paneContentElement = paneContent;
+	        scope.paneInnerElement = paneInner;
+
+	        scope.accordionCtrl = accordionCtrl;
+
+	        accordionCtrl.addPane(scope);
+
+	        function emitEvent(eventName) {
+	          eventName = angular.isDefined(accordionId) ? accordionId + ':' + eventName : 'vAccordion:' + eventName;
+	          scope.$emit(eventName);
+	        }
+
+	        function expand() {
+	          accordionCtrl.disable();
+
+	          paneContent.attr('aria-hidden', 'false');
+
+	          paneHeader.attr({
+	            'aria-selected': 'true',
+	            'aria-expanded': 'true'
+	          });
+
+	          emitEvent('onExpand');
+
+	          $animate.addClass(iElement, states.expanded).then(function () {
+	            accordionCtrl.enable();
+	            emitEvent('onExpandAnimationEnd');
+	          });
+	        }
+
+	        function collapse() {
+	          accordionCtrl.disable();
+
+	          paneContent.attr('aria-hidden', 'true');
+
+	          paneHeader.attr({
+	            'aria-selected': 'false',
+	            'aria-expanded': 'false'
+	          });
+
+	          emitEvent('onCollapse');
+
+	          $animate.removeClass(iElement, states.expanded).then(function () {
+	            accordionCtrl.enable();
+	            emitEvent('onCollapseAnimationEnd');
+	          });
+	        }
+
+	        scope.$evalAsync(function () {
+	          if (scope.isExpanded) {
+	            iElement.addClass(states.expanded);
+	            paneContent.css('max-height', 'none').attr('aria-hidden', 'false');
+
+	            paneHeader.attr({
+	              'aria-selected': 'true',
+	              'aria-expanded': 'true'
+	            });
+	          } else {
+	            paneContent.css('max-height', '0px').attr('aria-hidden', 'true');
+
+	            paneHeader.attr({
+	              'aria-selected': 'false',
+	              'aria-expanded': 'false'
+	            });
+	          }
+	        });
+
+	        scope.$watch('isExpanded', function (newValue, oldValue) {
+	          if (newValue === oldValue) {
+	            return true;
+	          }
+	          if (newValue) {
+	            expand();
+	          } else {
+	            collapse();
+	          }
+	        });
+	      }
+	    };
+	  }
+	  vPaneDirective.$inject = ['$timeout', '$animate', 'accordionConfig'];
+
+	  // vPane directive controller
+	  function vPaneController($scope) {
+	    var ctrl = this;
+
+	    ctrl.isExpanded = function isExpanded() {
+	      return $scope.isExpanded;
+	    };
+
+	    ctrl.toggle = function toggle() {
+	      if (!$scope.isAnimating && !$scope.isDisabled) {
+	        $scope.accordionCtrl.toggle($scope);
+	      }
+	    };
+
+	    ctrl.expand = function expand() {
+	      if (!$scope.isAnimating && !$scope.isDisabled) {
+	        $scope.accordionCtrl.expand($scope);
+	      }
+	    };
+
+	    ctrl.collapse = function collapse() {
+	      if (!$scope.isAnimating && !$scope.isDisabled) {
+	        $scope.accordionCtrl.collapse($scope);
+	      }
+	    };
+
+	    ctrl.focusPane = function focusPane() {
+	      $scope.isFocused = true;
+	    };
+
+	    ctrl.blurPane = function blurPane() {
+	      $scope.isFocused = false;
+	    };
+
+	    $scope.internalControl = {
+	      toggle: ctrl.toggle,
+	      expand: ctrl.expand,
+	      collapse: ctrl.collapse,
+	      isExpanded: ctrl.isExpanded
+	    };
+	  }
+	  vPaneController.$inject = ['$scope'];
+
+	  // vPaneContent directive
+	  angular.module('vAccordion.directives').directive('vPaneContent', vPaneContentDirective);
+
+	  function vPaneContentDirective() {
+	    return {
+	      restrict: 'E',
+	      require: '^vPane',
+	      transclude: true,
+	      template: '<div ng-transclude></div>',
+	      scope: {},
+	      link: function link(scope, iElement, iAttrs) {
+	        iAttrs.$set('role', 'tabpanel');
+	        iAttrs.$set('aria-hidden', 'true');
+	      }
+	    };
+	  }
+
+	  // vPaneHeader directive
+	  angular.module('vAccordion.directives').directive('vPaneHeader', vPaneHeaderDirective);
+
+	  function vPaneHeaderDirective() {
+	    return {
+	      restrict: 'E',
+	      require: ['^vPane', '^vAccordion'],
+	      transclude: true,
+	      template: '<div ng-transclude></div>',
+	      scope: {},
+	      link: function link(scope, iElement, iAttrs, ctrls) {
+	        iAttrs.$set('role', 'tab');
+	        iAttrs.$set('tabindex', '0');
+
+	        var paneCtrl = ctrls[0],
+	            accordionCtrl = ctrls[1];
+
+	        var isInactive = angular.isDefined(iAttrs.inactive);
+
+	        function onClick() {
+	          if (isInactive) {
+	            return false;
+	          }
+	          scope.$apply(function () {
+	            paneCtrl.toggle();
+	          });
+	        }
+
+	        function onKeydown(event) {
+	          if (event.keyCode === 32 || event.keyCode === 13) {
+	            scope.$apply(function () {
+	              paneCtrl.toggle();
+	            });
+	            event.preventDefault();
+	          } else if (event.keyCode === 39 || event.keyCode === 40) {
+	            scope.$apply(function () {
+	              accordionCtrl.focusNext();
+	            });
+	            event.preventDefault();
+	          } else if (event.keyCode === 37 || event.keyCode === 38) {
+	            scope.$apply(function () {
+	              accordionCtrl.focusPrevious();
+	            });
+	            event.preventDefault();
+	          }
+	        }
+
+	        function onFocus() {
+	          paneCtrl.focusPane();
+	        }
+
+	        function onBlur() {
+	          paneCtrl.blurPane();
+	        }
+
+	        iElement[0].onfocus = onFocus;
+	        iElement[0].onblur = onBlur;
+	        iElement.bind('click', onClick);
+	        iElement.bind('keydown', onKeydown);
+
+	        scope.$on('$destroy', function () {
+	          iElement.unbind('click', onClick);
+	          iElement.unbind('keydown', onKeydown);
+	          iElement[0].onfocus = null;
+	          iElement[0].onblur = null;
+	        });
+	      }
+	    };
+	  }
+	})(angular);
+
+/***/ },
+/* 71 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(72);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../css-loader/index.js!./v-accordion.min.css", function() {
+				var newContent = require("!!./../../css-loader/index.js!./v-accordion.min.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 72 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "/**\n * vAccordion - AngularJS multi-level accordion component\n * @version v1.6.0\n * @link http://lukaszwatroba.github.io/v-accordion\n * @author Łukasz Wątroba <l@lukaszwatroba.com>\n * @license MIT License, http://www.opensource.org/licenses/MIT\n */\n\nv-accordion,v-pane{display:block}v-pane.is-expanded>v-pane-content>div{display:visible}v-pane[disabled]>v-pane-header{opacity:.6;pointer-events:none}v-pane-header{display:block;position:relative;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;outline:0}v-pane-header:focus{outline:0}v-pane-header>div{display:block}v-pane-content{display:block;position:relative;overflow:hidden;max-height:0}v-pane-content>div{visibility:none}.vAccordion--default v-accordion{margin-top:20px;padding-left:20px}.vAccordion--default v-pane-content>div{padding-bottom:20px;opacity:0;-webkit-transform:translate3d(0,30px,0);transform:translate3d(0,30px,0);-webkit-transition:all .5s;transition:all .5s}.vAccordion--default v-pane{overflow:hidden}.vAccordion--default v-pane.is-expanded>v-pane-header{border-bottom-color:#2196F3}.vAccordion--default v-pane.is-expanded>v-pane-header::after{-webkit-transform:rotate(90deg);transform:rotate(90deg);opacity:0}.vAccordion--default v-pane.is-expanded>v-pane-header::before{-webkit-transform:rotate(0deg);transform:rotate(0deg)}.vAccordion--default v-pane.is-expanded>v-pane-content>div{opacity:1;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}.vAccordion--default v-pane[disabled] v-pane-header::after,.vAccordion--default v-pane[disabled] v-pane-header::before{display:none}.vAccordion--default v-pane-header{padding:5px 0;margin-bottom:20px;border-bottom:2px solid #D8D8D8;-webkit-transition:all .25s;transition:all .25s}.vAccordion--default v-pane-header::after,.vAccordion--default v-pane-header::before{content:'';display:block;position:absolute;top:50%;right:0;width:10px;height:1px;background-color:#2196F3;-webkit-transform-origin:50% 50%;transform-origin:50% 50%;will-change:transform;-webkit-transition:all .25s;transition:all .25s}.vAccordion--default v-pane-header::before{-webkit-transform:rotate(-90deg);transform:rotate(-90deg)}.vAccordion--default v-pane-header:focus,.vAccordion--default v-pane-header:hover{color:#2196F3}", ""]);
+
+	// exports
+
+
+/***/ },
+/* 73 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(74);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./my_group.scss", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./my_group.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 74 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.my_group v-accordion {\n  padding: .5em; }\n\n.my_group md-card {\n  margin: .5em 0;\n  border-radius: .5em; }\n", ""]);
+
+	// exports
+
 
 /***/ }
 /******/ ]);

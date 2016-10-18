@@ -1,16 +1,17 @@
-
+require('./my_group.scss')
 angular
 	.module('psApp')
 	.controller('myGroupCtrl', myGroupCtrl)
 
-myGroupCtrl.$inject = ['authentication','$$profiles', '$$groups']
+myGroupCtrl.$inject = ['authentication','$$profiles', '$$groups','$$props']
 
-function myGroupCtrl(authentication, $$profiles, $$groups) {
+function myGroupCtrl(authentication, $$profiles, $$groups, $$props) {
 	var vm = this
 
 	vm.group = {
 		id: authentication.currentUser().group
 	}
+	vm.props = []
 
 	init()
 
@@ -19,6 +20,7 @@ function myGroupCtrl(authentication, $$profiles, $$groups) {
 		if(vm.group.id){
 			getMembers()
 			getGroup()
+			getProps()
 		}
 		console.log(vm)
 	}
@@ -36,6 +38,13 @@ function myGroupCtrl(authentication, $$profiles, $$groups) {
 			id: vm.group.id
 		}).then(resp => {
 			vm.group.groupData = resp.data[0]
+		})
+	}
+
+	function getProps(){
+		$$props.getList()
+			.then(resp => {
+			vm.props = resp.data
 		})
 	}
 

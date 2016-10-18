@@ -4,7 +4,9 @@ const angular = require('angular')
 require('angular-material')
 require('../node_modules/angular-material/angular-material.min.css')
 
-	angular.module('psApp', ['ngMaterial','ngRoute','alert'])
+require('v-accordion')
+require('../node_modules/v-accordion/dist/v-accordion.min.css')
+	angular.module('psApp', ['ngMaterial','ngRoute','alert','vAccordion'])
 
 
 	function config ($routeProvider, $locationProvider, flashAlertProvider) {
