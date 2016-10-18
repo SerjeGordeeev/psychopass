@@ -55,7 +55,7 @@ function propsCtrl($$props, authentication, flashAlert, $$profiles) {
 
 	function add(){
 		$$props.post({
-			name: null,
+			name: '',
 			type: null
 		}).then(data=>{
 			flashAlert.success(data.data.message)

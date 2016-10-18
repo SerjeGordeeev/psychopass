@@ -15,7 +15,7 @@
 
 		<md-card>
 			<md-list class="layout-fill">
-				<md-list-item class="md-2-line" ng-repeat="prop in prs.props">
+				<md-list-item class="md-2-line" ng-repeat="prop in prs.props | orderBy: 'name'">
 
 
 					<md-input-container  md-no-float class="md-block" flex="20">
@@ -47,7 +47,7 @@
 
 
 					<md-input-container  class="md-block">
-						<md-button ng-if="mayCRUD" class="md-icon-button delete_button" aria-label="Удалить характеристику" ng-click="prs.remove(org._id)">
+						<md-button ng-if="mayCRUD" class="md-icon-button delete_button" aria-label="Удалить характеристику" ng-click="prs.remove(prop._id)">
 							<md-icon md-svg-icon="/src/img/ic_delete_forever_black_24px.svg"></md-icon>
 						</md-button>
 					</md-input-container>

@@ -52,8 +52,8 @@
 	__webpack_require__(5);
 	__webpack_require__(11);
 
-	__webpack_require__(69);
-	__webpack_require__(71);
+	__webpack_require__(66);
+	__webpack_require__(68);
 	angular.module('psApp', ['ngMaterial', 'ngRoute', 'alert', 'vAccordion']);
 
 	function config($routeProvider, $locationProvider, flashAlertProvider) {
@@ -133,7 +133,7 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	'use strict';var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};/**
+	'use strict';var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};/**
 	 * @license AngularJS v1.5.8
 	 * (c) 2010-2016 Google, Inc. http://angularjs.org
 	 * License: MIT
@@ -6736,7 +6736,7 @@
 	/**
 	 * @constructor
 	 */var Lexer=function Lexer(options){this.options=options;};Lexer.prototype={constructor:Lexer,lex:function lex(text){this.text=text;this.index=0;this.tokens=[];while(this.index<this.text.length){var ch=this.text.charAt(this.index);if(ch==='"'||ch==="'"){this.readString(ch);}else if(this.isNumber(ch)||ch==='.'&&this.isNumber(this.peek())){this.readNumber();}else if(this.isIdentifierStart(this.peekMultichar())){this.readIdent();}else if(this.is(ch,'(){}[].,;:?')){this.tokens.push({index:this.index,text:ch});this.index++;}else if(this.isWhitespace(ch)){this.index++;}else{var ch2=ch+this.peek();var ch3=ch2+this.peek(2);var op1=OPERATORS[ch];var op2=OPERATORS[ch2];var op3=OPERATORS[ch3];if(op1||op2||op3){var token=op3?ch3:op2?ch2:ch;this.tokens.push({index:this.index,text:token,operator:true});this.index+=token.length;}else{this.throwError('Unexpected next character ',this.index,this.index+1);}}}return this.tokens;},is:function is(ch,chars){return chars.indexOf(ch)!==-1;},peek:function peek(i){var num=i||1;return this.index+num<this.text.length?this.text.charAt(this.index+num):false;},isNumber:function isNumber(ch){return'0'<=ch&&ch<='9'&&typeof ch==="string";},isWhitespace:function isWhitespace(ch){// IE treats non-breaking space as \u00A0
-	return ch===' '||ch==='\r'||ch==='\t'||ch==='\n'||ch==='\v'||ch==='\xA0';},isIdentifierStart:function isIdentifierStart(ch){return this.options.isIdentifierStart?this.options.isIdentifierStart(ch,this.codePointAt(ch)):this.isValidIdentifierStart(ch);},isValidIdentifierStart:function isValidIdentifierStart(ch){return'a'<=ch&&ch<='z'||'A'<=ch&&ch<='Z'||'_'===ch||ch==='$';},isIdentifierContinue:function isIdentifierContinue(ch){return this.options.isIdentifierContinue?this.options.isIdentifierContinue(ch,this.codePointAt(ch)):this.isValidIdentifierContinue(ch);},isValidIdentifierContinue:function isValidIdentifierContinue(ch,cp){return this.isValidIdentifierStart(ch,cp)||this.isNumber(ch);},codePointAt:function codePointAt(ch){if(ch.length===1)return ch.charCodeAt(0);/*jshint bitwise: false*/return(ch.charCodeAt(0)<<10)+ch.charCodeAt(1)-0x35FDC00;/*jshint bitwise: true*/},peekMultichar:function peekMultichar(){var ch=this.text.charAt(this.index);var peek=this.peek();if(!peek){return ch;}var cp1=ch.charCodeAt(0);var cp2=peek.charCodeAt(0);if(cp1>=0xD800&&cp1<=0xDBFF&&cp2>=0xDC00&&cp2<=0xDFFF){return ch+peek;}return ch;},isExpOperator:function isExpOperator(ch){return ch==='-'||ch==='+'||this.isNumber(ch);},throwError:function throwError(error,start,end){end=end||this.index;var colStr=isDefined(start)?'s '+start+'-'+this.index+' ['+this.text.substring(start,end)+']':' '+end;throw $parseMinErr('lexerr','Lexer Error: {0} at column{1} in expression [{2}].',error,colStr,this.text);},readNumber:function readNumber(){var number='';var start=this.index;while(this.index<this.text.length){var ch=lowercase(this.text.charAt(this.index));if(ch=='.'||this.isNumber(ch)){number+=ch;}else{var peekCh=this.peek();if(ch=='e'&&this.isExpOperator(peekCh)){number+=ch;}else if(this.isExpOperator(ch)&&peekCh&&this.isNumber(peekCh)&&number.charAt(number.length-1)=='e'){number+=ch;}else if(this.isExpOperator(ch)&&(!peekCh||!this.isNumber(peekCh))&&number.charAt(number.length-1)=='e'){this.throwError('Invalid exponent');}else{break;}}this.index++;}this.tokens.push({index:start,text:number,constant:true,value:Number(number)});},readIdent:function readIdent(){var start=this.index;this.index+=this.peekMultichar().length;while(this.index<this.text.length){var ch=this.peekMultichar();if(!this.isIdentifierContinue(ch)){break;}this.index+=ch.length;}this.tokens.push({index:start,text:this.text.slice(start,this.index),identifier:true});},readString:function readString(quote){var start=this.index;this.index++;var string='';var rawString=quote;var escape=false;while(this.index<this.text.length){var ch=this.text.charAt(this.index);rawString+=ch;if(escape){if(ch==='u'){var hex=this.text.substring(this.index+1,this.index+5);if(!hex.match(/[\da-f]{4}/i)){this.throwError('Invalid unicode escape [\\u'+hex+']');}this.index+=4;string+=String.fromCharCode(parseInt(hex,16));}else{var rep=ESCAPE[ch];string=string+(rep||ch);}escape=false;}else if(ch==='\\'){escape=true;}else if(ch===quote){this.index++;this.tokens.push({index:start,text:rawString,constant:true,value:string});return;}else{string+=ch;}this.index++;}this.throwError('Unterminated quote',start);}};var AST=function AST(lexer,options){this.lexer=lexer;this.options=options;};AST.Program='Program';AST.ExpressionStatement='ExpressionStatement';AST.AssignmentExpression='AssignmentExpression';AST.ConditionalExpression='ConditionalExpression';AST.LogicalExpression='LogicalExpression';AST.BinaryExpression='BinaryExpression';AST.UnaryExpression='UnaryExpression';AST.CallExpression='CallExpression';AST.MemberExpression='MemberExpression';AST.Identifier='Identifier';AST.Literal='Literal';AST.ArrayExpression='ArrayExpression';AST.Property='Property';AST.ObjectExpression='ObjectExpression';AST.ThisExpression='ThisExpression';AST.LocalsExpression='LocalsExpression';// Internal use only
+	return ch===' '||ch==='\r'||ch==='\t'||ch==='\n'||ch==='\v'||ch===' ';},isIdentifierStart:function isIdentifierStart(ch){return this.options.isIdentifierStart?this.options.isIdentifierStart(ch,this.codePointAt(ch)):this.isValidIdentifierStart(ch);},isValidIdentifierStart:function isValidIdentifierStart(ch){return'a'<=ch&&ch<='z'||'A'<=ch&&ch<='Z'||'_'===ch||ch==='$';},isIdentifierContinue:function isIdentifierContinue(ch){return this.options.isIdentifierContinue?this.options.isIdentifierContinue(ch,this.codePointAt(ch)):this.isValidIdentifierContinue(ch);},isValidIdentifierContinue:function isValidIdentifierContinue(ch,cp){return this.isValidIdentifierStart(ch,cp)||this.isNumber(ch);},codePointAt:function codePointAt(ch){if(ch.length===1)return ch.charCodeAt(0);/*jshint bitwise: false*/return(ch.charCodeAt(0)<<10)+ch.charCodeAt(1)-0x35FDC00;/*jshint bitwise: true*/},peekMultichar:function peekMultichar(){var ch=this.text.charAt(this.index);var peek=this.peek();if(!peek){return ch;}var cp1=ch.charCodeAt(0);var cp2=peek.charCodeAt(0);if(cp1>=0xD800&&cp1<=0xDBFF&&cp2>=0xDC00&&cp2<=0xDFFF){return ch+peek;}return ch;},isExpOperator:function isExpOperator(ch){return ch==='-'||ch==='+'||this.isNumber(ch);},throwError:function throwError(error,start,end){end=end||this.index;var colStr=isDefined(start)?'s '+start+'-'+this.index+' ['+this.text.substring(start,end)+']':' '+end;throw $parseMinErr('lexerr','Lexer Error: {0} at column{1} in expression [{2}].',error,colStr,this.text);},readNumber:function readNumber(){var number='';var start=this.index;while(this.index<this.text.length){var ch=lowercase(this.text.charAt(this.index));if(ch=='.'||this.isNumber(ch)){number+=ch;}else{var peekCh=this.peek();if(ch=='e'&&this.isExpOperator(peekCh)){number+=ch;}else if(this.isExpOperator(ch)&&peekCh&&this.isNumber(peekCh)&&number.charAt(number.length-1)=='e'){number+=ch;}else if(this.isExpOperator(ch)&&(!peekCh||!this.isNumber(peekCh))&&number.charAt(number.length-1)=='e'){this.throwError('Invalid exponent');}else{break;}}this.index++;}this.tokens.push({index:start,text:number,constant:true,value:Number(number)});},readIdent:function readIdent(){var start=this.index;this.index+=this.peekMultichar().length;while(this.index<this.text.length){var ch=this.peekMultichar();if(!this.isIdentifierContinue(ch)){break;}this.index+=ch.length;}this.tokens.push({index:start,text:this.text.slice(start,this.index),identifier:true});},readString:function readString(quote){var start=this.index;this.index++;var string='';var rawString=quote;var escape=false;while(this.index<this.text.length){var ch=this.text.charAt(this.index);rawString+=ch;if(escape){if(ch==='u'){var hex=this.text.substring(this.index+1,this.index+5);if(!hex.match(/[\da-f]{4}/i)){this.throwError('Invalid unicode escape [\\u'+hex+']');}this.index+=4;string+=String.fromCharCode(parseInt(hex,16));}else{var rep=ESCAPE[ch];string=string+(rep||ch);}escape=false;}else if(ch==='\\'){escape=true;}else if(ch===quote){this.index++;this.tokens.push({index:start,text:rawString,constant:true,value:string});return;}else{string+=ch;}this.index++;}this.throwError('Unterminated quote',start);}};var AST=function AST(lexer,options){this.lexer=lexer;this.options=options;};AST.Program='Program';AST.ExpressionStatement='ExpressionStatement';AST.AssignmentExpression='AssignmentExpression';AST.ConditionalExpression='ConditionalExpression';AST.LogicalExpression='LogicalExpression';AST.BinaryExpression='BinaryExpression';AST.UnaryExpression='UnaryExpression';AST.CallExpression='CallExpression';AST.MemberExpression='MemberExpression';AST.Identifier='Identifier';AST.Literal='Literal';AST.ArrayExpression='ArrayExpression';AST.Property='Property';AST.ObjectExpression='ObjectExpression';AST.ThisExpression='ThisExpression';AST.LocalsExpression='LocalsExpression';// Internal use only
 	AST.NGValueParameter='NGValueParameter';AST.prototype={ast:function ast(text){this.text=text;this.tokens=this.lexer.lex(text);var value=this.program();if(this.tokens.length!==0){this.throwError('is an unexpected token',this.tokens[0]);}return value;},program:function program(){var body=[];while(true){if(this.tokens.length>0&&!this.peek('}',')',';',']'))body.push(this.expressionStatement());if(!this.expect(';')){return{type:AST.Program,body:body};}}},expressionStatement:function expressionStatement(){return{type:AST.ExpressionStatement,expression:this.filterChain()};},filterChain:function filterChain(){var left=this.expression();var token;while(token=this.expect('|')){left=this.filter(left);}return left;},expression:function expression(){return this.assignment();},assignment:function assignment(){var result=this.ternary();if(this.expect('=')){result={type:AST.AssignmentExpression,left:result,right:this.assignment(),operator:'='};}return result;},ternary:function ternary(){var test=this.logicalOR();var alternate;var consequent;if(this.expect('?')){alternate=this.expression();if(this.consume(':')){consequent=this.expression();return{type:AST.ConditionalExpression,test:test,alternate:alternate,consequent:consequent};}}return test;},logicalOR:function logicalOR(){var left=this.logicalAND();while(this.expect('||')){left={type:AST.LogicalExpression,operator:'||',left:left,right:this.logicalAND()};}return left;},logicalAND:function logicalAND(){var left=this.equality();while(this.expect('&&')){left={type:AST.LogicalExpression,operator:'&&',left:left,right:this.equality()};}return left;},equality:function equality(){var left=this.relational();var token;while(token=this.expect('==','!=','===','!==')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.relational()};}return left;},relational:function relational(){var left=this.additive();var token;while(token=this.expect('<','>','<=','>=')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.additive()};}return left;},additive:function additive(){var left=this.multiplicative();var token;while(token=this.expect('+','-')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.multiplicative()};}return left;},multiplicative:function multiplicative(){var left=this.unary();var token;while(token=this.expect('*','/','%')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.unary()};}return left;},unary:function unary(){var token;if(token=this.expect('+','-','!')){return{type:AST.UnaryExpression,operator:token.text,prefix:true,argument:this.unary()};}else{return this.primary();}},primary:function primary(){var primary;if(this.expect('(')){primary=this.filterChain();this.consume(')');}else if(this.expect('[')){primary=this.arrayDeclaration();}else if(this.expect('{')){primary=this.object();}else if(this.selfReferential.hasOwnProperty(this.peek().text)){primary=copy(this.selfReferential[this.consume().text]);}else if(this.options.literals.hasOwnProperty(this.peek().text)){primary={type:AST.Literal,value:this.options.literals[this.consume().text]};}else if(this.peek().identifier){primary=this.identifier();}else if(this.peek().constant){primary=this.constant();}else{this.throwError('not a primary expression',this.peek());}var next;while(next=this.expect('(','[','.')){if(next.text==='('){primary={type:AST.CallExpression,callee:primary,arguments:this.parseArguments()};this.consume(')');}else if(next.text==='['){primary={type:AST.MemberExpression,object:primary,property:this.expression(),computed:true};this.consume(']');}else if(next.text==='.'){primary={type:AST.MemberExpression,object:primary,property:this.identifier(),computed:false};}else{this.throwError('IMPOSSIBLE');}}return primary;},filter:function filter(baseExpression){var args=[baseExpression];var result={type:AST.CallExpression,callee:this.identifier(),arguments:args,filter:true};while(this.expect(':')){args.push(this.expression());}return result;},parseArguments:function parseArguments(){var args=[];if(this.peekToken().text!==')'){do{args.push(this.filterChain());}while(this.expect(','));}return args;},identifier:function identifier(){var token=this.consume();if(!token.identifier){this.throwError('is not a valid identifier',token);}return{type:AST.Identifier,name:token.text};},constant:function constant(){// TODO check that it is a constant
 	return{type:AST.Literal,value:this.consume().value};},arrayDeclaration:function arrayDeclaration(){var elements=[];if(this.peekToken().text!==']'){do{if(this.peek(']')){// Support trailing commas per ES5.1.
 	break;}elements.push(this.expression());}while(this.expect(','));}this.consume(']');return{type:AST.ArrayExpression,elements:elements};},object:function object(){var properties=[],property;if(this.peekToken().text!=='}'){do{if(this.peek('}')){// Support trailing commas per ES5.1.
@@ -9334,7 +9334,7 @@
 	 * @param  {string} decimalSep   The string to act as the decimal separator (e.g. `.`)
 	 * @param  {[type]} fractionSize The size of the fractional part of the number
 	 * @return {string}              The number formatted as a string
-	 */function formatNumber(number,pattern,groupSep,decimalSep,fractionSize){if(!(isString(number)||isNumber(number))||isNaN(number))return'';var isInfinity=!isFinite(number);var isZero=false;var numStr=Math.abs(number)+'',formattedText='',parsedNumber;if(isInfinity){formattedText='\u221E';}else{parsedNumber=parse(numStr);roundNumber(parsedNumber,fractionSize,pattern.minFrac,pattern.maxFrac);var digits=parsedNumber.d;var integerLen=parsedNumber.i;var exponent=parsedNumber.e;var decimals=[];isZero=digits.reduce(function(isZero,d){return isZero&&!d;},true);// pad zeros for small numbers
+	 */function formatNumber(number,pattern,groupSep,decimalSep,fractionSize){if(!(isString(number)||isNumber(number))||isNaN(number))return'';var isInfinity=!isFinite(number);var isZero=false;var numStr=Math.abs(number)+'',formattedText='',parsedNumber;if(isInfinity){formattedText='∞';}else{parsedNumber=parse(numStr);roundNumber(parsedNumber,fractionSize,pattern.minFrac,pattern.maxFrac);var digits=parsedNumber.d;var integerLen=parsedNumber.i;var exponent=parsedNumber.e;var decimals=[];isZero=digits.reduce(function(isZero,d){return isZero&&!d;},true);// pad zeros for small numbers
 	while(integerLen<0){digits.unshift(0);integerLen++;}// extract decimals digits
 	if(integerLen>0){decimals=digits.splice(integerLen,digits.length);}else{decimals=digits;digits=[0];}// format the integer digits with grouping separators
 	var groups=[];if(digits.length>=pattern.lgSize){groups.unshift(digits.splice(-pattern.lgSize,digits.length).join(''));}while(digits.length>pattern.gSize){groups.unshift(digits.splice(-pattern.gSize,digits.length).join(''));}if(digits.length){groups.unshift(digits.join(''));}formattedText=groups.join(groupSep);// append the decimal digits
@@ -16821,7 +16821,7 @@
 	 */var minlengthDirective=function minlengthDirective(){return{restrict:'A',require:'?ngModel',link:function link(scope,elm,attr,ctrl){if(!ctrl)return;var minlength=0;attr.$observe('minlength',function(value){minlength=toInt(value)||0;ctrl.$validate();});ctrl.$validators.minlength=function(modelValue,viewValue){return ctrl.$isEmpty(viewValue)||viewValue.length>=minlength;};}};};if(window.angular.bootstrap){//AngularJS is already loaded, so we can return here...
 	if(window.console){console.log('WARNING: Tried to load angular more than once.');}return;}//try to bind to jquery now so that one can write jqLite(document).ready()
 	//but we will rebind on bootstrap again.
-	bindJQuery();publishExternalAPI(angular);angular.module("ngLocale",[],["$provide",function($provide){var PLURAL_CATEGORY={ZERO:"zero",ONE:"one",TWO:"two",FEW:"few",MANY:"many",OTHER:"other"};function getDecimals(n){n=n+'';var i=n.indexOf('.');return i==-1?0:n.length-i-1;}function getVF(n,opt_precision){var v=opt_precision;if(undefined===v){v=Math.min(getDecimals(n),3);}var base=Math.pow(10,v);var f=(n*base|0)%base;return{v:v,f:f};}$provide.value("$locale",{"DATETIME_FORMATS":{"AMPMS":["AM","PM"],"DAY":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"ERANAMES":["Before Christ","Anno Domini"],"ERAS":["BC","AD"],"FIRSTDAYOFWEEK":6,"MONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"SHORTDAY":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"SHORTMONTH":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"STANDALONEMONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"WEEKENDRANGE":[5,6],"fullDate":"EEEE, MMMM d, y","longDate":"MMMM d, y","medium":"MMM d, y h:mm:ss a","mediumDate":"MMM d, y","mediumTime":"h:mm:ss a","short":"M/d/yy h:mm a","shortDate":"M/d/yy","shortTime":"h:mm a"},"NUMBER_FORMATS":{"CURRENCY_SYM":"$","DECIMAL_SEP":".","GROUP_SEP":",","PATTERNS":[{"gSize":3,"lgSize":3,"maxFrac":3,"minFrac":0,"minInt":1,"negPre":"-","negSuf":"","posPre":"","posSuf":""},{"gSize":3,"lgSize":3,"maxFrac":2,"minFrac":2,"minInt":1,"negPre":'-\xA4',"negSuf":"","posPre":'\xA4',"posSuf":""}]},"id":"en-us","localeID":"en_US","pluralCat":function pluralCat(n,opt_precision){var i=n|0;var vf=getVF(n,opt_precision);if(i==1&&vf.v==0){return PLURAL_CATEGORY.ONE;}return PLURAL_CATEGORY.OTHER;}});}]);jqLite(window.document).ready(function(){angularInit(window.document,bootstrap);});})(window);!window.angular.$$csp().noInlineStyle&&window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
+	bindJQuery();publishExternalAPI(angular);angular.module("ngLocale",[],["$provide",function($provide){var PLURAL_CATEGORY={ZERO:"zero",ONE:"one",TWO:"two",FEW:"few",MANY:"many",OTHER:"other"};function getDecimals(n){n=n+'';var i=n.indexOf('.');return i==-1?0:n.length-i-1;}function getVF(n,opt_precision){var v=opt_precision;if(undefined===v){v=Math.min(getDecimals(n),3);}var base=Math.pow(10,v);var f=(n*base|0)%base;return{v:v,f:f};}$provide.value("$locale",{"DATETIME_FORMATS":{"AMPMS":["AM","PM"],"DAY":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"ERANAMES":["Before Christ","Anno Domini"],"ERAS":["BC","AD"],"FIRSTDAYOFWEEK":6,"MONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"SHORTDAY":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"SHORTMONTH":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"STANDALONEMONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"WEEKENDRANGE":[5,6],"fullDate":"EEEE, MMMM d, y","longDate":"MMMM d, y","medium":"MMM d, y h:mm:ss a","mediumDate":"MMM d, y","mediumTime":"h:mm:ss a","short":"M/d/yy h:mm a","shortDate":"M/d/yy","shortTime":"h:mm a"},"NUMBER_FORMATS":{"CURRENCY_SYM":"$","DECIMAL_SEP":".","GROUP_SEP":",","PATTERNS":[{"gSize":3,"lgSize":3,"maxFrac":3,"minFrac":0,"minInt":1,"negPre":"-","negSuf":"","posPre":"","posSuf":""},{"gSize":3,"lgSize":3,"maxFrac":2,"minFrac":2,"minInt":1,"negPre":'-¤',"negSuf":"","posPre":'¤',"posSuf":""}]},"id":"en-us","localeID":"en_US","pluralCat":function pluralCat(n,opt_precision){var i=n|0;var vf=getVF(n,opt_precision);if(i==1&&vf.v==0){return PLURAL_CATEGORY.ONE;}return PLURAL_CATEGORY.OTHER;}});}]);jqLite(window.document).ready(function(){angularInit(window.document,bootstrap);});})(window);!window.angular.$$csp().noInlineStyle&&window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
 /* 3 */
@@ -19754,7 +19754,7 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	"use strict";var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};/*!
+	"use strict";var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};/*!
 	 * Angular Material Design
 	 * https://github.com/angular/material
 	 * @license MIT
@@ -30636,28 +30636,28 @@
 		"./backend/services/groups.service.js": 23,
 		"./backend/services/organisations.service.js": 24,
 		"./backend/services/profiles.service.js": 25,
-		"./backend/services/props.service.js": 26,
-		"./common/directives/alert/flash-alert.js": 27,
-		"./common/directives/header/components/top-menu/topMenuCtrl.js": 31,
-		"./common/directives/header/components/top-menu/topMenuDir.js": 32,
-		"./common/directives/header/components/user-profile/userProfileCtrl.js": 36,
-		"./common/directives/header/components/user-profile/userProfileDir.js": 37,
-		"./common/directives/header/navigationCtrl.js": 41,
-		"./common/directives/header/navigationDir.js": 42,
-		"./common/directives/nav-bar/navBarCtrl.js": 46,
-		"./common/directives/nav-bar/navBarDir.js": 47,
-		"./common/directives/tool-bar/toolBarCtrl.js": 51,
-		"./common/directives/tool-bar/toolBarDir.js": 52,
-		"./groups/edit/dialog/addMembersCtrl.js": 56,
-		"./groups/edit/groupCtrl.js": 59,
-		"./groups/groupsCtrl.js": 61,
-		"./home/homeCtrl.js": 62,
-		"./members/memberCtrl.js": 63,
-		"./my-group/myGroupCtrl.js": 64,
-		"./organisations/edit/organisationCtrl.js": 65,
-		"./organisations/organisationsCtrl.js": 66,
-		"./props/propsCtrl.js": 67,
-		"./psychologs/psychologsCtrl.js": 68
+		"./backend/services/props.service.js": 70,
+		"./common/directives/alert/flash-alert.js": 26,
+		"./common/directives/header/components/top-menu/topMenuCtrl.js": 30,
+		"./common/directives/header/components/top-menu/topMenuDir.js": 31,
+		"./common/directives/header/components/user-profile/userProfileCtrl.js": 35,
+		"./common/directives/header/components/user-profile/userProfileDir.js": 36,
+		"./common/directives/header/navigationCtrl.js": 40,
+		"./common/directives/header/navigationDir.js": 41,
+		"./common/directives/nav-bar/navBarCtrl.js": 45,
+		"./common/directives/nav-bar/navBarDir.js": 46,
+		"./common/directives/tool-bar/toolBarCtrl.js": 50,
+		"./common/directives/tool-bar/toolBarDir.js": 51,
+		"./groups/edit/dialog/addMembersCtrl.js": 55,
+		"./groups/edit/groupCtrl.js": 58,
+		"./groups/groupsCtrl.js": 60,
+		"./home/homeCtrl.js": 61,
+		"./members/memberCtrl.js": 62,
+		"./my-group/myGroupCtrl.js": 71,
+		"./organisations/edit/organisationCtrl.js": 63,
+		"./organisations/organisationsCtrl.js": 64,
+		"./props/propsCtrl.js": 74,
+		"./psychologs/psychologsCtrl.js": 65
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -31113,56 +31113,11 @@
 
 /***/ },
 /* 26 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').service('$$props', props);
-
-	props.$inject = ['$http'];
-	function props($http) {
-
-	  var getList = function getList(payload) {
-	    return $http.get('/api/props' + generateQueryString(payload));
-	  };
-
-	  var post = function post(payload) {
-	    return $http.post('/api/props', payload);
-	  };
-
-	  var remove = function remove(payload) {
-	    return $http.delete('/api/props?id=' + payload.id);
-	  };
-
-	  var put = function put(payload) {
-	    if (payload.ids) return $http.put('/api/props?ids=' + payload.ids.toString(), payload);
-	    return $http.put('/api/props?id=' + payload.id, payload);
-	  };
-
-	  return {
-	    getList: getList,
-	    post: post,
-	    remove: remove,
-	    put: put
-	  };
-
-	  function generateQueryString(payload) {
-	    var query = '';
-
-	    for (var param in payload) {
-	      query += param + '=' + payload[param] + '&';
-	    }
-	    return query.length ? '?' + query.slice(0, -1) : '';
-	  }
-	}
-
-/***/ },
-/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	__webpack_require__(28);
+	__webpack_require__(27);
 	angular.module("alert", []).constant("alertConfig", {
 	  success: "alert-success",
 	  error: "alert-danger",
@@ -31210,7 +31165,7 @@
 	}).directive("alertFlash", ["flashAlert", function (a) {
 	  return {
 	    restrict: "E",
-	    template: __webpack_require__(30),
+	    template: __webpack_require__(29),
 	    scope: {},
 	    link: function link(b) {
 	      b.$watch(a.getAlert, function () {
@@ -31221,13 +31176,13 @@
 	}]);
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(29);
+	var content = __webpack_require__(28);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31247,7 +31202,7 @@
 	}
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31261,13 +31216,13 @@
 
 
 /***/ },
-/* 30 */
+/* 29 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class='alert-container'>\n  <div class='repeat-animation' ng-repeat='alert in alerts' ng-click=\"alert.remove()\">\n    <div class='alert' ng-class='alert.typeOfAlert' ng-bind='alert.msg'></div>\n  </div>\n</div>";
 
 /***/ },
-/* 31 */
+/* 30 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31326,31 +31281,31 @@
 	}
 
 /***/ },
-/* 32 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('topMenu', topMenu);
 
-	__webpack_require__(33);
+	__webpack_require__(32);
 	function topMenu() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(35),
+	    template: __webpack_require__(34),
 	    controller: 'topMenuCtrl',
 	    controllerAs: 'tm'
 	  };
 	}
 
 /***/ },
-/* 33 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(34);
+	var content = __webpack_require__(33);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31370,7 +31325,7 @@
 	}
 
 /***/ },
-/* 34 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31384,13 +31339,13 @@
 
 
 /***/ },
-/* 35 */
+/* 34 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"top_menu\">\n        <a ng-href=\"{{page.href}}\" ng-class=\"{'active_link':tm.activePage.indexOf(page.href)>-1}\" name=\"page.title\" ng-repeat=\"page in tm.pages\">{{page.title}}</a>\n</div>";
 
 /***/ },
-/* 36 */
+/* 35 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31417,31 +31372,31 @@
 	}
 
 /***/ },
-/* 37 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('userProfile', userProfile);
 
-	__webpack_require__(38);
+	__webpack_require__(37);
 	function userProfile() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(40),
+	    template: __webpack_require__(39),
 	    controller: 'userProfileCtrl',
 	    controllerAs: 'vm'
 	  };
 	}
 
 /***/ },
-/* 38 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(39);
+	var content = __webpack_require__(38);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31461,7 +31416,7 @@
 	}
 
 /***/ },
-/* 39 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31475,13 +31430,13 @@
 
 
 /***/ },
-/* 40 */
+/* 39 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"user_profile\" layout>\n    <div class=\"layout-column\">\n        <span>{{::vm.user.name}}</span>\n        <span style=\"font-size: .8em;\">{{::vm.user.role}}</span>\n    </div>\n\n    <md-button class=\"md-icon-button\" aria-label=\"Выйти\" ng-click=\"vm.logout()\">\n        <md-icon md-svg-icon=\"/src/img/ic_exit_to_app_black_24px.svg\"></md-icon>\n    </md-button>\n</div>";
 
 /***/ },
-/* 41 */
+/* 40 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31494,30 +31449,30 @@
 	}
 
 /***/ },
-/* 42 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('navigation', navigation);
 
-	__webpack_require__(43);
+	__webpack_require__(42);
 	function navigation() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(45),
+	    template: __webpack_require__(44),
 	    controller: 'navigationCtrl as navvm'
 	  };
 	}
 
 /***/ },
-/* 43 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(44);
+	var content = __webpack_require__(43);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31537,7 +31492,7 @@
 	}
 
 /***/ },
-/* 44 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31551,13 +31506,13 @@
 
 
 /***/ },
-/* 45 */
+/* 44 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"navigation navbar navbar-default\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n      <div class=\"md-toolbar-tools\">\n        <h2>\n          <a ng-href=\"/\">PsychopassApp</a>\n        </h2>\n        <top-menu></top-menu>\n        <span flex></span>\n        <user-profile></user-profile>\n      </div>\n    </md-toolbar>\n  </md-card>\n</div>\n";
 
 /***/ },
-/* 46 */
+/* 45 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31570,30 +31525,30 @@
 	}
 
 /***/ },
-/* 47 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('navBar', navBar);
 
-	__webpack_require__(48);
+	__webpack_require__(47);
 	function navBar() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(50),
+	    template: __webpack_require__(49),
 	    controller: 'navBarCtrl as navb'
 	  };
 	}
 
 /***/ },
-/* 48 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(49);
+	var content = __webpack_require__(48);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31613,7 +31568,7 @@
 	}
 
 /***/ },
-/* 49 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31627,13 +31582,13 @@
 
 
 /***/ },
-/* 50 */
+/* 49 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\" navbar navbar-default\">\n  Navbar\n</div>\n";
 
 /***/ },
-/* 51 */
+/* 50 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31648,18 +31603,18 @@
 	}
 
 /***/ },
-/* 52 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('toolBar', toolBar);
 
-	__webpack_require__(53);
+	__webpack_require__(52);
 	function toolBar() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(55),
+	    template: __webpack_require__(54),
 	    controller: 'toolBarCtrl as tb',
 	    scope: {
 	      filters: '='
@@ -31668,13 +31623,13 @@
 	}
 
 /***/ },
-/* 53 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(54);
+	var content = __webpack_require__(53);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31694,7 +31649,7 @@
 	}
 
 /***/ },
-/* 54 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31708,18 +31663,18 @@
 
 
 /***/ },
-/* 55 */
+/* 54 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"tool_bar\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <div ng-repeat=\"filter in filters\">\n        <md-input-container ng-style=\"{'min-width': filter.title.length*12+'px'}\">\n          <label>{{filter.title}}</label>\n          <md-select ng-model=\"filter.value\">\n            <md-option ng-value=\"null\">Все</md-option>\n            <md-option ng-repeat=\"option in filter.options\" ng-value=\"option.value\">\n              {{option.name}}\n            </md-option>\n          </md-select>\n        </md-input-container>\n      </div>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n  </md-card>\n</div>\n";
 
 /***/ },
-/* 56 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(57);
+	__webpack_require__(56);
 	module.exports = function ($$organisations, $$groups, $$profiles, $routeParams, $mdDialog, $mdMedia, $rootScope, $scope, authentication, flashAlert) {
 
 		var vm = this;
@@ -31800,13 +31755,13 @@
 	};
 
 /***/ },
-/* 57 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(58);
+	var content = __webpack_require__(57);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31826,7 +31781,7 @@
 	}
 
 /***/ },
-/* 58 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31840,7 +31795,7 @@
 
 
 /***/ },
-/* 59 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31881,9 +31836,9 @@
 		function showDialog(ev) {
 			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
 			$mdDialog.show({
-				controller: __webpack_require__(56),
+				controller: __webpack_require__(55),
 				controllerAs: 'dlg',
-				template: __webpack_require__(60),
+				template: __webpack_require__(59),
 				parent: angular.element(document.body),
 				targetEvent: ev,
 				clickOutsideToClose: true,
@@ -31918,13 +31873,13 @@
 	}
 
 /***/ },
-/* 60 */
+/* 59 */
 /***/ function(module, exports) {
 
 	module.exports = "<md-dialog class=\"add_members_dialog\" aria-label=\"Добавить участников\"  ng-cloak>\n\t<form>\n\t\t<md-toolbar>\n\t\t\t<div class=\"md-toolbar-tools\">\n\t\t\t\t<h2>Добавить участников</h2>\n\t\t\t\t<span flex></span>\n\t\t\t\t<md-input-container  md-no-float class=\"md-block\" flex=\"20\">\n\t\t\t\t\t<label>Организация</label>\n\t\t\t\t\t<md-select ng-model=\"dlg.filters.organisation.value\">\n\t\t\t\t\t\t<md-option ng-value=\"null\">Все</md-option>\n\t\t\t\t\t\t<md-option ng-repeat=\"org in dlg.organisations\" ng-value=\"org._id\">\n\t\t\t\t\t\t\t{{org.name}}\n\t\t\t\t\t\t</md-option>\n\t\t\t\t\t</md-select>\n\t\t\t\t</md-input-container>\n\t\t\t</div>\n\t\t</md-toolbar>\n\t\t<md-dialog-content>\n\t\t\t<div class=\"md-dialog-content\">\n\t\t\t\t<md-list class=\"layout-fill\">\n\t\t\t\t\t<md-list-item class=\"md-2-line\" ng-repeat=\"member in dlg.members | filter: dlg.filters.organisation.f\">\n\t\t\t\t\t\t<md-checkbox class=\"md-primary\" ng-model=\"member.selected\" aria-label=\"Выбрать участника\">\n\t\t\t\t\t\t\t{{ member.selected }}\n\t\t\t\t\t\t</md-checkbox>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.organisationData.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<md-divider ng-if=\"!$last\"></md-divider>\n\t\t\t\t\t</md-list-item>\n\t\t\t\t\t<md-list-item ng-if=\"!dlg.members.length\">На данный момент нет участников без группы</md-list-item>\n\t\t\t\t</md-list>\n\t\t\t</div>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions layout=\"row\">\n\t\t\t<span flex></span>\n\t\t\t<md-button class=\"md-raised\" ng-click=\"dlg.addMembersToGroup()\" style=\"margin-right:20px;\">\n\t\t\t\tДобавить\n\t\t\t</md-button>\n\t\t</md-dialog-actions>\n\t</form>\n</md-dialog>\n";
 
 /***/ },
-/* 61 */
+/* 60 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32047,7 +32002,7 @@
 	}
 
 /***/ },
-/* 62 */
+/* 61 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32059,7 +32014,7 @@
 	}
 
 /***/ },
-/* 63 */
+/* 62 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32114,61 +32069,7 @@
 	}
 
 /***/ },
-/* 64 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	__webpack_require__(73);
-	angular.module('psApp').controller('myGroupCtrl', myGroupCtrl);
-
-	myGroupCtrl.$inject = ['authentication', '$$profiles', '$$groups', '$$props'];
-
-	function myGroupCtrl(authentication, $$profiles, $$groups, $$props) {
-		var vm = this;
-
-		vm.group = {
-			id: authentication.currentUser().group
-		};
-		vm.props = [];
-
-		init();
-
-		function init() {
-
-			if (vm.group.id) {
-				getMembers();
-				getGroup();
-				getProps();
-			}
-			console.log(vm);
-		}
-
-		function getMembers() {
-			$$profiles.getList({
-				group: vm.group.id
-			}).then(function (resp) {
-				vm.group.members = resp.data;
-			});
-		}
-
-		function getGroup() {
-			$$groups.getList({
-				id: vm.group.id
-			}).then(function (resp) {
-				vm.group.groupData = resp.data[0];
-			});
-		}
-
-		function getProps() {
-			$$props.getList().then(function (resp) {
-				vm.props = resp.data;
-			});
-		}
-	}
-
-/***/ },
-/* 65 */
+/* 63 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32268,7 +32169,7 @@
 	}
 
 /***/ },
-/* 66 */
+/* 64 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32361,101 +32262,7 @@
 	}
 
 /***/ },
-/* 67 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('propsCtrl', propsCtrl);
-
-	propsCtrl.$inject = ['$$props', 'authentication', 'flashAlert', '$$profiles'];
-
-	function propsCtrl($$props, authentication, flashAlert, $$profiles) {
-
-		var vm = this;
-
-		vm.props = [];
-		vm.filters = [], vm.crudRights = ['admin', 'org'];
-
-		vm.psychoFilter = psychoFilter;
-		vm.add = add;
-		vm.remove = remove;
-		vm.update = update;
-		vm.checkCRUDRights = authentication.checkCRUDRights;
-
-		init();
-
-		createFilters(['Числовые', 'Формальные'], 'Тип характеристик');
-
-		function init() {
-			$$props.getList().then(function (data) {
-				vm.props = data.data;
-				/*			$$profiles.getList().then(resp=>{
-	   				vm.props.forEach(org=>{
-	   					org.membersCount = resp.data.filter(member=>member.organisation == org._id).length
-	   				}) 
-	   			})*/
-			});
-		}
-
-		function createFilters(options, title) {
-			var filter = { title: title, options: [] };
-
-			options.forEach(function (option, index) {
-				filter.options.push({
-					name: option,
-					value: option.id || index
-				});
-			});
-
-			vm.filters.push(filter);
-		}
-
-		function psychoFilter(org, index) {
-			if (!arguments.length) return !!vm.filters[0].value;
-			if (vm.filters[0].value == null) return true;else return !!vm.filters[0].value == org.is_psycho;
-		}
-
-		function add() {
-			$$props.post({
-				name: null,
-				type: null
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function remove(id) {
-			$$props.remove({
-				id: id
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function update(prop) {
-			console.log(prop);
-			$$props.put({
-				id: prop._id,
-				name: prop.name,
-				type: prop.type,
-				min: prop.min,
-				max: prop.max,
-				description: prop.description
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-	}
-
-/***/ },
-/* 68 */
+/* 65 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32497,16 +32304,16 @@
 	}
 
 /***/ },
-/* 69 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(70);
+	__webpack_require__(67);
 	module.exports = 'vAccordion';
 
 /***/ },
-/* 70 */
+/* 67 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -33140,13 +32947,13 @@
 	})(angular);
 
 /***/ },
-/* 71 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(72);
+	var content = __webpack_require__(69);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -33166,7 +32973,7 @@
 	}
 
 /***/ },
-/* 72 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -33180,13 +32987,145 @@
 
 
 /***/ },
-/* 73 */
+/* 70 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').service('$$props', props);
+
+	props.$inject = ['$http'];
+	function props($http) {
+
+	  var getList = function getList(payload) {
+	    return $http.get('/api/props' + generateQueryString(payload));
+	  };
+
+	  var post = function post(payload) {
+	    return $http.post('/api/props', payload);
+	  };
+
+	  var remove = function remove(payload) {
+	    return $http.delete('/api/props?id=' + payload.id);
+	  };
+
+	  var put = function put(payload) {
+	    if (payload.ids) return $http.put('/api/props?ids=' + payload.ids.toString(), payload);
+	    return $http.put('/api/props?id=' + payload.id, payload);
+	  };
+
+	  return {
+	    getList: getList,
+	    post: post,
+	    remove: remove,
+	    put: put
+	  };
+
+	  function generateQueryString(payload) {
+	    var query = '';
+
+	    for (var param in payload) {
+	      query += param + '=' + payload[param] + '&';
+	    }
+	    return query.length ? '?' + query.slice(0, -1) : '';
+	  }
+	}
+
+/***/ },
+/* 71 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(72);
+	angular.module('psApp').controller('myGroupCtrl', myGroupCtrl);
+
+	myGroupCtrl.$inject = ['authentication', '$$profiles', '$$groups', '$$props', 'flashAlert'];
+
+	function myGroupCtrl(authentication, $$profiles, $$groups, $$props, flashAlert) {
+		var vm = this;
+
+		vm.group = {
+			id: authentication.currentUser().group
+		};
+		vm.props = [];
+
+		vm.findProp = findProp;
+		vm.propCount = propCount;
+		vm.save = save;
+
+		init();
+
+		function init() {
+
+			if (vm.group.id) {
+				getMembers();
+				getGroup();
+				getProps();
+			}
+			console.log(vm);
+		}
+
+		function getMembers() {
+			$$profiles.getList({
+				group: vm.group.id,
+				role: 'student'
+			}).then(function (resp) {
+				vm.group.members = resp.data;
+			});
+		}
+
+		function getGroup() {
+			$$groups.getList({
+				id: vm.group.id
+			}).then(function (resp) {
+				vm.group.groupData = resp.data[0];
+			});
+		}
+
+		function getProps() {
+			$$props.getList().then(function (resp) {
+				vm.props = resp.data;
+			});
+		}
+
+		function findProp(propId, props) {
+			var field = props.find(function (prop) {
+				return prop._id == propId;
+			});
+			if (field) return field;else {
+				props.push({
+					_id: propId,
+					value: null
+				});
+				return props[props.length - 1];
+			}
+		}
+
+		function propCount(props) {
+			return props.filter(function (prop) {
+				return !!prop.value;
+			}).length;
+		}
+
+		function save(member) {
+			$$profiles.put({
+				id: member._id,
+				properties: member.properties
+			}).then(function (resp) {
+				flashAlert.success(resp.data.message);
+			});
+		}
+	}
+
+/***/ },
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(74);
+	var content = __webpack_require__(73);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -33206,7 +33145,7 @@
 	}
 
 /***/ },
-/* 74 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -33214,10 +33153,104 @@
 
 
 	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.my_group v-accordion {\n  padding: .5em; }\n\n.my_group md-card {\n  margin: .5em 0;\n  border-radius: .5em; }\n", ""]);
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.my_group v-accordion {\n  padding: .5em;\n  /*    v-pane-header{\n      min-height: 20px !important;\n      height: 20px !important;\n    }*/ }\n\n.my_group md-list-item md-card {\n  margin: .5em 0;\n  border-radius: .5em !important;\n  overflow: hidden; }\n", ""]);
 
 	// exports
 
+
+/***/ },
+/* 74 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('propsCtrl', propsCtrl);
+
+	propsCtrl.$inject = ['$$props', 'authentication', 'flashAlert', '$$profiles'];
+
+	function propsCtrl($$props, authentication, flashAlert, $$profiles) {
+
+		var vm = this;
+
+		vm.props = [];
+		vm.filters = [], vm.crudRights = ['admin', 'org'];
+
+		vm.psychoFilter = psychoFilter;
+		vm.add = add;
+		vm.remove = remove;
+		vm.update = update;
+		vm.checkCRUDRights = authentication.checkCRUDRights;
+
+		init();
+
+		createFilters(['Числовые', 'Формальные'], 'Тип характеристик');
+
+		function init() {
+			$$props.getList().then(function (data) {
+				vm.props = data.data;
+				/*			$$profiles.getList().then(resp=>{
+	   				vm.props.forEach(org=>{
+	   					org.membersCount = resp.data.filter(member=>member.organisation == org._id).length
+	   				}) 
+	   			})*/
+			});
+		}
+
+		function createFilters(options, title) {
+			var filter = { title: title, options: [] };
+
+			options.forEach(function (option, index) {
+				filter.options.push({
+					name: option,
+					value: option.id || index
+				});
+			});
+
+			vm.filters.push(filter);
+		}
+
+		function psychoFilter(org, index) {
+			if (!arguments.length) return !!vm.filters[0].value;
+			if (vm.filters[0].value == null) return true;else return !!vm.filters[0].value == org.is_psycho;
+		}
+
+		function add() {
+			$$props.post({
+				name: '',
+				type: null
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function remove(id) {
+			$$props.remove({
+				id: id
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function update(prop) {
+			console.log(prop);
+			$$props.put({
+				id: prop._id,
+				name: prop.name,
+				type: prop.type,
+				min: prop.min,
+				max: prop.max,
+				description: prop.description
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+	}
 
 /***/ }
 /******/ ]);

@@ -5,7 +5,7 @@ const generateLogin = require('password-generator')
 
 module.exports.getList = function (req, res) {
   let query = User.find(cleanQueryObj(req.query))
-  query.select('name role group organisation email').exec(function(err, users){
+  query.select('name role group organisation email properties').exec(function(err, users){
     if(err) dataError(res,err)
     else{
       res.status(200)

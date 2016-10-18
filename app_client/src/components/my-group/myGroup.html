@@ -11,10 +11,28 @@
 							<v-accordion flex class="vAccordion--default">
 								<v-pane>
 									<v-pane-header>
-										{{::member.name}}
+										<md-list-item style="min-height: 20px; height: 20px;">
+											<span>{{::member.name}}</span>
+											<span flex></span>
+											<b>{{mg.propCount(member.properties) + '/' + member.properties.length}}</b>
+										</md-list-item>
 									</v-pane-header>
 									<v-pane-content>
-										Props
+										<md-list class="layout-fill">
+											<md-list-item class="md-2-line" ng-repeat="prop in mg.props  | orderBy: 'name'">
+												<span flex>{{::prop.name}}</span>
+												<span flex></span>
+												<md-input-container flex class="md-block">
+													<!--{{mg.findProp(prop._id, member.properties)}}-->
+													<label>{{::prop.name}}</label>
+													<input ng-model="mg.findProp(prop._id, member.properties).value">
+												</md-input-container>
+											</md-list-item>
+											<md-list-item>
+												<span flex></span>
+												<md-button flex="20" class="md-raised" ng-click="mg.save(member)">Сохранить</md-button>
+											</md-list-item>
+										</md-list>
 									</v-pane-content>
 								</v-pane>
 							</v-accordion>

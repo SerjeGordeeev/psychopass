@@ -1,10 +1,15 @@
 .my_group{
   v-accordion{
     padding: .5em;
+/*    v-pane-header{
+      min-height: 20px !important;
+      height: 20px !important;
+    }*/
   }
-  md-card{
+  md-list-item md-card{
     margin: .5em 0;
-    border-radius: .5em;
+    border-radius: .5em !important;
+    overflow: hidden;
   }
 
 }
