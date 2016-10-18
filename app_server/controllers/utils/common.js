@@ -9,7 +9,10 @@ global.dataError = function dataError(res,err){
 global.cleanQueryObj = function cleanQueryObj(queryObj){
 	for(let prop in queryObj){
 		if(queryObj[prop] === 'null') queryObj[prop] = null
+		if(queryObj[prop] === 'true') queryObj[prop] = true
+		if(queryObj[prop] === 'false') queryObj[prop] = false
 	}
+	//if(queryObj._id){queryObj._id = mongoose.Types.ObjectId(queryObj._id)}
 	return queryObj
 }
 

@@ -5,8 +5,15 @@ const async = require('async')
 const url = require('url')
 
 module.exports.getList = function (req, res) {
+//req.query.id?{_id:mongoose.Types.ObjectId(req.query.id)}:{}
+// console.log(cleanQueryObj(req.query))
+	cleanQueryObj(req.query)
+	let query = {}
+		if(req.query.id) query._id=mongoose.Types.ObjectId(req.query.id)
+		if(req.query.is_psycho!=undefined) query.is_psycho=req.query.is_psycho
 
-	Organisation.find(req.query.id?{_id:mongoose.Types.ObjectId(req.query.id)}:{}, (err, organisation)=>{
+	console.log(query)
+	Organisation.find(query, (err, organisation)=>{
 		if(err) dataError(res,err)
 		else{
 			if(req.query.with_members){
@@ -72,8 +79,6 @@ module.exports.add = function (req, res) {
 }
 
 module.exports.update = function (req, res) {
-	//console.log(req.path)
-	//orgs.push({id: 666, name: null, is_psycho: false})
 
 	Organisation.findOne({'_id': mongoose.Types.ObjectId(req.query.id)}, function (err, doc) {
 		if (err) dataError(res,err)

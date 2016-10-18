@@ -124,7 +124,7 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	'use strict';var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};/**
+	'use strict';var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};/**
 	 * @license AngularJS v1.5.8
 	 * (c) 2010-2016 Google, Inc. http://angularjs.org
 	 * License: MIT
@@ -6727,7 +6727,7 @@
 	/**
 	 * @constructor
 	 */var Lexer=function Lexer(options){this.options=options;};Lexer.prototype={constructor:Lexer,lex:function lex(text){this.text=text;this.index=0;this.tokens=[];while(this.index<this.text.length){var ch=this.text.charAt(this.index);if(ch==='"'||ch==="'"){this.readString(ch);}else if(this.isNumber(ch)||ch==='.'&&this.isNumber(this.peek())){this.readNumber();}else if(this.isIdentifierStart(this.peekMultichar())){this.readIdent();}else if(this.is(ch,'(){}[].,;:?')){this.tokens.push({index:this.index,text:ch});this.index++;}else if(this.isWhitespace(ch)){this.index++;}else{var ch2=ch+this.peek();var ch3=ch2+this.peek(2);var op1=OPERATORS[ch];var op2=OPERATORS[ch2];var op3=OPERATORS[ch3];if(op1||op2||op3){var token=op3?ch3:op2?ch2:ch;this.tokens.push({index:this.index,text:token,operator:true});this.index+=token.length;}else{this.throwError('Unexpected next character ',this.index,this.index+1);}}}return this.tokens;},is:function is(ch,chars){return chars.indexOf(ch)!==-1;},peek:function peek(i){var num=i||1;return this.index+num<this.text.length?this.text.charAt(this.index+num):false;},isNumber:function isNumber(ch){return'0'<=ch&&ch<='9'&&typeof ch==="string";},isWhitespace:function isWhitespace(ch){// IE treats non-breaking space as \u00A0
-	return ch===' '||ch==='\r'||ch==='\t'||ch==='\n'||ch==='\v'||ch==='\xA0';},isIdentifierStart:function isIdentifierStart(ch){return this.options.isIdentifierStart?this.options.isIdentifierStart(ch,this.codePointAt(ch)):this.isValidIdentifierStart(ch);},isValidIdentifierStart:function isValidIdentifierStart(ch){return'a'<=ch&&ch<='z'||'A'<=ch&&ch<='Z'||'_'===ch||ch==='$';},isIdentifierContinue:function isIdentifierContinue(ch){return this.options.isIdentifierContinue?this.options.isIdentifierContinue(ch,this.codePointAt(ch)):this.isValidIdentifierContinue(ch);},isValidIdentifierContinue:function isValidIdentifierContinue(ch,cp){return this.isValidIdentifierStart(ch,cp)||this.isNumber(ch);},codePointAt:function codePointAt(ch){if(ch.length===1)return ch.charCodeAt(0);/*jshint bitwise: false*/return(ch.charCodeAt(0)<<10)+ch.charCodeAt(1)-0x35FDC00;/*jshint bitwise: true*/},peekMultichar:function peekMultichar(){var ch=this.text.charAt(this.index);var peek=this.peek();if(!peek){return ch;}var cp1=ch.charCodeAt(0);var cp2=peek.charCodeAt(0);if(cp1>=0xD800&&cp1<=0xDBFF&&cp2>=0xDC00&&cp2<=0xDFFF){return ch+peek;}return ch;},isExpOperator:function isExpOperator(ch){return ch==='-'||ch==='+'||this.isNumber(ch);},throwError:function throwError(error,start,end){end=end||this.index;var colStr=isDefined(start)?'s '+start+'-'+this.index+' ['+this.text.substring(start,end)+']':' '+end;throw $parseMinErr('lexerr','Lexer Error: {0} at column{1} in expression [{2}].',error,colStr,this.text);},readNumber:function readNumber(){var number='';var start=this.index;while(this.index<this.text.length){var ch=lowercase(this.text.charAt(this.index));if(ch=='.'||this.isNumber(ch)){number+=ch;}else{var peekCh=this.peek();if(ch=='e'&&this.isExpOperator(peekCh)){number+=ch;}else if(this.isExpOperator(ch)&&peekCh&&this.isNumber(peekCh)&&number.charAt(number.length-1)=='e'){number+=ch;}else if(this.isExpOperator(ch)&&(!peekCh||!this.isNumber(peekCh))&&number.charAt(number.length-1)=='e'){this.throwError('Invalid exponent');}else{break;}}this.index++;}this.tokens.push({index:start,text:number,constant:true,value:Number(number)});},readIdent:function readIdent(){var start=this.index;this.index+=this.peekMultichar().length;while(this.index<this.text.length){var ch=this.peekMultichar();if(!this.isIdentifierContinue(ch)){break;}this.index+=ch.length;}this.tokens.push({index:start,text:this.text.slice(start,this.index),identifier:true});},readString:function readString(quote){var start=this.index;this.index++;var string='';var rawString=quote;var escape=false;while(this.index<this.text.length){var ch=this.text.charAt(this.index);rawString+=ch;if(escape){if(ch==='u'){var hex=this.text.substring(this.index+1,this.index+5);if(!hex.match(/[\da-f]{4}/i)){this.throwError('Invalid unicode escape [\\u'+hex+']');}this.index+=4;string+=String.fromCharCode(parseInt(hex,16));}else{var rep=ESCAPE[ch];string=string+(rep||ch);}escape=false;}else if(ch==='\\'){escape=true;}else if(ch===quote){this.index++;this.tokens.push({index:start,text:rawString,constant:true,value:string});return;}else{string+=ch;}this.index++;}this.throwError('Unterminated quote',start);}};var AST=function AST(lexer,options){this.lexer=lexer;this.options=options;};AST.Program='Program';AST.ExpressionStatement='ExpressionStatement';AST.AssignmentExpression='AssignmentExpression';AST.ConditionalExpression='ConditionalExpression';AST.LogicalExpression='LogicalExpression';AST.BinaryExpression='BinaryExpression';AST.UnaryExpression='UnaryExpression';AST.CallExpression='CallExpression';AST.MemberExpression='MemberExpression';AST.Identifier='Identifier';AST.Literal='Literal';AST.ArrayExpression='ArrayExpression';AST.Property='Property';AST.ObjectExpression='ObjectExpression';AST.ThisExpression='ThisExpression';AST.LocalsExpression='LocalsExpression';// Internal use only
+	return ch===' '||ch==='\r'||ch==='\t'||ch==='\n'||ch==='\v'||ch===' ';},isIdentifierStart:function isIdentifierStart(ch){return this.options.isIdentifierStart?this.options.isIdentifierStart(ch,this.codePointAt(ch)):this.isValidIdentifierStart(ch);},isValidIdentifierStart:function isValidIdentifierStart(ch){return'a'<=ch&&ch<='z'||'A'<=ch&&ch<='Z'||'_'===ch||ch==='$';},isIdentifierContinue:function isIdentifierContinue(ch){return this.options.isIdentifierContinue?this.options.isIdentifierContinue(ch,this.codePointAt(ch)):this.isValidIdentifierContinue(ch);},isValidIdentifierContinue:function isValidIdentifierContinue(ch,cp){return this.isValidIdentifierStart(ch,cp)||this.isNumber(ch);},codePointAt:function codePointAt(ch){if(ch.length===1)return ch.charCodeAt(0);/*jshint bitwise: false*/return(ch.charCodeAt(0)<<10)+ch.charCodeAt(1)-0x35FDC00;/*jshint bitwise: true*/},peekMultichar:function peekMultichar(){var ch=this.text.charAt(this.index);var peek=this.peek();if(!peek){return ch;}var cp1=ch.charCodeAt(0);var cp2=peek.charCodeAt(0);if(cp1>=0xD800&&cp1<=0xDBFF&&cp2>=0xDC00&&cp2<=0xDFFF){return ch+peek;}return ch;},isExpOperator:function isExpOperator(ch){return ch==='-'||ch==='+'||this.isNumber(ch);},throwError:function throwError(error,start,end){end=end||this.index;var colStr=isDefined(start)?'s '+start+'-'+this.index+' ['+this.text.substring(start,end)+']':' '+end;throw $parseMinErr('lexerr','Lexer Error: {0} at column{1} in expression [{2}].',error,colStr,this.text);},readNumber:function readNumber(){var number='';var start=this.index;while(this.index<this.text.length){var ch=lowercase(this.text.charAt(this.index));if(ch=='.'||this.isNumber(ch)){number+=ch;}else{var peekCh=this.peek();if(ch=='e'&&this.isExpOperator(peekCh)){number+=ch;}else if(this.isExpOperator(ch)&&peekCh&&this.isNumber(peekCh)&&number.charAt(number.length-1)=='e'){number+=ch;}else if(this.isExpOperator(ch)&&(!peekCh||!this.isNumber(peekCh))&&number.charAt(number.length-1)=='e'){this.throwError('Invalid exponent');}else{break;}}this.index++;}this.tokens.push({index:start,text:number,constant:true,value:Number(number)});},readIdent:function readIdent(){var start=this.index;this.index+=this.peekMultichar().length;while(this.index<this.text.length){var ch=this.peekMultichar();if(!this.isIdentifierContinue(ch)){break;}this.index+=ch.length;}this.tokens.push({index:start,text:this.text.slice(start,this.index),identifier:true});},readString:function readString(quote){var start=this.index;this.index++;var string='';var rawString=quote;var escape=false;while(this.index<this.text.length){var ch=this.text.charAt(this.index);rawString+=ch;if(escape){if(ch==='u'){var hex=this.text.substring(this.index+1,this.index+5);if(!hex.match(/[\da-f]{4}/i)){this.throwError('Invalid unicode escape [\\u'+hex+']');}this.index+=4;string+=String.fromCharCode(parseInt(hex,16));}else{var rep=ESCAPE[ch];string=string+(rep||ch);}escape=false;}else if(ch==='\\'){escape=true;}else if(ch===quote){this.index++;this.tokens.push({index:start,text:rawString,constant:true,value:string});return;}else{string+=ch;}this.index++;}this.throwError('Unterminated quote',start);}};var AST=function AST(lexer,options){this.lexer=lexer;this.options=options;};AST.Program='Program';AST.ExpressionStatement='ExpressionStatement';AST.AssignmentExpression='AssignmentExpression';AST.ConditionalExpression='ConditionalExpression';AST.LogicalExpression='LogicalExpression';AST.BinaryExpression='BinaryExpression';AST.UnaryExpression='UnaryExpression';AST.CallExpression='CallExpression';AST.MemberExpression='MemberExpression';AST.Identifier='Identifier';AST.Literal='Literal';AST.ArrayExpression='ArrayExpression';AST.Property='Property';AST.ObjectExpression='ObjectExpression';AST.ThisExpression='ThisExpression';AST.LocalsExpression='LocalsExpression';// Internal use only
 	AST.NGValueParameter='NGValueParameter';AST.prototype={ast:function ast(text){this.text=text;this.tokens=this.lexer.lex(text);var value=this.program();if(this.tokens.length!==0){this.throwError('is an unexpected token',this.tokens[0]);}return value;},program:function program(){var body=[];while(true){if(this.tokens.length>0&&!this.peek('}',')',';',']'))body.push(this.expressionStatement());if(!this.expect(';')){return{type:AST.Program,body:body};}}},expressionStatement:function expressionStatement(){return{type:AST.ExpressionStatement,expression:this.filterChain()};},filterChain:function filterChain(){var left=this.expression();var token;while(token=this.expect('|')){left=this.filter(left);}return left;},expression:function expression(){return this.assignment();},assignment:function assignment(){var result=this.ternary();if(this.expect('=')){result={type:AST.AssignmentExpression,left:result,right:this.assignment(),operator:'='};}return result;},ternary:function ternary(){var test=this.logicalOR();var alternate;var consequent;if(this.expect('?')){alternate=this.expression();if(this.consume(':')){consequent=this.expression();return{type:AST.ConditionalExpression,test:test,alternate:alternate,consequent:consequent};}}return test;},logicalOR:function logicalOR(){var left=this.logicalAND();while(this.expect('||')){left={type:AST.LogicalExpression,operator:'||',left:left,right:this.logicalAND()};}return left;},logicalAND:function logicalAND(){var left=this.equality();while(this.expect('&&')){left={type:AST.LogicalExpression,operator:'&&',left:left,right:this.equality()};}return left;},equality:function equality(){var left=this.relational();var token;while(token=this.expect('==','!=','===','!==')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.relational()};}return left;},relational:function relational(){var left=this.additive();var token;while(token=this.expect('<','>','<=','>=')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.additive()};}return left;},additive:function additive(){var left=this.multiplicative();var token;while(token=this.expect('+','-')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.multiplicative()};}return left;},multiplicative:function multiplicative(){var left=this.unary();var token;while(token=this.expect('*','/','%')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.unary()};}return left;},unary:function unary(){var token;if(token=this.expect('+','-','!')){return{type:AST.UnaryExpression,operator:token.text,prefix:true,argument:this.unary()};}else{return this.primary();}},primary:function primary(){var primary;if(this.expect('(')){primary=this.filterChain();this.consume(')');}else if(this.expect('[')){primary=this.arrayDeclaration();}else if(this.expect('{')){primary=this.object();}else if(this.selfReferential.hasOwnProperty(this.peek().text)){primary=copy(this.selfReferential[this.consume().text]);}else if(this.options.literals.hasOwnProperty(this.peek().text)){primary={type:AST.Literal,value:this.options.literals[this.consume().text]};}else if(this.peek().identifier){primary=this.identifier();}else if(this.peek().constant){primary=this.constant();}else{this.throwError('not a primary expression',this.peek());}var next;while(next=this.expect('(','[','.')){if(next.text==='('){primary={type:AST.CallExpression,callee:primary,arguments:this.parseArguments()};this.consume(')');}else if(next.text==='['){primary={type:AST.MemberExpression,object:primary,property:this.expression(),computed:true};this.consume(']');}else if(next.text==='.'){primary={type:AST.MemberExpression,object:primary,property:this.identifier(),computed:false};}else{this.throwError('IMPOSSIBLE');}}return primary;},filter:function filter(baseExpression){var args=[baseExpression];var result={type:AST.CallExpression,callee:this.identifier(),arguments:args,filter:true};while(this.expect(':')){args.push(this.expression());}return result;},parseArguments:function parseArguments(){var args=[];if(this.peekToken().text!==')'){do{args.push(this.filterChain());}while(this.expect(','));}return args;},identifier:function identifier(){var token=this.consume();if(!token.identifier){this.throwError('is not a valid identifier',token);}return{type:AST.Identifier,name:token.text};},constant:function constant(){// TODO check that it is a constant
 	return{type:AST.Literal,value:this.consume().value};},arrayDeclaration:function arrayDeclaration(){var elements=[];if(this.peekToken().text!==']'){do{if(this.peek(']')){// Support trailing commas per ES5.1.
 	break;}elements.push(this.expression());}while(this.expect(','));}this.consume(']');return{type:AST.ArrayExpression,elements:elements};},object:function object(){var properties=[],property;if(this.peekToken().text!=='}'){do{if(this.peek('}')){// Support trailing commas per ES5.1.
@@ -9325,7 +9325,7 @@
 	 * @param  {string} decimalSep   The string to act as the decimal separator (e.g. `.`)
 	 * @param  {[type]} fractionSize The size of the fractional part of the number
 	 * @return {string}              The number formatted as a string
-	 */function formatNumber(number,pattern,groupSep,decimalSep,fractionSize){if(!(isString(number)||isNumber(number))||isNaN(number))return'';var isInfinity=!isFinite(number);var isZero=false;var numStr=Math.abs(number)+'',formattedText='',parsedNumber;if(isInfinity){formattedText='\u221E';}else{parsedNumber=parse(numStr);roundNumber(parsedNumber,fractionSize,pattern.minFrac,pattern.maxFrac);var digits=parsedNumber.d;var integerLen=parsedNumber.i;var exponent=parsedNumber.e;var decimals=[];isZero=digits.reduce(function(isZero,d){return isZero&&!d;},true);// pad zeros for small numbers
+	 */function formatNumber(number,pattern,groupSep,decimalSep,fractionSize){if(!(isString(number)||isNumber(number))||isNaN(number))return'';var isInfinity=!isFinite(number);var isZero=false;var numStr=Math.abs(number)+'',formattedText='',parsedNumber;if(isInfinity){formattedText='∞';}else{parsedNumber=parse(numStr);roundNumber(parsedNumber,fractionSize,pattern.minFrac,pattern.maxFrac);var digits=parsedNumber.d;var integerLen=parsedNumber.i;var exponent=parsedNumber.e;var decimals=[];isZero=digits.reduce(function(isZero,d){return isZero&&!d;},true);// pad zeros for small numbers
 	while(integerLen<0){digits.unshift(0);integerLen++;}// extract decimals digits
 	if(integerLen>0){decimals=digits.splice(integerLen,digits.length);}else{decimals=digits;digits=[0];}// format the integer digits with grouping separators
 	var groups=[];if(digits.length>=pattern.lgSize){groups.unshift(digits.splice(-pattern.lgSize,digits.length).join(''));}while(digits.length>pattern.gSize){groups.unshift(digits.splice(-pattern.gSize,digits.length).join(''));}if(digits.length){groups.unshift(digits.join(''));}formattedText=groups.join(groupSep);// append the decimal digits
@@ -16812,7 +16812,7 @@
 	 */var minlengthDirective=function minlengthDirective(){return{restrict:'A',require:'?ngModel',link:function link(scope,elm,attr,ctrl){if(!ctrl)return;var minlength=0;attr.$observe('minlength',function(value){minlength=toInt(value)||0;ctrl.$validate();});ctrl.$validators.minlength=function(modelValue,viewValue){return ctrl.$isEmpty(viewValue)||viewValue.length>=minlength;};}};};if(window.angular.bootstrap){//AngularJS is already loaded, so we can return here...
 	if(window.console){console.log('WARNING: Tried to load angular more than once.');}return;}//try to bind to jquery now so that one can write jqLite(document).ready()
 	//but we will rebind on bootstrap again.
-	bindJQuery();publishExternalAPI(angular);angular.module("ngLocale",[],["$provide",function($provide){var PLURAL_CATEGORY={ZERO:"zero",ONE:"one",TWO:"two",FEW:"few",MANY:"many",OTHER:"other"};function getDecimals(n){n=n+'';var i=n.indexOf('.');return i==-1?0:n.length-i-1;}function getVF(n,opt_precision){var v=opt_precision;if(undefined===v){v=Math.min(getDecimals(n),3);}var base=Math.pow(10,v);var f=(n*base|0)%base;return{v:v,f:f};}$provide.value("$locale",{"DATETIME_FORMATS":{"AMPMS":["AM","PM"],"DAY":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"ERANAMES":["Before Christ","Anno Domini"],"ERAS":["BC","AD"],"FIRSTDAYOFWEEK":6,"MONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"SHORTDAY":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"SHORTMONTH":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"STANDALONEMONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"WEEKENDRANGE":[5,6],"fullDate":"EEEE, MMMM d, y","longDate":"MMMM d, y","medium":"MMM d, y h:mm:ss a","mediumDate":"MMM d, y","mediumTime":"h:mm:ss a","short":"M/d/yy h:mm a","shortDate":"M/d/yy","shortTime":"h:mm a"},"NUMBER_FORMATS":{"CURRENCY_SYM":"$","DECIMAL_SEP":".","GROUP_SEP":",","PATTERNS":[{"gSize":3,"lgSize":3,"maxFrac":3,"minFrac":0,"minInt":1,"negPre":"-","negSuf":"","posPre":"","posSuf":""},{"gSize":3,"lgSize":3,"maxFrac":2,"minFrac":2,"minInt":1,"negPre":'-\xA4',"negSuf":"","posPre":'\xA4',"posSuf":""}]},"id":"en-us","localeID":"en_US","pluralCat":function pluralCat(n,opt_precision){var i=n|0;var vf=getVF(n,opt_precision);if(i==1&&vf.v==0){return PLURAL_CATEGORY.ONE;}return PLURAL_CATEGORY.OTHER;}});}]);jqLite(window.document).ready(function(){angularInit(window.document,bootstrap);});})(window);!window.angular.$$csp().noInlineStyle&&window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
+	bindJQuery();publishExternalAPI(angular);angular.module("ngLocale",[],["$provide",function($provide){var PLURAL_CATEGORY={ZERO:"zero",ONE:"one",TWO:"two",FEW:"few",MANY:"many",OTHER:"other"};function getDecimals(n){n=n+'';var i=n.indexOf('.');return i==-1?0:n.length-i-1;}function getVF(n,opt_precision){var v=opt_precision;if(undefined===v){v=Math.min(getDecimals(n),3);}var base=Math.pow(10,v);var f=(n*base|0)%base;return{v:v,f:f};}$provide.value("$locale",{"DATETIME_FORMATS":{"AMPMS":["AM","PM"],"DAY":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"ERANAMES":["Before Christ","Anno Domini"],"ERAS":["BC","AD"],"FIRSTDAYOFWEEK":6,"MONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"SHORTDAY":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"SHORTMONTH":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"STANDALONEMONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"WEEKENDRANGE":[5,6],"fullDate":"EEEE, MMMM d, y","longDate":"MMMM d, y","medium":"MMM d, y h:mm:ss a","mediumDate":"MMM d, y","mediumTime":"h:mm:ss a","short":"M/d/yy h:mm a","shortDate":"M/d/yy","shortTime":"h:mm a"},"NUMBER_FORMATS":{"CURRENCY_SYM":"$","DECIMAL_SEP":".","GROUP_SEP":",","PATTERNS":[{"gSize":3,"lgSize":3,"maxFrac":3,"minFrac":0,"minInt":1,"negPre":"-","negSuf":"","posPre":"","posSuf":""},{"gSize":3,"lgSize":3,"maxFrac":2,"minFrac":2,"minInt":1,"negPre":'-¤',"negSuf":"","posPre":'¤',"posSuf":""}]},"id":"en-us","localeID":"en_US","pluralCat":function pluralCat(n,opt_precision){var i=n|0;var vf=getVF(n,opt_precision);if(i==1&&vf.v==0){return PLURAL_CATEGORY.ONE;}return PLURAL_CATEGORY.OTHER;}});}]);jqLite(window.document).ready(function(){angularInit(window.document,bootstrap);});})(window);!window.angular.$$csp().noInlineStyle&&window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
 /* 3 */
@@ -19745,7 +19745,7 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	"use strict";var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};/*!
+	"use strict";var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};/*!
 	 * Angular Material Design
 	 * https://github.com/angular/material
 	 * @license MIT
@@ -31656,11 +31656,42 @@
 
 /***/ },
 /* 55 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
-	module.exports = function ($$groups, $routeParams, $mdDialog, $mdMedia, $scope, authentication) {
+	__webpack_require__(64);
+	module.exports = function ($$organisations, $$groups, $$profiles, $routeParams, $mdDialog, $mdMedia, $scope, authentication) {
+
+		var vm = this;
+
+		vm.groups = [];
+		vm.members = [];
+
+		init();
+		function init() {
+			$$profiles.getList({
+				role: 'student',
+				group: null
+			}).then(function (resp) {
+				vm.members = resp.data;
+				getOrganisations();
+			});
+		}
+
+		function getOrganisations() {
+			$$organisations.getList({
+				is_psycho: false
+			}).then(function (resp) {
+				vm.organisations = resp.data;
+				vm.members.forEach(function (member) {
+					member.organisationData = vm.organisations.find(function (org) {
+						return org._id == member.organisation;
+					});
+				});
+			});
+		}
+
 		$scope.hide = function () {
 			$mdDialog.hide();
 		};
@@ -31710,6 +31741,7 @@
 			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
 			$mdDialog.show({
 				controller: __webpack_require__(55),
+				controllerAs: 'dlg',
 				template: __webpack_require__(57),
 				parent: angular.element(document.body),
 				targetEvent: ev,
@@ -31732,7 +31764,7 @@
 /* 57 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-dialog aria-label=\"Mango (Fruit)\"  ng-cloak>\n\t<form>\n\t\t<md-toolbar>\n\t\t\t<div class=\"md-toolbar-tools\">\n\t\t\t\t<h2>Mango (Fruit)</h2>\n\t\t\t\t<span flex></span>\n\t\t\t</div>\n\t\t</md-toolbar>\n\t\t<md-dialog-content>\n\t\t\t<div class=\"md-dialog-content\">\n\t\t\t\t<h2>Using .md-dialog-content class that sets the padding as the spec</h2>\n\t\t\t\t<p>\n\t\t\t\t\tThe mango is a juicy stone fruit belonging to the genus Mangifera, consisting of numerous tropical fruiting trees, cultivated mostly for edible fruit. The majority of these species are found in nature as wild mangoes. They all belong to the flowering plant family Anacardiaceae. The mango is native to South and Southeast Asia, from where it has been distributed worldwide to become one of the most cultivated fruits in the tropics.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tThe highest concentration of Mangifera genus is in the western part of Malesia (Sumatra, Java and Borneo) and in Burma and India. While other Mangifera species (e.g. horse mango, M. foetida) are also grown on a more localized basis, Mangifera indica&mdash;the \"common mango\" or \"Indian mango\"&mdash;is the only mango tree commonly cultivated in many tropical and subtropical regions.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tIt originated in Indian subcontinent (present day India and Pakistan) and Burma. It is the national fruit of India, Pakistan, and the Philippines, and the national tree of Bangladesh. In several cultures, its fruit and leaves are ritually used as floral decorations at weddings, public celebrations, and religious ceremonies.\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions layout=\"row\">\n\t\t\t<md-button href=\"http://en.wikipedia.org/wiki/Mango\" target=\"_blank\" md-autofocus>\n\t\t\t\tMore on Wikipedia\n\t\t\t</md-button>\n\t\t\t<span flex></span>\n\t\t\t<md-button ng-click=\"answer('not useful')\">\n\t\t\t\tNot Useful\n\t\t\t</md-button>\n\t\t\t<md-button ng-click=\"answer('useful')\" style=\"margin-right:20px;\">\n\t\t\t\tUseful\n\t\t\t</md-button>\n\t\t</md-dialog-actions>\n\t</form>\n</md-dialog>\n";
+	module.exports = "<md-dialog class=\"add_members_dialog\" aria-label=\"Добавить участников\"  ng-cloak>\n\t<form>\n\t\t<md-toolbar>\n\t\t\t<div class=\"md-toolbar-tools\">\n\t\t\t\t<h2>Добавить участников</h2>\n\t\t\t\t<span flex></span>\n\t\t\t\t<md-input-container  md-no-float class=\"md-block\" flex=\"20\">\n\t\t\t\t\t<label>Организация</label>\n\t\t\t\t\t<md-select ng-model=\"dlg.filters.organisation.value\">\n\t\t\t\t\t\t<md-option ng-value=\"null\">Все</md-option>\n\t\t\t\t\t\t<md-option ng-repeat=\"org in dlg.organisations\" ng-value=\"org._id\">\n\t\t\t\t\t\t\t{{org.name}}\n\t\t\t\t\t\t</md-option>\n\t\t\t\t\t</md-select>\n\t\t\t\t</md-input-container>\n\t\t\t</div>\n\t\t</md-toolbar>\n\t\t<md-dialog-content>\n\t\t\t<div class=\"md-dialog-content\">\n\t\t\t\t<md-list class=\"layout-fill\">\n\t\t\t\t\t<md-list-item class=\"md-2-line\" ng-repeat=\"member in dlg.members\">\n\t\t\t\t\t\t<md-checkbox class=\"md-primary\" ng-model=\"member.selected\" aria-label=\"Выбрать участника\">\n\t\t\t\t\t\t\t{{ member.selected }}\n\t\t\t\t\t\t</md-checkbox>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.organisationData.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<md-divider ng-if=\"!$last\"></md-divider>\n\t\t\t\t\t</md-list-item>\n\t\t\t\t\t<md-list-item ng-if=\"!dlg.members.length\">На данный момент нет участников без группы</md-list-item>\n\t\t\t\t</md-list>\n\t\t\t</div>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions layout=\"row\">\n\t\t\t<span flex></span>\n\t\t\t<md-button ng-click=\"answer('useful')\" style=\"margin-right:20px;\">\n\t\t\t\tДобавить\n\t\t\t</md-button>\n\t\t</md-dialog-actions>\n\t</form>\n</md-dialog>\n";
 
 /***/ },
 /* 58 */
@@ -32149,6 +32181,46 @@
 			});
 		}
 	}
+
+/***/ },
+/* 64 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(65);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./dialog.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./dialog.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 65 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.add_members_dialog {\n  width: 80%; }\n  .add_members_dialog .md-toolbar-tools {\n    background-color: #67b3ff !important; }\n", ""]);
+
+	// exports
+
 
 /***/ }
 /******/ ]);

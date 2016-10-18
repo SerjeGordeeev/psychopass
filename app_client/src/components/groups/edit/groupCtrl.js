@@ -33,6 +33,7 @@ function groupCtrl($$groups, $routeParams, authentication, $mdDialog, $mdMedia, 
 		var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
 		$mdDialog.show({
 			controller: require('./dialog/addMembersCtrl'),
+			controllerAs: 'dlg',
 			template: require('./dialog/dialog.tmpl.html'),
 			parent: angular.element(document.body),
 			targetEvent: ev,
