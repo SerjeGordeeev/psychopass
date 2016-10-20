@@ -1,7 +1,11 @@
 const mongoose = require('mongoose')
 const User = mongoose.model('User')
-const async = require('async')
+const _async = require('async')
 const generateLogin = require('password-generator')
+const Upload = require('./utils/upload')
+
+const await = require('asyncawait/await');
+const async = require('asyncawait/async');
 
 module.exports.getList = function (req, res) {
   let query = User.find(cleanQueryObj(req.query))
@@ -18,7 +22,7 @@ module.exports.update = function (req, res) {
 
   if(req.body.ids){
       console.log(req.body.ids)
-      async.filter(req.body.members, function(member, callback) {
+      _async.filter(req.body.members, function(member, callback) {
         User.findOne({'_id':  mongoose.Types.ObjectId(member._id)}, (err,user)=>{
             if(err) dataError(res,err)
             else{
@@ -98,57 +102,67 @@ module.exports.add = function (req, res) {
   user.name = req.body.name
   user.role = req.body.role
   user.organisation = req.body.organisation
-  generateUniqLogin(user)
 
-    user.save(function(err){
-      if(err) dataError(res,err)
-      else{
-        res.status(200)
-        res.json({
-          message: 'Участник успешно добавлен'
-        })
-      }
-    })
-
-  user.login = generateLogin()//require('password-generator')(12, false)
+  saveUser(user, res)
   
 }
 
 module.exports.upload = function (req, res) {
-  require('./utils/upload').uploadFile(req, res, function (users) {
-    async.filter(users, function (userData, callback) {
-      let user = new User()
-
-      try{
-        user.name = orgData['Имя']
-        user.organisation = req.body.org_id
-        user.role = 'student'
-        generateUniqLogin(user)
-      }
-      catch (err){
-        dataError(res,err)
-      }
-      //console.log(org, orgData)
-      user.save(function (err) {
-        if (err) dataError(res,err)
-        else callback(null, !err)
-      })
-    }, function (err) {
-      if (err) dataError(res,err)
-      else {
-        res.status(200)
-        res.json({message:'Представители успешно импортированы'})
-      }
+  Upload.uploadFile(req, res, function (users) {
+    let err = false
+    users.forEach(user=>{
+      if(!user['Имя']) err = true
     })
+
+    if(!err) {
+      _async.filter(users, function (userData, callback) {
+        let user = new User()
+
+        user.name = userData['Имя']
+        user.organisation = req.query.id
+        user.role = 'student'
+        user.login = generateLogin(12, false)
+       // console.log('User login', user.login)
+        saveUser(user, res, callback)
+
+      }, function (err) {
+        if (err) dataError(res, err)
+        else {
+          res.status(200)
+          res.json({message: 'Представители успешно импортированы'})
+        }
+      })
+    }
+    else{
+      res.status(422)
+      res.json({message: 'Ошибка в составлении списка пользователей'})
+    }
+
   })
 }
 
+function saveUser(user, res, callback){
 
-function generateUniqLogin(user){
-  User.find({},(err,data)=>{
-    user.login = generateLogin(12, false)
-    while(data.find(profile=>profile.login == user.login)){
+    User.find({}, (err, users)=>{
+
       user.login = generateLogin(12, false)
-    }
-  })
+
+      while(users.find(profile=>profile.login == user.login)){
+        user.login = generateLogin(12, false)
+      }
+
+      user.save(function (err) {
+        if (err) dataError(res, err)
+        else if(callback) callback(null, !err)
+        else{
+          res.status(200)
+          res.json({
+            message: 'Участник успешно добавлен'
+          })
+        }
+      })
+
+    })
+
+
 }

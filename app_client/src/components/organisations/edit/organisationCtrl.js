@@ -102,13 +102,13 @@ function organisationCtrl($$organisations, $$groups, $$profiles, authentication,
 
 	function importCSV(file){
 		$$profiles.upload({
-			org_id: vm.org.id,
+			id: vm.org.id,
 			file: file
 		}).then(resp=>{
 			flashAlert.success(resp.data.message)
 			init()
 		}).catch(err=>{
-			flashAlert.error(err.data)
+			flashAlert.error(err.data.message)
 		})
 	}
 

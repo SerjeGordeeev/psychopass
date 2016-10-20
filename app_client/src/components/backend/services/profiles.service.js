@@ -23,7 +23,7 @@
     }
 
     var upload = function (payload) {
-      return $$uploader.upload('/api/profiles/upload', payload, null)
+      return $$uploader.upload('/api/profiles/upload?id='+payload.id, payload, null)
     }
 
     return {

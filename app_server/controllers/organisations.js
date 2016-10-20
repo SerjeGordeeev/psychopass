@@ -5,14 +5,12 @@ const async = require('async')
 const url = require('url')
 
 module.exports.getList = function (req, res) {
-//req.query.id?{_id:mongoose.Types.ObjectId(req.query.id)}:{}
-// console.log(cleanQueryObj(req.query))
+
 	cleanQueryObj(req.query)
 	let query = {}
 		if(req.query.id) query._id=mongoose.Types.ObjectId(req.query.id)
 		if(req.query.is_psycho!=undefined) query.is_psycho=req.query.is_psycho
-
-	console.log(query)
+	
 	Organisation.find(query, (err, organisation)=>{
 		if(err) dataError(res,err)
 		else{
@@ -101,26 +99,35 @@ module.exports.update = function (req, res) {
 
 module.exports.upload = function (req, res) {
 	require('./utils/upload').uploadFile(req, res, function (orgs) {
-		async.filter(orgs, function (orgData, callback) {
-			let org = new Organisation()
-			try{
+
+		let err = false
+		orgs.forEach(org=>{
+			if(!org['Название']) err = true
+		})
+
+		if(!err) {
+			async.filter(orgs, function (orgData, callback) {
+				let org = new Organisation()
+
 				org.name = orgData['Название']
 				org.is_psycho = !orgData['Учебная']
-			}
-			catch(err){
-				dataError(res,err)
-			}
-			//console.log(org, orgData)
-			org.save(function (err) {
-				if (err) dataError(res,err)
-				else callback(null, !err)
+
+				org.save(function (err) {
+					if (err) dataError(res, err)
+					else callback(null, !err)
+				})
+			}, function (err) {
+				if (err) dataError(res, err)
+				else {
+					res.status(200)
+					res.json({message: 'Организации успешно импортированы'})
+				}
 			})
-		}, function (err) {
-			if (err) dataError(res,err)
-			else {
-				res.status(200)
-				res.json({message:'Организации успешно импортированы'})
-			}
-		})
+		}
+		else{
+			res.status(422)
+			res.json({message:'Ошибка в составлении списка организаций'})
+		}
+
 	})
 }

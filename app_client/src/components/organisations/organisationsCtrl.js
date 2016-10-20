@@ -94,7 +94,7 @@ function organisationsCtrl($$organisations, authentication, flashAlert, $$profil
 			flashAlert.success(resp.data.message)
 			init()
 		}).catch(err=>{
-			flashAlert.error(err.data)
+			flashAlert.error(err.data.message)
 		})
 	}
 }

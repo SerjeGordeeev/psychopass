@@ -10,18 +10,22 @@ exports.uploadFile = function(req, res, next) {
 	form.parse(req)
 	form.on('file', function(name,file){
 		let tmp_path = file.path
-		let converter = new Converter({});
-		converter.fromFile(tmp_path,function(err,result){
-			if(err){
-				res.status(422)
-				res.json({message:'Некорректный .csv'})
-			}
-			else next(result)
-			//console.log(result)
-		})
-		//res.json({message:'CSV'})
+		let converter = new Converter({})
+		try{
+			converter.fromFile(tmp_path,function(err,result){
+				if(err){
+					res.status(422)
+					res.json({message:'Некорректный .csv'})
+				}
+				else next(result)
+				//console.log(result)
+			})
+		}
+		catch(err){
+			dataError(res,err)
+		}
 	})
 
 
-	
+
 };

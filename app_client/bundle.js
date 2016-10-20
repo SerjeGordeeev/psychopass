@@ -52,10 +52,10 @@
 	__webpack_require__(5);
 	__webpack_require__(11);
 
-	__webpack_require__(15);
-	__webpack_require__(17);
+	__webpack_require__(69);
+	__webpack_require__(71);
 
-	__webpack_require__(19);
+	__webpack_require__(75);
 
 	angular.module('psApp', ['ngMaterial', 'ngRoute', 'alert', 'vAccordion', 'ngFileUpload']);
 
@@ -118,7 +118,7 @@
 		});
 	}
 
-	requireAll(__webpack_require__(21));
+	requireAll(__webpack_require__(15));
 	function requireAll(requireContext) {
 		return requireContext.keys().map(requireContext);
 	}
@@ -136,7 +136,7 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	'use strict';var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};/**
+	'use strict';var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};/**
 	 * @license AngularJS v1.5.8
 	 * (c) 2010-2016 Google, Inc. http://angularjs.org
 	 * License: MIT
@@ -6739,7 +6739,7 @@
 	/**
 	 * @constructor
 	 */var Lexer=function Lexer(options){this.options=options;};Lexer.prototype={constructor:Lexer,lex:function lex(text){this.text=text;this.index=0;this.tokens=[];while(this.index<this.text.length){var ch=this.text.charAt(this.index);if(ch==='"'||ch==="'"){this.readString(ch);}else if(this.isNumber(ch)||ch==='.'&&this.isNumber(this.peek())){this.readNumber();}else if(this.isIdentifierStart(this.peekMultichar())){this.readIdent();}else if(this.is(ch,'(){}[].,;:?')){this.tokens.push({index:this.index,text:ch});this.index++;}else if(this.isWhitespace(ch)){this.index++;}else{var ch2=ch+this.peek();var ch3=ch2+this.peek(2);var op1=OPERATORS[ch];var op2=OPERATORS[ch2];var op3=OPERATORS[ch3];if(op1||op2||op3){var token=op3?ch3:op2?ch2:ch;this.tokens.push({index:this.index,text:token,operator:true});this.index+=token.length;}else{this.throwError('Unexpected next character ',this.index,this.index+1);}}}return this.tokens;},is:function is(ch,chars){return chars.indexOf(ch)!==-1;},peek:function peek(i){var num=i||1;return this.index+num<this.text.length?this.text.charAt(this.index+num):false;},isNumber:function isNumber(ch){return'0'<=ch&&ch<='9'&&typeof ch==="string";},isWhitespace:function isWhitespace(ch){// IE treats non-breaking space as \u00A0
-	return ch===' '||ch==='\r'||ch==='\t'||ch==='\n'||ch==='\v'||ch===' ';},isIdentifierStart:function isIdentifierStart(ch){return this.options.isIdentifierStart?this.options.isIdentifierStart(ch,this.codePointAt(ch)):this.isValidIdentifierStart(ch);},isValidIdentifierStart:function isValidIdentifierStart(ch){return'a'<=ch&&ch<='z'||'A'<=ch&&ch<='Z'||'_'===ch||ch==='$';},isIdentifierContinue:function isIdentifierContinue(ch){return this.options.isIdentifierContinue?this.options.isIdentifierContinue(ch,this.codePointAt(ch)):this.isValidIdentifierContinue(ch);},isValidIdentifierContinue:function isValidIdentifierContinue(ch,cp){return this.isValidIdentifierStart(ch,cp)||this.isNumber(ch);},codePointAt:function codePointAt(ch){if(ch.length===1)return ch.charCodeAt(0);/*jshint bitwise: false*/return(ch.charCodeAt(0)<<10)+ch.charCodeAt(1)-0x35FDC00;/*jshint bitwise: true*/},peekMultichar:function peekMultichar(){var ch=this.text.charAt(this.index);var peek=this.peek();if(!peek){return ch;}var cp1=ch.charCodeAt(0);var cp2=peek.charCodeAt(0);if(cp1>=0xD800&&cp1<=0xDBFF&&cp2>=0xDC00&&cp2<=0xDFFF){return ch+peek;}return ch;},isExpOperator:function isExpOperator(ch){return ch==='-'||ch==='+'||this.isNumber(ch);},throwError:function throwError(error,start,end){end=end||this.index;var colStr=isDefined(start)?'s '+start+'-'+this.index+' ['+this.text.substring(start,end)+']':' '+end;throw $parseMinErr('lexerr','Lexer Error: {0} at column{1} in expression [{2}].',error,colStr,this.text);},readNumber:function readNumber(){var number='';var start=this.index;while(this.index<this.text.length){var ch=lowercase(this.text.charAt(this.index));if(ch=='.'||this.isNumber(ch)){number+=ch;}else{var peekCh=this.peek();if(ch=='e'&&this.isExpOperator(peekCh)){number+=ch;}else if(this.isExpOperator(ch)&&peekCh&&this.isNumber(peekCh)&&number.charAt(number.length-1)=='e'){number+=ch;}else if(this.isExpOperator(ch)&&(!peekCh||!this.isNumber(peekCh))&&number.charAt(number.length-1)=='e'){this.throwError('Invalid exponent');}else{break;}}this.index++;}this.tokens.push({index:start,text:number,constant:true,value:Number(number)});},readIdent:function readIdent(){var start=this.index;this.index+=this.peekMultichar().length;while(this.index<this.text.length){var ch=this.peekMultichar();if(!this.isIdentifierContinue(ch)){break;}this.index+=ch.length;}this.tokens.push({index:start,text:this.text.slice(start,this.index),identifier:true});},readString:function readString(quote){var start=this.index;this.index++;var string='';var rawString=quote;var escape=false;while(this.index<this.text.length){var ch=this.text.charAt(this.index);rawString+=ch;if(escape){if(ch==='u'){var hex=this.text.substring(this.index+1,this.index+5);if(!hex.match(/[\da-f]{4}/i)){this.throwError('Invalid unicode escape [\\u'+hex+']');}this.index+=4;string+=String.fromCharCode(parseInt(hex,16));}else{var rep=ESCAPE[ch];string=string+(rep||ch);}escape=false;}else if(ch==='\\'){escape=true;}else if(ch===quote){this.index++;this.tokens.push({index:start,text:rawString,constant:true,value:string});return;}else{string+=ch;}this.index++;}this.throwError('Unterminated quote',start);}};var AST=function AST(lexer,options){this.lexer=lexer;this.options=options;};AST.Program='Program';AST.ExpressionStatement='ExpressionStatement';AST.AssignmentExpression='AssignmentExpression';AST.ConditionalExpression='ConditionalExpression';AST.LogicalExpression='LogicalExpression';AST.BinaryExpression='BinaryExpression';AST.UnaryExpression='UnaryExpression';AST.CallExpression='CallExpression';AST.MemberExpression='MemberExpression';AST.Identifier='Identifier';AST.Literal='Literal';AST.ArrayExpression='ArrayExpression';AST.Property='Property';AST.ObjectExpression='ObjectExpression';AST.ThisExpression='ThisExpression';AST.LocalsExpression='LocalsExpression';// Internal use only
+	return ch===' '||ch==='\r'||ch==='\t'||ch==='\n'||ch==='\v'||ch==='\xA0';},isIdentifierStart:function isIdentifierStart(ch){return this.options.isIdentifierStart?this.options.isIdentifierStart(ch,this.codePointAt(ch)):this.isValidIdentifierStart(ch);},isValidIdentifierStart:function isValidIdentifierStart(ch){return'a'<=ch&&ch<='z'||'A'<=ch&&ch<='Z'||'_'===ch||ch==='$';},isIdentifierContinue:function isIdentifierContinue(ch){return this.options.isIdentifierContinue?this.options.isIdentifierContinue(ch,this.codePointAt(ch)):this.isValidIdentifierContinue(ch);},isValidIdentifierContinue:function isValidIdentifierContinue(ch,cp){return this.isValidIdentifierStart(ch,cp)||this.isNumber(ch);},codePointAt:function codePointAt(ch){if(ch.length===1)return ch.charCodeAt(0);/*jshint bitwise: false*/return(ch.charCodeAt(0)<<10)+ch.charCodeAt(1)-0x35FDC00;/*jshint bitwise: true*/},peekMultichar:function peekMultichar(){var ch=this.text.charAt(this.index);var peek=this.peek();if(!peek){return ch;}var cp1=ch.charCodeAt(0);var cp2=peek.charCodeAt(0);if(cp1>=0xD800&&cp1<=0xDBFF&&cp2>=0xDC00&&cp2<=0xDFFF){return ch+peek;}return ch;},isExpOperator:function isExpOperator(ch){return ch==='-'||ch==='+'||this.isNumber(ch);},throwError:function throwError(error,start,end){end=end||this.index;var colStr=isDefined(start)?'s '+start+'-'+this.index+' ['+this.text.substring(start,end)+']':' '+end;throw $parseMinErr('lexerr','Lexer Error: {0} at column{1} in expression [{2}].',error,colStr,this.text);},readNumber:function readNumber(){var number='';var start=this.index;while(this.index<this.text.length){var ch=lowercase(this.text.charAt(this.index));if(ch=='.'||this.isNumber(ch)){number+=ch;}else{var peekCh=this.peek();if(ch=='e'&&this.isExpOperator(peekCh)){number+=ch;}else if(this.isExpOperator(ch)&&peekCh&&this.isNumber(peekCh)&&number.charAt(number.length-1)=='e'){number+=ch;}else if(this.isExpOperator(ch)&&(!peekCh||!this.isNumber(peekCh))&&number.charAt(number.length-1)=='e'){this.throwError('Invalid exponent');}else{break;}}this.index++;}this.tokens.push({index:start,text:number,constant:true,value:Number(number)});},readIdent:function readIdent(){var start=this.index;this.index+=this.peekMultichar().length;while(this.index<this.text.length){var ch=this.peekMultichar();if(!this.isIdentifierContinue(ch)){break;}this.index+=ch.length;}this.tokens.push({index:start,text:this.text.slice(start,this.index),identifier:true});},readString:function readString(quote){var start=this.index;this.index++;var string='';var rawString=quote;var escape=false;while(this.index<this.text.length){var ch=this.text.charAt(this.index);rawString+=ch;if(escape){if(ch==='u'){var hex=this.text.substring(this.index+1,this.index+5);if(!hex.match(/[\da-f]{4}/i)){this.throwError('Invalid unicode escape [\\u'+hex+']');}this.index+=4;string+=String.fromCharCode(parseInt(hex,16));}else{var rep=ESCAPE[ch];string=string+(rep||ch);}escape=false;}else if(ch==='\\'){escape=true;}else if(ch===quote){this.index++;this.tokens.push({index:start,text:rawString,constant:true,value:string});return;}else{string+=ch;}this.index++;}this.throwError('Unterminated quote',start);}};var AST=function AST(lexer,options){this.lexer=lexer;this.options=options;};AST.Program='Program';AST.ExpressionStatement='ExpressionStatement';AST.AssignmentExpression='AssignmentExpression';AST.ConditionalExpression='ConditionalExpression';AST.LogicalExpression='LogicalExpression';AST.BinaryExpression='BinaryExpression';AST.UnaryExpression='UnaryExpression';AST.CallExpression='CallExpression';AST.MemberExpression='MemberExpression';AST.Identifier='Identifier';AST.Literal='Literal';AST.ArrayExpression='ArrayExpression';AST.Property='Property';AST.ObjectExpression='ObjectExpression';AST.ThisExpression='ThisExpression';AST.LocalsExpression='LocalsExpression';// Internal use only
 	AST.NGValueParameter='NGValueParameter';AST.prototype={ast:function ast(text){this.text=text;this.tokens=this.lexer.lex(text);var value=this.program();if(this.tokens.length!==0){this.throwError('is an unexpected token',this.tokens[0]);}return value;},program:function program(){var body=[];while(true){if(this.tokens.length>0&&!this.peek('}',')',';',']'))body.push(this.expressionStatement());if(!this.expect(';')){return{type:AST.Program,body:body};}}},expressionStatement:function expressionStatement(){return{type:AST.ExpressionStatement,expression:this.filterChain()};},filterChain:function filterChain(){var left=this.expression();var token;while(token=this.expect('|')){left=this.filter(left);}return left;},expression:function expression(){return this.assignment();},assignment:function assignment(){var result=this.ternary();if(this.expect('=')){result={type:AST.AssignmentExpression,left:result,right:this.assignment(),operator:'='};}return result;},ternary:function ternary(){var test=this.logicalOR();var alternate;var consequent;if(this.expect('?')){alternate=this.expression();if(this.consume(':')){consequent=this.expression();return{type:AST.ConditionalExpression,test:test,alternate:alternate,consequent:consequent};}}return test;},logicalOR:function logicalOR(){var left=this.logicalAND();while(this.expect('||')){left={type:AST.LogicalExpression,operator:'||',left:left,right:this.logicalAND()};}return left;},logicalAND:function logicalAND(){var left=this.equality();while(this.expect('&&')){left={type:AST.LogicalExpression,operator:'&&',left:left,right:this.equality()};}return left;},equality:function equality(){var left=this.relational();var token;while(token=this.expect('==','!=','===','!==')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.relational()};}return left;},relational:function relational(){var left=this.additive();var token;while(token=this.expect('<','>','<=','>=')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.additive()};}return left;},additive:function additive(){var left=this.multiplicative();var token;while(token=this.expect('+','-')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.multiplicative()};}return left;},multiplicative:function multiplicative(){var left=this.unary();var token;while(token=this.expect('*','/','%')){left={type:AST.BinaryExpression,operator:token.text,left:left,right:this.unary()};}return left;},unary:function unary(){var token;if(token=this.expect('+','-','!')){return{type:AST.UnaryExpression,operator:token.text,prefix:true,argument:this.unary()};}else{return this.primary();}},primary:function primary(){var primary;if(this.expect('(')){primary=this.filterChain();this.consume(')');}else if(this.expect('[')){primary=this.arrayDeclaration();}else if(this.expect('{')){primary=this.object();}else if(this.selfReferential.hasOwnProperty(this.peek().text)){primary=copy(this.selfReferential[this.consume().text]);}else if(this.options.literals.hasOwnProperty(this.peek().text)){primary={type:AST.Literal,value:this.options.literals[this.consume().text]};}else if(this.peek().identifier){primary=this.identifier();}else if(this.peek().constant){primary=this.constant();}else{this.throwError('not a primary expression',this.peek());}var next;while(next=this.expect('(','[','.')){if(next.text==='('){primary={type:AST.CallExpression,callee:primary,arguments:this.parseArguments()};this.consume(')');}else if(next.text==='['){primary={type:AST.MemberExpression,object:primary,property:this.expression(),computed:true};this.consume(']');}else if(next.text==='.'){primary={type:AST.MemberExpression,object:primary,property:this.identifier(),computed:false};}else{this.throwError('IMPOSSIBLE');}}return primary;},filter:function filter(baseExpression){var args=[baseExpression];var result={type:AST.CallExpression,callee:this.identifier(),arguments:args,filter:true};while(this.expect(':')){args.push(this.expression());}return result;},parseArguments:function parseArguments(){var args=[];if(this.peekToken().text!==')'){do{args.push(this.filterChain());}while(this.expect(','));}return args;},identifier:function identifier(){var token=this.consume();if(!token.identifier){this.throwError('is not a valid identifier',token);}return{type:AST.Identifier,name:token.text};},constant:function constant(){// TODO check that it is a constant
 	return{type:AST.Literal,value:this.consume().value};},arrayDeclaration:function arrayDeclaration(){var elements=[];if(this.peekToken().text!==']'){do{if(this.peek(']')){// Support trailing commas per ES5.1.
 	break;}elements.push(this.expression());}while(this.expect(','));}this.consume(']');return{type:AST.ArrayExpression,elements:elements};},object:function object(){var properties=[],property;if(this.peekToken().text!=='}'){do{if(this.peek('}')){// Support trailing commas per ES5.1.
@@ -9337,7 +9337,7 @@
 	 * @param  {string} decimalSep   The string to act as the decimal separator (e.g. `.`)
 	 * @param  {[type]} fractionSize The size of the fractional part of the number
 	 * @return {string}              The number formatted as a string
-	 */function formatNumber(number,pattern,groupSep,decimalSep,fractionSize){if(!(isString(number)||isNumber(number))||isNaN(number))return'';var isInfinity=!isFinite(number);var isZero=false;var numStr=Math.abs(number)+'',formattedText='',parsedNumber;if(isInfinity){formattedText='∞';}else{parsedNumber=parse(numStr);roundNumber(parsedNumber,fractionSize,pattern.minFrac,pattern.maxFrac);var digits=parsedNumber.d;var integerLen=parsedNumber.i;var exponent=parsedNumber.e;var decimals=[];isZero=digits.reduce(function(isZero,d){return isZero&&!d;},true);// pad zeros for small numbers
+	 */function formatNumber(number,pattern,groupSep,decimalSep,fractionSize){if(!(isString(number)||isNumber(number))||isNaN(number))return'';var isInfinity=!isFinite(number);var isZero=false;var numStr=Math.abs(number)+'',formattedText='',parsedNumber;if(isInfinity){formattedText='\u221E';}else{parsedNumber=parse(numStr);roundNumber(parsedNumber,fractionSize,pattern.minFrac,pattern.maxFrac);var digits=parsedNumber.d;var integerLen=parsedNumber.i;var exponent=parsedNumber.e;var decimals=[];isZero=digits.reduce(function(isZero,d){return isZero&&!d;},true);// pad zeros for small numbers
 	while(integerLen<0){digits.unshift(0);integerLen++;}// extract decimals digits
 	if(integerLen>0){decimals=digits.splice(integerLen,digits.length);}else{decimals=digits;digits=[0];}// format the integer digits with grouping separators
 	var groups=[];if(digits.length>=pattern.lgSize){groups.unshift(digits.splice(-pattern.lgSize,digits.length).join(''));}while(digits.length>pattern.gSize){groups.unshift(digits.splice(-pattern.gSize,digits.length).join(''));}if(digits.length){groups.unshift(digits.join(''));}formattedText=groups.join(groupSep);// append the decimal digits
@@ -16824,7 +16824,7 @@
 	 */var minlengthDirective=function minlengthDirective(){return{restrict:'A',require:'?ngModel',link:function link(scope,elm,attr,ctrl){if(!ctrl)return;var minlength=0;attr.$observe('minlength',function(value){minlength=toInt(value)||0;ctrl.$validate();});ctrl.$validators.minlength=function(modelValue,viewValue){return ctrl.$isEmpty(viewValue)||viewValue.length>=minlength;};}};};if(window.angular.bootstrap){//AngularJS is already loaded, so we can return here...
 	if(window.console){console.log('WARNING: Tried to load angular more than once.');}return;}//try to bind to jquery now so that one can write jqLite(document).ready()
 	//but we will rebind on bootstrap again.
-	bindJQuery();publishExternalAPI(angular);angular.module("ngLocale",[],["$provide",function($provide){var PLURAL_CATEGORY={ZERO:"zero",ONE:"one",TWO:"two",FEW:"few",MANY:"many",OTHER:"other"};function getDecimals(n){n=n+'';var i=n.indexOf('.');return i==-1?0:n.length-i-1;}function getVF(n,opt_precision){var v=opt_precision;if(undefined===v){v=Math.min(getDecimals(n),3);}var base=Math.pow(10,v);var f=(n*base|0)%base;return{v:v,f:f};}$provide.value("$locale",{"DATETIME_FORMATS":{"AMPMS":["AM","PM"],"DAY":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"ERANAMES":["Before Christ","Anno Domini"],"ERAS":["BC","AD"],"FIRSTDAYOFWEEK":6,"MONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"SHORTDAY":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"SHORTMONTH":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"STANDALONEMONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"WEEKENDRANGE":[5,6],"fullDate":"EEEE, MMMM d, y","longDate":"MMMM d, y","medium":"MMM d, y h:mm:ss a","mediumDate":"MMM d, y","mediumTime":"h:mm:ss a","short":"M/d/yy h:mm a","shortDate":"M/d/yy","shortTime":"h:mm a"},"NUMBER_FORMATS":{"CURRENCY_SYM":"$","DECIMAL_SEP":".","GROUP_SEP":",","PATTERNS":[{"gSize":3,"lgSize":3,"maxFrac":3,"minFrac":0,"minInt":1,"negPre":"-","negSuf":"","posPre":"","posSuf":""},{"gSize":3,"lgSize":3,"maxFrac":2,"minFrac":2,"minInt":1,"negPre":'-¤',"negSuf":"","posPre":'¤',"posSuf":""}]},"id":"en-us","localeID":"en_US","pluralCat":function pluralCat(n,opt_precision){var i=n|0;var vf=getVF(n,opt_precision);if(i==1&&vf.v==0){return PLURAL_CATEGORY.ONE;}return PLURAL_CATEGORY.OTHER;}});}]);jqLite(window.document).ready(function(){angularInit(window.document,bootstrap);});})(window);!window.angular.$$csp().noInlineStyle&&window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
+	bindJQuery();publishExternalAPI(angular);angular.module("ngLocale",[],["$provide",function($provide){var PLURAL_CATEGORY={ZERO:"zero",ONE:"one",TWO:"two",FEW:"few",MANY:"many",OTHER:"other"};function getDecimals(n){n=n+'';var i=n.indexOf('.');return i==-1?0:n.length-i-1;}function getVF(n,opt_precision){var v=opt_precision;if(undefined===v){v=Math.min(getDecimals(n),3);}var base=Math.pow(10,v);var f=(n*base|0)%base;return{v:v,f:f};}$provide.value("$locale",{"DATETIME_FORMATS":{"AMPMS":["AM","PM"],"DAY":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"ERANAMES":["Before Christ","Anno Domini"],"ERAS":["BC","AD"],"FIRSTDAYOFWEEK":6,"MONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"SHORTDAY":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"SHORTMONTH":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"STANDALONEMONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"WEEKENDRANGE":[5,6],"fullDate":"EEEE, MMMM d, y","longDate":"MMMM d, y","medium":"MMM d, y h:mm:ss a","mediumDate":"MMM d, y","mediumTime":"h:mm:ss a","short":"M/d/yy h:mm a","shortDate":"M/d/yy","shortTime":"h:mm a"},"NUMBER_FORMATS":{"CURRENCY_SYM":"$","DECIMAL_SEP":".","GROUP_SEP":",","PATTERNS":[{"gSize":3,"lgSize":3,"maxFrac":3,"minFrac":0,"minInt":1,"negPre":"-","negSuf":"","posPre":"","posSuf":""},{"gSize":3,"lgSize":3,"maxFrac":2,"minFrac":2,"minInt":1,"negPre":'-\xA4',"negSuf":"","posPre":'\xA4',"posSuf":""}]},"id":"en-us","localeID":"en_US","pluralCat":function pluralCat(n,opt_precision){var i=n|0;var vf=getVF(n,opt_precision);if(i==1&&vf.v==0){return PLURAL_CATEGORY.ONE;}return PLURAL_CATEGORY.OTHER;}});}]);jqLite(window.document).ready(function(){angularInit(window.document,bootstrap);});})(window);!window.angular.$$csp().noInlineStyle&&window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
 /* 3 */
@@ -19757,7 +19757,7 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	"use strict";var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;};/*!
+	"use strict";var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};/*!
 	 * Angular Material Design
 	 * https://github.com/angular/material
 	 * @license MIT
@@ -30633,13 +30633,1957 @@
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	var map = {
+		"./auth/authCtrl.js": 16,
+		"./backend/services/authentication.service.js": 19,
+		"./backend/services/groups.service.js": 23,
+		"./backend/services/organisations.service.js": 24,
+		"./backend/services/profiles.service.js": 25,
+		"./backend/services/props.service.js": 26,
+		"./backend/services/upload.service.js": 77,
+		"./common/directives/alert/flash-alert.js": 27,
+		"./common/directives/header/components/top-menu/topMenuCtrl.js": 31,
+		"./common/directives/header/components/top-menu/topMenuDir.js": 32,
+		"./common/directives/header/components/user-profile/userProfileCtrl.js": 36,
+		"./common/directives/header/components/user-profile/userProfileDir.js": 37,
+		"./common/directives/header/navigationCtrl.js": 41,
+		"./common/directives/header/navigationDir.js": 42,
+		"./common/directives/nav-bar/navBarCtrl.js": 46,
+		"./common/directives/nav-bar/navBarDir.js": 47,
+		"./common/directives/tool-bar/toolBarCtrl.js": 51,
+		"./common/directives/tool-bar/toolBarDir.js": 52,
+		"./groups/edit/dialog/addMembersCtrl.js": 56,
+		"./groups/edit/groupCtrl.js": 59,
+		"./groups/groupsCtrl.js": 61,
+		"./home/homeCtrl.js": 62,
+		"./members/memberCtrl.js": 63,
+		"./my-group/myGroupCtrl.js": 64,
+		"./organisations/edit/organisationCtrl.js": 65,
+		"./organisations/organisationsCtrl.js": 66,
+		"./props/propsCtrl.js": 67,
+		"./psychologs/psychologsCtrl.js": 68
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 15;
 
-	__webpack_require__(16);
-	module.exports = 'vAccordion';
 
 /***/ },
 /* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(17);
+	angular.module('psApp').controller('authCtrl', authCtrl);
+
+	function authCtrl(authentication, $$organisations, $location, flashAlert) {
+
+		var vm = this;
+
+		vm.showSignUpForm = false;
+		vm.orgs = [];
+
+		vm.login = null;
+		vm.password = null;
+
+		vm.signInData = {
+			login: null,
+			password: null
+		};
+
+		vm.signUpData = {
+			name: null,
+			login: null,
+			password: null,
+			email: null,
+			organisation: null
+		};
+
+		vm.signIn = signIn;
+		vm.signUp = signUp;
+
+		$$organisations.getList().then(function (resp) {
+			vm.orgs = resp.data;
+		});
+
+		function signIn() {
+			authentication.login({
+				login: vm.signInData.login,
+				password: vm.signInData.password
+			}).then(function (data) {
+				flashAlert.info('Приветствуем');
+				$location.path('/');
+			}).catch(function (data) {
+				flashAlert.error('Неверный логин или пароль');
+			});
+		}
+
+		function signUp() {
+			authentication.register({
+				name: vm.signUpData.name,
+				login: vm.signUpData.login,
+				email: vm.signUpData.email,
+				organisation: vm.signUpData.organisation
+			}).then(function (data) {
+				console.log(data);
+				$location.path('/');
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			});
+		}
+	}
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(18);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./auth.scss", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./auth.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.auth {\n  width: 70%;\n  transition: width .3s, height .3s;\n  margin: 0 auto;\n  background: #fff;\n  padding: 1em;\n  box-sizing: border-box; }\n  .auth .md-raised {\n    background-color: #334aff !important;\n    color: #fff !important; }\n\nbody {\n  background-color: #bbbbbb; }\n\n@media (min-width: 780px) {\n  .auth {\n    width: 50%; } }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').service('authentication', authentication);
+
+	authentication.$inject = ['$http', '$window'];
+
+	var decodeToken = __webpack_require__(20);
+
+	function authentication($http, $window) {
+	  var vm = this;
+	  vm.roleAssoc = {
+	    psycholog: 'Психолог',
+	    admin: 'Администратор',
+	    org: 'Организатор',
+	    student: 'Участник'
+	  };
+
+	  vm.crudRights = ['admin', 'org'];
+
+	  var roleTitle = function roleTitle(role) {
+	    if (role) {
+	      return vm.roleAssoc[role];
+	    } else {
+	      return vm.roleAssoc;
+	    }
+	  };
+
+	  var saveToken = function saveToken(data) {
+	    $window.localStorage['mean-token'] = data.token;
+	  };
+
+	  var getToken = function getToken() {
+	    var token = $window.localStorage['mean-token'];
+	    return token === undefined || token === 'undefined' || token === null || token === 'null' ? null : token;
+	  };
+
+	  var isLoggedIn = function isLoggedIn() {
+	    var token = getToken();
+	    if (token) {
+	      return decodeToken(token).exp > Date.now() / 1000;
+	    } else {
+	      return false;
+	    }
+	  };
+
+	  var currentUser = function currentUser() {
+	    if (isLoggedIn()) {
+	      var token = getToken();
+	      var payload = decodeToken(token);
+	      return {
+	        email: payload.email,
+	        name: payload.name,
+	        role: payload.role,
+	        organisation: payload.organisation,
+	        group: payload.group
+	      };
+	    }
+	  };
+
+	  var register = function register(user) {
+	    return $http.post('/api/register', user).success(function (data) {
+	      saveToken(data.token);
+	    });
+	  };
+
+	  var login = function login(user) {
+	    return $http.post('/api/login', user).success(function (data) {
+	      saveToken(data);
+	    });
+	  };
+
+	  var logout = function logout() {
+	    $window.localStorage.removeItem('mean-token');
+	  };
+
+	  function checkCRUDRights() {
+	    var userRole = currentUser().role;
+	    return vm.crudRights.includes(userRole);
+	  }
+
+	  return {
+	    currentUser: currentUser,
+	    saveToken: saveToken,
+	    getToken: getToken,
+	    isLoggedIn: isLoggedIn,
+	    register: register,
+	    login: login,
+	    logout: logout,
+	    roleTitle: roleTitle,
+	    checkCRUDRights: checkCRUDRights
+	  };
+	}
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var base64_url_decode = __webpack_require__(21);
+
+	module.exports = function (token, options) {
+	  if (typeof token !== 'string') {
+	    throw new Error('Invalid token specified');
+	  }
+
+	  options = options || {};
+	  var pos = options.header === true ? 0 : 1;
+	  return JSON.parse(base64_url_decode(token.split('.')[pos]));
+	};
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var atob = __webpack_require__(22);
+
+	function b64DecodeUnicode(str) {
+	  return decodeURIComponent(atob(str).replace(/(.)/g, function (m, p) {
+	    var code = p.charCodeAt(0).toString(16).toUpperCase();
+	    if (code.length < 2) {
+	      code = '0' + code;
+	    }
+	    return '%' + code;
+	  }));
+	}
+
+	module.exports = function (str) {
+	  var output = str.replace(/-/g, "+").replace(/_/g, "/");
+	  switch (output.length % 4) {
+	    case 0:
+	      break;
+	    case 2:
+	      output += "==";
+	      break;
+	    case 3:
+	      output += "=";
+	      break;
+	    default:
+	      throw "Illegal base64url string!";
+	  }
+
+	  try {
+	    return b64DecodeUnicode(output);
+	  } catch (err) {
+	    return atob(output);
+	  }
+	};
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * The code was extracted from:
+	 * https://github.com/davidchambers/Base64.js
+	 */
+
+	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+	function InvalidCharacterError(message) {
+	  this.message = message;
+	}
+
+	InvalidCharacterError.prototype = new Error();
+	InvalidCharacterError.prototype.name = 'InvalidCharacterError';
+
+	function polyfill(input) {
+	  var str = String(input).replace(/=+$/, '');
+	  if (str.length % 4 == 1) {
+	    throw new InvalidCharacterError("'atob' failed: The string to be decoded is not correctly encoded.");
+	  }
+	  for (
+	  // initialize result and counters
+	  var bc = 0, bs, buffer, idx = 0, output = '';
+	  // get next character
+	  buffer = str.charAt(idx++);
+	  // character found in table? initialize bit storage and add its ascii value;
+	  ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer,
+	  // and if not first of each 4 characters,
+	  // convert the first 8 bits to one ascii character
+	  bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0) {
+	    // try to find character in table (0-63, not found => -1)
+	    buffer = chars.indexOf(buffer);
+	  }
+	  return output;
+	}
+
+	module.exports = typeof window !== 'undefined' && window.atob && window.atob.bind(window) || polyfill;
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').service('$$groups', groups);
+
+	groups.$inject = ['$http'];
+	function groups($http) {
+
+	  var getList = function getList(payload) {
+	    return $http.get('/api/groups' + generateQueryString(payload));
+	  };
+
+	  var post = function post(payload) {
+	    return $http.post('/api/groups', payload);
+	  };
+
+	  var remove = function remove(payload) {
+	    return $http.delete('/api/groups?id=' + payload.id);
+	  };
+
+	  var put = function put(payload) {
+	    return $http.put('/api/groups?id=' + payload.id, payload);
+	  };
+
+	  return {
+	    getList: getList,
+	    post: post,
+	    remove: remove,
+	    put: put
+	  };
+
+	  function generateQueryString(payload) {
+	    var query = '';
+
+	    for (var param in payload) {
+	      query += param + '=' + payload[param] + '&';
+	    }
+	    return query.length ? '?' + query.slice(0, -1) : '';
+	  }
+	}
+
+/***/ },
+/* 24 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').service('$$organisations', organisations);
+
+	organisations.$inject = ['$http', '$$uploader'];
+	function organisations($http, $$uploader) {
+
+	  var getList = function getList(payload) {
+	    return $http.get('/api/organisations' + generateQueryString(payload));
+	  };
+
+	  var post = function post(payload) {
+	    return $http.post('/api/organisations', payload);
+	  };
+
+	  var remove = function remove(payload) {
+	    return $http.delete('/api/organisations?id=' + payload.id);
+	  };
+
+	  var put = function put(payload) {
+	    return $http.put('/api/organisations?id=' + payload.id, payload.file);
+	  };
+
+	  var upload = function upload(file) {
+	    return $$uploader.upload('/api/organisations/upload', file, null);
+	  };
+
+	  return {
+	    getList: getList,
+	    post: post,
+	    remove: remove,
+	    put: put,
+	    upload: upload
+	  };
+
+	  function generateQueryString(payload) {
+	    var query = '';
+
+	    for (var param in payload) {
+	      query += param + '=' + payload[param] + '&';
+	    }
+
+	    return query.length ? '?' + query.slice(0, -1) : '';
+	  }
+	}
+
+/***/ },
+/* 25 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').service('$$profiles', profiles);
+
+	function profiles($http, $$uploader) {
+
+	  var getList = function getList(payload) {
+	    return $http.get('/api/profiles' + generateQueryString(payload));
+	  };
+
+	  var post = function post(payload) {
+	    return $http.post('/api/profiles', payload);
+	  };
+
+	  var remove = function remove(payload) {
+	    return $http.delete('/api/profiles?id=' + payload.id);
+	  };
+
+	  var put = function put(payload) {
+	    if (payload.ids) return $http.put('/api/profiles?ids=' + payload.ids.toString(), payload);
+	    return $http.put('/api/profiles?id=' + payload.id, payload);
+	  };
+
+	  var upload = function upload(payload) {
+	    return $$uploader.upload('/api/profiles/upload?id=' + payload.id, payload, null);
+	  };
+
+	  return {
+	    getList: getList,
+	    post: post,
+	    remove: remove,
+	    put: put,
+	    upload: upload
+	  };
+
+	  function generateQueryString(payload) {
+	    var query = '';
+
+	    for (var param in payload) {
+	      query += param + '=' + payload[param] + '&';
+	    }
+	    return query.length ? '?' + query.slice(0, -1) : '';
+	  }
+	}
+
+/***/ },
+/* 26 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').service('$$props', props);
+
+	props.$inject = ['$http'];
+	function props($http) {
+
+	  var getList = function getList(payload) {
+	    return $http.get('/api/props' + generateQueryString(payload));
+	  };
+
+	  var post = function post(payload) {
+	    return $http.post('/api/props', payload);
+	  };
+
+	  var remove = function remove(payload) {
+	    return $http.delete('/api/props?id=' + payload.id);
+	  };
+
+	  var put = function put(payload) {
+	    if (payload.ids) return $http.put('/api/props?ids=' + payload.ids.toString(), payload);
+	    return $http.put('/api/props?id=' + payload.id, payload);
+	  };
+
+	  return {
+	    getList: getList,
+	    post: post,
+	    remove: remove,
+	    put: put
+	  };
+
+	  function generateQueryString(payload) {
+	    var query = '';
+
+	    for (var param in payload) {
+	      query += param + '=' + payload[param] + '&';
+	    }
+	    return query.length ? '?' + query.slice(0, -1) : '';
+	  }
+	}
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	__webpack_require__(28);
+	angular.module("alert", []).constant("alertConfig", {
+	  success: "alert-success",
+	  error: "alert-danger",
+	  info: "alert-info"
+	}).provider("flashAlert", function () {
+	  var a = [],
+	      b = 5e3;
+	  return {
+	    setAlertTime: function setAlertTime(a) {
+	      b = a;
+	    },
+	    $get: ["$timeout", "alertConfig", function (c, d) {
+	      return {
+	        success: function success(a) {
+	          this.add("success", a);
+	        },
+	        error: function error(a) {
+	          this.add("error", a);
+	        },
+	        info: function info(a) {
+	          this.add("info", a);
+	        },
+	        getAlert: function getAlert() {
+	          return a;
+	        },
+	        add: function add(b, c) {
+	          var e = {
+	            typeOfAlert: d[b],
+	            msg: c,
+	            remove: function remove() {
+	              a.splice(0, 1);
+	            }
+	          };
+
+	          a.push(e), this.hideAlert(e);
+	        },
+	        hideAlert: function hideAlert() {
+	          c(function () {
+	            a.shift();
+	          }, b);
+	        }
+	      };
+	    }]
+	  };
+	}).directive("alertFlash", ["flashAlert", function (a) {
+	  return {
+	    restrict: "E",
+	    template: __webpack_require__(30),
+	    scope: {},
+	    link: function link(b) {
+	      b.$watch(a.getAlert, function () {
+	        b.alerts = a.getAlert();
+	      });
+	    }
+	  };
+	}]);
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(29);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./alert.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./alert.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\nalert-flash {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  color: #fff;\n  z-index: 100; }\n  alert-flash .alert {\n    padding: .5em;\n    font-size: 1em;\n    opacity: .8; }\n  alert-flash .alert-success {\n    background-color: #29ff31; }\n  alert-flash .alert-danger {\n    background-color: #ff0415; }\n  alert-flash .alert-info {\n    background-color: #0aa0ff; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class='alert-container'>\n  <div class='repeat-animation' ng-repeat='alert in alerts' ng-click=\"alert.remove()\">\n    <div class='alert' ng-class='alert.typeOfAlert' ng-bind='alert.msg'></div>\n  </div>\n</div>";
+
+/***/ },
+/* 31 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('topMenuCtrl', topMenuCtrl);
+
+	topMenuCtrl.$inject = ['$location', 'authentication'];
+
+	function topMenuCtrl($location, authentication) {
+	  var vm = this;
+
+	  vm.pages = [];
+	  vm.userRole = authentication.currentUser().role;
+
+	  vm.activePage = $location.path();
+
+	  vm.accessPages = [{
+	    title: 'Психологи',
+	    href: '/psychologs',
+	    access: ['admin', 'org']
+	  }, {
+	    title: 'Организации',
+	    href: '/organisations',
+	    access: ['admin', 'org']
+	  }, {
+	    title: 'Участники',
+	    href: '/members',
+	    access: ['admin', 'org']
+	  }, {
+	    title: 'Группы',
+	    href: '/groups',
+	    access: ['admin', 'org']
+	  }, {
+	    title: 'Руководство группой',
+	    href: '/my_group',
+	    access: ['psycholog']
+	  }, {
+	    title: 'Характеристики',
+	    href: '/props',
+	    access: ['admin', 'psycholog', 'org']
+	  }];
+
+	  getPages();
+
+	  function getPages() {
+	    vm.accessPages.forEach(function (page) {
+	      if (page.access.includes(vm.userRole)) {
+	        vm.pages.push(page);
+	        //console.log(page)
+	      } else {
+	          // console.log(page.access.includes(vm.userRole),page.access, vm.userRole)
+	        }
+	    });
+	    //console.log(vm.pages)
+	  }
+	}
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').directive('topMenu', topMenu);
+
+	__webpack_require__(33);
+	function topMenu() {
+	  return {
+	    restrict: 'E',
+	    template: __webpack_require__(35),
+	    controller: 'topMenuCtrl',
+	    controllerAs: 'tm'
+	  };
+	}
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(34);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./top-menu.scss", function() {
+				var newContent = require("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./top-menu.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.top_menu {\n  margin: 0 1em;\n  color: #949494 !important; }\n  .top_menu a {\n    font-size: .8em;\n    text-transform: uppercase;\n    margin: 0 .5em;\n    color: #949494;\n    transition: color .2s; }\n    .top_menu a:hover {\n      color: #67b3ff; }\n  .top_menu .active_link {\n    color: #67b3ff;\n    border-bottom: #67b3ff solid .1em; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 35 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"top_menu\">\n        <a ng-href=\"{{page.href}}\" ng-class=\"{'active_link':tm.activePage.indexOf(page.href)>-1}\" name=\"page.title\" ng-repeat=\"page in tm.pages\">{{page.title}}</a>\n</div>";
+
+/***/ },
+/* 36 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('userProfileCtrl', userProfileCtrl);
+
+	userProfileCtrl.$inject = ['$location', 'authentication'];
+	function userProfileCtrl($location, authentication) {
+	  var vm = this;
+
+	  vm.user = authentication.currentUser();
+	  vm.roleAssoc = authentication.roleTitle();
+
+	  vm.user.role = vm.roleAssoc[vm.user.role];
+	  //console.log(vm.user)
+
+	  vm.logout = logout;
+	  //console.log('userProfile', authentication.currentUser())
+
+	  function logout() {
+	    authentication.logout();
+	    $location.path('/');
+	  }
+	}
+
+/***/ },
+/* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').directive('userProfile', userProfile);
+
+	__webpack_require__(38);
+	function userProfile() {
+	  return {
+	    restrict: 'E',
+	    template: __webpack_require__(40),
+	    controller: 'userProfileCtrl',
+	    controllerAs: 'vm'
+	  };
+	}
+
+/***/ },
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(39);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./user_profile.scss", function() {
+				var newContent = require("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./user_profile.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.user_profile {\n  color: #bbbbbb; }\n  .user_profile md-icon:hover svg {\n    fill: #5097ff !important; }\n  .user_profile md-icon svg {\n    fill: #949494 !important;\n    transition: fill .2s; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 40 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"user_profile\" layout>\n    <div class=\"layout-column\">\n        <span>{{::vm.user.name}}</span>\n        <span style=\"font-size: .8em;\">{{::vm.user.role}}</span>\n    </div>\n\n    <md-button class=\"md-icon-button\" aria-label=\"Выйти\" ng-click=\"vm.logout()\">\n        <md-icon md-svg-icon=\"/src/img/ic_exit_to_app_black_24px.svg\"></md-icon>\n    </md-button>\n</div>";
+
+/***/ },
+/* 41 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('navigationCtrl', navigationCtrl);
+
+	navigationCtrl.$inject = ['$location', 'authentication'];
+	function navigationCtrl($location, authentication) {
+	  var vm = this;
+	}
+
+/***/ },
+/* 42 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').directive('navigation', navigation);
+
+	__webpack_require__(43);
+	function navigation() {
+	  return {
+	    restrict: 'E',
+	    template: __webpack_require__(45),
+	    controller: 'navigationCtrl as navvm'
+	  };
+	}
+
+/***/ },
+/* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(44);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./navigation.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./navigation.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 44 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.navigation md-card {\n  margin: 0 !important; }\n\n.navigation h2 {\n  color: #bbbbbb; }\n\n.navigation md-toolbar {\n  background-color: #ffffff !important;\n  box-shadow: 2px 6px 7px -6px rgba(0, 0, 0, 0.75) !important; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 45 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"navigation navbar navbar-default\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n      <div class=\"md-toolbar-tools\">\n        <h2>\n          <a ng-href=\"/\">PsychopassApp</a>\n        </h2>\n        <top-menu></top-menu>\n        <span flex></span>\n        <user-profile></user-profile>\n      </div>\n    </md-toolbar>\n  </md-card>\n</div>\n";
+
+/***/ },
+/* 46 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('navBarCtrl', navBarCtrl);
+
+	navBarCtrl.$inject = ['$location', 'authentication'];
+	function navBarCtrl($location, authentication) {
+	  var vm = this;
+	}
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').directive('navBar', navBar);
+
+	__webpack_require__(48);
+	function navBar() {
+	  return {
+	    restrict: 'E',
+	    template: __webpack_require__(50),
+	    controller: 'navBarCtrl as navb'
+	  };
+	}
+
+/***/ },
+/* 48 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(49);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./nav-bar.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./nav-bar.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 49 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 50 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\" navbar navbar-default\">\n  Navbar\n</div>\n";
+
+/***/ },
+/* 51 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('toolBarCtrl', toolBarCtrl);
+
+	toolBarCtrl.$inject = ['$scope', '$location', 'authentication'];
+	function toolBarCtrl($scope, $location, authentication) {
+	  var vm = this;
+	  //vm.filters  = $scope.filters
+	  // console.log($scope.filters)
+	}
+
+/***/ },
+/* 52 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').directive('toolBar', toolBar);
+
+	__webpack_require__(53);
+	function toolBar() {
+	  return {
+	    restrict: 'E',
+	    template: __webpack_require__(55),
+	    controller: 'toolBarCtrl as tb',
+	    scope: {
+	      filters: '='
+	    }
+	  };
+	}
+
+/***/ },
+/* 53 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(54);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./toolBar.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./toolBar.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 54 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.tool_bar md-toolbar {\n  background-color: #ffffff !important; }\n  .tool_bar md-toolbar .md-toolbar-tools {\n    padding-top: 18px;\n    color: #5a5a5a;\n    height: auto !important;\n    max-height: inherit !important; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 55 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"tool_bar\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <div ng-repeat=\"filter in filters\">\n        <md-input-container ng-style=\"{'min-width': filter.title.length*12+'px'}\">\n          <label>{{filter.title}}</label>\n          <md-select ng-model=\"filter.value\">\n            <md-option ng-value=\"null\">Все</md-option>\n            <md-option ng-repeat=\"option in filter.options\" ng-value=\"option.value\">\n              {{option.name}}\n            </md-option>\n          </md-select>\n        </md-input-container>\n      </div>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n  </md-card>\n</div>\n";
+
+/***/ },
+/* 56 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(57);
+	module.exports = function ($$organisations, $$groups, $$profiles, $routeParams, $mdDialog, $mdMedia, $rootScope, $scope, authentication, flashAlert) {
+
+		var vm = this;
+
+		vm.groups = [];
+		vm.members = [];
+		vm.groupId = $routeParams.id;
+
+		vm.filters = {
+			organisation: {
+				value: null,
+				f: function f(member) {
+					if (vm.filters.organisation.value === null) return true;
+					if (vm.filters.organisation.value == member.organisation) return true;
+					return false;
+				}
+			}
+		};
+
+		vm.addMembersToGroup = addMembersToGroup;
+
+		init();
+		function init() {
+			$$profiles.getList({
+				role: 'student',
+				group: null
+			}).then(function (resp) {
+				vm.members = resp.data;
+				getOrganisations();
+			});
+		}
+
+		function getOrganisations() {
+			$$organisations.getList({
+				is_psycho: false
+			}).then(function (resp) {
+				vm.organisations = resp.data;
+				vm.members.forEach(function (member) {
+					member.organisationData = vm.organisations.find(function (org) {
+						return org._id == member.organisation;
+					});
+				});
+			});
+		}
+
+		function addMembersToGroup() {
+
+			var newMembers = {
+				ids: [],
+				members: []
+			};
+
+			vm.members.forEach(function (member) {
+				if (member.selected) {
+					member.group = vm.groupId;
+					newMembers.ids.push(member._id);
+					newMembers.members.push(member);
+				}
+			});
+
+			$$profiles.put(newMembers).then(function (resp) {
+				flashAlert.success(resp.data.message);
+				$scope.hide();
+			}).catch(function (err) {
+				flashAlert.error('Error');
+			});
+		}
+
+		$scope.hide = function () {
+			$mdDialog.hide();
+		};
+		$scope.cancel = function () {
+			$mdDialog.cancel();
+		};
+		$scope.answer = function (answer) {
+			$mdDialog.hide(answer);
+		};
+	};
+
+/***/ },
+/* 57 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(58);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./dialog.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./dialog.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 58 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.add_members_dialog {\n  width: 80%; }\n  .add_members_dialog .md-toolbar-tools, .add_members_dialog .md-raised {\n    background-color: #67b3ff !important;\n    color: #fff; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 59 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').controller('groupCtrl', groupCtrl);
+
+	groupCtrl.$inject = ['$$groups', '$routeParams', 'authentication', '$mdDialog', '$mdMedia', '$scope', '$$profiles', 'flashAlert'];
+
+	function groupCtrl($$groups, $routeParams, authentication, $mdDialog, $mdMedia, $scope, $$profiles, flashAlert) {
+
+		var vm = this;
+
+		vm.members = [];
+		vm.group = {
+			id: $routeParams.id,
+			name: null,
+			mentor: null,
+			members: []
+		};
+
+		vm.checkCRUDRights = authentication.checkCRUDRights;
+		vm.showDialog = showDialog;
+		vm.remove = remove;
+
+		init();
+
+		function init() {
+			$$groups.getList({
+				id: vm.group.id,
+				with_members: true
+			}).then(function (res) {
+				vm.group.name = res.data[0].name;
+				vm.group.mentor = res.data[0].mentor;
+				vm.group.members = res.data[0].members;
+			});
+		}
+
+		function showDialog(ev) {
+			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+			$mdDialog.show({
+				controller: __webpack_require__(56),
+				controllerAs: 'dlg',
+				template: __webpack_require__(60),
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				clickOutsideToClose: true,
+				fullscreen: useFullScreen
+			}).then(function (answer) {
+				reloadData();
+			}, function () {
+				//$scope.status = 'You cancelled the dialog.';
+			});
+			$scope.$watch(function () {
+				return $mdMedia('xs') || $mdMedia('sm');
+			}, function (wantsFullScreen) {
+				$scope.customFullscreen = wantsFullScreen === true;
+			});
+		}
+
+		function remove(id) {
+			$$profiles.put({
+				id: id,
+				group: null
+			}).then(function (resp) {
+				flashAlert.success('Участник успешно удален из группы');
+				reloadData();
+			}).catch(function (err) {
+				flashAlert.error('Error');
+			});
+		}
+
+		function reloadData() {
+			init();
+		}
+	}
+
+/***/ },
+/* 60 */
+/***/ function(module, exports) {
+
+	module.exports = "<md-dialog class=\"add_members_dialog\" aria-label=\"Добавить участников\"  ng-cloak>\n\t<form>\n\t\t<md-toolbar>\n\t\t\t<div class=\"md-toolbar-tools\">\n\t\t\t\t<h2>Добавить участников</h2>\n\t\t\t\t<span flex></span>\n\t\t\t\t<md-input-container  md-no-float class=\"md-block\" flex=\"20\">\n\t\t\t\t\t<label>Организация</label>\n\t\t\t\t\t<md-select ng-model=\"dlg.filters.organisation.value\">\n\t\t\t\t\t\t<md-option ng-value=\"null\">Все</md-option>\n\t\t\t\t\t\t<md-option ng-repeat=\"org in dlg.organisations\" ng-value=\"org._id\">\n\t\t\t\t\t\t\t{{org.name}}\n\t\t\t\t\t\t</md-option>\n\t\t\t\t\t</md-select>\n\t\t\t\t</md-input-container>\n\t\t\t</div>\n\t\t</md-toolbar>\n\t\t<md-dialog-content>\n\t\t\t<div class=\"md-dialog-content\">\n\t\t\t\t<md-list class=\"layout-fill\">\n\t\t\t\t\t<md-list-item class=\"md-2-line\" ng-repeat=\"member in dlg.members | filter: dlg.filters.organisation.f\">\n\t\t\t\t\t\t<md-checkbox class=\"md-primary\" ng-model=\"member.selected\" aria-label=\"Выбрать участника\">\n\t\t\t\t\t\t\t{{ member.selected }}\n\t\t\t\t\t\t</md-checkbox>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.organisationData.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<md-divider ng-if=\"!$last\"></md-divider>\n\t\t\t\t\t</md-list-item>\n\t\t\t\t\t<md-list-item ng-if=\"!dlg.members.length\">На данный момент нет участников без группы</md-list-item>\n\t\t\t\t</md-list>\n\t\t\t</div>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions layout=\"row\">\n\t\t\t<span flex></span>\n\t\t\t<md-button class=\"md-raised\" ng-click=\"dlg.addMembersToGroup()\" style=\"margin-right:20px;\">\n\t\t\t\tДобавить\n\t\t\t</md-button>\n\t\t</md-dialog-actions>\n\t</form>\n</md-dialog>\n";
+
+/***/ },
+/* 61 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('groupsCtrl', groupsCtrl);
+
+	groupsCtrl.$inject = ['$$groups', 'authentication', '$$profiles', 'flashAlert'];
+
+	function groupsCtrl($$groups, authentication, $$profiles, flashAlert) {
+
+		var vm = this;
+
+		vm.groups = [];
+		vm.mentors = [];
+		vm.filters = [];
+		vm.crudRights = ['admin', 'org'];
+
+		vm.filters = [{
+			value: null,
+			title: 'Психолог',
+			options: [{ name: 'Назначен', value: true }, { name: 'Не назначен', value: false }]
+		}];
+
+		vm.add = add;
+		vm.remove = remove;
+		vm.update = update;
+		vm.checkCRUDRights = checkCRUDRights;
+		vm.mentorFilter = mentorFilter;
+		vm.withMentorFilter = withMentorFilter;
+
+		init();
+
+		function init() {
+			$$groups.getList().then(function (resp) {
+				vm.groups = resp.data;
+
+				vm.groups.forEach(function (group) {
+					group.oldMentor = group.mentor;
+				});
+
+				$$profiles.getList({
+					role: 'student'
+				}).then(function (resp) {
+					vm.groups.forEach(function (group) {
+						group.membersCount = resp.data.filter(function (member) {
+							return member.group == group._id;
+						}).length;
+					});
+				});
+			});
+
+			$$profiles.getList({
+				role: 'psycholog'
+			}).then(function (resp) {
+				vm.mentors = resp.data;
+			});
+		}
+
+		function checkCRUDRights() {
+			var userRole = authentication.currentUser().role;
+			return vm.crudRights.includes(userRole);
+		}
+
+		function add() {
+			$$groups.post({
+				name: null,
+				mentor: null
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function remove(group) {
+			$$groups.remove({
+				id: group._id
+			}).then(function (data) {
+				var message = data.data.message;
+				$$profiles.put({
+					id: group.mentor,
+					group: null
+				}).then(function (resp) {
+					flashAlert.success(message);
+				});
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function update(group) {
+			//console.log(group)
+			$$groups.put({
+				id: group._id,
+				name: group.name,
+				mentor: group.mentor
+			}).then(function (resp) {
+				if (group.mentor != group.oldMentor) {
+					$$profiles.put({
+						id: group.mentor || group.oldMentor,
+						group: group._id
+					}).then(function (data) {
+						flashAlert.success(data.data.message);
+					}).catch(function (data) {
+						flashAlert.error(data.data.message);
+					}).finally(init);
+				} else flashAlert.success(resp.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function mentorFilter(group) {
+			return function (mentor) {
+				//console.log(mentor,group)
+				if (mentor.group) {
+					if (mentor._id == group.mentor) return true;
+					return false;
+				}
+				return true;
+			};
+		}
+
+		function withMentorFilter(group) {
+			if (vm.filters[0].value === null) return true;
+			return !!group.mentor == vm.filters[0].value;
+		}
+	}
+
+/***/ },
+/* 62 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('homeCtrl', homeCtrl);
+
+	function homeCtrl(authentication) {
+		console.log('Home controller is running', authentication.isLoggedIn());
+	}
+
+/***/ },
+/* 63 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('membersCtrl', membersCtrl);
+
+	membersCtrl.$inject = ['authentication', '$$groups', '$$profiles', '$$organisations'];
+
+	function membersCtrl(authentication, $$groups, $$profiles, $$organisations) {
+		var vm = this;
+
+		vm.members = [];
+
+		init();
+
+		function init() {
+			getPsychologs();
+		}
+
+		function getPsychologs() {
+			$$profiles.getList({
+				role: 'student'
+			}).then(function (resp) {
+				vm.members = resp.data;
+				getGroups();
+				getOrganisations();
+			});
+		}
+
+		function getGroups() {
+			$$groups.getList().then(function (resp) {
+				var groups = resp.data;
+				vm.members.forEach(function (member) {
+					member.groupData = groups.find(function (group) {
+						return group._id == member.group;
+					});
+				});
+			});
+		}
+
+		function getOrganisations() {
+			$$organisations.getList().then(function (resp) {
+				var organisations = resp.data;
+				//console.log(organisations, vm.members)
+				vm.members.forEach(function (member) {
+					member.organisationData = organisations.find(function (org) {
+						return org._id == member.organisation;
+					});
+				});
+			});
+		}
+	}
+
+/***/ },
+/* 64 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(73);
+	angular.module('psApp').controller('myGroupCtrl', myGroupCtrl);
+
+	myGroupCtrl.$inject = ['authentication', '$$profiles', '$$groups', '$$props', 'flashAlert'];
+
+	function myGroupCtrl(authentication, $$profiles, $$groups, $$props, flashAlert) {
+		var vm = this;
+
+		vm.group = {
+			id: authentication.currentUser().group
+		};
+		vm.props = [];
+
+		vm.findProp = findProp;
+		vm.propCount = propCount;
+		vm.save = save;
+
+		init();
+
+		function init() {
+
+			if (vm.group.id) {
+				getMembers();
+				getGroup();
+				getProps();
+			}
+		}
+
+		function getMembers() {
+			$$profiles.getList({
+				group: vm.group.id,
+				role: 'student'
+			}).then(function (resp) {
+				vm.group.members = resp.data;
+			});
+		}
+
+		function getGroup() {
+			$$groups.getList({
+				id: vm.group.id
+			}).then(function (resp) {
+				vm.group.groupData = resp.data[0];
+			});
+		}
+
+		function getProps() {
+			$$props.getList().then(function (resp) {
+				vm.props = resp.data;
+			});
+		}
+
+		function findProp(propId, props) {
+			var field = props.find(function (prop) {
+				return prop._id == propId;
+			});
+			if (field) return field;else {
+				props.push({
+					_id: propId,
+					value: null
+				});
+				return props[props.length - 1];
+			}
+		}
+
+		function propCount(props) {
+			return props.filter(function (prop) {
+				return !!prop.value;
+			}).length;
+		}
+
+		function save(member) {
+			$$profiles.put({
+				id: member._id,
+				properties: member.properties
+			}).then(function (resp) {
+				flashAlert.success(resp.data.message);
+			});
+		}
+	}
+
+/***/ },
+/* 65 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('organisationCtrl', organisationCtrl);
+
+	organisationCtrl.$inject = ['$$organisations', '$$groups', '$$profiles', 'authentication', '$routeParams', 'flashAlert'];
+
+	function organisationCtrl($$organisations, $$groups, $$profiles, authentication, $routeParams, flashAlert) {
+
+		var vm = this;
+
+		vm.members = [];
+		vm.org = {
+			id: $routeParams.id,
+			name: null,
+			is_psycho: null,
+			members: []
+		};
+
+		vm.filters = [{
+			title: 'Группа',
+			options: [{ name: 'Назначена', value: true }, { name: 'Не назначена', value: false }]
+		}];
+
+		vm.roleTitle = authentication.roleTitle;
+		vm.checkCRUDRights = authentication.checkCRUDRights;
+
+		vm.add = add;
+		vm.remove = remove;
+		vm.update = update;
+		vm.import = importCSV;
+
+		init();
+
+		function init() {
+			getOrganisation();
+		}
+
+		function getOrganisation() {
+			$$organisations.getList({
+				id: vm.org.id,
+				with_members: true
+			}).then(function (res) {
+				vm.org.name = res.data[0].name;
+				vm.org.is_psycho = res.data[0].is_psycho;
+				vm.org.members = res.data[0].members;
+				getGroups();
+			});
+		}
+
+		function getGroups() {
+			// let membersIds = vm.org.members.map(member=>{
+			// 	return member._id
+			// })
+			$$groups.getList().then(function (resp) {
+				var groups = resp.data;
+				vm.org.members.map(function (member) {
+					member.groupData = groups.find(function (group) {
+						return group._id == member.group;
+					});
+				});
+			});
+		}
+
+		function add() {
+			$$profiles.post({
+				name: null,
+				role: 'student',
+				organisation: vm.org.id
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function remove(id) {
+			$$profiles.remove({
+				id: id
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function update(member) {
+			$$profiles.put({
+				id: member._id,
+				name: member.name
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function importCSV(file) {
+			$$profiles.upload({
+				id: vm.org.id,
+				file: file
+			}).then(function (resp) {
+				flashAlert.success(resp.data.message);
+				init();
+			}).catch(function (err) {
+				flashAlert.error(err.data.message);
+			});
+		}
+	}
+
+/***/ },
+/* 66 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('organisationsCtrl', organisationsCtrl);
+
+	organisationsCtrl.$inject = ['$$organisations', 'authentication', 'flashAlert', '$$profiles'];
+
+	function organisationsCtrl($$organisations, authentication, flashAlert, $$profiles) {
+
+		var vm = this;
+
+		vm.orgs = [];
+		vm.filters = [], vm.crudRights = ['admin', 'org'];
+
+		vm.psychoFilter = psychoFilter;
+		vm.add = add;
+		vm.remove = remove;
+		vm.update = update;
+		vm.import = importCSV;
+		vm.checkCRUDRights = authentication.checkCRUDRights;
+
+		init();
+
+		createFilters(['Учебные', 'Психологические'], 'Тип организации');
+		function init() {
+			$$organisations.getList({
+				with_members: true
+			}).then(function (data) {
+				vm.orgs = data.data;
+				$$profiles.getList().then(function (resp) {
+					vm.orgs.forEach(function (org) {
+						org.membersCount = resp.data.filter(function (member) {
+							return member.organisation == org._id;
+						}).length;
+					});
+				});
+			});
+		}
+
+		function createFilters(options, title) {
+			var filter = { title: title, options: [] };
+
+			options.forEach(function (option, index) {
+				filter.options.push({
+					name: option,
+					value: option.id || index
+				});
+			});
+
+			vm.filters.push(filter);
+		}
+
+		function psychoFilter(org, index) {
+			if (!arguments.length) return !!vm.filters[0].value;
+			if (vm.filters[0].value == null) return true;else return !!vm.filters[0].value == org.is_psycho;
+		}
+
+		function add() {
+			$$organisations.post({
+				name: null,
+				is_psycho: psychoFilter()
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function remove(id) {
+			$$organisations.remove({
+				id: id
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function update(org) {
+			$$organisations.put({
+				id: org._id,
+				name: org.name,
+				is_psycho: org.is_psycho
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function importCSV(file, errFiles) {
+			//console.log(file, errFiles)
+			$$organisations.upload(file).then(function (resp) {
+				flashAlert.success(resp.data.message);
+				init();
+			}).catch(function (err) {
+				flashAlert.error(err.data.message);
+			});
+		}
+	}
+
+/***/ },
+/* 67 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('propsCtrl', propsCtrl);
+
+	propsCtrl.$inject = ['$$props', 'authentication', 'flashAlert', '$$profiles'];
+
+	function propsCtrl($$props, authentication, flashAlert, $$profiles) {
+
+		var vm = this;
+
+		vm.props = [];
+		vm.filters = [], vm.crudRights = ['admin', 'org'];
+
+		vm.psychoFilter = psychoFilter;
+		vm.add = add;
+		vm.remove = remove;
+		vm.update = update;
+		vm.checkCRUDRights = authentication.checkCRUDRights;
+
+		init();
+
+		createFilters(['Числовые', 'Формальные'], 'Тип характеристик');
+
+		function init() {
+			$$props.getList().then(function (data) {
+				vm.props = data.data;
+				/*			$$profiles.getList().then(resp=>{
+	   				vm.props.forEach(org=>{
+	   					org.membersCount = resp.data.filter(member=>member.organisation == org._id).length
+	   				}) 
+	   			})*/
+			});
+		}
+
+		function createFilters(options, title) {
+			var filter = { title: title, options: [] };
+
+			options.forEach(function (option, index) {
+				filter.options.push({
+					name: option,
+					value: option.id || index
+				});
+			});
+
+			vm.filters.push(filter);
+		}
+
+		function psychoFilter(org, index) {
+			if (!arguments.length) return !!vm.filters[0].value;
+			if (vm.filters[0].value == null) return true;else return !!vm.filters[0].value == org.is_psycho;
+		}
+
+		function add() {
+			$$props.post({
+				name: '',
+				type: null
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function remove(id) {
+			$$props.remove({
+				id: id
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function update(prop) {
+			console.log(prop);
+			$$props.put({
+				id: prop._id,
+				name: prop.name,
+				type: prop.type,
+				min: prop.min,
+				max: prop.max,
+				description: prop.description
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+	}
+
+/***/ },
+/* 68 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('psychologsCtrl', psychologsCtrl);
+
+	psychologsCtrl.$inject = ['authentication', '$$profiles', '$$groups'];
+
+	function psychologsCtrl(authentication, $$profiles, $$groups) {
+		var vm = this;
+
+		vm.psychologs = [];
+
+		init();
+
+		function init() {
+			getPsychologs();
+		}
+
+		function getPsychologs() {
+			$$profiles.getList({
+				role: 'psycholog'
+			}).then(function (resp) {
+				vm.psychologs = resp.data;
+				getGroups();
+			});
+		}
+
+		function getGroups() {
+			$$groups.getList().then(function (resp) {
+				var groups = resp.data;
+				vm.psychologs.map(function (pslg) {
+					pslg.groupData = groups.find(function (group) {
+						return group._id == pslg.group;
+					});
+				});
+			});
+		}
+	}
+
+/***/ },
+/* 69 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(70);
+	module.exports = 'vAccordion';
+
+/***/ },
+/* 70 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31273,13 +33217,13 @@
 	})(angular);
 
 /***/ },
-/* 17 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(18);
+	var content = __webpack_require__(72);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -31299,7 +33243,7 @@
 	}
 
 /***/ },
-/* 18 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -31313,16 +33257,56 @@
 
 
 /***/ },
-/* 19 */
+/* 73 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(74);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./my_group.scss", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./my_group.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 74 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.my_group v-accordion {\n  padding: .5em;\n  /*    v-pane-header{\n      min-height: 20px !important;\n      height: 20px !important;\n    }*/ }\n\n.my_group md-list-item md-card {\n  margin: .5em 0;\n  border-radius: .5em !important;\n  overflow: hidden; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(20);
+	__webpack_require__(76);
 	module.exports = 'ngFileUpload';
 
 /***/ },
-/* 20 */
+/* 76 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34182,547 +36166,7 @@
 	}]);
 
 /***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var map = {
-		"./auth/authCtrl.js": 22,
-		"./backend/services/authentication.service.js": 25,
-		"./backend/services/groups.service.js": 29,
-		"./backend/services/organisations.service.js": 30,
-		"./backend/services/profiles.service.js": 31,
-		"./backend/services/props.service.js": 32,
-		"./backend/services/upload.service.js": 33,
-		"./common/directives/alert/flash-alert.js": 34,
-		"./common/directives/header/components/top-menu/topMenuCtrl.js": 38,
-		"./common/directives/header/components/top-menu/topMenuDir.js": 39,
-		"./common/directives/header/components/user-profile/userProfileCtrl.js": 43,
-		"./common/directives/header/components/user-profile/userProfileDir.js": 44,
-		"./common/directives/header/navigationCtrl.js": 48,
-		"./common/directives/header/navigationDir.js": 49,
-		"./common/directives/nav-bar/navBarCtrl.js": 53,
-		"./common/directives/nav-bar/navBarDir.js": 54,
-		"./common/directives/tool-bar/toolBarCtrl.js": 58,
-		"./common/directives/tool-bar/toolBarDir.js": 59,
-		"./groups/edit/dialog/addMembersCtrl.js": 63,
-		"./groups/edit/groupCtrl.js": 66,
-		"./groups/groupsCtrl.js": 68,
-		"./home/homeCtrl.js": 69,
-		"./members/memberCtrl.js": 70,
-		"./my-group/myGroupCtrl.js": 71,
-		"./organisations/edit/organisationCtrl.js": 74,
-		"./organisations/organisationsCtrl.js": 75,
-		"./props/propsCtrl.js": 76,
-		"./psychologs/psychologsCtrl.js": 77
-	};
-	function webpackContext(req) {
-		return __webpack_require__(webpackContextResolve(req));
-	};
-	function webpackContextResolve(req) {
-		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
-	};
-	webpackContext.keys = function webpackContextKeys() {
-		return Object.keys(map);
-	};
-	webpackContext.resolve = webpackContextResolve;
-	module.exports = webpackContext;
-	webpackContext.id = 21;
-
-
-/***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	__webpack_require__(23);
-	angular.module('psApp').controller('authCtrl', authCtrl);
-
-	function authCtrl(authentication, $$organisations, $location, flashAlert) {
-
-		var vm = this;
-
-		vm.showSignUpForm = false;
-		vm.orgs = [];
-
-		vm.login = null;
-		vm.password = null;
-
-		vm.signInData = {
-			login: null,
-			password: null
-		};
-
-		vm.signUpData = {
-			name: null,
-			login: null,
-			password: null,
-			email: null,
-			organisation: null
-		};
-
-		vm.signIn = signIn;
-		vm.signUp = signUp;
-
-		$$organisations.getList().then(function (resp) {
-			vm.orgs = resp.data;
-		});
-
-		function signIn() {
-			authentication.login({
-				login: vm.signInData.login,
-				password: vm.signInData.password
-			}).then(function (data) {
-				flashAlert.info('Приветствуем');
-				$location.path('/');
-			}).catch(function (data) {
-				flashAlert.error('Неверный логин или пароль');
-			});
-		}
-
-		function signUp() {
-			authentication.register({
-				name: vm.signUpData.name,
-				login: vm.signUpData.login,
-				email: vm.signUpData.email,
-				organisation: vm.signUpData.organisation
-			}).then(function (data) {
-				console.log(data);
-				$location.path('/');
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			});
-		}
-	}
-
-/***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(24);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./auth.scss", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./auth.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 24 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.auth {\n  width: 70%;\n  transition: width .3s, height .3s;\n  margin: 0 auto;\n  background: #fff;\n  padding: 1em;\n  box-sizing: border-box; }\n  .auth .md-raised {\n    background-color: #334aff !important;\n    color: #fff !important; }\n\nbody {\n  background-color: #bbbbbb; }\n\n@media (min-width: 780px) {\n  .auth {\n    width: 50%; } }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	angular.module('psApp').service('authentication', authentication);
-
-	authentication.$inject = ['$http', '$window'];
-
-	var decodeToken = __webpack_require__(26);
-
-	function authentication($http, $window) {
-	  var vm = this;
-	  vm.roleAssoc = {
-	    psycholog: 'Психолог',
-	    admin: 'Администратор',
-	    org: 'Организатор',
-	    student: 'Участник'
-	  };
-
-	  vm.crudRights = ['admin', 'org'];
-
-	  var roleTitle = function roleTitle(role) {
-	    if (role) {
-	      return vm.roleAssoc[role];
-	    } else {
-	      return vm.roleAssoc;
-	    }
-	  };
-
-	  var saveToken = function saveToken(data) {
-	    $window.localStorage['mean-token'] = data.token;
-	  };
-
-	  var getToken = function getToken() {
-	    var token = $window.localStorage['mean-token'];
-	    return token === undefined || token === 'undefined' || token === null || token === 'null' ? null : token;
-	  };
-
-	  var isLoggedIn = function isLoggedIn() {
-	    var token = getToken();
-	    if (token) {
-	      return decodeToken(token).exp > Date.now() / 1000;
-	    } else {
-	      return false;
-	    }
-	  };
-
-	  var currentUser = function currentUser() {
-	    if (isLoggedIn()) {
-	      var token = getToken();
-	      var payload = decodeToken(token);
-	      return {
-	        email: payload.email,
-	        name: payload.name,
-	        role: payload.role,
-	        organisation: payload.organisation,
-	        group: payload.group
-	      };
-	    }
-	  };
-
-	  var register = function register(user) {
-	    return $http.post('/api/register', user).success(function (data) {
-	      saveToken(data.token);
-	    });
-	  };
-
-	  var login = function login(user) {
-	    return $http.post('/api/login', user).success(function (data) {
-	      saveToken(data);
-	    });
-	  };
-
-	  var logout = function logout() {
-	    $window.localStorage.removeItem('mean-token');
-	  };
-
-	  function checkCRUDRights() {
-	    var userRole = currentUser().role;
-	    return vm.crudRights.includes(userRole);
-	  }
-
-	  return {
-	    currentUser: currentUser,
-	    saveToken: saveToken,
-	    getToken: getToken,
-	    isLoggedIn: isLoggedIn,
-	    register: register,
-	    login: login,
-	    logout: logout,
-	    roleTitle: roleTitle,
-	    checkCRUDRights: checkCRUDRights
-	  };
-	}
-
-/***/ },
-/* 26 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var base64_url_decode = __webpack_require__(27);
-
-	module.exports = function (token, options) {
-	  if (typeof token !== 'string') {
-	    throw new Error('Invalid token specified');
-	  }
-
-	  options = options || {};
-	  var pos = options.header === true ? 0 : 1;
-	  return JSON.parse(base64_url_decode(token.split('.')[pos]));
-	};
-
-/***/ },
-/* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var atob = __webpack_require__(28);
-
-	function b64DecodeUnicode(str) {
-	  return decodeURIComponent(atob(str).replace(/(.)/g, function (m, p) {
-	    var code = p.charCodeAt(0).toString(16).toUpperCase();
-	    if (code.length < 2) {
-	      code = '0' + code;
-	    }
-	    return '%' + code;
-	  }));
-	}
-
-	module.exports = function (str) {
-	  var output = str.replace(/-/g, "+").replace(/_/g, "/");
-	  switch (output.length % 4) {
-	    case 0:
-	      break;
-	    case 2:
-	      output += "==";
-	      break;
-	    case 3:
-	      output += "=";
-	      break;
-	    default:
-	      throw "Illegal base64url string!";
-	  }
-
-	  try {
-	    return b64DecodeUnicode(output);
-	  } catch (err) {
-	    return atob(output);
-	  }
-	};
-
-/***/ },
-/* 28 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	/**
-	 * The code was extracted from:
-	 * https://github.com/davidchambers/Base64.js
-	 */
-
-	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-	function InvalidCharacterError(message) {
-	  this.message = message;
-	}
-
-	InvalidCharacterError.prototype = new Error();
-	InvalidCharacterError.prototype.name = 'InvalidCharacterError';
-
-	function polyfill(input) {
-	  var str = String(input).replace(/=+$/, '');
-	  if (str.length % 4 == 1) {
-	    throw new InvalidCharacterError("'atob' failed: The string to be decoded is not correctly encoded.");
-	  }
-	  for (
-	  // initialize result and counters
-	  var bc = 0, bs, buffer, idx = 0, output = '';
-	  // get next character
-	  buffer = str.charAt(idx++);
-	  // character found in table? initialize bit storage and add its ascii value;
-	  ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer,
-	  // and if not first of each 4 characters,
-	  // convert the first 8 bits to one ascii character
-	  bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0) {
-	    // try to find character in table (0-63, not found => -1)
-	    buffer = chars.indexOf(buffer);
-	  }
-	  return output;
-	}
-
-	module.exports = typeof window !== 'undefined' && window.atob && window.atob.bind(window) || polyfill;
-
-/***/ },
-/* 29 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').service('$$groups', groups);
-
-	groups.$inject = ['$http'];
-	function groups($http) {
-
-	  var getList = function getList(payload) {
-	    return $http.get('/api/groups' + generateQueryString(payload));
-	  };
-
-	  var post = function post(payload) {
-	    return $http.post('/api/groups', payload);
-	  };
-
-	  var remove = function remove(payload) {
-	    return $http.delete('/api/groups?id=' + payload.id);
-	  };
-
-	  var put = function put(payload) {
-	    return $http.put('/api/groups?id=' + payload.id, payload);
-	  };
-
-	  return {
-	    getList: getList,
-	    post: post,
-	    remove: remove,
-	    put: put
-	  };
-
-	  function generateQueryString(payload) {
-	    var query = '';
-
-	    for (var param in payload) {
-	      query += param + '=' + payload[param] + '&';
-	    }
-	    return query.length ? '?' + query.slice(0, -1) : '';
-	  }
-	}
-
-/***/ },
-/* 30 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').service('$$organisations', organisations);
-
-	organisations.$inject = ['$http', '$$uploader'];
-	function organisations($http, $$uploader) {
-
-	  var getList = function getList(payload) {
-	    return $http.get('/api/organisations' + generateQueryString(payload));
-	  };
-
-	  var post = function post(payload) {
-	    return $http.post('/api/organisations', payload);
-	  };
-
-	  var remove = function remove(payload) {
-	    return $http.delete('/api/organisations?id=' + payload.id);
-	  };
-
-	  var put = function put(payload) {
-	    return $http.put('/api/organisations?id=' + payload.id, payload);
-	  };
-
-	  var upload = function upload(file) {
-	    return $$uploader.upload('/api/organisations/upload', file, null);
-	  };
-
-	  return {
-	    getList: getList,
-	    post: post,
-	    remove: remove,
-	    put: put,
-	    upload: upload
-	  };
-
-	  function generateQueryString(payload) {
-	    var query = '';
-
-	    for (var param in payload) {
-	      query += param + '=' + payload[param] + '&';
-	    }
-
-	    return query.length ? '?' + query.slice(0, -1) : '';
-	  }
-	}
-
-/***/ },
-/* 31 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').service('$$profiles', profiles);
-
-	function profiles($http, $$uploader) {
-
-	  var getList = function getList(payload) {
-	    return $http.get('/api/profiles' + generateQueryString(payload));
-	  };
-
-	  var post = function post(payload) {
-	    return $http.post('/api/profiles', payload);
-	  };
-
-	  var remove = function remove(payload) {
-	    return $http.delete('/api/profiles?id=' + payload.id);
-	  };
-
-	  var put = function put(payload) {
-	    if (payload.ids) return $http.put('/api/profiles?ids=' + payload.ids.toString(), payload);
-	    return $http.put('/api/profiles?id=' + payload.id, payload);
-	  };
-
-	  var upload = function upload(payload) {
-	    return $$uploader.upload('/api/profiles/upload', payload, null);
-	  };
-
-	  return {
-	    getList: getList,
-	    post: post,
-	    remove: remove,
-	    put: put,
-	    upload: upload
-	  };
-
-	  function generateQueryString(payload) {
-	    var query = '';
-
-	    for (var param in payload) {
-	      query += param + '=' + payload[param] + '&';
-	    }
-	    return query.length ? '?' + query.slice(0, -1) : '';
-	  }
-	}
-
-/***/ },
-/* 32 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').service('$$props', props);
-
-	props.$inject = ['$http'];
-	function props($http) {
-
-	  var getList = function getList(payload) {
-	    return $http.get('/api/props' + generateQueryString(payload));
-	  };
-
-	  var post = function post(payload) {
-	    return $http.post('/api/props', payload);
-	  };
-
-	  var remove = function remove(payload) {
-	    return $http.delete('/api/props?id=' + payload.id);
-	  };
-
-	  var put = function put(payload) {
-	    if (payload.ids) return $http.put('/api/props?ids=' + payload.ids.toString(), payload);
-	    return $http.put('/api/props?id=' + payload.id, payload);
-	  };
-
-	  return {
-	    getList: getList,
-	    post: post,
-	    remove: remove,
-	    put: put
-	  };
-
-	  function generateQueryString(payload) {
-	    var query = '';
-
-	    for (var param in payload) {
-	      query += param + '=' + payload[param] + '&';
-	    }
-	    return query.length ? '?' + query.slice(0, -1) : '';
-	  }
-	}
-
-/***/ },
-/* 33 */
+/* 77 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34760,1450 +36204,6 @@
 		return {
 			upload: upload
 		};
-	}
-
-/***/ },
-/* 34 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	__webpack_require__(35);
-	angular.module("alert", []).constant("alertConfig", {
-	  success: "alert-success",
-	  error: "alert-danger",
-	  info: "alert-info"
-	}).provider("flashAlert", function () {
-	  var a = [],
-	      b = 5e3;
-	  return {
-	    setAlertTime: function setAlertTime(a) {
-	      b = a;
-	    },
-	    $get: ["$timeout", "alertConfig", function (c, d) {
-	      return {
-	        success: function success(a) {
-	          this.add("success", a);
-	        },
-	        error: function error(a) {
-	          this.add("error", a);
-	        },
-	        info: function info(a) {
-	          this.add("info", a);
-	        },
-	        getAlert: function getAlert() {
-	          return a;
-	        },
-	        add: function add(b, c) {
-	          var e = {
-	            typeOfAlert: d[b],
-	            msg: c,
-	            remove: function remove() {
-	              a.splice(0, 1);
-	            }
-	          };
-
-	          a.push(e), this.hideAlert(e);
-	        },
-	        hideAlert: function hideAlert() {
-	          c(function () {
-	            a.shift();
-	          }, b);
-	        }
-	      };
-	    }]
-	  };
-	}).directive("alertFlash", ["flashAlert", function (a) {
-	  return {
-	    restrict: "E",
-	    template: __webpack_require__(37),
-	    scope: {},
-	    link: function link(b) {
-	      b.$watch(a.getAlert, function () {
-	        b.alerts = a.getAlert();
-	      });
-	    }
-	  };
-	}]);
-
-/***/ },
-/* 35 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(36);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./alert.scss", function() {
-				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./alert.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 36 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\nalert-flash {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  color: #fff;\n  z-index: 100; }\n  alert-flash .alert {\n    padding: .5em;\n    font-size: 1em;\n    opacity: .8; }\n  alert-flash .alert-success {\n    background-color: #29ff31; }\n  alert-flash .alert-danger {\n    background-color: #ff0415; }\n  alert-flash .alert-info {\n    background-color: #0aa0ff; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 37 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class='alert-container'>\n  <div class='repeat-animation' ng-repeat='alert in alerts' ng-click=\"alert.remove()\">\n    <div class='alert' ng-class='alert.typeOfAlert' ng-bind='alert.msg'></div>\n  </div>\n</div>";
-
-/***/ },
-/* 38 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('topMenuCtrl', topMenuCtrl);
-
-	topMenuCtrl.$inject = ['$location', 'authentication'];
-
-	function topMenuCtrl($location, authentication) {
-	  var vm = this;
-
-	  vm.pages = [];
-	  vm.userRole = authentication.currentUser().role;
-
-	  vm.activePage = $location.path();
-
-	  vm.accessPages = [{
-	    title: 'Психологи',
-	    href: '/psychologs',
-	    access: ['admin', 'org']
-	  }, {
-	    title: 'Организации',
-	    href: '/organisations',
-	    access: ['admin', 'org']
-	  }, {
-	    title: 'Участники',
-	    href: '/members',
-	    access: ['admin', 'org']
-	  }, {
-	    title: 'Группы',
-	    href: '/groups',
-	    access: ['admin', 'org']
-	  }, {
-	    title: 'Руководство группой',
-	    href: '/my_group',
-	    access: ['psycholog']
-	  }, {
-	    title: 'Характеристики',
-	    href: '/props',
-	    access: ['admin', 'psycholog', 'org']
-	  }];
-
-	  getPages();
-
-	  function getPages() {
-	    vm.accessPages.forEach(function (page) {
-	      if (page.access.includes(vm.userRole)) {
-	        vm.pages.push(page);
-	        //console.log(page)
-	      } else {
-	          // console.log(page.access.includes(vm.userRole),page.access, vm.userRole)
-	        }
-	    });
-	    //console.log(vm.pages)
-	  }
-	}
-
-/***/ },
-/* 39 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	angular.module('psApp').directive('topMenu', topMenu);
-
-	__webpack_require__(40);
-	function topMenu() {
-	  return {
-	    restrict: 'E',
-	    template: __webpack_require__(42),
-	    controller: 'topMenuCtrl',
-	    controllerAs: 'tm'
-	  };
-	}
-
-/***/ },
-/* 40 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(41);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./top-menu.scss", function() {
-				var newContent = require("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./top-menu.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 41 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.top_menu {\n  margin: 0 1em;\n  color: #949494 !important; }\n  .top_menu a {\n    font-size: .8em;\n    text-transform: uppercase;\n    margin: 0 .5em;\n    color: #949494;\n    transition: color .2s; }\n    .top_menu a:hover {\n      color: #67b3ff; }\n  .top_menu .active_link {\n    color: #67b3ff;\n    border-bottom: #67b3ff solid .1em; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 42 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"top_menu\">\n        <a ng-href=\"{{page.href}}\" ng-class=\"{'active_link':tm.activePage.indexOf(page.href)>-1}\" name=\"page.title\" ng-repeat=\"page in tm.pages\">{{page.title}}</a>\n</div>";
-
-/***/ },
-/* 43 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('userProfileCtrl', userProfileCtrl);
-
-	userProfileCtrl.$inject = ['$location', 'authentication'];
-	function userProfileCtrl($location, authentication) {
-	  var vm = this;
-
-	  vm.user = authentication.currentUser();
-	  vm.roleAssoc = authentication.roleTitle();
-
-	  vm.user.role = vm.roleAssoc[vm.user.role];
-	  //console.log(vm.user)
-
-	  vm.logout = logout;
-	  //console.log('userProfile', authentication.currentUser())
-
-	  function logout() {
-	    authentication.logout();
-	    $location.path('/');
-	  }
-	}
-
-/***/ },
-/* 44 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	angular.module('psApp').directive('userProfile', userProfile);
-
-	__webpack_require__(45);
-	function userProfile() {
-	  return {
-	    restrict: 'E',
-	    template: __webpack_require__(47),
-	    controller: 'userProfileCtrl',
-	    controllerAs: 'vm'
-	  };
-	}
-
-/***/ },
-/* 45 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(46);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./user_profile.scss", function() {
-				var newContent = require("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./user_profile.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 46 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.user_profile {\n  color: #bbbbbb; }\n  .user_profile md-icon:hover svg {\n    fill: #5097ff !important; }\n  .user_profile md-icon svg {\n    fill: #949494 !important;\n    transition: fill .2s; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 47 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"user_profile\" layout>\n    <div class=\"layout-column\">\n        <span>{{::vm.user.name}}</span>\n        <span style=\"font-size: .8em;\">{{::vm.user.role}}</span>\n    </div>\n\n    <md-button class=\"md-icon-button\" aria-label=\"Выйти\" ng-click=\"vm.logout()\">\n        <md-icon md-svg-icon=\"/src/img/ic_exit_to_app_black_24px.svg\"></md-icon>\n    </md-button>\n</div>";
-
-/***/ },
-/* 48 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('navigationCtrl', navigationCtrl);
-
-	navigationCtrl.$inject = ['$location', 'authentication'];
-	function navigationCtrl($location, authentication) {
-	  var vm = this;
-	}
-
-/***/ },
-/* 49 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	angular.module('psApp').directive('navigation', navigation);
-
-	__webpack_require__(50);
-	function navigation() {
-	  return {
-	    restrict: 'E',
-	    template: __webpack_require__(52),
-	    controller: 'navigationCtrl as navvm'
-	  };
-	}
-
-/***/ },
-/* 50 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(51);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./navigation.scss", function() {
-				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./navigation.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 51 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.navigation md-card {\n  margin: 0 !important; }\n\n.navigation h2 {\n  color: #bbbbbb; }\n\n.navigation md-toolbar {\n  background-color: #ffffff !important;\n  box-shadow: 2px 6px 7px -6px rgba(0, 0, 0, 0.75) !important; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 52 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"navigation navbar navbar-default\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n      <div class=\"md-toolbar-tools\">\n        <h2>\n          <a ng-href=\"/\">PsychopassApp</a>\n        </h2>\n        <top-menu></top-menu>\n        <span flex></span>\n        <user-profile></user-profile>\n      </div>\n    </md-toolbar>\n  </md-card>\n</div>\n";
-
-/***/ },
-/* 53 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('navBarCtrl', navBarCtrl);
-
-	navBarCtrl.$inject = ['$location', 'authentication'];
-	function navBarCtrl($location, authentication) {
-	  var vm = this;
-	}
-
-/***/ },
-/* 54 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	angular.module('psApp').directive('navBar', navBar);
-
-	__webpack_require__(55);
-	function navBar() {
-	  return {
-	    restrict: 'E',
-	    template: __webpack_require__(57),
-	    controller: 'navBarCtrl as navb'
-	  };
-	}
-
-/***/ },
-/* 55 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(56);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./nav-bar.scss", function() {
-				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./nav-bar.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 56 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 57 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\" navbar navbar-default\">\n  Navbar\n</div>\n";
-
-/***/ },
-/* 58 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('toolBarCtrl', toolBarCtrl);
-
-	toolBarCtrl.$inject = ['$scope', '$location', 'authentication'];
-	function toolBarCtrl($scope, $location, authentication) {
-	  var vm = this;
-	  //vm.filters  = $scope.filters
-	  // console.log($scope.filters)
-	}
-
-/***/ },
-/* 59 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	angular.module('psApp').directive('toolBar', toolBar);
-
-	__webpack_require__(60);
-	function toolBar() {
-	  return {
-	    restrict: 'E',
-	    template: __webpack_require__(62),
-	    controller: 'toolBarCtrl as tb',
-	    scope: {
-	      filters: '='
-	    }
-	  };
-	}
-
-/***/ },
-/* 60 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(61);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./toolBar.scss", function() {
-				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./toolBar.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 61 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.tool_bar md-toolbar {\n  background-color: #ffffff !important; }\n  .tool_bar md-toolbar .md-toolbar-tools {\n    padding-top: 18px;\n    color: #5a5a5a;\n    height: auto !important;\n    max-height: inherit !important; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 62 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"tool_bar\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <div ng-repeat=\"filter in filters\">\n        <md-input-container ng-style=\"{'min-width': filter.title.length*12+'px'}\">\n          <label>{{filter.title}}</label>\n          <md-select ng-model=\"filter.value\">\n            <md-option ng-value=\"null\">Все</md-option>\n            <md-option ng-repeat=\"option in filter.options\" ng-value=\"option.value\">\n              {{option.name}}\n            </md-option>\n          </md-select>\n        </md-input-container>\n      </div>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n  </md-card>\n</div>\n";
-
-/***/ },
-/* 63 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	__webpack_require__(64);
-	module.exports = function ($$organisations, $$groups, $$profiles, $routeParams, $mdDialog, $mdMedia, $rootScope, $scope, authentication, flashAlert) {
-
-		var vm = this;
-
-		vm.groups = [];
-		vm.members = [];
-		vm.groupId = $routeParams.id;
-
-		vm.filters = {
-			organisation: {
-				value: null,
-				f: function f(member) {
-					if (vm.filters.organisation.value === null) return true;
-					if (vm.filters.organisation.value == member.organisation) return true;
-					return false;
-				}
-			}
-		};
-
-		vm.addMembersToGroup = addMembersToGroup;
-
-		init();
-		function init() {
-			$$profiles.getList({
-				role: 'student',
-				group: null
-			}).then(function (resp) {
-				vm.members = resp.data;
-				getOrganisations();
-			});
-		}
-
-		function getOrganisations() {
-			$$organisations.getList({
-				is_psycho: false
-			}).then(function (resp) {
-				vm.organisations = resp.data;
-				vm.members.forEach(function (member) {
-					member.organisationData = vm.organisations.find(function (org) {
-						return org._id == member.organisation;
-					});
-				});
-			});
-		}
-
-		function addMembersToGroup() {
-
-			var newMembers = {
-				ids: [],
-				members: []
-			};
-
-			vm.members.forEach(function (member) {
-				if (member.selected) {
-					member.group = vm.groupId;
-					newMembers.ids.push(member._id);
-					newMembers.members.push(member);
-				}
-			});
-
-			$$profiles.put(newMembers).then(function (resp) {
-				flashAlert.success(resp.data.message);
-				$scope.hide();
-			}).catch(function (err) {
-				flashAlert.error('Error');
-			});
-		}
-
-		$scope.hide = function () {
-			$mdDialog.hide();
-		};
-		$scope.cancel = function () {
-			$mdDialog.cancel();
-		};
-		$scope.answer = function (answer) {
-			$mdDialog.hide(answer);
-		};
-	};
-
-/***/ },
-/* 64 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(65);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./dialog.scss", function() {
-				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./dialog.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 65 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.add_members_dialog {\n  width: 80%; }\n  .add_members_dialog .md-toolbar-tools, .add_members_dialog .md-raised {\n    background-color: #67b3ff !important;\n    color: #fff; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 66 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	angular.module('psApp').controller('groupCtrl', groupCtrl);
-
-	groupCtrl.$inject = ['$$groups', '$routeParams', 'authentication', '$mdDialog', '$mdMedia', '$scope', '$$profiles', 'flashAlert'];
-
-	function groupCtrl($$groups, $routeParams, authentication, $mdDialog, $mdMedia, $scope, $$profiles, flashAlert) {
-
-		var vm = this;
-
-		vm.members = [];
-		vm.group = {
-			id: $routeParams.id,
-			name: null,
-			mentor: null,
-			members: []
-		};
-
-		vm.checkCRUDRights = authentication.checkCRUDRights;
-		vm.showDialog = showDialog;
-		vm.remove = remove;
-
-		init();
-
-		function init() {
-			$$groups.getList({
-				id: vm.group.id,
-				with_members: true
-			}).then(function (res) {
-				vm.group.name = res.data[0].name;
-				vm.group.mentor = res.data[0].mentor;
-				vm.group.members = res.data[0].members;
-			});
-		}
-
-		function showDialog(ev) {
-			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
-			$mdDialog.show({
-				controller: __webpack_require__(63),
-				controllerAs: 'dlg',
-				template: __webpack_require__(67),
-				parent: angular.element(document.body),
-				targetEvent: ev,
-				clickOutsideToClose: true,
-				fullscreen: useFullScreen
-			}).then(function (answer) {
-				reloadData();
-			}, function () {
-				//$scope.status = 'You cancelled the dialog.';
-			});
-			$scope.$watch(function () {
-				return $mdMedia('xs') || $mdMedia('sm');
-			}, function (wantsFullScreen) {
-				$scope.customFullscreen = wantsFullScreen === true;
-			});
-		}
-
-		function remove(id) {
-			$$profiles.put({
-				id: id,
-				group: null
-			}).then(function (resp) {
-				flashAlert.success('Участник успешно удален из группы');
-				reloadData();
-			}).catch(function (err) {
-				flashAlert.error('Error');
-			});
-		}
-
-		function reloadData() {
-			init();
-		}
-	}
-
-/***/ },
-/* 67 */
-/***/ function(module, exports) {
-
-	module.exports = "<md-dialog class=\"add_members_dialog\" aria-label=\"Добавить участников\"  ng-cloak>\n\t<form>\n\t\t<md-toolbar>\n\t\t\t<div class=\"md-toolbar-tools\">\n\t\t\t\t<h2>Добавить участников</h2>\n\t\t\t\t<span flex></span>\n\t\t\t\t<md-input-container  md-no-float class=\"md-block\" flex=\"20\">\n\t\t\t\t\t<label>Организация</label>\n\t\t\t\t\t<md-select ng-model=\"dlg.filters.organisation.value\">\n\t\t\t\t\t\t<md-option ng-value=\"null\">Все</md-option>\n\t\t\t\t\t\t<md-option ng-repeat=\"org in dlg.organisations\" ng-value=\"org._id\">\n\t\t\t\t\t\t\t{{org.name}}\n\t\t\t\t\t\t</md-option>\n\t\t\t\t\t</md-select>\n\t\t\t\t</md-input-container>\n\t\t\t</div>\n\t\t</md-toolbar>\n\t\t<md-dialog-content>\n\t\t\t<div class=\"md-dialog-content\">\n\t\t\t\t<md-list class=\"layout-fill\">\n\t\t\t\t\t<md-list-item class=\"md-2-line\" ng-repeat=\"member in dlg.members | filter: dlg.filters.organisation.f\">\n\t\t\t\t\t\t<md-checkbox class=\"md-primary\" ng-model=\"member.selected\" aria-label=\"Выбрать участника\">\n\t\t\t\t\t\t\t{{ member.selected }}\n\t\t\t\t\t\t</md-checkbox>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.organisationData.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<md-divider ng-if=\"!$last\"></md-divider>\n\t\t\t\t\t</md-list-item>\n\t\t\t\t\t<md-list-item ng-if=\"!dlg.members.length\">На данный момент нет участников без группы</md-list-item>\n\t\t\t\t</md-list>\n\t\t\t</div>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions layout=\"row\">\n\t\t\t<span flex></span>\n\t\t\t<md-button class=\"md-raised\" ng-click=\"dlg.addMembersToGroup()\" style=\"margin-right:20px;\">\n\t\t\t\tДобавить\n\t\t\t</md-button>\n\t\t</md-dialog-actions>\n\t</form>\n</md-dialog>\n";
-
-/***/ },
-/* 68 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('groupsCtrl', groupsCtrl);
-
-	groupsCtrl.$inject = ['$$groups', 'authentication', '$$profiles', 'flashAlert'];
-
-	function groupsCtrl($$groups, authentication, $$profiles, flashAlert) {
-
-		var vm = this;
-
-		vm.groups = [];
-		vm.mentors = [];
-		vm.filters = [];
-		vm.crudRights = ['admin', 'org'];
-
-		vm.filters = [{
-			value: null,
-			title: 'Психолог',
-			options: [{ name: 'Назначен', value: true }, { name: 'Не назначен', value: false }]
-		}];
-
-		vm.add = add;
-		vm.remove = remove;
-		vm.update = update;
-		vm.checkCRUDRights = checkCRUDRights;
-		vm.mentorFilter = mentorFilter;
-		vm.withMentorFilter = withMentorFilter;
-
-		init();
-
-		function init() {
-			$$groups.getList().then(function (resp) {
-				vm.groups = resp.data;
-
-				vm.groups.forEach(function (group) {
-					group.oldMentor = group.mentor;
-				});
-
-				$$profiles.getList({
-					role: 'student'
-				}).then(function (resp) {
-					vm.groups.forEach(function (group) {
-						group.membersCount = resp.data.filter(function (member) {
-							return member.group == group._id;
-						}).length;
-					});
-				});
-			});
-
-			$$profiles.getList({
-				role: 'psycholog'
-			}).then(function (resp) {
-				vm.mentors = resp.data;
-			});
-		}
-
-		function checkCRUDRights() {
-			var userRole = authentication.currentUser().role;
-			return vm.crudRights.includes(userRole);
-		}
-
-		function add() {
-			$$groups.post({
-				name: null,
-				mentor: null
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function remove(group) {
-			$$groups.remove({
-				id: group._id
-			}).then(function (data) {
-				var message = data.data.message;
-				$$profiles.put({
-					id: group.mentor,
-					group: null
-				}).then(function (resp) {
-					flashAlert.success(message);
-				});
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function update(group) {
-			//console.log(group)
-			$$groups.put({
-				id: group._id,
-				name: group.name,
-				mentor: group.mentor
-			}).then(function (resp) {
-				if (group.mentor != group.oldMentor) {
-					$$profiles.put({
-						id: group.mentor || group.oldMentor,
-						group: group._id
-					}).then(function (data) {
-						flashAlert.success(data.data.message);
-					}).catch(function (data) {
-						flashAlert.error(data.data.message);
-					}).finally(init);
-				} else flashAlert.success(resp.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function mentorFilter(group) {
-			return function (mentor) {
-				//console.log(mentor,group)
-				if (mentor.group) {
-					if (mentor._id == group.mentor) return true;
-					return false;
-				}
-				return true;
-			};
-		}
-
-		function withMentorFilter(group) {
-			if (vm.filters[0].value === null) return true;
-			return !!group.mentor == vm.filters[0].value;
-		}
-	}
-
-/***/ },
-/* 69 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('homeCtrl', homeCtrl);
-
-	function homeCtrl(authentication) {
-		console.log('Home controller is running', authentication.isLoggedIn());
-	}
-
-/***/ },
-/* 70 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('membersCtrl', membersCtrl);
-
-	membersCtrl.$inject = ['authentication', '$$groups', '$$profiles', '$$organisations'];
-
-	function membersCtrl(authentication, $$groups, $$profiles, $$organisations) {
-		var vm = this;
-
-		vm.members = [];
-
-		init();
-
-		function init() {
-			getPsychologs();
-		}
-
-		function getPsychologs() {
-			$$profiles.getList({
-				role: 'student'
-			}).then(function (resp) {
-				vm.members = resp.data;
-				getGroups();
-				getOrganisations();
-			});
-		}
-
-		function getGroups() {
-			$$groups.getList().then(function (resp) {
-				var groups = resp.data;
-				vm.members.forEach(function (member) {
-					member.groupData = groups.find(function (group) {
-						return group._id == member.group;
-					});
-				});
-			});
-		}
-
-		function getOrganisations() {
-			$$organisations.getList().then(function (resp) {
-				var organisations = resp.data;
-				//console.log(organisations, vm.members)
-				vm.members.forEach(function (member) {
-					member.organisationData = organisations.find(function (org) {
-						return org._id == member.organisation;
-					});
-				});
-			});
-		}
-	}
-
-/***/ },
-/* 71 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	__webpack_require__(72);
-	angular.module('psApp').controller('myGroupCtrl', myGroupCtrl);
-
-	myGroupCtrl.$inject = ['authentication', '$$profiles', '$$groups', '$$props', 'flashAlert'];
-
-	function myGroupCtrl(authentication, $$profiles, $$groups, $$props, flashAlert) {
-		var vm = this;
-
-		vm.group = {
-			id: authentication.currentUser().group
-		};
-		vm.props = [];
-
-		vm.findProp = findProp;
-		vm.propCount = propCount;
-		vm.save = save;
-
-		init();
-
-		function init() {
-
-			if (vm.group.id) {
-				getMembers();
-				getGroup();
-				getProps();
-			}
-		}
-
-		function getMembers() {
-			$$profiles.getList({
-				group: vm.group.id,
-				role: 'student'
-			}).then(function (resp) {
-				vm.group.members = resp.data;
-			});
-		}
-
-		function getGroup() {
-			$$groups.getList({
-				id: vm.group.id
-			}).then(function (resp) {
-				vm.group.groupData = resp.data[0];
-			});
-		}
-
-		function getProps() {
-			$$props.getList().then(function (resp) {
-				vm.props = resp.data;
-			});
-		}
-
-		function findProp(propId, props) {
-			var field = props.find(function (prop) {
-				return prop._id == propId;
-			});
-			if (field) return field;else {
-				props.push({
-					_id: propId,
-					value: null
-				});
-				return props[props.length - 1];
-			}
-		}
-
-		function propCount(props) {
-			return props.filter(function (prop) {
-				return !!prop.value;
-			}).length;
-		}
-
-		function save(member) {
-			$$profiles.put({
-				id: member._id,
-				properties: member.properties
-			}).then(function (resp) {
-				flashAlert.success(resp.data.message);
-			});
-		}
-	}
-
-/***/ },
-/* 72 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(73);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./my_group.scss", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./my_group.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 73 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.my_group v-accordion {\n  padding: .5em;\n  /*    v-pane-header{\n      min-height: 20px !important;\n      height: 20px !important;\n    }*/ }\n\n.my_group md-list-item md-card {\n  margin: .5em 0;\n  border-radius: .5em !important;\n  overflow: hidden; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 74 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('organisationCtrl', organisationCtrl);
-
-	organisationCtrl.$inject = ['$$organisations', '$$groups', '$$profiles', 'authentication', '$routeParams', 'flashAlert'];
-
-	function organisationCtrl($$organisations, $$groups, $$profiles, authentication, $routeParams, flashAlert) {
-
-		var vm = this;
-
-		vm.members = [];
-		vm.org = {
-			id: $routeParams.id,
-			name: null,
-			is_psycho: null,
-			members: []
-		};
-
-		vm.filters = [{
-			title: 'Группа',
-			options: [{ name: 'Назначена', value: true }, { name: 'Не назначена', value: false }]
-		}];
-
-		vm.roleTitle = authentication.roleTitle;
-		vm.checkCRUDRights = authentication.checkCRUDRights;
-
-		vm.add = add;
-		vm.remove = remove;
-		vm.update = update;
-		vm.import = importCSV;
-
-		init();
-
-		function init() {
-			getOrganisation();
-		}
-
-		function getOrganisation() {
-			$$organisations.getList({
-				id: vm.org.id,
-				with_members: true
-			}).then(function (res) {
-				vm.org.name = res.data[0].name;
-				vm.org.is_psycho = res.data[0].is_psycho;
-				vm.org.members = res.data[0].members;
-				getGroups();
-			});
-		}
-
-		function getGroups() {
-			// let membersIds = vm.org.members.map(member=>{
-			// 	return member._id
-			// })
-			$$groups.getList().then(function (resp) {
-				var groups = resp.data;
-				vm.org.members.map(function (member) {
-					member.groupData = groups.find(function (group) {
-						return group._id == member.group;
-					});
-				});
-			});
-		}
-
-		function add() {
-			$$profiles.post({
-				name: null,
-				role: 'student',
-				organisation: vm.org.id
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function remove(id) {
-			$$profiles.remove({
-				id: id
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function update(member) {
-			$$profiles.put({
-				id: member._id,
-				name: member.name
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function importCSV(file) {
-			$$profiles.upload({
-				org_id: vm.org.id,
-				file: file
-			}).then(function (resp) {
-				flashAlert.success(resp.data.message);
-				init();
-			}).catch(function (err) {
-				flashAlert.error(err.data);
-			});
-		}
-	}
-
-/***/ },
-/* 75 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('organisationsCtrl', organisationsCtrl);
-
-	organisationsCtrl.$inject = ['$$organisations', 'authentication', 'flashAlert', '$$profiles'];
-
-	function organisationsCtrl($$organisations, authentication, flashAlert, $$profiles) {
-
-		var vm = this;
-
-		vm.orgs = [];
-		vm.filters = [], vm.crudRights = ['admin', 'org'];
-
-		vm.psychoFilter = psychoFilter;
-		vm.add = add;
-		vm.remove = remove;
-		vm.update = update;
-		vm.import = importCSV;
-		vm.checkCRUDRights = authentication.checkCRUDRights;
-
-		init();
-
-		createFilters(['Учебные', 'Психологические'], 'Тип организации');
-		function init() {
-			$$organisations.getList({
-				with_members: true
-			}).then(function (data) {
-				vm.orgs = data.data;
-				$$profiles.getList().then(function (resp) {
-					vm.orgs.forEach(function (org) {
-						org.membersCount = resp.data.filter(function (member) {
-							return member.organisation == org._id;
-						}).length;
-					});
-				});
-			});
-		}
-
-		function createFilters(options, title) {
-			var filter = { title: title, options: [] };
-
-			options.forEach(function (option, index) {
-				filter.options.push({
-					name: option,
-					value: option.id || index
-				});
-			});
-
-			vm.filters.push(filter);
-		}
-
-		function psychoFilter(org, index) {
-			if (!arguments.length) return !!vm.filters[0].value;
-			if (vm.filters[0].value == null) return true;else return !!vm.filters[0].value == org.is_psycho;
-		}
-
-		function add() {
-			$$organisations.post({
-				name: null,
-				is_psycho: psychoFilter()
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function remove(id) {
-			$$organisations.remove({
-				id: id
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function update(org) {
-			$$organisations.put({
-				id: org._id,
-				name: org.name,
-				is_psycho: org.is_psycho
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function importCSV(file, errFiles) {
-			//console.log(file, errFiles)
-			$$organisations.upload(file).then(function (resp) {
-				flashAlert.success(resp.data.message);
-				init();
-			}).catch(function (err) {
-				flashAlert.error(err.data);
-			});
-		}
-	}
-
-/***/ },
-/* 76 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('propsCtrl', propsCtrl);
-
-	propsCtrl.$inject = ['$$props', 'authentication', 'flashAlert', '$$profiles'];
-
-	function propsCtrl($$props, authentication, flashAlert, $$profiles) {
-
-		var vm = this;
-
-		vm.props = [];
-		vm.filters = [], vm.crudRights = ['admin', 'org'];
-
-		vm.psychoFilter = psychoFilter;
-		vm.add = add;
-		vm.remove = remove;
-		vm.update = update;
-		vm.checkCRUDRights = authentication.checkCRUDRights;
-
-		init();
-
-		createFilters(['Числовые', 'Формальные'], 'Тип характеристик');
-
-		function init() {
-			$$props.getList().then(function (data) {
-				vm.props = data.data;
-				/*			$$profiles.getList().then(resp=>{
-	   				vm.props.forEach(org=>{
-	   					org.membersCount = resp.data.filter(member=>member.organisation == org._id).length
-	   				}) 
-	   			})*/
-			});
-		}
-
-		function createFilters(options, title) {
-			var filter = { title: title, options: [] };
-
-			options.forEach(function (option, index) {
-				filter.options.push({
-					name: option,
-					value: option.id || index
-				});
-			});
-
-			vm.filters.push(filter);
-		}
-
-		function psychoFilter(org, index) {
-			if (!arguments.length) return !!vm.filters[0].value;
-			if (vm.filters[0].value == null) return true;else return !!vm.filters[0].value == org.is_psycho;
-		}
-
-		function add() {
-			$$props.post({
-				name: '',
-				type: null
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function remove(id) {
-			$$props.remove({
-				id: id
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function update(prop) {
-			console.log(prop);
-			$$props.put({
-				id: prop._id,
-				name: prop.name,
-				type: prop.type,
-				min: prop.min,
-				max: prop.max,
-				description: prop.description
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-	}
-
-/***/ },
-/* 77 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('psychologsCtrl', psychologsCtrl);
-
-	psychologsCtrl.$inject = ['authentication', '$$profiles', '$$groups'];
-
-	function psychologsCtrl(authentication, $$profiles, $$groups) {
-		var vm = this;
-
-		vm.psychologs = [];
-
-		init();
-
-		function init() {
-			getPsychologs();
-		}
-
-		function getPsychologs() {
-			$$profiles.getList({
-				role: 'psycholog'
-			}).then(function (resp) {
-				vm.psychologs = resp.data;
-				getGroups();
-			});
-		}
-
-		function getGroups() {
-			$$groups.getList().then(function (resp) {
-				var groups = resp.data;
-				vm.psychologs.map(function (pslg) {
-					pslg.groupData = groups.find(function (group) {
-						return group._id == pslg.group;
-					});
-				});
-			});
-		}
 	}
 
 /***/ }
