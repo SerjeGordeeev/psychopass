@@ -8,9 +8,14 @@
 			<md-button class="md-raised  add" ng-click="orgs.add()" flex="80">
 				<span>Добавить организацию</span>
 			</md-button>
-			<md-button class="md-raised  add" ng-click="orgs.import()" flex="15">
+			<md-button class="md-raised add" ngf-select="orgs.import($file, $invalidFiles)"
+			           accept="text/csv"
+			           ngf-max-height="1000"
+			           ngf-max-size="5MB"
+			           flex="15">
 				<span>Импорт CSV</span>
 			</md-button>
+		<!--	<upload-button callback="orgs.import"></upload-button>-->
 		</md-list-item>
 
 		<md-card>

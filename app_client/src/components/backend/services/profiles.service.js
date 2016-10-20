@@ -3,8 +3,7 @@
     .module('psApp')
     .service('$$profiles', profiles)
 
-  profiles.$inject = ['$http']
-  function profiles ($http) {
+  function profiles ($http, $$uploader) {
 
     var getList = function (payload) {
       return $http.get('/api/profiles' + generateQueryString(payload))
@@ -23,11 +22,16 @@
       return $http.put('/api/profiles?id=' + payload.id, payload)
     }
 
+    var upload = function (payload) {
+      return $$uploader.upload('/api/profiles/upload', payload, null)
+    }
+
     return {
       getList : getList,
       post: post,
       remove: remove,
-      put: put
+      put: put,
+      upload: upload
     }
 
     function generateQueryString(payload){

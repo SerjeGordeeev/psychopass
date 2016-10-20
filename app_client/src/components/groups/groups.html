@@ -5,12 +5,12 @@
 		<tool-bar filters="groups.filters"></tool-bar>
 
 		<md-list-item ng-if="mayCRUD">
-			<md-button class="md-raised  add" ng-click="groups.add()" flex="80">
+			<md-button class="md-raised  add" ng-click="groups.add()" flex>
 				<span>Добавить группу</span>
 			</md-button>
-			<md-button class="md-raised  add" ng-click="groups.import()" flex="15">
+<!--			<md-button class="md-raised  add" ng-click="groups.import()" flex="15">
 				<span>Импорт CSV</span>
-			</md-button>
+			</md-button>-->
 		</md-list-item>
 
 		<md-card>
@@ -39,7 +39,7 @@
 					</md-input-container>
 
 					<md-input-container  class="md-block">
-						<md-button ng-disabled="group.membersCount > 0"  ng-if="mayCRUD" class="md-icon-button delete_button" aria-label="Удалить группу" ng-click="groups.remove(group._id)">
+						<md-button ng-disabled="group.membersCount > 0"  ng-if="mayCRUD" class="md-icon-button delete_button" aria-label="Удалить группу" ng-click="groups.remove(group)">
 							<md-icon md-svg-icon="/src/img/ic_delete_forever_black_24px.svg"></md-icon>
 						</md-button>
 					</md-input-container>

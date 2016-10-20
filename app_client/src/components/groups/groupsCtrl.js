@@ -37,14 +37,16 @@ function groupsCtrl($$groups, authentication, $$profiles, flashAlert) {
 	function init(){
 		$$groups.getList().then(resp=>{
 			vm.groups = resp.data
+
 			vm.groups.forEach(group =>{
 				group.oldMentor = group.mentor
-				$$profiles.getList({
-					role: 'student'
-				}).then(resp=>{
-					vm.groups.forEach(group=>{
-						group.membersCount = resp.data.filter(member=>member.group == group._id).length
-					})
+			})
+
+			$$profiles.getList({
+				role: 'student'
+			}).then(resp=>{
+				vm.groups.forEach(group=>{
+					group.membersCount = resp.data.filter(member=>member.group == group._id).length
 				})
 			})
 
@@ -73,18 +75,24 @@ function groupsCtrl($$groups, authentication, $$profiles, flashAlert) {
 		}).finally(init)
 	}
 
-	function remove(id){
+	function remove(group){
 		$$groups.remove({
-			id: id
+			id: group._id
 		}).then(data=>{
-			flashAlert.success(data.data.message)
+			let message = data.data.message
+			$$profiles.put({
+				id: group.mentor,
+				group: null
+			}).then(resp=>{
+				flashAlert.success(message)
+			})
 		}).catch(data=>{
 			flashAlert.error(data.data.message)
 		}).finally(init)
 	}
 
 	function update(group){
-		console.log(group)
+		//console.log(group)
 		$$groups.put({
 			id: group._id,
 			name: group.name,

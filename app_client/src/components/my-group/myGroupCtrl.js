@@ -26,7 +26,6 @@ function myGroupCtrl(authentication, $$profiles, $$groups, $$props, flashAlert) 
 			getGroup()
 			getProps()
 		}
-		console.log(vm)
 	}
 
 	function getMembers(){

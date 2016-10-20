@@ -3,8 +3,8 @@
     .module('psApp')
     .service('$$organisations', organisations)
 
-  organisations.$inject = ['$http']
-  function organisations ($http) {
+  organisations.$inject = ['$http','$$uploader']
+  function organisations ($http, $$uploader) {
 
     var getList = function (payload) {
       return $http.get('/api/organisations' + generateQueryString(payload))
@@ -22,11 +22,16 @@
       return $http.put('/api/organisations?id=' + payload.id, payload)
     }
 
+    var upload = function (file) {
+      return $$uploader.upload('/api/organisations/upload', file, null)
+    }
+
     return {
       getList : getList,
       post: post,
       remove: remove,
-      put: put
+      put: put,
+      upload: upload
     }
 
     function generateQueryString(payload){

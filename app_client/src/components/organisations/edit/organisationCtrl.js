@@ -33,6 +33,7 @@ function organisationCtrl($$organisations, $$groups, $$profiles, authentication,
 	vm.add = add
 	vm.remove = remove
 	vm.update = update
+	vm.import = importCSV
 
 	init()
 
@@ -99,6 +100,17 @@ function organisationCtrl($$organisations, $$groups, $$profiles, authentication,
 		}).finally(init)
 	}
 
+	function importCSV(file){
+		$$profiles.upload({
+			org_id: vm.org.id,
+			file: file
+		}).then(resp=>{
+			flashAlert.success(resp.data.message)
+			init()
+		}).catch(err=>{
+			flashAlert.error(err.data)
+		})
+	}
 
 }
 

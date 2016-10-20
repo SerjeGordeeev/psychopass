@@ -44,7 +44,7 @@ module.exports.update = function (req, res) {
         //let queries = []
         updateData(doc, req.body)
         if(doc.group){
-          User.update({group: doc.group}, { group: null }, {}, function(err){
+          User.update({group: doc.group, role: 'psycholog'}, { group: null }, {}, function(err){
             if(err) dataError(err)
             else doc.save(function(err){
               if (err) dataError(res,err)
@@ -98,13 +98,7 @@ module.exports.add = function (req, res) {
   user.name = req.body.name
   user.role = req.body.role
   user.organisation = req.body.organisation
-
-  User.find({},(err,data)=>{
-    user.login = generateLogin(12, false)
-    while(data.find(profile=>profile.login == user.login)){
-      user.login = generateLogin(12, false)
-      //console.log(user.login)
-    }
+  generateUniqLogin(user)
 
     user.save(function(err){
       if(err) dataError(res,err)
@@ -116,8 +110,45 @@ module.exports.add = function (req, res) {
       }
     })
 
-  })
-
   user.login = generateLogin()//require('password-generator')(12, false)
   
+}
+
+module.exports.upload = function (req, res) {
+  require('./utils/upload').uploadFile(req, res, function (users) {
+    async.filter(users, function (userData, callback) {
+      let user = new User()
+
+      try{
+        user.name = orgData['Имя']
+        user.organisation = req.body.org_id
+        user.role = 'student'
+        generateUniqLogin(user)
+      }
+      catch (err){
+        dataError(res,err)
+      }
+      //console.log(org, orgData)
+      user.save(function (err) {
+        if (err) dataError(res,err)
+        else callback(null, !err)
+      })
+    }, function (err) {
+      if (err) dataError(res,err)
+      else {
+        res.status(200)
+        res.json({message:'Представители успешно импортированы'})
+      }
+    })
+  })
+}
+
+
+function generateUniqLogin(user){
+  User.find({},(err,data)=>{
+    user.login = generateLogin(12, false)
+    while(data.find(profile=>profile.login == user.login)){
+      user.login = generateLogin(12, false)
+    }
+  })
 }

@@ -99,3 +99,28 @@ module.exports.update = function (req, res) {
 
 }
 
+module.exports.upload = function (req, res) {
+	require('./utils/upload').uploadFile(req, res, function (orgs) {
+		async.filter(orgs, function (orgData, callback) {
+			let org = new Organisation()
+			try{
+				org.name = orgData['Название']
+				org.is_psycho = !orgData['Учебная']
+			}
+			catch(err){
+				dataError(res,err)
+			}
+			//console.log(org, orgData)
+			org.save(function (err) {
+				if (err) dataError(res,err)
+				else callback(null, !err)
+			})
+		}, function (err) {
+			if (err) dataError(res,err)
+			else {
+				res.status(200)
+				res.json({message:'Организации успешно импортированы'})
+			}
+		})
+	})
+}

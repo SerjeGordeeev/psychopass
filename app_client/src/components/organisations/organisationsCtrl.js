@@ -17,6 +17,7 @@ function organisationsCtrl($$organisations, authentication, flashAlert, $$profil
 	vm.add = add
 	vm.remove = remove
 	vm.update = update
+	vm.import = importCSV
 	vm.checkCRUDRights = authentication.checkCRUDRights
 
 	init()
@@ -85,5 +86,15 @@ function organisationsCtrl($$organisations, authentication, flashAlert, $$profil
 		}).catch(data=>{
 			flashAlert.error(data.data.message)
 		}).finally(init)
+	}
+
+	function importCSV(file, errFiles){
+		//console.log(file, errFiles)
+		$$organisations.upload(file).then(resp=>{
+			flashAlert.success(resp.data.message)
+			init()
+		}).catch(err=>{
+			flashAlert.error(err.data)
+		})
 	}
 }

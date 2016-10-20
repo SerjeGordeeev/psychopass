@@ -6,8 +6,10 @@ require('../node_modules/angular-material/angular-material.min.css')
 
 require('v-accordion')
 require('../node_modules/v-accordion/dist/v-accordion.min.css')
-	angular.module('psApp', ['ngMaterial','ngRoute','alert','vAccordion'])
 
+require('ng-file-upload')
+
+	angular.module('psApp', ['ngMaterial','ngRoute','alert','vAccordion', 'ngFileUpload'])
 
 	function config ($routeProvider, $locationProvider, flashAlertProvider) {
 		flashAlertProvider.setAlertTime(3000)
