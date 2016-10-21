@@ -1,6 +1,7 @@
 const angular = require('angular')
 				require('angular-route')
 
+
 require('angular-material')
 require('../node_modules/angular-material/angular-material.min.css')
 
@@ -8,8 +9,11 @@ require('v-accordion')
 require('../node_modules/v-accordion/dist/v-accordion.min.css')
 
 require('ng-file-upload')
+require('angular-messages')
+//require('moment')
 
 	angular.module('psApp', ['ngMaterial','ngRoute','alert','vAccordion', 'ngFileUpload'])
+		//.constant('moment', window.moment)
 
 	function config ($routeProvider, $locationProvider, flashAlertProvider) {
 		flashAlertProvider.setAlertTime(3000)

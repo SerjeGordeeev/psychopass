@@ -19,15 +19,39 @@
 									</v-pane-header>
 									<v-pane-content>
 										<md-list class="layout-fill">
+											<form name="propsForm">
 											<md-list-item class="md-2-line" ng-repeat="prop in mg.props  | orderBy: 'name'">
-												<span flex>{{::prop.name}}</span>
-												<span flex></span>
-												<md-input-container flex class="md-block">
-													<!--{{mg.findProp(prop._id, member.properties)}}-->
-													<label>{{::prop.name}}</label>
-													<input ng-model="mg.findProp(prop._id, member.properties).value">
-												</md-input-container>
+
+													<span flex>{{::prop.name}}</span>
+													<span flex></span>
+													<md-input-container flex class="md-block" ng-init="propData = mg.findProp(prop._id, member.properties)">
+														<label>{{::prop.name}}</label>
+														<input ng-if="prop.type == 'formal'" ng-model="propData.actuallVal" name="val">
+
+														<input ng-if="prop.type == 'number'"
+															   required type="number"
+															   ng-model="propData.actuallVal"
+															   max="{{prop.max}}"
+															   min="{{prop.min}}"
+															   name="val">
+
+														<div ng-messages="propsForm.val.$error" multiple md-auto-hide="false">
+															<div ng-message="required">
+																Надо бы заполнить
+															</div>
+
+															<div ng-message="min">
+																Мин {{prop.min}}
+															</div>
+
+															<div ng-message="max">
+																Max {{prop.max}}
+															</div>
+														</div>
+
+													</md-input-container>
 											</md-list-item>
+											</form>
 											<md-list-item>
 												<span flex></span>
 												<md-button flex="20" class="md-raised" ng-click="mg.save(member)">Сохранить</md-button>

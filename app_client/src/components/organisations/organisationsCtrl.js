@@ -90,11 +90,13 @@ function organisationsCtrl($$organisations, authentication, flashAlert, $$profil
 
 	function importCSV(file, errFiles){
 		//console.log(file, errFiles)
-		$$organisations.upload(file).then(resp=>{
+		$$organisations.upload({
+			file: file
+		}).then(resp=>{
 			flashAlert.success(resp.data.message)
 			init()
 		}).catch(err=>{
-			flashAlert.error(err.data.message)
+			if(err) flashAlert.error(err.data.message)
 		})
 	}
 }

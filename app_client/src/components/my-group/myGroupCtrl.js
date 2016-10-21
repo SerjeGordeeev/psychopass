@@ -14,6 +14,7 @@ function myGroupCtrl(authentication, $$profiles, $$groups, $$props, flashAlert) 
 	vm.props = []
 
 	vm.findProp = findProp
+	vm.getActuallyVal = getActuallyVal
 	vm.propCount = propCount
 	vm.save = save
 
@@ -52,29 +53,71 @@ function myGroupCtrl(authentication, $$profiles, $$groups, $$props, flashAlert) 
 		})
 	}
 
-	function findProp(propId, props){
+/*	function findProp(propId, props, with_actually){
 		let field = props.find(prop=>prop._id==propId)
+		if(!with_actually) return field
+		if(field) field = field.data.find(a=> a.actually == true)
 		if(field) return field
 		else{
 			props.push({
 				_id: propId,
-				value: null
+				data: [
+					{
+						date: new Date(),
+						value: null,
+						actually: true
+					}
+				]
 			})
 			return props[props.length-1]
 		}
+	}*/
+
+	function findProp(propId, props){
+		let prop = props.find(prop=>prop._id==propId)
+		if(!prop){
+			prop = {
+				_id: propId,
+				data: [
+					{
+						date: new Date(),
+						value: null,
+						actually: true
+					}
+				],
+				actuallVal:null
+			}
+			props.push(prop)
+		}
+		return prop
+	}
+
+	function getActuallyVal(prop){
+		return prop.data.find(rec=>rec.actually)
 	}
 
 	function propCount(props){
-		return props.filter(prop=>!!prop.value).length
+		return props.filter(prop=>!!prop.actuallVal).length
 	}
 
 	function save(member){
+		member.properties.forEach(prop=>{
+			prop.data.find(prop=>prop.actually).actually = false
+			prop.data.push({
+				actually: true,
+				date: new Date(),
+				value: prop.actuallVal
+			})
+		})
+
 		$$profiles.put({
 			id: member._id,
 			properties: member.properties
 		}).then(resp=>{
 			flashAlert.success(resp.data.message)
-
+		}).catch(err=>{
+			flashAlert.error(err.data.message)
+			init()
 		})
 	}
 

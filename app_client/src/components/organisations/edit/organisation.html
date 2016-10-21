@@ -19,7 +19,7 @@
 
 		<md-card>
 			<md-list class="layout-fill">
-				<md-list-item class="md-2-line" ng-repeat="member in org.org.members | orderBy: 'name'">
+				<md-list-item class="md-2-line" ng-repeat="member in org.org.members | orderBy: 'name' | filter: org.withGroupFilter">
 
 					<div ng-if="!mayCRUD || org.org.is_psycho" flex="30" class="md-list-item-text">
 						<h3>{{::member.name}}</h3>

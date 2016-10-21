@@ -5,7 +5,7 @@ const generateLogin = require('password-generator')
 const Upload = require('./utils/upload')
 
 const await = require('asyncawait/await');
-const async = require('asyncawait/async');
+/*const async = require('asyncawait/async');*/
 
 module.exports.getList = function (req, res) {
   let query = User.find(cleanQueryObj(req.query))
@@ -21,7 +21,6 @@ module.exports.getList = function (req, res) {
 module.exports.update = function (req, res) {
 
   if(req.body.ids){
-      console.log(req.body.ids)
       _async.filter(req.body.members, function(member, callback) {
         User.findOne({'_id':  mongoose.Types.ObjectId(member._id)}, (err,user)=>{
             if(err) dataError(res,err)
@@ -163,6 +162,4 @@ function saveUser(user, res, callback){
       })
 
     })
-
-
 }

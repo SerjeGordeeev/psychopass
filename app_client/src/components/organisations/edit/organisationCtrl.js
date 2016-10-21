@@ -34,6 +34,7 @@ function organisationCtrl($$organisations, $$groups, $$profiles, authentication,
 	vm.remove = remove
 	vm.update = update
 	vm.import = importCSV
+	vm.withGroupFilter = withGroupFilter
 
 	init()
 
@@ -108,8 +109,13 @@ function organisationCtrl($$organisations, $$groups, $$profiles, authentication,
 			flashAlert.success(resp.data.message)
 			init()
 		}).catch(err=>{
-			flashAlert.error(err.data.message)
+			if(err) flashAlert.error(err.data.message)
 		})
+	}
+
+	function withGroupFilter(member){
+		if(vm.filters[0].value == null) return true
+		else return vm.filters[0].value == !!member.group
 	}
 
 }

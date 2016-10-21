@@ -52,12 +52,15 @@
 	__webpack_require__(5);
 	__webpack_require__(11);
 
-	__webpack_require__(69);
-	__webpack_require__(71);
+	__webpack_require__(15);
+	__webpack_require__(17);
 
-	__webpack_require__(75);
+	__webpack_require__(19);
+	__webpack_require__(79);
+	//require('moment')
 
 	angular.module('psApp', ['ngMaterial', 'ngRoute', 'alert', 'vAccordion', 'ngFileUpload']);
+	//.constant('moment', window.moment)
 
 	function config($routeProvider, $locationProvider, flashAlertProvider) {
 		flashAlertProvider.setAlertTime(3000);
@@ -118,7 +121,7 @@
 		});
 	}
 
-	requireAll(__webpack_require__(15));
+	requireAll(__webpack_require__(22));
 	function requireAll(requireContext) {
 		return requireContext.keys().map(requireContext);
 	}
@@ -30633,1957 +30636,13 @@
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var map = {
-		"./auth/authCtrl.js": 16,
-		"./backend/services/authentication.service.js": 19,
-		"./backend/services/groups.service.js": 23,
-		"./backend/services/organisations.service.js": 24,
-		"./backend/services/profiles.service.js": 25,
-		"./backend/services/props.service.js": 26,
-		"./backend/services/upload.service.js": 77,
-		"./common/directives/alert/flash-alert.js": 27,
-		"./common/directives/header/components/top-menu/topMenuCtrl.js": 31,
-		"./common/directives/header/components/top-menu/topMenuDir.js": 32,
-		"./common/directives/header/components/user-profile/userProfileCtrl.js": 36,
-		"./common/directives/header/components/user-profile/userProfileDir.js": 37,
-		"./common/directives/header/navigationCtrl.js": 41,
-		"./common/directives/header/navigationDir.js": 42,
-		"./common/directives/nav-bar/navBarCtrl.js": 46,
-		"./common/directives/nav-bar/navBarDir.js": 47,
-		"./common/directives/tool-bar/toolBarCtrl.js": 51,
-		"./common/directives/tool-bar/toolBarDir.js": 52,
-		"./groups/edit/dialog/addMembersCtrl.js": 56,
-		"./groups/edit/groupCtrl.js": 59,
-		"./groups/groupsCtrl.js": 61,
-		"./home/homeCtrl.js": 62,
-		"./members/memberCtrl.js": 63,
-		"./my-group/myGroupCtrl.js": 64,
-		"./organisations/edit/organisationCtrl.js": 65,
-		"./organisations/organisationsCtrl.js": 66,
-		"./props/propsCtrl.js": 67,
-		"./psychologs/psychologsCtrl.js": 68
-	};
-	function webpackContext(req) {
-		return __webpack_require__(webpackContextResolve(req));
-	};
-	function webpackContextResolve(req) {
-		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
-	};
-	webpackContext.keys = function webpackContextKeys() {
-		return Object.keys(map);
-	};
-	webpackContext.resolve = webpackContextResolve;
-	module.exports = webpackContext;
-	webpackContext.id = 15;
-
-
-/***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict';
 
-	__webpack_require__(17);
-	angular.module('psApp').controller('authCtrl', authCtrl);
-
-	function authCtrl(authentication, $$organisations, $location, flashAlert) {
-
-		var vm = this;
-
-		vm.showSignUpForm = false;
-		vm.orgs = [];
-
-		vm.login = null;
-		vm.password = null;
-
-		vm.signInData = {
-			login: null,
-			password: null
-		};
-
-		vm.signUpData = {
-			name: null,
-			login: null,
-			password: null,
-			email: null,
-			organisation: null
-		};
-
-		vm.signIn = signIn;
-		vm.signUp = signUp;
-
-		$$organisations.getList().then(function (resp) {
-			vm.orgs = resp.data;
-		});
-
-		function signIn() {
-			authentication.login({
-				login: vm.signInData.login,
-				password: vm.signInData.password
-			}).then(function (data) {
-				flashAlert.info('Приветствуем');
-				$location.path('/');
-			}).catch(function (data) {
-				flashAlert.error('Неверный логин или пароль');
-			});
-		}
-
-		function signUp() {
-			authentication.register({
-				name: vm.signUpData.name,
-				login: vm.signUpData.login,
-				email: vm.signUpData.email,
-				organisation: vm.signUpData.organisation
-			}).then(function (data) {
-				console.log(data);
-				$location.path('/');
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			});
-		}
-	}
-
-/***/ },
-/* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(18);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./auth.scss", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./auth.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.auth {\n  width: 70%;\n  transition: width .3s, height .3s;\n  margin: 0 auto;\n  background: #fff;\n  padding: 1em;\n  box-sizing: border-box; }\n  .auth .md-raised {\n    background-color: #334aff !important;\n    color: #fff !important; }\n\nbody {\n  background-color: #bbbbbb; }\n\n@media (min-width: 780px) {\n  .auth {\n    width: 50%; } }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	angular.module('psApp').service('authentication', authentication);
-
-	authentication.$inject = ['$http', '$window'];
-
-	var decodeToken = __webpack_require__(20);
-
-	function authentication($http, $window) {
-	  var vm = this;
-	  vm.roleAssoc = {
-	    psycholog: 'Психолог',
-	    admin: 'Администратор',
-	    org: 'Организатор',
-	    student: 'Участник'
-	  };
-
-	  vm.crudRights = ['admin', 'org'];
-
-	  var roleTitle = function roleTitle(role) {
-	    if (role) {
-	      return vm.roleAssoc[role];
-	    } else {
-	      return vm.roleAssoc;
-	    }
-	  };
-
-	  var saveToken = function saveToken(data) {
-	    $window.localStorage['mean-token'] = data.token;
-	  };
-
-	  var getToken = function getToken() {
-	    var token = $window.localStorage['mean-token'];
-	    return token === undefined || token === 'undefined' || token === null || token === 'null' ? null : token;
-	  };
-
-	  var isLoggedIn = function isLoggedIn() {
-	    var token = getToken();
-	    if (token) {
-	      return decodeToken(token).exp > Date.now() / 1000;
-	    } else {
-	      return false;
-	    }
-	  };
-
-	  var currentUser = function currentUser() {
-	    if (isLoggedIn()) {
-	      var token = getToken();
-	      var payload = decodeToken(token);
-	      return {
-	        email: payload.email,
-	        name: payload.name,
-	        role: payload.role,
-	        organisation: payload.organisation,
-	        group: payload.group
-	      };
-	    }
-	  };
-
-	  var register = function register(user) {
-	    return $http.post('/api/register', user).success(function (data) {
-	      saveToken(data.token);
-	    });
-	  };
-
-	  var login = function login(user) {
-	    return $http.post('/api/login', user).success(function (data) {
-	      saveToken(data);
-	    });
-	  };
-
-	  var logout = function logout() {
-	    $window.localStorage.removeItem('mean-token');
-	  };
-
-	  function checkCRUDRights() {
-	    var userRole = currentUser().role;
-	    return vm.crudRights.includes(userRole);
-	  }
-
-	  return {
-	    currentUser: currentUser,
-	    saveToken: saveToken,
-	    getToken: getToken,
-	    isLoggedIn: isLoggedIn,
-	    register: register,
-	    login: login,
-	    logout: logout,
-	    roleTitle: roleTitle,
-	    checkCRUDRights: checkCRUDRights
-	  };
-	}
-
-/***/ },
-/* 20 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var base64_url_decode = __webpack_require__(21);
-
-	module.exports = function (token, options) {
-	  if (typeof token !== 'string') {
-	    throw new Error('Invalid token specified');
-	  }
-
-	  options = options || {};
-	  var pos = options.header === true ? 0 : 1;
-	  return JSON.parse(base64_url_decode(token.split('.')[pos]));
-	};
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var atob = __webpack_require__(22);
-
-	function b64DecodeUnicode(str) {
-	  return decodeURIComponent(atob(str).replace(/(.)/g, function (m, p) {
-	    var code = p.charCodeAt(0).toString(16).toUpperCase();
-	    if (code.length < 2) {
-	      code = '0' + code;
-	    }
-	    return '%' + code;
-	  }));
-	}
-
-	module.exports = function (str) {
-	  var output = str.replace(/-/g, "+").replace(/_/g, "/");
-	  switch (output.length % 4) {
-	    case 0:
-	      break;
-	    case 2:
-	      output += "==";
-	      break;
-	    case 3:
-	      output += "=";
-	      break;
-	    default:
-	      throw "Illegal base64url string!";
-	  }
-
-	  try {
-	    return b64DecodeUnicode(output);
-	  } catch (err) {
-	    return atob(output);
-	  }
-	};
-
-/***/ },
-/* 22 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	/**
-	 * The code was extracted from:
-	 * https://github.com/davidchambers/Base64.js
-	 */
-
-	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-	function InvalidCharacterError(message) {
-	  this.message = message;
-	}
-
-	InvalidCharacterError.prototype = new Error();
-	InvalidCharacterError.prototype.name = 'InvalidCharacterError';
-
-	function polyfill(input) {
-	  var str = String(input).replace(/=+$/, '');
-	  if (str.length % 4 == 1) {
-	    throw new InvalidCharacterError("'atob' failed: The string to be decoded is not correctly encoded.");
-	  }
-	  for (
-	  // initialize result and counters
-	  var bc = 0, bs, buffer, idx = 0, output = '';
-	  // get next character
-	  buffer = str.charAt(idx++);
-	  // character found in table? initialize bit storage and add its ascii value;
-	  ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer,
-	  // and if not first of each 4 characters,
-	  // convert the first 8 bits to one ascii character
-	  bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0) {
-	    // try to find character in table (0-63, not found => -1)
-	    buffer = chars.indexOf(buffer);
-	  }
-	  return output;
-	}
-
-	module.exports = typeof window !== 'undefined' && window.atob && window.atob.bind(window) || polyfill;
-
-/***/ },
-/* 23 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').service('$$groups', groups);
-
-	groups.$inject = ['$http'];
-	function groups($http) {
-
-	  var getList = function getList(payload) {
-	    return $http.get('/api/groups' + generateQueryString(payload));
-	  };
-
-	  var post = function post(payload) {
-	    return $http.post('/api/groups', payload);
-	  };
-
-	  var remove = function remove(payload) {
-	    return $http.delete('/api/groups?id=' + payload.id);
-	  };
-
-	  var put = function put(payload) {
-	    return $http.put('/api/groups?id=' + payload.id, payload);
-	  };
-
-	  return {
-	    getList: getList,
-	    post: post,
-	    remove: remove,
-	    put: put
-	  };
-
-	  function generateQueryString(payload) {
-	    var query = '';
-
-	    for (var param in payload) {
-	      query += param + '=' + payload[param] + '&';
-	    }
-	    return query.length ? '?' + query.slice(0, -1) : '';
-	  }
-	}
-
-/***/ },
-/* 24 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').service('$$organisations', organisations);
-
-	organisations.$inject = ['$http', '$$uploader'];
-	function organisations($http, $$uploader) {
-
-	  var getList = function getList(payload) {
-	    return $http.get('/api/organisations' + generateQueryString(payload));
-	  };
-
-	  var post = function post(payload) {
-	    return $http.post('/api/organisations', payload);
-	  };
-
-	  var remove = function remove(payload) {
-	    return $http.delete('/api/organisations?id=' + payload.id);
-	  };
-
-	  var put = function put(payload) {
-	    return $http.put('/api/organisations?id=' + payload.id, payload.file);
-	  };
-
-	  var upload = function upload(file) {
-	    return $$uploader.upload('/api/organisations/upload', file, null);
-	  };
-
-	  return {
-	    getList: getList,
-	    post: post,
-	    remove: remove,
-	    put: put,
-	    upload: upload
-	  };
-
-	  function generateQueryString(payload) {
-	    var query = '';
-
-	    for (var param in payload) {
-	      query += param + '=' + payload[param] + '&';
-	    }
-
-	    return query.length ? '?' + query.slice(0, -1) : '';
-	  }
-	}
-
-/***/ },
-/* 25 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').service('$$profiles', profiles);
-
-	function profiles($http, $$uploader) {
-
-	  var getList = function getList(payload) {
-	    return $http.get('/api/profiles' + generateQueryString(payload));
-	  };
-
-	  var post = function post(payload) {
-	    return $http.post('/api/profiles', payload);
-	  };
-
-	  var remove = function remove(payload) {
-	    return $http.delete('/api/profiles?id=' + payload.id);
-	  };
-
-	  var put = function put(payload) {
-	    if (payload.ids) return $http.put('/api/profiles?ids=' + payload.ids.toString(), payload);
-	    return $http.put('/api/profiles?id=' + payload.id, payload);
-	  };
-
-	  var upload = function upload(payload) {
-	    return $$uploader.upload('/api/profiles/upload?id=' + payload.id, payload, null);
-	  };
-
-	  return {
-	    getList: getList,
-	    post: post,
-	    remove: remove,
-	    put: put,
-	    upload: upload
-	  };
-
-	  function generateQueryString(payload) {
-	    var query = '';
-
-	    for (var param in payload) {
-	      query += param + '=' + payload[param] + '&';
-	    }
-	    return query.length ? '?' + query.slice(0, -1) : '';
-	  }
-	}
-
-/***/ },
-/* 26 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').service('$$props', props);
-
-	props.$inject = ['$http'];
-	function props($http) {
-
-	  var getList = function getList(payload) {
-	    return $http.get('/api/props' + generateQueryString(payload));
-	  };
-
-	  var post = function post(payload) {
-	    return $http.post('/api/props', payload);
-	  };
-
-	  var remove = function remove(payload) {
-	    return $http.delete('/api/props?id=' + payload.id);
-	  };
-
-	  var put = function put(payload) {
-	    if (payload.ids) return $http.put('/api/props?ids=' + payload.ids.toString(), payload);
-	    return $http.put('/api/props?id=' + payload.id, payload);
-	  };
-
-	  return {
-	    getList: getList,
-	    post: post,
-	    remove: remove,
-	    put: put
-	  };
-
-	  function generateQueryString(payload) {
-	    var query = '';
-
-	    for (var param in payload) {
-	      query += param + '=' + payload[param] + '&';
-	    }
-	    return query.length ? '?' + query.slice(0, -1) : '';
-	  }
-	}
-
-/***/ },
-/* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	__webpack_require__(28);
-	angular.module("alert", []).constant("alertConfig", {
-	  success: "alert-success",
-	  error: "alert-danger",
-	  info: "alert-info"
-	}).provider("flashAlert", function () {
-	  var a = [],
-	      b = 5e3;
-	  return {
-	    setAlertTime: function setAlertTime(a) {
-	      b = a;
-	    },
-	    $get: ["$timeout", "alertConfig", function (c, d) {
-	      return {
-	        success: function success(a) {
-	          this.add("success", a);
-	        },
-	        error: function error(a) {
-	          this.add("error", a);
-	        },
-	        info: function info(a) {
-	          this.add("info", a);
-	        },
-	        getAlert: function getAlert() {
-	          return a;
-	        },
-	        add: function add(b, c) {
-	          var e = {
-	            typeOfAlert: d[b],
-	            msg: c,
-	            remove: function remove() {
-	              a.splice(0, 1);
-	            }
-	          };
-
-	          a.push(e), this.hideAlert(e);
-	        },
-	        hideAlert: function hideAlert() {
-	          c(function () {
-	            a.shift();
-	          }, b);
-	        }
-	      };
-	    }]
-	  };
-	}).directive("alertFlash", ["flashAlert", function (a) {
-	  return {
-	    restrict: "E",
-	    template: __webpack_require__(30),
-	    scope: {},
-	    link: function link(b) {
-	      b.$watch(a.getAlert, function () {
-	        b.alerts = a.getAlert();
-	      });
-	    }
-	  };
-	}]);
-
-/***/ },
-/* 28 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(29);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./alert.scss", function() {
-				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./alert.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 29 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\nalert-flash {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  color: #fff;\n  z-index: 100; }\n  alert-flash .alert {\n    padding: .5em;\n    font-size: 1em;\n    opacity: .8; }\n  alert-flash .alert-success {\n    background-color: #29ff31; }\n  alert-flash .alert-danger {\n    background-color: #ff0415; }\n  alert-flash .alert-info {\n    background-color: #0aa0ff; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 30 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class='alert-container'>\n  <div class='repeat-animation' ng-repeat='alert in alerts' ng-click=\"alert.remove()\">\n    <div class='alert' ng-class='alert.typeOfAlert' ng-bind='alert.msg'></div>\n  </div>\n</div>";
-
-/***/ },
-/* 31 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('topMenuCtrl', topMenuCtrl);
-
-	topMenuCtrl.$inject = ['$location', 'authentication'];
-
-	function topMenuCtrl($location, authentication) {
-	  var vm = this;
-
-	  vm.pages = [];
-	  vm.userRole = authentication.currentUser().role;
-
-	  vm.activePage = $location.path();
-
-	  vm.accessPages = [{
-	    title: 'Психологи',
-	    href: '/psychologs',
-	    access: ['admin', 'org']
-	  }, {
-	    title: 'Организации',
-	    href: '/organisations',
-	    access: ['admin', 'org']
-	  }, {
-	    title: 'Участники',
-	    href: '/members',
-	    access: ['admin', 'org']
-	  }, {
-	    title: 'Группы',
-	    href: '/groups',
-	    access: ['admin', 'org']
-	  }, {
-	    title: 'Руководство группой',
-	    href: '/my_group',
-	    access: ['psycholog']
-	  }, {
-	    title: 'Характеристики',
-	    href: '/props',
-	    access: ['admin', 'psycholog', 'org']
-	  }];
-
-	  getPages();
-
-	  function getPages() {
-	    vm.accessPages.forEach(function (page) {
-	      if (page.access.includes(vm.userRole)) {
-	        vm.pages.push(page);
-	        //console.log(page)
-	      } else {
-	          // console.log(page.access.includes(vm.userRole),page.access, vm.userRole)
-	        }
-	    });
-	    //console.log(vm.pages)
-	  }
-	}
-
-/***/ },
-/* 32 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	angular.module('psApp').directive('topMenu', topMenu);
-
-	__webpack_require__(33);
-	function topMenu() {
-	  return {
-	    restrict: 'E',
-	    template: __webpack_require__(35),
-	    controller: 'topMenuCtrl',
-	    controllerAs: 'tm'
-	  };
-	}
-
-/***/ },
-/* 33 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(34);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./top-menu.scss", function() {
-				var newContent = require("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./top-menu.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 34 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.top_menu {\n  margin: 0 1em;\n  color: #949494 !important; }\n  .top_menu a {\n    font-size: .8em;\n    text-transform: uppercase;\n    margin: 0 .5em;\n    color: #949494;\n    transition: color .2s; }\n    .top_menu a:hover {\n      color: #67b3ff; }\n  .top_menu .active_link {\n    color: #67b3ff;\n    border-bottom: #67b3ff solid .1em; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 35 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"top_menu\">\n        <a ng-href=\"{{page.href}}\" ng-class=\"{'active_link':tm.activePage.indexOf(page.href)>-1}\" name=\"page.title\" ng-repeat=\"page in tm.pages\">{{page.title}}</a>\n</div>";
-
-/***/ },
-/* 36 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('userProfileCtrl', userProfileCtrl);
-
-	userProfileCtrl.$inject = ['$location', 'authentication'];
-	function userProfileCtrl($location, authentication) {
-	  var vm = this;
-
-	  vm.user = authentication.currentUser();
-	  vm.roleAssoc = authentication.roleTitle();
-
-	  vm.user.role = vm.roleAssoc[vm.user.role];
-	  //console.log(vm.user)
-
-	  vm.logout = logout;
-	  //console.log('userProfile', authentication.currentUser())
-
-	  function logout() {
-	    authentication.logout();
-	    $location.path('/');
-	  }
-	}
-
-/***/ },
-/* 37 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	angular.module('psApp').directive('userProfile', userProfile);
-
-	__webpack_require__(38);
-	function userProfile() {
-	  return {
-	    restrict: 'E',
-	    template: __webpack_require__(40),
-	    controller: 'userProfileCtrl',
-	    controllerAs: 'vm'
-	  };
-	}
-
-/***/ },
-/* 38 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(39);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./user_profile.scss", function() {
-				var newContent = require("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./user_profile.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 39 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.user_profile {\n  color: #bbbbbb; }\n  .user_profile md-icon:hover svg {\n    fill: #5097ff !important; }\n  .user_profile md-icon svg {\n    fill: #949494 !important;\n    transition: fill .2s; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 40 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"user_profile\" layout>\n    <div class=\"layout-column\">\n        <span>{{::vm.user.name}}</span>\n        <span style=\"font-size: .8em;\">{{::vm.user.role}}</span>\n    </div>\n\n    <md-button class=\"md-icon-button\" aria-label=\"Выйти\" ng-click=\"vm.logout()\">\n        <md-icon md-svg-icon=\"/src/img/ic_exit_to_app_black_24px.svg\"></md-icon>\n    </md-button>\n</div>";
-
-/***/ },
-/* 41 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('navigationCtrl', navigationCtrl);
-
-	navigationCtrl.$inject = ['$location', 'authentication'];
-	function navigationCtrl($location, authentication) {
-	  var vm = this;
-	}
-
-/***/ },
-/* 42 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	angular.module('psApp').directive('navigation', navigation);
-
-	__webpack_require__(43);
-	function navigation() {
-	  return {
-	    restrict: 'E',
-	    template: __webpack_require__(45),
-	    controller: 'navigationCtrl as navvm'
-	  };
-	}
-
-/***/ },
-/* 43 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(44);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./navigation.scss", function() {
-				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./navigation.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 44 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.navigation md-card {\n  margin: 0 !important; }\n\n.navigation h2 {\n  color: #bbbbbb; }\n\n.navigation md-toolbar {\n  background-color: #ffffff !important;\n  box-shadow: 2px 6px 7px -6px rgba(0, 0, 0, 0.75) !important; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 45 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"navigation navbar navbar-default\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n      <div class=\"md-toolbar-tools\">\n        <h2>\n          <a ng-href=\"/\">PsychopassApp</a>\n        </h2>\n        <top-menu></top-menu>\n        <span flex></span>\n        <user-profile></user-profile>\n      </div>\n    </md-toolbar>\n  </md-card>\n</div>\n";
-
-/***/ },
-/* 46 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('navBarCtrl', navBarCtrl);
-
-	navBarCtrl.$inject = ['$location', 'authentication'];
-	function navBarCtrl($location, authentication) {
-	  var vm = this;
-	}
-
-/***/ },
-/* 47 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	angular.module('psApp').directive('navBar', navBar);
-
-	__webpack_require__(48);
-	function navBar() {
-	  return {
-	    restrict: 'E',
-	    template: __webpack_require__(50),
-	    controller: 'navBarCtrl as navb'
-	  };
-	}
-
-/***/ },
-/* 48 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(49);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./nav-bar.scss", function() {
-				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./nav-bar.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 49 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 50 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\" navbar navbar-default\">\n  Navbar\n</div>\n";
-
-/***/ },
-/* 51 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('toolBarCtrl', toolBarCtrl);
-
-	toolBarCtrl.$inject = ['$scope', '$location', 'authentication'];
-	function toolBarCtrl($scope, $location, authentication) {
-	  var vm = this;
-	  //vm.filters  = $scope.filters
-	  // console.log($scope.filters)
-	}
-
-/***/ },
-/* 52 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	angular.module('psApp').directive('toolBar', toolBar);
-
-	__webpack_require__(53);
-	function toolBar() {
-	  return {
-	    restrict: 'E',
-	    template: __webpack_require__(55),
-	    controller: 'toolBarCtrl as tb',
-	    scope: {
-	      filters: '='
-	    }
-	  };
-	}
-
-/***/ },
-/* 53 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(54);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./toolBar.scss", function() {
-				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./toolBar.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 54 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.tool_bar md-toolbar {\n  background-color: #ffffff !important; }\n  .tool_bar md-toolbar .md-toolbar-tools {\n    padding-top: 18px;\n    color: #5a5a5a;\n    height: auto !important;\n    max-height: inherit !important; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 55 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"tool_bar\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <div ng-repeat=\"filter in filters\">\n        <md-input-container ng-style=\"{'min-width': filter.title.length*12+'px'}\">\n          <label>{{filter.title}}</label>\n          <md-select ng-model=\"filter.value\">\n            <md-option ng-value=\"null\">Все</md-option>\n            <md-option ng-repeat=\"option in filter.options\" ng-value=\"option.value\">\n              {{option.name}}\n            </md-option>\n          </md-select>\n        </md-input-container>\n      </div>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n  </md-card>\n</div>\n";
-
-/***/ },
-/* 56 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	__webpack_require__(57);
-	module.exports = function ($$organisations, $$groups, $$profiles, $routeParams, $mdDialog, $mdMedia, $rootScope, $scope, authentication, flashAlert) {
-
-		var vm = this;
-
-		vm.groups = [];
-		vm.members = [];
-		vm.groupId = $routeParams.id;
-
-		vm.filters = {
-			organisation: {
-				value: null,
-				f: function f(member) {
-					if (vm.filters.organisation.value === null) return true;
-					if (vm.filters.organisation.value == member.organisation) return true;
-					return false;
-				}
-			}
-		};
-
-		vm.addMembersToGroup = addMembersToGroup;
-
-		init();
-		function init() {
-			$$profiles.getList({
-				role: 'student',
-				group: null
-			}).then(function (resp) {
-				vm.members = resp.data;
-				getOrganisations();
-			});
-		}
-
-		function getOrganisations() {
-			$$organisations.getList({
-				is_psycho: false
-			}).then(function (resp) {
-				vm.organisations = resp.data;
-				vm.members.forEach(function (member) {
-					member.organisationData = vm.organisations.find(function (org) {
-						return org._id == member.organisation;
-					});
-				});
-			});
-		}
-
-		function addMembersToGroup() {
-
-			var newMembers = {
-				ids: [],
-				members: []
-			};
-
-			vm.members.forEach(function (member) {
-				if (member.selected) {
-					member.group = vm.groupId;
-					newMembers.ids.push(member._id);
-					newMembers.members.push(member);
-				}
-			});
-
-			$$profiles.put(newMembers).then(function (resp) {
-				flashAlert.success(resp.data.message);
-				$scope.hide();
-			}).catch(function (err) {
-				flashAlert.error('Error');
-			});
-		}
-
-		$scope.hide = function () {
-			$mdDialog.hide();
-		};
-		$scope.cancel = function () {
-			$mdDialog.cancel();
-		};
-		$scope.answer = function (answer) {
-			$mdDialog.hide(answer);
-		};
-	};
-
-/***/ },
-/* 57 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(58);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./dialog.scss", function() {
-				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./dialog.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 58 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.add_members_dialog {\n  width: 80%; }\n  .add_members_dialog .md-toolbar-tools, .add_members_dialog .md-raised {\n    background-color: #67b3ff !important;\n    color: #fff; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 59 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	angular.module('psApp').controller('groupCtrl', groupCtrl);
-
-	groupCtrl.$inject = ['$$groups', '$routeParams', 'authentication', '$mdDialog', '$mdMedia', '$scope', '$$profiles', 'flashAlert'];
-
-	function groupCtrl($$groups, $routeParams, authentication, $mdDialog, $mdMedia, $scope, $$profiles, flashAlert) {
-
-		var vm = this;
-
-		vm.members = [];
-		vm.group = {
-			id: $routeParams.id,
-			name: null,
-			mentor: null,
-			members: []
-		};
-
-		vm.checkCRUDRights = authentication.checkCRUDRights;
-		vm.showDialog = showDialog;
-		vm.remove = remove;
-
-		init();
-
-		function init() {
-			$$groups.getList({
-				id: vm.group.id,
-				with_members: true
-			}).then(function (res) {
-				vm.group.name = res.data[0].name;
-				vm.group.mentor = res.data[0].mentor;
-				vm.group.members = res.data[0].members;
-			});
-		}
-
-		function showDialog(ev) {
-			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
-			$mdDialog.show({
-				controller: __webpack_require__(56),
-				controllerAs: 'dlg',
-				template: __webpack_require__(60),
-				parent: angular.element(document.body),
-				targetEvent: ev,
-				clickOutsideToClose: true,
-				fullscreen: useFullScreen
-			}).then(function (answer) {
-				reloadData();
-			}, function () {
-				//$scope.status = 'You cancelled the dialog.';
-			});
-			$scope.$watch(function () {
-				return $mdMedia('xs') || $mdMedia('sm');
-			}, function (wantsFullScreen) {
-				$scope.customFullscreen = wantsFullScreen === true;
-			});
-		}
-
-		function remove(id) {
-			$$profiles.put({
-				id: id,
-				group: null
-			}).then(function (resp) {
-				flashAlert.success('Участник успешно удален из группы');
-				reloadData();
-			}).catch(function (err) {
-				flashAlert.error('Error');
-			});
-		}
-
-		function reloadData() {
-			init();
-		}
-	}
-
-/***/ },
-/* 60 */
-/***/ function(module, exports) {
-
-	module.exports = "<md-dialog class=\"add_members_dialog\" aria-label=\"Добавить участников\"  ng-cloak>\n\t<form>\n\t\t<md-toolbar>\n\t\t\t<div class=\"md-toolbar-tools\">\n\t\t\t\t<h2>Добавить участников</h2>\n\t\t\t\t<span flex></span>\n\t\t\t\t<md-input-container  md-no-float class=\"md-block\" flex=\"20\">\n\t\t\t\t\t<label>Организация</label>\n\t\t\t\t\t<md-select ng-model=\"dlg.filters.organisation.value\">\n\t\t\t\t\t\t<md-option ng-value=\"null\">Все</md-option>\n\t\t\t\t\t\t<md-option ng-repeat=\"org in dlg.organisations\" ng-value=\"org._id\">\n\t\t\t\t\t\t\t{{org.name}}\n\t\t\t\t\t\t</md-option>\n\t\t\t\t\t</md-select>\n\t\t\t\t</md-input-container>\n\t\t\t</div>\n\t\t</md-toolbar>\n\t\t<md-dialog-content>\n\t\t\t<div class=\"md-dialog-content\">\n\t\t\t\t<md-list class=\"layout-fill\">\n\t\t\t\t\t<md-list-item class=\"md-2-line\" ng-repeat=\"member in dlg.members | filter: dlg.filters.organisation.f\">\n\t\t\t\t\t\t<md-checkbox class=\"md-primary\" ng-model=\"member.selected\" aria-label=\"Выбрать участника\">\n\t\t\t\t\t\t\t{{ member.selected }}\n\t\t\t\t\t\t</md-checkbox>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.organisationData.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<md-divider ng-if=\"!$last\"></md-divider>\n\t\t\t\t\t</md-list-item>\n\t\t\t\t\t<md-list-item ng-if=\"!dlg.members.length\">На данный момент нет участников без группы</md-list-item>\n\t\t\t\t</md-list>\n\t\t\t</div>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions layout=\"row\">\n\t\t\t<span flex></span>\n\t\t\t<md-button class=\"md-raised\" ng-click=\"dlg.addMembersToGroup()\" style=\"margin-right:20px;\">\n\t\t\t\tДобавить\n\t\t\t</md-button>\n\t\t</md-dialog-actions>\n\t</form>\n</md-dialog>\n";
-
-/***/ },
-/* 61 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('groupsCtrl', groupsCtrl);
-
-	groupsCtrl.$inject = ['$$groups', 'authentication', '$$profiles', 'flashAlert'];
-
-	function groupsCtrl($$groups, authentication, $$profiles, flashAlert) {
-
-		var vm = this;
-
-		vm.groups = [];
-		vm.mentors = [];
-		vm.filters = [];
-		vm.crudRights = ['admin', 'org'];
-
-		vm.filters = [{
-			value: null,
-			title: 'Психолог',
-			options: [{ name: 'Назначен', value: true }, { name: 'Не назначен', value: false }]
-		}];
-
-		vm.add = add;
-		vm.remove = remove;
-		vm.update = update;
-		vm.checkCRUDRights = checkCRUDRights;
-		vm.mentorFilter = mentorFilter;
-		vm.withMentorFilter = withMentorFilter;
-
-		init();
-
-		function init() {
-			$$groups.getList().then(function (resp) {
-				vm.groups = resp.data;
-
-				vm.groups.forEach(function (group) {
-					group.oldMentor = group.mentor;
-				});
-
-				$$profiles.getList({
-					role: 'student'
-				}).then(function (resp) {
-					vm.groups.forEach(function (group) {
-						group.membersCount = resp.data.filter(function (member) {
-							return member.group == group._id;
-						}).length;
-					});
-				});
-			});
-
-			$$profiles.getList({
-				role: 'psycholog'
-			}).then(function (resp) {
-				vm.mentors = resp.data;
-			});
-		}
-
-		function checkCRUDRights() {
-			var userRole = authentication.currentUser().role;
-			return vm.crudRights.includes(userRole);
-		}
-
-		function add() {
-			$$groups.post({
-				name: null,
-				mentor: null
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function remove(group) {
-			$$groups.remove({
-				id: group._id
-			}).then(function (data) {
-				var message = data.data.message;
-				$$profiles.put({
-					id: group.mentor,
-					group: null
-				}).then(function (resp) {
-					flashAlert.success(message);
-				});
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function update(group) {
-			//console.log(group)
-			$$groups.put({
-				id: group._id,
-				name: group.name,
-				mentor: group.mentor
-			}).then(function (resp) {
-				if (group.mentor != group.oldMentor) {
-					$$profiles.put({
-						id: group.mentor || group.oldMentor,
-						group: group._id
-					}).then(function (data) {
-						flashAlert.success(data.data.message);
-					}).catch(function (data) {
-						flashAlert.error(data.data.message);
-					}).finally(init);
-				} else flashAlert.success(resp.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function mentorFilter(group) {
-			return function (mentor) {
-				//console.log(mentor,group)
-				if (mentor.group) {
-					if (mentor._id == group.mentor) return true;
-					return false;
-				}
-				return true;
-			};
-		}
-
-		function withMentorFilter(group) {
-			if (vm.filters[0].value === null) return true;
-			return !!group.mentor == vm.filters[0].value;
-		}
-	}
-
-/***/ },
-/* 62 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('homeCtrl', homeCtrl);
-
-	function homeCtrl(authentication) {
-		console.log('Home controller is running', authentication.isLoggedIn());
-	}
-
-/***/ },
-/* 63 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('membersCtrl', membersCtrl);
-
-	membersCtrl.$inject = ['authentication', '$$groups', '$$profiles', '$$organisations'];
-
-	function membersCtrl(authentication, $$groups, $$profiles, $$organisations) {
-		var vm = this;
-
-		vm.members = [];
-
-		init();
-
-		function init() {
-			getPsychologs();
-		}
-
-		function getPsychologs() {
-			$$profiles.getList({
-				role: 'student'
-			}).then(function (resp) {
-				vm.members = resp.data;
-				getGroups();
-				getOrganisations();
-			});
-		}
-
-		function getGroups() {
-			$$groups.getList().then(function (resp) {
-				var groups = resp.data;
-				vm.members.forEach(function (member) {
-					member.groupData = groups.find(function (group) {
-						return group._id == member.group;
-					});
-				});
-			});
-		}
-
-		function getOrganisations() {
-			$$organisations.getList().then(function (resp) {
-				var organisations = resp.data;
-				//console.log(organisations, vm.members)
-				vm.members.forEach(function (member) {
-					member.organisationData = organisations.find(function (org) {
-						return org._id == member.organisation;
-					});
-				});
-			});
-		}
-	}
-
-/***/ },
-/* 64 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	__webpack_require__(73);
-	angular.module('psApp').controller('myGroupCtrl', myGroupCtrl);
-
-	myGroupCtrl.$inject = ['authentication', '$$profiles', '$$groups', '$$props', 'flashAlert'];
-
-	function myGroupCtrl(authentication, $$profiles, $$groups, $$props, flashAlert) {
-		var vm = this;
-
-		vm.group = {
-			id: authentication.currentUser().group
-		};
-		vm.props = [];
-
-		vm.findProp = findProp;
-		vm.propCount = propCount;
-		vm.save = save;
-
-		init();
-
-		function init() {
-
-			if (vm.group.id) {
-				getMembers();
-				getGroup();
-				getProps();
-			}
-		}
-
-		function getMembers() {
-			$$profiles.getList({
-				group: vm.group.id,
-				role: 'student'
-			}).then(function (resp) {
-				vm.group.members = resp.data;
-			});
-		}
-
-		function getGroup() {
-			$$groups.getList({
-				id: vm.group.id
-			}).then(function (resp) {
-				vm.group.groupData = resp.data[0];
-			});
-		}
-
-		function getProps() {
-			$$props.getList().then(function (resp) {
-				vm.props = resp.data;
-			});
-		}
-
-		function findProp(propId, props) {
-			var field = props.find(function (prop) {
-				return prop._id == propId;
-			});
-			if (field) return field;else {
-				props.push({
-					_id: propId,
-					value: null
-				});
-				return props[props.length - 1];
-			}
-		}
-
-		function propCount(props) {
-			return props.filter(function (prop) {
-				return !!prop.value;
-			}).length;
-		}
-
-		function save(member) {
-			$$profiles.put({
-				id: member._id,
-				properties: member.properties
-			}).then(function (resp) {
-				flashAlert.success(resp.data.message);
-			});
-		}
-	}
-
-/***/ },
-/* 65 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('organisationCtrl', organisationCtrl);
-
-	organisationCtrl.$inject = ['$$organisations', '$$groups', '$$profiles', 'authentication', '$routeParams', 'flashAlert'];
-
-	function organisationCtrl($$organisations, $$groups, $$profiles, authentication, $routeParams, flashAlert) {
-
-		var vm = this;
-
-		vm.members = [];
-		vm.org = {
-			id: $routeParams.id,
-			name: null,
-			is_psycho: null,
-			members: []
-		};
-
-		vm.filters = [{
-			title: 'Группа',
-			options: [{ name: 'Назначена', value: true }, { name: 'Не назначена', value: false }]
-		}];
-
-		vm.roleTitle = authentication.roleTitle;
-		vm.checkCRUDRights = authentication.checkCRUDRights;
-
-		vm.add = add;
-		vm.remove = remove;
-		vm.update = update;
-		vm.import = importCSV;
-
-		init();
-
-		function init() {
-			getOrganisation();
-		}
-
-		function getOrganisation() {
-			$$organisations.getList({
-				id: vm.org.id,
-				with_members: true
-			}).then(function (res) {
-				vm.org.name = res.data[0].name;
-				vm.org.is_psycho = res.data[0].is_psycho;
-				vm.org.members = res.data[0].members;
-				getGroups();
-			});
-		}
-
-		function getGroups() {
-			// let membersIds = vm.org.members.map(member=>{
-			// 	return member._id
-			// })
-			$$groups.getList().then(function (resp) {
-				var groups = resp.data;
-				vm.org.members.map(function (member) {
-					member.groupData = groups.find(function (group) {
-						return group._id == member.group;
-					});
-				});
-			});
-		}
-
-		function add() {
-			$$profiles.post({
-				name: null,
-				role: 'student',
-				organisation: vm.org.id
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function remove(id) {
-			$$profiles.remove({
-				id: id
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function update(member) {
-			$$profiles.put({
-				id: member._id,
-				name: member.name
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function importCSV(file) {
-			$$profiles.upload({
-				id: vm.org.id,
-				file: file
-			}).then(function (resp) {
-				flashAlert.success(resp.data.message);
-				init();
-			}).catch(function (err) {
-				flashAlert.error(err.data.message);
-			});
-		}
-	}
-
-/***/ },
-/* 66 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('organisationsCtrl', organisationsCtrl);
-
-	organisationsCtrl.$inject = ['$$organisations', 'authentication', 'flashAlert', '$$profiles'];
-
-	function organisationsCtrl($$organisations, authentication, flashAlert, $$profiles) {
-
-		var vm = this;
-
-		vm.orgs = [];
-		vm.filters = [], vm.crudRights = ['admin', 'org'];
-
-		vm.psychoFilter = psychoFilter;
-		vm.add = add;
-		vm.remove = remove;
-		vm.update = update;
-		vm.import = importCSV;
-		vm.checkCRUDRights = authentication.checkCRUDRights;
-
-		init();
-
-		createFilters(['Учебные', 'Психологические'], 'Тип организации');
-		function init() {
-			$$organisations.getList({
-				with_members: true
-			}).then(function (data) {
-				vm.orgs = data.data;
-				$$profiles.getList().then(function (resp) {
-					vm.orgs.forEach(function (org) {
-						org.membersCount = resp.data.filter(function (member) {
-							return member.organisation == org._id;
-						}).length;
-					});
-				});
-			});
-		}
-
-		function createFilters(options, title) {
-			var filter = { title: title, options: [] };
-
-			options.forEach(function (option, index) {
-				filter.options.push({
-					name: option,
-					value: option.id || index
-				});
-			});
-
-			vm.filters.push(filter);
-		}
-
-		function psychoFilter(org, index) {
-			if (!arguments.length) return !!vm.filters[0].value;
-			if (vm.filters[0].value == null) return true;else return !!vm.filters[0].value == org.is_psycho;
-		}
-
-		function add() {
-			$$organisations.post({
-				name: null,
-				is_psycho: psychoFilter()
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function remove(id) {
-			$$organisations.remove({
-				id: id
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function update(org) {
-			$$organisations.put({
-				id: org._id,
-				name: org.name,
-				is_psycho: org.is_psycho
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function importCSV(file, errFiles) {
-			//console.log(file, errFiles)
-			$$organisations.upload(file).then(function (resp) {
-				flashAlert.success(resp.data.message);
-				init();
-			}).catch(function (err) {
-				flashAlert.error(err.data.message);
-			});
-		}
-	}
-
-/***/ },
-/* 67 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('propsCtrl', propsCtrl);
-
-	propsCtrl.$inject = ['$$props', 'authentication', 'flashAlert', '$$profiles'];
-
-	function propsCtrl($$props, authentication, flashAlert, $$profiles) {
-
-		var vm = this;
-
-		vm.props = [];
-		vm.filters = [], vm.crudRights = ['admin', 'org'];
-
-		vm.psychoFilter = psychoFilter;
-		vm.add = add;
-		vm.remove = remove;
-		vm.update = update;
-		vm.checkCRUDRights = authentication.checkCRUDRights;
-
-		init();
-
-		createFilters(['Числовые', 'Формальные'], 'Тип характеристик');
-
-		function init() {
-			$$props.getList().then(function (data) {
-				vm.props = data.data;
-				/*			$$profiles.getList().then(resp=>{
-	   				vm.props.forEach(org=>{
-	   					org.membersCount = resp.data.filter(member=>member.organisation == org._id).length
-	   				}) 
-	   			})*/
-			});
-		}
-
-		function createFilters(options, title) {
-			var filter = { title: title, options: [] };
-
-			options.forEach(function (option, index) {
-				filter.options.push({
-					name: option,
-					value: option.id || index
-				});
-			});
-
-			vm.filters.push(filter);
-		}
-
-		function psychoFilter(org, index) {
-			if (!arguments.length) return !!vm.filters[0].value;
-			if (vm.filters[0].value == null) return true;else return !!vm.filters[0].value == org.is_psycho;
-		}
-
-		function add() {
-			$$props.post({
-				name: '',
-				type: null
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function remove(id) {
-			$$props.remove({
-				id: id
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-
-		function update(prop) {
-			console.log(prop);
-			$$props.put({
-				id: prop._id,
-				name: prop.name,
-				type: prop.type,
-				min: prop.min,
-				max: prop.max,
-				description: prop.description
-			}).then(function (data) {
-				flashAlert.success(data.data.message);
-			}).catch(function (data) {
-				flashAlert.error(data.data.message);
-			}).finally(init);
-		}
-	}
-
-/***/ },
-/* 68 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').controller('psychologsCtrl', psychologsCtrl);
-
-	psychologsCtrl.$inject = ['authentication', '$$profiles', '$$groups'];
-
-	function psychologsCtrl(authentication, $$profiles, $$groups) {
-		var vm = this;
-
-		vm.psychologs = [];
-
-		init();
-
-		function init() {
-			getPsychologs();
-		}
-
-		function getPsychologs() {
-			$$profiles.getList({
-				role: 'psycholog'
-			}).then(function (resp) {
-				vm.psychologs = resp.data;
-				getGroups();
-			});
-		}
-
-		function getGroups() {
-			$$groups.getList().then(function (resp) {
-				var groups = resp.data;
-				vm.psychologs.map(function (pslg) {
-					pslg.groupData = groups.find(function (group) {
-						return group._id == pslg.group;
-					});
-				});
-			});
-		}
-	}
-
-/***/ },
-/* 69 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	__webpack_require__(70);
+	__webpack_require__(16);
 	module.exports = 'vAccordion';
 
 /***/ },
-/* 70 */
+/* 16 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -33217,13 +31276,13 @@
 	})(angular);
 
 /***/ },
-/* 71 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(72);
+	var content = __webpack_require__(18);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -33243,7 +31302,7 @@
 	}
 
 /***/ },
-/* 72 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -33257,56 +31316,16 @@
 
 
 /***/ },
-/* 73 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(74);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./my_group.scss", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./my_group.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 74 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(13)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.my_group v-accordion {\n  padding: .5em;\n  /*    v-pane-header{\n      min-height: 20px !important;\n      height: 20px !important;\n    }*/ }\n\n.my_group md-list-item md-card {\n  margin: .5em 0;\n  border-radius: .5em !important;\n  overflow: hidden; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 75 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(76);
+	__webpack_require__(20);
 	module.exports = 'ngFileUpload';
 
 /***/ },
-/* 76 */
+/* 20 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36166,7 +34185,548 @@
 	}]);
 
 /***/ },
-/* 77 */
+/* 21 */,
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./auth/authCtrl.js": 23,
+		"./backend/services/authentication.service.js": 26,
+		"./backend/services/groups.service.js": 30,
+		"./backend/services/organisations.service.js": 31,
+		"./backend/services/profiles.service.js": 32,
+		"./backend/services/props.service.js": 33,
+		"./backend/services/upload.service.js": 34,
+		"./common/directives/alert/flash-alert.js": 35,
+		"./common/directives/header/components/top-menu/topMenuCtrl.js": 39,
+		"./common/directives/header/components/top-menu/topMenuDir.js": 40,
+		"./common/directives/header/components/user-profile/userProfileCtrl.js": 44,
+		"./common/directives/header/components/user-profile/userProfileDir.js": 45,
+		"./common/directives/header/navigationCtrl.js": 49,
+		"./common/directives/header/navigationDir.js": 50,
+		"./common/directives/nav-bar/navBarCtrl.js": 54,
+		"./common/directives/nav-bar/navBarDir.js": 55,
+		"./common/directives/tool-bar/toolBarCtrl.js": 59,
+		"./common/directives/tool-bar/toolBarDir.js": 60,
+		"./groups/edit/dialog/addMembersCtrl.js": 64,
+		"./groups/edit/groupCtrl.js": 67,
+		"./groups/groupsCtrl.js": 69,
+		"./home/homeCtrl.js": 70,
+		"./members/memberCtrl.js": 71,
+		"./my-group/myGroupCtrl.js": 72,
+		"./organisations/edit/organisationCtrl.js": 75,
+		"./organisations/organisationsCtrl.js": 76,
+		"./props/propsCtrl.js": 77,
+		"./psychologs/psychologsCtrl.js": 78
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 22;
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(24);
+	angular.module('psApp').controller('authCtrl', authCtrl);
+
+	function authCtrl(authentication, $$organisations, $location, flashAlert) {
+
+		var vm = this;
+
+		vm.showSignUpForm = false;
+		vm.orgs = [];
+
+		vm.login = null;
+		vm.password = null;
+
+		vm.signInData = {
+			login: null,
+			password: null
+		};
+
+		vm.signUpData = {
+			name: null,
+			login: null,
+			password: null,
+			email: null,
+			organisation: null
+		};
+
+		vm.signIn = signIn;
+		vm.signUp = signUp;
+
+		$$organisations.getList().then(function (resp) {
+			vm.orgs = resp.data;
+		});
+
+		function signIn() {
+			authentication.login({
+				login: vm.signInData.login,
+				password: vm.signInData.password
+			}).then(function (data) {
+				flashAlert.info('Приветствуем');
+				$location.path('/');
+			}).catch(function (data) {
+				flashAlert.error('Неверный логин или пароль');
+			});
+		}
+
+		function signUp() {
+			authentication.register({
+				name: vm.signUpData.name,
+				login: vm.signUpData.login,
+				email: vm.signUpData.email,
+				organisation: vm.signUpData.organisation
+			}).then(function (data) {
+				console.log(data);
+				$location.path('/');
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			});
+		}
+	}
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(25);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./auth.scss", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./auth.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.auth {\n  width: 70%;\n  transition: width .3s, height .3s;\n  margin: 0 auto;\n  background: #fff;\n  padding: 1em;\n  box-sizing: border-box; }\n  .auth .md-raised {\n    background-color: #334aff !important;\n    color: #fff !important; }\n\nbody {\n  background-color: #bbbbbb; }\n\n@media (min-width: 780px) {\n  .auth {\n    width: 50%; } }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').service('authentication', authentication);
+
+	authentication.$inject = ['$http', '$window'];
+
+	var decodeToken = __webpack_require__(27);
+
+	function authentication($http, $window) {
+	  var vm = this;
+	  vm.roleAssoc = {
+	    psycholog: 'Психолог',
+	    admin: 'Администратор',
+	    org: 'Организатор',
+	    student: 'Участник'
+	  };
+
+	  vm.crudRights = ['admin', 'org'];
+
+	  var roleTitle = function roleTitle(role) {
+	    if (role) {
+	      return vm.roleAssoc[role];
+	    } else {
+	      return vm.roleAssoc;
+	    }
+	  };
+
+	  var saveToken = function saveToken(data) {
+	    $window.localStorage['mean-token'] = data.token;
+	  };
+
+	  var getToken = function getToken() {
+	    var token = $window.localStorage['mean-token'];
+	    return token === undefined || token === 'undefined' || token === null || token === 'null' ? null : token;
+	  };
+
+	  var isLoggedIn = function isLoggedIn() {
+	    var token = getToken();
+	    if (token) {
+	      return decodeToken(token).exp > Date.now() / 1000;
+	    } else {
+	      return false;
+	    }
+	  };
+
+	  var currentUser = function currentUser() {
+	    if (isLoggedIn()) {
+	      var token = getToken();
+	      var payload = decodeToken(token);
+	      return {
+	        email: payload.email,
+	        name: payload.name,
+	        role: payload.role,
+	        organisation: payload.organisation,
+	        group: payload.group
+	      };
+	    }
+	  };
+
+	  var register = function register(user) {
+	    return $http.post('/api/register', user).success(function (data) {
+	      saveToken(data.token);
+	    });
+	  };
+
+	  var login = function login(user) {
+	    return $http.post('/api/login', user).success(function (data) {
+	      saveToken(data);
+	    });
+	  };
+
+	  var logout = function logout() {
+	    $window.localStorage.removeItem('mean-token');
+	  };
+
+	  function checkCRUDRights() {
+	    var userRole = currentUser().role;
+	    return vm.crudRights.includes(userRole);
+	  }
+
+	  return {
+	    currentUser: currentUser,
+	    saveToken: saveToken,
+	    getToken: getToken,
+	    isLoggedIn: isLoggedIn,
+	    register: register,
+	    login: login,
+	    logout: logout,
+	    roleTitle: roleTitle,
+	    checkCRUDRights: checkCRUDRights
+	  };
+	}
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var base64_url_decode = __webpack_require__(28);
+
+	module.exports = function (token, options) {
+	  if (typeof token !== 'string') {
+	    throw new Error('Invalid token specified');
+	  }
+
+	  options = options || {};
+	  var pos = options.header === true ? 0 : 1;
+	  return JSON.parse(base64_url_decode(token.split('.')[pos]));
+	};
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var atob = __webpack_require__(29);
+
+	function b64DecodeUnicode(str) {
+	  return decodeURIComponent(atob(str).replace(/(.)/g, function (m, p) {
+	    var code = p.charCodeAt(0).toString(16).toUpperCase();
+	    if (code.length < 2) {
+	      code = '0' + code;
+	    }
+	    return '%' + code;
+	  }));
+	}
+
+	module.exports = function (str) {
+	  var output = str.replace(/-/g, "+").replace(/_/g, "/");
+	  switch (output.length % 4) {
+	    case 0:
+	      break;
+	    case 2:
+	      output += "==";
+	      break;
+	    case 3:
+	      output += "=";
+	      break;
+	    default:
+	      throw "Illegal base64url string!";
+	  }
+
+	  try {
+	    return b64DecodeUnicode(output);
+	  } catch (err) {
+	    return atob(output);
+	  }
+	};
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * The code was extracted from:
+	 * https://github.com/davidchambers/Base64.js
+	 */
+
+	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+	function InvalidCharacterError(message) {
+	  this.message = message;
+	}
+
+	InvalidCharacterError.prototype = new Error();
+	InvalidCharacterError.prototype.name = 'InvalidCharacterError';
+
+	function polyfill(input) {
+	  var str = String(input).replace(/=+$/, '');
+	  if (str.length % 4 == 1) {
+	    throw new InvalidCharacterError("'atob' failed: The string to be decoded is not correctly encoded.");
+	  }
+	  for (
+	  // initialize result and counters
+	  var bc = 0, bs, buffer, idx = 0, output = '';
+	  // get next character
+	  buffer = str.charAt(idx++);
+	  // character found in table? initialize bit storage and add its ascii value;
+	  ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer,
+	  // and if not first of each 4 characters,
+	  // convert the first 8 bits to one ascii character
+	  bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0) {
+	    // try to find character in table (0-63, not found => -1)
+	    buffer = chars.indexOf(buffer);
+	  }
+	  return output;
+	}
+
+	module.exports = typeof window !== 'undefined' && window.atob && window.atob.bind(window) || polyfill;
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').service('$$groups', groups);
+
+	groups.$inject = ['$http'];
+	function groups($http) {
+
+	  var getList = function getList(payload) {
+	    return $http.get('/api/groups' + generateQueryString(payload));
+	  };
+
+	  var post = function post(payload) {
+	    return $http.post('/api/groups', payload);
+	  };
+
+	  var remove = function remove(payload) {
+	    return $http.delete('/api/groups?id=' + payload.id);
+	  };
+
+	  var put = function put(payload) {
+	    return $http.put('/api/groups?id=' + payload.id, payload);
+	  };
+
+	  return {
+	    getList: getList,
+	    post: post,
+	    remove: remove,
+	    put: put
+	  };
+
+	  function generateQueryString(payload) {
+	    var query = '';
+
+	    for (var param in payload) {
+	      query += param + '=' + payload[param] + '&';
+	    }
+	    return query.length ? '?' + query.slice(0, -1) : '';
+	  }
+	}
+
+/***/ },
+/* 31 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').service('$$organisations', organisations);
+
+	organisations.$inject = ['$http', '$$uploader'];
+	function organisations($http, $$uploader) {
+
+	  var getList = function getList(payload) {
+	    return $http.get('/api/organisations' + generateQueryString(payload));
+	  };
+
+	  var post = function post(payload) {
+	    return $http.post('/api/organisations', payload);
+	  };
+
+	  var remove = function remove(payload) {
+	    return $http.delete('/api/organisations?id=' + payload.id);
+	  };
+
+	  var put = function put(payload) {
+	    return $http.put('/api/organisations?id=' + payload.id, payload.file);
+	  };
+
+	  var upload = function upload(payload) {
+	    return $$uploader.upload('/api/organisations/upload', payload.file, null);
+	  };
+
+	  return {
+	    getList: getList,
+	    post: post,
+	    remove: remove,
+	    put: put,
+	    upload: upload
+	  };
+
+	  function generateQueryString(payload) {
+	    var query = '';
+
+	    for (var param in payload) {
+	      query += param + '=' + payload[param] + '&';
+	    }
+
+	    return query.length ? '?' + query.slice(0, -1) : '';
+	  }
+	}
+
+/***/ },
+/* 32 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').service('$$profiles', profiles);
+
+	function profiles($http, $$uploader) {
+
+	  var getList = function getList(payload) {
+	    return $http.get('/api/profiles' + generateQueryString(payload));
+	  };
+
+	  var post = function post(payload) {
+	    return $http.post('/api/profiles', payload);
+	  };
+
+	  var remove = function remove(payload) {
+	    return $http.delete('/api/profiles?id=' + payload.id);
+	  };
+
+	  var put = function put(payload) {
+	    if (payload.ids) return $http.put('/api/profiles?ids=' + payload.ids.toString(), payload);
+	    return $http.put('/api/profiles?id=' + payload.id, payload);
+	  };
+
+	  var upload = function upload(payload) {
+	    return $$uploader.upload('/api/profiles/upload?id=' + payload.id, payload.file, null);
+	  };
+
+	  return {
+	    getList: getList,
+	    post: post,
+	    remove: remove,
+	    put: put,
+	    upload: upload
+	  };
+
+	  function generateQueryString(payload) {
+	    var query = '';
+
+	    for (var param in payload) {
+	      query += param + '=' + payload[param] + '&';
+	    }
+	    return query.length ? '?' + query.slice(0, -1) : '';
+	  }
+	}
+
+/***/ },
+/* 33 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').service('$$props', props);
+
+	props.$inject = ['$http'];
+	function props($http) {
+
+	  var getList = function getList(payload) {
+	    return $http.get('/api/props' + generateQueryString(payload));
+	  };
+
+	  var post = function post(payload) {
+	    return $http.post('/api/props', payload);
+	  };
+
+	  var remove = function remove(payload) {
+	    return $http.delete('/api/props?id=' + payload.id);
+	  };
+
+	  var put = function put(payload) {
+	    if (payload.ids) return $http.put('/api/props?ids=' + payload.ids.toString(), payload);
+	    return $http.put('/api/props?id=' + payload.id, payload);
+	  };
+
+	  return {
+	    getList: getList,
+	    post: post,
+	    remove: remove,
+	    put: put
+	  };
+
+	  function generateQueryString(payload) {
+	    var query = '';
+
+	    for (var param in payload) {
+	      query += param + '=' + payload[param] + '&';
+	    }
+	    return query.length ? '?' + query.slice(0, -1) : '';
+	  }
+	}
+
+/***/ },
+/* 34 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36180,31 +34740,2260 @@
 			/*let f = file;
 	  let errFile = errFiles && errFiles[0];*/
 			if (file) {
+				console.log(file);
 				//console.log(file)
 				return file.upload = Upload.upload({
 					url: url,
 					data: { file: file }
 				});
-				/*				.then(function (response) {
-	   					$timeout(function () {
-	   						file.result = response.data;
-	   						vm.hosts.push(response.data)
-	   						console.log('uploaded')
-	   					});
-	   				}, function (response) {
-	   					if (response.status > 0)
-	   						let errorMsg = response.status + ': ' + response.data;
-	   				}, function (evt) {
-	   					file.progress = Math.min(100, parseInt(100.0 *
-	   						evt.loaded / evt.total));
-	   				})*/
-			} else return 0;
+			} else return Promise.reject();
 		};
 
 		return {
 			upload: upload
 		};
 	}
+
+/***/ },
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	__webpack_require__(36);
+	angular.module("alert", []).constant("alertConfig", {
+	  success: "alert-success",
+	  error: "alert-danger",
+	  info: "alert-info"
+	}).provider("flashAlert", function () {
+	  var a = [],
+	      b = 5e3;
+	  return {
+	    setAlertTime: function setAlertTime(a) {
+	      b = a;
+	    },
+	    $get: ["$timeout", "alertConfig", function (c, d) {
+	      return {
+	        success: function success(a) {
+	          this.add("success", a);
+	        },
+	        error: function error(a) {
+	          this.add("error", a);
+	        },
+	        info: function info(a) {
+	          this.add("info", a);
+	        },
+	        getAlert: function getAlert() {
+	          return a;
+	        },
+	        add: function add(b, c) {
+	          var e = {
+	            typeOfAlert: d[b],
+	            msg: c,
+	            remove: function remove() {
+	              a.splice(0, 1);
+	            }
+	          };
+
+	          a.push(e), this.hideAlert(e);
+	        },
+	        hideAlert: function hideAlert() {
+	          c(function () {
+	            a.shift();
+	          }, b);
+	        }
+	      };
+	    }]
+	  };
+	}).directive("alertFlash", ["flashAlert", function (a) {
+	  return {
+	    restrict: "E",
+	    template: __webpack_require__(38),
+	    scope: {},
+	    link: function link(b) {
+	      b.$watch(a.getAlert, function () {
+	        b.alerts = a.getAlert();
+	      });
+	    }
+	  };
+	}]);
+
+/***/ },
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(37);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./alert.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./alert.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\nalert-flash {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  color: #fff;\n  z-index: 100; }\n  alert-flash .alert {\n    padding: .5em;\n    font-size: 1em;\n    opacity: .8; }\n  alert-flash .alert-success {\n    background-color: #29ff31; }\n  alert-flash .alert-danger {\n    background-color: #ff0415; }\n  alert-flash .alert-info {\n    background-color: #0aa0ff; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 38 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class='alert-container'>\n  <div class='repeat-animation' ng-repeat='alert in alerts' ng-click=\"alert.remove()\">\n    <div class='alert' ng-class='alert.typeOfAlert' ng-bind='alert.msg'></div>\n  </div>\n</div>";
+
+/***/ },
+/* 39 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('topMenuCtrl', topMenuCtrl);
+
+	topMenuCtrl.$inject = ['$location', 'authentication'];
+
+	function topMenuCtrl($location, authentication) {
+	  var vm = this;
+
+	  vm.pages = [];
+	  vm.userRole = authentication.currentUser().role;
+
+	  vm.activePage = $location.path();
+
+	  vm.accessPages = [{
+	    title: 'Психологи',
+	    href: '/psychologs',
+	    access: ['admin', 'org']
+	  }, {
+	    title: 'Организации',
+	    href: '/organisations',
+	    access: ['admin', 'org']
+	  }, {
+	    title: 'Участники',
+	    href: '/members',
+	    access: ['admin', 'org']
+	  }, {
+	    title: 'Группы',
+	    href: '/groups',
+	    access: ['admin', 'org']
+	  }, {
+	    title: 'Руководство группой',
+	    href: '/my_group',
+	    access: ['psycholog']
+	  }, {
+	    title: 'Характеристики',
+	    href: '/props',
+	    access: ['admin', 'psycholog', 'org']
+	  }];
+
+	  getPages();
+
+	  function getPages() {
+	    vm.accessPages.forEach(function (page) {
+	      if (page.access.includes(vm.userRole)) {
+	        vm.pages.push(page);
+	        //console.log(page)
+	      } else {
+	          // console.log(page.access.includes(vm.userRole),page.access, vm.userRole)
+	        }
+	    });
+	    //console.log(vm.pages)
+	  }
+	}
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').directive('topMenu', topMenu);
+
+	__webpack_require__(41);
+	function topMenu() {
+	  return {
+	    restrict: 'E',
+	    template: __webpack_require__(43),
+	    controller: 'topMenuCtrl',
+	    controllerAs: 'tm'
+	  };
+	}
+
+/***/ },
+/* 41 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(42);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./top-menu.scss", function() {
+				var newContent = require("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./top-menu.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 42 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.top_menu {\n  margin: 0 1em;\n  color: #949494 !important; }\n  .top_menu a {\n    font-size: .8em;\n    text-transform: uppercase;\n    margin: 0 .5em;\n    color: #949494;\n    transition: color .2s; }\n    .top_menu a:hover {\n      color: #67b3ff; }\n  .top_menu .active_link {\n    color: #67b3ff;\n    border-bottom: #67b3ff solid .1em; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 43 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"top_menu\">\n        <a ng-href=\"{{page.href}}\" ng-class=\"{'active_link':tm.activePage.indexOf(page.href)>-1}\" name=\"page.title\" ng-repeat=\"page in tm.pages\">{{page.title}}</a>\n</div>";
+
+/***/ },
+/* 44 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('userProfileCtrl', userProfileCtrl);
+
+	userProfileCtrl.$inject = ['$location', 'authentication'];
+	function userProfileCtrl($location, authentication) {
+	  var vm = this;
+
+	  vm.user = authentication.currentUser();
+	  vm.roleAssoc = authentication.roleTitle();
+
+	  vm.user.role = vm.roleAssoc[vm.user.role];
+	  //console.log(vm.user)
+
+	  vm.logout = logout;
+	  //console.log('userProfile', authentication.currentUser())
+
+	  function logout() {
+	    authentication.logout();
+	    $location.path('/');
+	  }
+	}
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').directive('userProfile', userProfile);
+
+	__webpack_require__(46);
+	function userProfile() {
+	  return {
+	    restrict: 'E',
+	    template: __webpack_require__(48),
+	    controller: 'userProfileCtrl',
+	    controllerAs: 'vm'
+	  };
+	}
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(47);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./user_profile.scss", function() {
+				var newContent = require("!!./../../../../../../../../node_modules/css-loader/index.js!./../../../../../../../../node_modules/sass-loader/index.js!./../../../../../../../../node_modules/sass-resources-loader/lib/loader.js!./user_profile.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.user_profile {\n  color: #bbbbbb; }\n  .user_profile md-icon:hover svg {\n    fill: #5097ff !important; }\n  .user_profile md-icon svg {\n    fill: #949494 !important;\n    transition: fill .2s; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 48 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"user_profile\" layout>\n    <div class=\"layout-column\">\n        <span>{{::vm.user.name}}</span>\n        <span style=\"font-size: .8em;\">{{::vm.user.role}}</span>\n    </div>\n\n    <md-button class=\"md-icon-button\" aria-label=\"Выйти\" ng-click=\"vm.logout()\">\n        <md-icon md-svg-icon=\"/src/img/ic_exit_to_app_black_24px.svg\"></md-icon>\n    </md-button>\n</div>";
+
+/***/ },
+/* 49 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('navigationCtrl', navigationCtrl);
+
+	navigationCtrl.$inject = ['$location', 'authentication'];
+	function navigationCtrl($location, authentication) {
+	  var vm = this;
+	}
+
+/***/ },
+/* 50 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').directive('navigation', navigation);
+
+	__webpack_require__(51);
+	function navigation() {
+	  return {
+	    restrict: 'E',
+	    template: __webpack_require__(53),
+	    controller: 'navigationCtrl as navvm'
+	  };
+	}
+
+/***/ },
+/* 51 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(52);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./navigation.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./navigation.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 52 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.navigation md-card {\n  margin: 0 !important; }\n\n.navigation h2 {\n  color: #bbbbbb; }\n\n.navigation md-toolbar {\n  background-color: #ffffff !important;\n  box-shadow: 2px 6px 7px -6px rgba(0, 0, 0, 0.75) !important; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 53 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"navigation navbar navbar-default\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n      <div class=\"md-toolbar-tools\">\n        <h2>\n          <a ng-href=\"/\">PsychopassApp</a>\n        </h2>\n        <top-menu></top-menu>\n        <span flex></span>\n        <user-profile></user-profile>\n      </div>\n    </md-toolbar>\n  </md-card>\n</div>\n";
+
+/***/ },
+/* 54 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('navBarCtrl', navBarCtrl);
+
+	navBarCtrl.$inject = ['$location', 'authentication'];
+	function navBarCtrl($location, authentication) {
+	  var vm = this;
+	}
+
+/***/ },
+/* 55 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').directive('navBar', navBar);
+
+	__webpack_require__(56);
+	function navBar() {
+	  return {
+	    restrict: 'E',
+	    template: __webpack_require__(58),
+	    controller: 'navBarCtrl as navb'
+	  };
+	}
+
+/***/ },
+/* 56 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(57);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./nav-bar.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./nav-bar.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 57 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 58 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\" navbar navbar-default\">\n  Navbar\n</div>\n";
+
+/***/ },
+/* 59 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('toolBarCtrl', toolBarCtrl);
+
+	toolBarCtrl.$inject = ['$scope', '$location', 'authentication'];
+	function toolBarCtrl($scope, $location, authentication) {
+	  var vm = this;
+	  //vm.filters  = $scope.filters
+	  // console.log($scope.filters)
+	}
+
+/***/ },
+/* 60 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').directive('toolBar', toolBar);
+
+	__webpack_require__(61);
+	function toolBar() {
+	  return {
+	    restrict: 'E',
+	    template: __webpack_require__(63),
+	    controller: 'toolBarCtrl as tb',
+	    scope: {
+	      filters: '='
+	    }
+	  };
+	}
+
+/***/ },
+/* 61 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(62);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./toolBar.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./toolBar.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 62 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.tool_bar md-toolbar {\n  background-color: #ffffff !important; }\n  .tool_bar md-toolbar .md-toolbar-tools {\n    padding-top: 18px;\n    color: #5a5a5a;\n    height: auto !important;\n    max-height: inherit !important; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 63 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"tool_bar\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <div ng-repeat=\"filter in filters\">\n        <md-input-container ng-style=\"{'min-width': filter.title.length*12+'px'}\">\n          <label>{{filter.title}}</label>\n          <md-select ng-model=\"filter.value\">\n            <md-option ng-value=\"null\">Все</md-option>\n            <md-option ng-repeat=\"option in filter.options\" ng-value=\"option.value\">\n              {{option.name}}\n            </md-option>\n          </md-select>\n        </md-input-container>\n      </div>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n  </md-card>\n</div>\n";
+
+/***/ },
+/* 64 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(65);
+	module.exports = function ($$organisations, $$groups, $$profiles, $routeParams, $mdDialog, $mdMedia, $rootScope, $scope, authentication, flashAlert) {
+
+		var vm = this;
+
+		vm.groups = [];
+		vm.members = [];
+		vm.groupId = $routeParams.id;
+
+		vm.filters = {
+			organisation: {
+				value: null,
+				f: function f(member) {
+					if (vm.filters.organisation.value === null) return true;
+					if (vm.filters.organisation.value == member.organisation) return true;
+					return false;
+				}
+			}
+		};
+
+		vm.addMembersToGroup = addMembersToGroup;
+
+		init();
+		function init() {
+			$$profiles.getList({
+				role: 'student',
+				group: null
+			}).then(function (resp) {
+				vm.members = resp.data;
+				getOrganisations();
+			});
+		}
+
+		function getOrganisations() {
+			$$organisations.getList({
+				is_psycho: false
+			}).then(function (resp) {
+				vm.organisations = resp.data;
+				vm.members.forEach(function (member) {
+					member.organisationData = vm.organisations.find(function (org) {
+						return org._id == member.organisation;
+					});
+				});
+			});
+		}
+
+		function addMembersToGroup() {
+
+			var newMembers = {
+				ids: [],
+				members: []
+			};
+
+			vm.members.forEach(function (member) {
+				if (member.selected) {
+					member.group = vm.groupId;
+					newMembers.ids.push(member._id);
+					newMembers.members.push(member);
+				}
+			});
+
+			$$profiles.put(newMembers).then(function (resp) {
+				flashAlert.success(resp.data.message);
+				$scope.hide();
+			}).catch(function (err) {
+				flashAlert.error('Error');
+			});
+		}
+
+		$scope.hide = function () {
+			$mdDialog.hide();
+		};
+		$scope.cancel = function () {
+			$mdDialog.cancel();
+		};
+		$scope.answer = function (answer) {
+			$mdDialog.hide(answer);
+		};
+	};
+
+/***/ },
+/* 65 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(66);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./dialog.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./dialog.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 66 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.add_members_dialog {\n  width: 80%; }\n  .add_members_dialog .md-toolbar-tools, .add_members_dialog .md-raised {\n    background-color: #67b3ff !important;\n    color: #fff; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 67 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').controller('groupCtrl', groupCtrl);
+
+	groupCtrl.$inject = ['$$groups', '$routeParams', 'authentication', '$mdDialog', '$mdMedia', '$scope', '$$profiles', 'flashAlert'];
+
+	function groupCtrl($$groups, $routeParams, authentication, $mdDialog, $mdMedia, $scope, $$profiles, flashAlert) {
+
+		var vm = this;
+
+		vm.members = [];
+		vm.group = {
+			id: $routeParams.id,
+			name: null,
+			mentor: null,
+			members: []
+		};
+
+		vm.checkCRUDRights = authentication.checkCRUDRights;
+		vm.showDialog = showDialog;
+		vm.remove = remove;
+
+		init();
+
+		function init() {
+			$$groups.getList({
+				id: vm.group.id,
+				with_members: true
+			}).then(function (res) {
+				vm.group.name = res.data[0].name;
+				vm.group.mentor = res.data[0].mentor;
+				vm.group.members = res.data[0].members;
+			});
+		}
+
+		function showDialog(ev) {
+			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+			$mdDialog.show({
+				controller: __webpack_require__(64),
+				controllerAs: 'dlg',
+				template: __webpack_require__(68),
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				clickOutsideToClose: true,
+				fullscreen: useFullScreen
+			}).then(function (answer) {
+				reloadData();
+			}, function () {
+				//$scope.status = 'You cancelled the dialog.';
+			});
+			$scope.$watch(function () {
+				return $mdMedia('xs') || $mdMedia('sm');
+			}, function (wantsFullScreen) {
+				$scope.customFullscreen = wantsFullScreen === true;
+			});
+		}
+
+		function remove(id) {
+			$$profiles.put({
+				id: id,
+				group: null
+			}).then(function (resp) {
+				flashAlert.success('Участник успешно удален из группы');
+				reloadData();
+			}).catch(function (err) {
+				flashAlert.error('Error');
+			});
+		}
+
+		function reloadData() {
+			init();
+		}
+	}
+
+/***/ },
+/* 68 */
+/***/ function(module, exports) {
+
+	module.exports = "<md-dialog class=\"add_members_dialog\" aria-label=\"Добавить участников\"  ng-cloak>\n\t<form>\n\t\t<md-toolbar>\n\t\t\t<div class=\"md-toolbar-tools\">\n\t\t\t\t<h2>Добавить участников</h2>\n\t\t\t\t<span flex></span>\n\t\t\t\t<md-input-container  md-no-float class=\"md-block\" flex=\"20\">\n\t\t\t\t\t<label>Организация</label>\n\t\t\t\t\t<md-select ng-model=\"dlg.filters.organisation.value\">\n\t\t\t\t\t\t<md-option ng-value=\"null\">Все</md-option>\n\t\t\t\t\t\t<md-option ng-repeat=\"org in dlg.organisations\" ng-value=\"org._id\">\n\t\t\t\t\t\t\t{{org.name}}\n\t\t\t\t\t\t</md-option>\n\t\t\t\t\t</md-select>\n\t\t\t\t</md-input-container>\n\t\t\t</div>\n\t\t</md-toolbar>\n\t\t<md-dialog-content>\n\t\t\t<div class=\"md-dialog-content\">\n\t\t\t\t<md-list class=\"layout-fill\">\n\t\t\t\t\t<md-list-item class=\"md-2-line\" ng-repeat=\"member in dlg.members | filter: dlg.filters.organisation.f\">\n\t\t\t\t\t\t<md-checkbox class=\"md-primary\" ng-model=\"member.selected\" aria-label=\"Выбрать участника\">\n\t\t\t\t\t\t\t{{ member.selected }}\n\t\t\t\t\t\t</md-checkbox>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.organisationData.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<md-divider ng-if=\"!$last\"></md-divider>\n\t\t\t\t\t</md-list-item>\n\t\t\t\t\t<md-list-item ng-if=\"!dlg.members.length\">На данный момент нет участников без группы</md-list-item>\n\t\t\t\t</md-list>\n\t\t\t</div>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions layout=\"row\">\n\t\t\t<span flex></span>\n\t\t\t<md-button class=\"md-raised\" ng-click=\"dlg.addMembersToGroup()\" style=\"margin-right:20px;\">\n\t\t\t\tДобавить\n\t\t\t</md-button>\n\t\t</md-dialog-actions>\n\t</form>\n</md-dialog>\n";
+
+/***/ },
+/* 69 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('groupsCtrl', groupsCtrl);
+
+	groupsCtrl.$inject = ['$$groups', 'authentication', '$$profiles', 'flashAlert'];
+
+	function groupsCtrl($$groups, authentication, $$profiles, flashAlert) {
+
+		var vm = this;
+
+		vm.groups = [];
+		vm.mentors = [];
+		vm.filters = [];
+		vm.crudRights = ['admin', 'org'];
+
+		vm.filters = [{
+			value: null,
+			title: 'Психолог',
+			options: [{ name: 'Назначен', value: true }, { name: 'Не назначен', value: false }]
+		}];
+
+		vm.add = add;
+		vm.remove = remove;
+		vm.update = update;
+		vm.checkCRUDRights = checkCRUDRights;
+		vm.mentorFilter = mentorFilter;
+		vm.withMentorFilter = withMentorFilter;
+
+		init();
+
+		function init() {
+			$$groups.getList().then(function (resp) {
+				vm.groups = resp.data;
+
+				vm.groups.forEach(function (group) {
+					group.oldMentor = group.mentor;
+				});
+
+				$$profiles.getList({
+					role: 'student'
+				}).then(function (resp) {
+					vm.groups.forEach(function (group) {
+						group.membersCount = resp.data.filter(function (member) {
+							return member.group == group._id;
+						}).length;
+					});
+				});
+			});
+
+			$$profiles.getList({
+				role: 'psycholog'
+			}).then(function (resp) {
+				vm.mentors = resp.data;
+			});
+		}
+
+		function checkCRUDRights() {
+			var userRole = authentication.currentUser().role;
+			return vm.crudRights.includes(userRole);
+		}
+
+		function add() {
+			$$groups.post({
+				name: null,
+				mentor: null
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function remove(group) {
+			$$groups.remove({
+				id: group._id
+			}).then(function (data) {
+				var message = data.data.message;
+				$$profiles.put({
+					id: group.mentor,
+					group: null
+				}).then(function (resp) {
+					flashAlert.success(message);
+				});
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function update(group) {
+			//console.log(group)
+			$$groups.put({
+				id: group._id,
+				name: group.name,
+				mentor: group.mentor
+			}).then(function (resp) {
+				if (group.mentor != group.oldMentor) {
+					$$profiles.put({
+						id: group.mentor || group.oldMentor,
+						group: group._id
+					}).then(function (data) {
+						flashAlert.success(data.data.message);
+					}).catch(function (data) {
+						flashAlert.error(data.data.message);
+					}).finally(init);
+				} else flashAlert.success(resp.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function mentorFilter(group) {
+			return function (mentor) {
+				//console.log(mentor,group)
+				if (mentor.group) {
+					if (mentor._id == group.mentor) return true;
+					return false;
+				}
+				return true;
+			};
+		}
+
+		function withMentorFilter(group) {
+			if (vm.filters[0].value === null) return true;
+			return !!group.mentor == vm.filters[0].value;
+		}
+	}
+
+/***/ },
+/* 70 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('homeCtrl', homeCtrl);
+
+	function homeCtrl(authentication) {
+		console.log('Home controller is running', authentication.isLoggedIn());
+	}
+
+/***/ },
+/* 71 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('membersCtrl', membersCtrl);
+
+	membersCtrl.$inject = ['authentication', '$$groups', '$$profiles', '$$organisations'];
+
+	function membersCtrl(authentication, $$groups, $$profiles, $$organisations) {
+		var vm = this;
+
+		vm.members = [];
+
+		init();
+
+		function init() {
+			getPsychologs();
+		}
+
+		function getPsychologs() {
+			$$profiles.getList({
+				role: 'student'
+			}).then(function (resp) {
+				vm.members = resp.data;
+				getGroups();
+				getOrganisations();
+			});
+		}
+
+		function getGroups() {
+			$$groups.getList().then(function (resp) {
+				var groups = resp.data;
+				vm.members.forEach(function (member) {
+					member.groupData = groups.find(function (group) {
+						return group._id == member.group;
+					});
+				});
+			});
+		}
+
+		function getOrganisations() {
+			$$organisations.getList().then(function (resp) {
+				var organisations = resp.data;
+				//console.log(organisations, vm.members)
+				vm.members.forEach(function (member) {
+					member.organisationData = organisations.find(function (org) {
+						return org._id == member.organisation;
+					});
+				});
+			});
+		}
+	}
+
+/***/ },
+/* 72 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(73);
+	angular.module('psApp').controller('myGroupCtrl', myGroupCtrl);
+
+	myGroupCtrl.$inject = ['authentication', '$$profiles', '$$groups', '$$props', 'flashAlert'];
+
+	function myGroupCtrl(authentication, $$profiles, $$groups, $$props, flashAlert) {
+		var vm = this;
+
+		vm.group = {
+			id: authentication.currentUser().group
+		};
+		vm.props = [];
+
+		vm.findProp = findProp;
+		vm.getActuallyVal = getActuallyVal;
+		vm.propCount = propCount;
+		vm.save = save;
+
+		init();
+
+		function init() {
+
+			if (vm.group.id) {
+				getMembers();
+				getGroup();
+				getProps();
+			}
+		}
+
+		function getMembers() {
+			$$profiles.getList({
+				group: vm.group.id,
+				role: 'student'
+			}).then(function (resp) {
+				vm.group.members = resp.data;
+			});
+		}
+
+		function getGroup() {
+			$$groups.getList({
+				id: vm.group.id
+			}).then(function (resp) {
+				vm.group.groupData = resp.data[0];
+			});
+		}
+
+		function getProps() {
+			$$props.getList().then(function (resp) {
+				vm.props = resp.data;
+			});
+		}
+
+		/*	function findProp(propId, props, with_actually){
+	 		let field = props.find(prop=>prop._id==propId)
+	 		if(!with_actually) return field
+	 		if(field) field = field.data.find(a=> a.actually == true)
+	 		if(field) return field
+	 		else{
+	 			props.push({
+	 				_id: propId,
+	 				data: [
+	 					{
+	 						date: new Date(),
+	 						value: null,
+	 						actually: true
+	 					}
+	 				]
+	 			})
+	 			return props[props.length-1]
+	 		}
+	 	}*/
+
+		function findProp(propId, props) {
+			var prop = props.find(function (prop) {
+				return prop._id == propId;
+			});
+			if (!prop) {
+				prop = {
+					_id: propId,
+					data: [{
+						date: new Date(),
+						value: null,
+						actually: true
+					}],
+					actuallVal: null
+				};
+				props.push(prop);
+			}
+			return prop;
+		}
+
+		function getActuallyVal(prop) {
+			return prop.data.find(function (rec) {
+				return rec.actually;
+			});
+		}
+
+		function propCount(props) {
+			return props.filter(function (prop) {
+				return !!prop.actuallVal;
+			}).length;
+		}
+
+		function save(member) {
+			member.properties.forEach(function (prop) {
+				prop.data.find(function (prop) {
+					return prop.actually;
+				}).actually = false;
+				prop.data.push({
+					actually: true,
+					date: new Date(),
+					value: prop.actuallVal
+				});
+			});
+
+			$$profiles.put({
+				id: member._id,
+				properties: member.properties
+			}).then(function (resp) {
+				flashAlert.success(resp.data.message);
+			}).catch(function (err) {
+				flashAlert.error(err.data.message);
+				init();
+			});
+		}
+	}
+
+/***/ },
+/* 73 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(74);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./my_group.scss", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/sass-resources-loader/lib/loader.js!./my_group.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 74 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.my_group v-accordion {\n  padding: .5em;\n  /*    v-pane-header{\n      min-height: 20px !important;\n      height: 20px !important;\n    }*/ }\n\n.my_group md-list-item md-card {\n  margin: .5em 0;\n  border-radius: .5em !important;\n  overflow: hidden; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 75 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('organisationCtrl', organisationCtrl);
+
+	organisationCtrl.$inject = ['$$organisations', '$$groups', '$$profiles', 'authentication', '$routeParams', 'flashAlert'];
+
+	function organisationCtrl($$organisations, $$groups, $$profiles, authentication, $routeParams, flashAlert) {
+
+		var vm = this;
+
+		vm.members = [];
+		vm.org = {
+			id: $routeParams.id,
+			name: null,
+			is_psycho: null,
+			members: []
+		};
+
+		vm.filters = [{
+			title: 'Группа',
+			options: [{ name: 'Назначена', value: true }, { name: 'Не назначена', value: false }]
+		}];
+
+		vm.roleTitle = authentication.roleTitle;
+		vm.checkCRUDRights = authentication.checkCRUDRights;
+
+		vm.add = add;
+		vm.remove = remove;
+		vm.update = update;
+		vm.import = importCSV;
+		vm.withGroupFilter = withGroupFilter;
+
+		init();
+
+		function init() {
+			getOrganisation();
+		}
+
+		function getOrganisation() {
+			$$organisations.getList({
+				id: vm.org.id,
+				with_members: true
+			}).then(function (res) {
+				vm.org.name = res.data[0].name;
+				vm.org.is_psycho = res.data[0].is_psycho;
+				vm.org.members = res.data[0].members;
+				getGroups();
+			});
+		}
+
+		function getGroups() {
+			// let membersIds = vm.org.members.map(member=>{
+			// 	return member._id
+			// })
+			$$groups.getList().then(function (resp) {
+				var groups = resp.data;
+				vm.org.members.map(function (member) {
+					member.groupData = groups.find(function (group) {
+						return group._id == member.group;
+					});
+				});
+			});
+		}
+
+		function add() {
+			$$profiles.post({
+				name: null,
+				role: 'student',
+				organisation: vm.org.id
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function remove(id) {
+			$$profiles.remove({
+				id: id
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function update(member) {
+			$$profiles.put({
+				id: member._id,
+				name: member.name
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function importCSV(file) {
+			$$profiles.upload({
+				id: vm.org.id,
+				file: file
+			}).then(function (resp) {
+				flashAlert.success(resp.data.message);
+				init();
+			}).catch(function (err) {
+				if (err) flashAlert.error(err.data.message);
+			});
+		}
+
+		function withGroupFilter(member) {
+			if (vm.filters[0].value == null) return true;else return vm.filters[0].value == !!member.group;
+		}
+	}
+
+/***/ },
+/* 76 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('organisationsCtrl', organisationsCtrl);
+
+	organisationsCtrl.$inject = ['$$organisations', 'authentication', 'flashAlert', '$$profiles'];
+
+	function organisationsCtrl($$organisations, authentication, flashAlert, $$profiles) {
+
+		var vm = this;
+
+		vm.orgs = [];
+		vm.filters = [], vm.crudRights = ['admin', 'org'];
+
+		vm.psychoFilter = psychoFilter;
+		vm.add = add;
+		vm.remove = remove;
+		vm.update = update;
+		vm.import = importCSV;
+		vm.checkCRUDRights = authentication.checkCRUDRights;
+
+		init();
+
+		createFilters(['Учебные', 'Психологические'], 'Тип организации');
+		function init() {
+			$$organisations.getList({
+				with_members: true
+			}).then(function (data) {
+				vm.orgs = data.data;
+				$$profiles.getList().then(function (resp) {
+					vm.orgs.forEach(function (org) {
+						org.membersCount = resp.data.filter(function (member) {
+							return member.organisation == org._id;
+						}).length;
+					});
+				});
+			});
+		}
+
+		function createFilters(options, title) {
+			var filter = { title: title, options: [] };
+
+			options.forEach(function (option, index) {
+				filter.options.push({
+					name: option,
+					value: option.id || index
+				});
+			});
+
+			vm.filters.push(filter);
+		}
+
+		function psychoFilter(org, index) {
+			if (!arguments.length) return !!vm.filters[0].value;
+			if (vm.filters[0].value == null) return true;else return !!vm.filters[0].value == org.is_psycho;
+		}
+
+		function add() {
+			$$organisations.post({
+				name: null,
+				is_psycho: psychoFilter()
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function remove(id) {
+			$$organisations.remove({
+				id: id
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function update(org) {
+			$$organisations.put({
+				id: org._id,
+				name: org.name,
+				is_psycho: org.is_psycho
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function importCSV(file, errFiles) {
+			//console.log(file, errFiles)
+			$$organisations.upload({
+				file: file
+			}).then(function (resp) {
+				flashAlert.success(resp.data.message);
+				init();
+			}).catch(function (err) {
+				if (err) flashAlert.error(err.data.message);
+			});
+		}
+	}
+
+/***/ },
+/* 77 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('propsCtrl', propsCtrl);
+
+	propsCtrl.$inject = ['$$props', 'authentication', 'flashAlert', '$$profiles'];
+
+	function propsCtrl($$props, authentication, flashAlert, $$profiles) {
+
+		var vm = this;
+
+		vm.props = [];
+		vm.filters = [], vm.crudRights = ['admin', 'org'];
+
+		vm.psychoFilter = psychoFilter;
+		vm.add = add;
+		vm.remove = remove;
+		vm.update = update;
+		vm.checkCRUDRights = authentication.checkCRUDRights;
+
+		init();
+
+		createFilters(['Числовые', 'Формальные'], 'Тип характеристик');
+
+		function init() {
+			$$props.getList().then(function (data) {
+				vm.props = data.data;
+				/*			$$profiles.getList().then(resp=>{
+	   				vm.props.forEach(org=>{
+	   					org.membersCount = resp.data.filter(member=>member.organisation == org._id).length
+	   				}) 
+	   			})*/
+			});
+		}
+
+		function createFilters(options, title) {
+			var filter = { title: title, options: [] };
+
+			options.forEach(function (option, index) {
+				filter.options.push({
+					name: option,
+					value: option.id || index
+				});
+			});
+
+			vm.filters.push(filter);
+		}
+
+		function psychoFilter(org, index) {
+			if (!arguments.length) return !!vm.filters[0].value;
+			if (vm.filters[0].value == null) return true;else return !!vm.filters[0].value == org.is_psycho;
+		}
+
+		function add() {
+			$$props.post({
+				name: '',
+				type: null
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function remove(id) {
+			$$props.remove({
+				id: id
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+
+		function update(prop) {
+			console.log(prop);
+			$$props.put({
+				id: prop._id,
+				name: prop.name,
+				type: prop.type,
+				min: prop.min,
+				max: prop.max,
+				description: prop.description
+			}).then(function (data) {
+				flashAlert.success(data.data.message);
+			}).catch(function (data) {
+				flashAlert.error(data.data.message);
+			}).finally(init);
+		}
+	}
+
+/***/ },
+/* 78 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').controller('psychologsCtrl', psychologsCtrl);
+
+	psychologsCtrl.$inject = ['authentication', '$$profiles', '$$groups'];
+
+	function psychologsCtrl(authentication, $$profiles, $$groups) {
+		var vm = this;
+
+		vm.psychologs = [];
+
+		init();
+
+		function init() {
+			getPsychologs();
+		}
+
+		function getPsychologs() {
+			$$profiles.getList({
+				role: 'psycholog'
+			}).then(function (resp) {
+				vm.psychologs = resp.data;
+				getGroups();
+			});
+		}
+
+		function getGroups() {
+			$$groups.getList().then(function (resp) {
+				var groups = resp.data;
+				vm.psychologs.map(function (pslg) {
+					pslg.groupData = groups.find(function (group) {
+						return group._id == pslg.group;
+					});
+				});
+			});
+		}
+	}
+
+/***/ },
+/* 79 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(80);
+	module.exports = 'ngMessages';
+
+/***/ },
+/* 80 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * @license AngularJS v1.5.8
+	 * (c) 2010-2016 Google, Inc. http://angularjs.org
+	 * License: MIT
+	 */
+	(function (window, angular) {
+	  'use strict';
+
+	  var forEach;
+	  var isArray;
+	  var isString;
+	  var jqLite;
+
+	  /**
+	   * @ngdoc module
+	   * @name ngMessages
+	   * @description
+	   *
+	   * The `ngMessages` module provides enhanced support for displaying messages within templates
+	   * (typically within forms or when rendering message objects that return key/value data).
+	   * Instead of relying on JavaScript code and/or complex ng-if statements within your form template to
+	   * show and hide error messages specific to the state of an input field, the `ngMessages` and
+	   * `ngMessage` directives are designed to handle the complexity, inheritance and priority
+	   * sequencing based on the order of how the messages are defined in the template.
+	   *
+	   * Currently, the ngMessages module only contains the code for the `ngMessages`, `ngMessagesInclude`
+	   * `ngMessage` and `ngMessageExp` directives.
+	   *
+	   * # Usage
+	   * The `ngMessages` directive allows keys in a key/value collection to be associated with a child element
+	   * (or 'message') that will show or hide based on the truthiness of that key's value in the collection. A common use
+	   * case for `ngMessages` is to display error messages for inputs using the `$error` object exposed by the
+	   * {@link ngModel ngModel} directive.
+	   *
+	   * The child elements of the `ngMessages` directive are matched to the collection keys by a `ngMessage` or
+	   * `ngMessageExp` directive. The value of these attributes must match a key in the collection that is provided by
+	   * the `ngMessages` directive.
+	   *
+	   * Consider the following example, which illustrates a typical use case of `ngMessages`. Within the form `myForm` we
+	   * have a text input named `myField` which is bound to the scope variable `field` using the {@link ngModel ngModel}
+	   * directive.
+	   *
+	   * The `myField` field is a required input of type `email` with a maximum length of 15 characters.
+	   *
+	   * ```html
+	   * <form name="myForm">
+	   *   <label>
+	   *     Enter text:
+	   *     <input type="email" ng-model="field" name="myField" required maxlength="15" />
+	   *   </label>
+	   *   <div ng-messages="myForm.myField.$error" role="alert">
+	   *     <div ng-message="required">Please enter a value for this field.</div>
+	   *     <div ng-message="email">This field must be a valid email address.</div>
+	   *     <div ng-message="maxlength">This field can be at most 15 characters long.</div>
+	   *   </div>
+	   * </form>
+	   * ```
+	   *
+	   * In order to show error messages corresponding to `myField` we first create an element with an `ngMessages` attribute
+	   * set to the `$error` object owned by the `myField` input in our `myForm` form.
+	   *
+	   * Within this element we then create separate elements for each of the possible errors that `myField` could have.
+	   * The `ngMessage` attribute is used to declare which element(s) will appear for which error - for example,
+	   * setting `ng-message="required"` specifies that this particular element should be displayed when there
+	   * is no value present for the required field `myField` (because the key `required` will be `true` in the object
+	   * `myForm.myField.$error`).
+	   *
+	   * ### Message order
+	   *
+	   * By default, `ngMessages` will only display one message for a particular key/value collection at any time. If more
+	   * than one message (or error) key is currently true, then which message is shown is determined by the order of messages
+	   * in the HTML template code (messages declared first are prioritised). This mechanism means the developer does not have
+	   * to prioritise messages using custom JavaScript code.
+	   *
+	   * Given the following error object for our example (which informs us that the field `myField` currently has both the
+	   * `required` and `email` errors):
+	   *
+	   * ```javascript
+	   * <!-- keep in mind that ngModel automatically sets these error flags -->
+	   * myField.$error = { required : true, email: true, maxlength: false };
+	   * ```
+	   * The `required` message will be displayed to the user since it appears before the `email` message in the DOM.
+	   * Once the user types a single character, the `required` message will disappear (since the field now has a value)
+	   * but the `email` message will be visible because it is still applicable.
+	   *
+	   * ### Displaying multiple messages at the same time
+	   *
+	   * While `ngMessages` will by default only display one error element at a time, the `ng-messages-multiple` attribute can
+	   * be applied to the `ngMessages` container element to cause it to display all applicable error messages at once:
+	   *
+	   * ```html
+	   * <!-- attribute-style usage -->
+	   * <div ng-messages="myForm.myField.$error" ng-messages-multiple>...</div>
+	   *
+	   * <!-- element-style usage -->
+	   * <ng-messages for="myForm.myField.$error" multiple>...</ng-messages>
+	   * ```
+	   *
+	   * ## Reusing and Overriding Messages
+	   * In addition to prioritization, ngMessages also allows for including messages from a remote or an inline
+	   * template. This allows for generic collection of messages to be reused across multiple parts of an
+	   * application.
+	   *
+	   * ```html
+	   * <script type="text/ng-template" id="error-messages">
+	   *   <div ng-message="required">This field is required</div>
+	   *   <div ng-message="minlength">This field is too short</div>
+	   * </script>
+	   *
+	   * <div ng-messages="myForm.myField.$error" role="alert">
+	   *   <div ng-messages-include="error-messages"></div>
+	   * </div>
+	   * ```
+	   *
+	   * However, including generic messages may not be useful enough to match all input fields, therefore,
+	   * `ngMessages` provides the ability to override messages defined in the remote template by redefining
+	   * them within the directive container.
+	   *
+	   * ```html
+	   * <!-- a generic template of error messages known as "my-custom-messages" -->
+	   * <script type="text/ng-template" id="my-custom-messages">
+	   *   <div ng-message="required">This field is required</div>
+	   *   <div ng-message="minlength">This field is too short</div>
+	   * </script>
+	   *
+	   * <form name="myForm">
+	   *   <label>
+	   *     Email address
+	   *     <input type="email"
+	   *            id="email"
+	   *            name="myEmail"
+	   *            ng-model="email"
+	   *            minlength="5"
+	   *            required />
+	   *   </label>
+	   *   <!-- any ng-message elements that appear BEFORE the ng-messages-include will
+	   *        override the messages present in the ng-messages-include template -->
+	   *   <div ng-messages="myForm.myEmail.$error" role="alert">
+	   *     <!-- this required message has overridden the template message -->
+	   *     <div ng-message="required">You did not enter your email address</div>
+	   *
+	   *     <!-- this is a brand new message and will appear last in the prioritization -->
+	   *     <div ng-message="email">Your email address is invalid</div>
+	   *
+	   *     <!-- and here are the generic error messages -->
+	   *     <div ng-messages-include="my-custom-messages"></div>
+	   *   </div>
+	   * </form>
+	   * ```
+	   *
+	   * In the example HTML code above the message that is set on required will override the corresponding
+	   * required message defined within the remote template. Therefore, with particular input fields (such
+	   * email addresses, date fields, autocomplete inputs, etc...), specialized error messages can be applied
+	   * while more generic messages can be used to handle other, more general input errors.
+	   *
+	   * ## Dynamic Messaging
+	   * ngMessages also supports using expressions to dynamically change key values. Using arrays and
+	   * repeaters to list messages is also supported. This means that the code below will be able to
+	   * fully adapt itself and display the appropriate message when any of the expression data changes:
+	   *
+	   * ```html
+	   * <form name="myForm">
+	   *   <label>
+	   *     Email address
+	   *     <input type="email"
+	   *            name="myEmail"
+	   *            ng-model="email"
+	   *            minlength="5"
+	   *            required />
+	   *   </label>
+	   *   <div ng-messages="myForm.myEmail.$error" role="alert">
+	   *     <div ng-message="required">You did not enter your email address</div>
+	   *     <div ng-repeat="errorMessage in errorMessages">
+	   *       <!-- use ng-message-exp for a message whose key is given by an expression -->
+	   *       <div ng-message-exp="errorMessage.type">{{ errorMessage.text }}</div>
+	   *     </div>
+	   *   </div>
+	   * </form>
+	   * ```
+	   *
+	   * The `errorMessage.type` expression can be a string value or it can be an array so
+	   * that multiple errors can be associated with a single error message:
+	   *
+	   * ```html
+	   *   <label>
+	   *     Email address
+	   *     <input type="email"
+	   *            ng-model="data.email"
+	   *            name="myEmail"
+	   *            ng-minlength="5"
+	   *            ng-maxlength="100"
+	   *            required />
+	   *   </label>
+	   *   <div ng-messages="myForm.myEmail.$error" role="alert">
+	   *     <div ng-message-exp="'required'">You did not enter your email address</div>
+	   *     <div ng-message-exp="['minlength', 'maxlength']">
+	   *       Your email must be between 5 and 100 characters long
+	   *     </div>
+	   *   </div>
+	   * ```
+	   *
+	   * Feel free to use other structural directives such as ng-if and ng-switch to further control
+	   * what messages are active and when. Be careful, if you place ng-message on the same element
+	   * as these structural directives, Angular may not be able to determine if a message is active
+	   * or not. Therefore it is best to place the ng-message on a child element of the structural
+	   * directive.
+	   *
+	   * ```html
+	   * <div ng-messages="myForm.myEmail.$error" role="alert">
+	   *   <div ng-if="showRequiredError">
+	   *     <div ng-message="required">Please enter something</div>
+	   *   </div>
+	   * </div>
+	   * ```
+	   *
+	   * ## Animations
+	   * If the `ngAnimate` module is active within the application then the `ngMessages`, `ngMessage` and
+	   * `ngMessageExp` directives will trigger animations whenever any messages are added and removed from
+	   * the DOM by the `ngMessages` directive.
+	   *
+	   * Whenever the `ngMessages` directive contains one or more visible messages then the `.ng-active` CSS
+	   * class will be added to the element. The `.ng-inactive` CSS class will be applied when there are no
+	   * messages present. Therefore, CSS transitions and keyframes as well as JavaScript animations can
+	   * hook into the animations whenever these classes are added/removed.
+	   *
+	   * Let's say that our HTML code for our messages container looks like so:
+	   *
+	   * ```html
+	   * <div ng-messages="myMessages" class="my-messages" role="alert">
+	   *   <div ng-message="alert" class="some-message">...</div>
+	   *   <div ng-message="fail" class="some-message">...</div>
+	   * </div>
+	   * ```
+	   *
+	   * Then the CSS animation code for the message container looks like so:
+	   *
+	   * ```css
+	   * .my-messages {
+	   *   transition:1s linear all;
+	   * }
+	   * .my-messages.ng-active {
+	   *   // messages are visible
+	   * }
+	   * .my-messages.ng-inactive {
+	   *   // messages are hidden
+	   * }
+	   * ```
+	   *
+	   * Whenever an inner message is attached (becomes visible) or removed (becomes hidden) then the enter
+	   * and leave animation is triggered for each particular element bound to the `ngMessage` directive.
+	   *
+	   * Therefore, the CSS code for the inner messages looks like so:
+	   *
+	   * ```css
+	   * .some-message {
+	   *   transition:1s linear all;
+	   * }
+	   *
+	   * .some-message.ng-enter {}
+	   * .some-message.ng-enter.ng-enter-active {}
+	   *
+	   * .some-message.ng-leave {}
+	   * .some-message.ng-leave.ng-leave-active {}
+	   * ```
+	   *
+	   * {@link ngAnimate Click here} to learn how to use JavaScript animations or to learn more about ngAnimate.
+	   */
+	  angular.module('ngMessages', [], function initAngularHelpers() {
+	    // Access helpers from angular core.
+	    // Do it inside a `config` block to ensure `window.angular` is available.
+	    forEach = angular.forEach;
+	    isArray = angular.isArray;
+	    isString = angular.isString;
+	    jqLite = angular.element;
+	  })
+
+	  /**
+	   * @ngdoc directive
+	   * @module ngMessages
+	   * @name ngMessages
+	   * @restrict AE
+	   *
+	   * @description
+	   * `ngMessages` is a directive that is designed to show and hide messages based on the state
+	   * of a key/value object that it listens on. The directive itself complements error message
+	   * reporting with the `ngModel` $error object (which stores a key/value state of validation errors).
+	   *
+	   * `ngMessages` manages the state of internal messages within its container element. The internal
+	   * messages use the `ngMessage` directive and will be inserted/removed from the page depending
+	   * on if they're present within the key/value object. By default, only one message will be displayed
+	   * at a time and this depends on the prioritization of the messages within the template. (This can
+	   * be changed by using the `ng-messages-multiple` or `multiple` attribute on the directive container.)
+	   *
+	   * A remote template can also be used to promote message reusability and messages can also be
+	   * overridden.
+	   *
+	   * {@link module:ngMessages Click here} to learn more about `ngMessages` and `ngMessage`.
+	   *
+	   * @usage
+	   * ```html
+	   * <!-- using attribute directives -->
+	   * <ANY ng-messages="expression" role="alert">
+	   *   <ANY ng-message="stringValue">...</ANY>
+	   *   <ANY ng-message="stringValue1, stringValue2, ...">...</ANY>
+	   *   <ANY ng-message-exp="expressionValue">...</ANY>
+	   * </ANY>
+	   *
+	   * <!-- or by using element directives -->
+	   * <ng-messages for="expression" role="alert">
+	   *   <ng-message when="stringValue">...</ng-message>
+	   *   <ng-message when="stringValue1, stringValue2, ...">...</ng-message>
+	   *   <ng-message when-exp="expressionValue">...</ng-message>
+	   * </ng-messages>
+	   * ```
+	   *
+	   * @param {string} ngMessages an angular expression evaluating to a key/value object
+	   *                 (this is typically the $error object on an ngModel instance).
+	   * @param {string=} ngMessagesMultiple|multiple when set, all messages will be displayed with true
+	   *
+	   * @example
+	   * <example name="ngMessages-directive" module="ngMessagesExample"
+	   *          deps="angular-messages.js"
+	   *          animations="true" fixBase="true">
+	   *   <file name="index.html">
+	   *     <form name="myForm">
+	   *       <label>
+	   *         Enter your name:
+	   *         <input type="text"
+	   *                name="myName"
+	   *                ng-model="name"
+	   *                ng-minlength="5"
+	   *                ng-maxlength="20"
+	   *                required />
+	   *       </label>
+	   *       <pre>myForm.myName.$error = {{ myForm.myName.$error | json }}</pre>
+	   *
+	   *       <div ng-messages="myForm.myName.$error" style="color:maroon" role="alert">
+	   *         <div ng-message="required">You did not enter a field</div>
+	   *         <div ng-message="minlength">Your field is too short</div>
+	   *         <div ng-message="maxlength">Your field is too long</div>
+	   *       </div>
+	   *     </form>
+	   *   </file>
+	   *   <file name="script.js">
+	   *     angular.module('ngMessagesExample', ['ngMessages']);
+	   *   </file>
+	   * </example>
+	   */
+	  .directive('ngMessages', ['$animate', function ($animate) {
+	    var ACTIVE_CLASS = 'ng-active';
+	    var INACTIVE_CLASS = 'ng-inactive';
+
+	    return {
+	      require: 'ngMessages',
+	      restrict: 'AE',
+	      controller: ['$element', '$scope', '$attrs', function ($element, $scope, $attrs) {
+	        var ctrl = this;
+	        var latestKey = 0;
+	        var nextAttachId = 0;
+
+	        this.getAttachId = function getAttachId() {
+	          return nextAttachId++;
+	        };
+
+	        var messages = this.messages = {};
+	        var renderLater, cachedCollection;
+
+	        this.render = function (collection) {
+	          collection = collection || {};
+
+	          renderLater = false;
+	          cachedCollection = collection;
+
+	          // this is true if the attribute is empty or if the attribute value is truthy
+	          var multiple = isAttrTruthy($scope, $attrs.ngMessagesMultiple) || isAttrTruthy($scope, $attrs.multiple);
+
+	          var unmatchedMessages = [];
+	          var matchedKeys = {};
+	          var messageItem = ctrl.head;
+	          var messageFound = false;
+	          var totalMessages = 0;
+
+	          // we use != instead of !== to allow for both undefined and null values
+	          while (messageItem != null) {
+	            totalMessages++;
+	            var messageCtrl = messageItem.message;
+
+	            var messageUsed = false;
+	            if (!messageFound) {
+	              forEach(collection, function (value, key) {
+	                if (!messageUsed && truthy(value) && messageCtrl.test(key)) {
+	                  // this is to prevent the same error name from showing up twice
+	                  if (matchedKeys[key]) return;
+	                  matchedKeys[key] = true;
+
+	                  messageUsed = true;
+	                  messageCtrl.attach();
+	                }
+	              });
+	            }
+
+	            if (messageUsed) {
+	              // unless we want to display multiple messages then we should
+	              // set a flag here to avoid displaying the next message in the list
+	              messageFound = !multiple;
+	            } else {
+	              unmatchedMessages.push(messageCtrl);
+	            }
+
+	            messageItem = messageItem.next;
+	          }
+
+	          forEach(unmatchedMessages, function (messageCtrl) {
+	            messageCtrl.detach();
+	          });
+
+	          unmatchedMessages.length !== totalMessages ? $animate.setClass($element, ACTIVE_CLASS, INACTIVE_CLASS) : $animate.setClass($element, INACTIVE_CLASS, ACTIVE_CLASS);
+	        };
+
+	        $scope.$watchCollection($attrs.ngMessages || $attrs['for'], ctrl.render);
+
+	        // If the element is destroyed, proactively destroy all the currently visible messages
+	        $element.on('$destroy', function () {
+	          forEach(messages, function (item) {
+	            item.message.detach();
+	          });
+	        });
+
+	        this.reRender = function () {
+	          if (!renderLater) {
+	            renderLater = true;
+	            $scope.$evalAsync(function () {
+	              if (renderLater) {
+	                cachedCollection && ctrl.render(cachedCollection);
+	              }
+	            });
+	          }
+	        };
+
+	        this.register = function (comment, messageCtrl) {
+	          var nextKey = latestKey.toString();
+	          messages[nextKey] = {
+	            message: messageCtrl
+	          };
+	          insertMessageNode($element[0], comment, nextKey);
+	          comment.$$ngMessageNode = nextKey;
+	          latestKey++;
+
+	          ctrl.reRender();
+	        };
+
+	        this.deregister = function (comment) {
+	          var key = comment.$$ngMessageNode;
+	          delete comment.$$ngMessageNode;
+	          removeMessageNode($element[0], comment, key);
+	          delete messages[key];
+	          ctrl.reRender();
+	        };
+
+	        function findPreviousMessage(parent, comment) {
+	          var prevNode = comment;
+	          var parentLookup = [];
+
+	          while (prevNode && prevNode !== parent) {
+	            var prevKey = prevNode.$$ngMessageNode;
+	            if (prevKey && prevKey.length) {
+	              return messages[prevKey];
+	            }
+
+	            // dive deeper into the DOM and examine its children for any ngMessage
+	            // comments that may be in an element that appears deeper in the list
+	            if (prevNode.childNodes.length && parentLookup.indexOf(prevNode) === -1) {
+	              parentLookup.push(prevNode);
+	              prevNode = prevNode.childNodes[prevNode.childNodes.length - 1];
+	            } else if (prevNode.previousSibling) {
+	              prevNode = prevNode.previousSibling;
+	            } else {
+	              prevNode = prevNode.parentNode;
+	              parentLookup.push(prevNode);
+	            }
+	          }
+	        }
+
+	        function insertMessageNode(parent, comment, key) {
+	          var messageNode = messages[key];
+	          if (!ctrl.head) {
+	            ctrl.head = messageNode;
+	          } else {
+	            var match = findPreviousMessage(parent, comment);
+	            if (match) {
+	              messageNode.next = match.next;
+	              match.next = messageNode;
+	            } else {
+	              messageNode.next = ctrl.head;
+	              ctrl.head = messageNode;
+	            }
+	          }
+	        }
+
+	        function removeMessageNode(parent, comment, key) {
+	          var messageNode = messages[key];
+
+	          var match = findPreviousMessage(parent, comment);
+	          if (match) {
+	            match.next = messageNode.next;
+	          } else {
+	            ctrl.head = messageNode.next;
+	          }
+	        }
+	      }]
+	    };
+
+	    function isAttrTruthy(scope, attr) {
+	      return isString(attr) && attr.length === 0 || //empty attribute
+	      truthy(scope.$eval(attr));
+	    }
+
+	    function truthy(val) {
+	      return isString(val) ? val.length : !!val;
+	    }
+	  }])
+
+	  /**
+	   * @ngdoc directive
+	   * @name ngMessagesInclude
+	   * @restrict AE
+	   * @scope
+	   *
+	   * @description
+	   * `ngMessagesInclude` is a directive with the purpose to import existing ngMessage template
+	   * code from a remote template and place the downloaded template code into the exact spot
+	   * that the ngMessagesInclude directive is placed within the ngMessages container. This allows
+	   * for a series of pre-defined messages to be reused and also allows for the developer to
+	   * determine what messages are overridden due to the placement of the ngMessagesInclude directive.
+	   *
+	   * @usage
+	   * ```html
+	   * <!-- using attribute directives -->
+	   * <ANY ng-messages="expression" role="alert">
+	   *   <ANY ng-messages-include="remoteTplString">...</ANY>
+	   * </ANY>
+	   *
+	   * <!-- or by using element directives -->
+	   * <ng-messages for="expression" role="alert">
+	   *   <ng-messages-include src="expressionValue1">...</ng-messages-include>
+	   * </ng-messages>
+	   * ```
+	   *
+	   * {@link module:ngMessages Click here} to learn more about `ngMessages` and `ngMessage`.
+	   *
+	   * @param {string} ngMessagesInclude|src a string value corresponding to the remote template.
+	   */
+	  .directive('ngMessagesInclude', ['$templateRequest', '$document', '$compile', function ($templateRequest, $document, $compile) {
+
+	    return {
+	      restrict: 'AE',
+	      require: '^^ngMessages', // we only require this for validation sake
+	      link: function link($scope, element, attrs) {
+	        var src = attrs.ngMessagesInclude || attrs.src;
+	        $templateRequest(src).then(function (html) {
+	          if ($scope.$$destroyed) return;
+
+	          if (isString(html) && !html.trim()) {
+	            // Empty template - nothing to compile
+	            replaceElementWithMarker(element, src);
+	          } else {
+	            // Non-empty template - compile and link
+	            $compile(html)($scope, function (contents) {
+	              element.after(contents);
+	              replaceElementWithMarker(element, src);
+	            });
+	          }
+	        });
+	      }
+	    };
+
+	    // Helpers
+	    function replaceElementWithMarker(element, src) {
+	      // A comment marker is placed for debugging purposes
+	      var comment = $compile.$$createComment ? $compile.$$createComment('ngMessagesInclude', src) : $document[0].createComment(' ngMessagesInclude: ' + src + ' ');
+	      var marker = jqLite(comment);
+	      element.after(marker);
+
+	      // Don't pollute the DOM anymore by keeping an empty directive element
+	      element.remove();
+	    }
+	  }])
+
+	  /**
+	   * @ngdoc directive
+	   * @name ngMessage
+	   * @restrict AE
+	   * @scope
+	   *
+	   * @description
+	   * `ngMessage` is a directive with the purpose to show and hide a particular message.
+	   * For `ngMessage` to operate, a parent `ngMessages` directive on a parent DOM element
+	   * must be situated since it determines which messages are visible based on the state
+	   * of the provided key/value map that `ngMessages` listens on.
+	   *
+	   * More information about using `ngMessage` can be found in the
+	   * {@link module:ngMessages `ngMessages` module documentation}.
+	   *
+	   * @usage
+	   * ```html
+	   * <!-- using attribute directives -->
+	   * <ANY ng-messages="expression" role="alert">
+	   *   <ANY ng-message="stringValue">...</ANY>
+	   *   <ANY ng-message="stringValue1, stringValue2, ...">...</ANY>
+	   * </ANY>
+	   *
+	   * <!-- or by using element directives -->
+	   * <ng-messages for="expression" role="alert">
+	   *   <ng-message when="stringValue">...</ng-message>
+	   *   <ng-message when="stringValue1, stringValue2, ...">...</ng-message>
+	   * </ng-messages>
+	   * ```
+	   *
+	   * @param {expression} ngMessage|when a string value corresponding to the message key.
+	   */
+	  .directive('ngMessage', ngMessageDirectiveFactory())
+
+	  /**
+	   * @ngdoc directive
+	   * @name ngMessageExp
+	   * @restrict AE
+	   * @priority 1
+	   * @scope
+	   *
+	   * @description
+	   * `ngMessageExp` is a directive with the purpose to show and hide a particular message.
+	   * For `ngMessageExp` to operate, a parent `ngMessages` directive on a parent DOM element
+	   * must be situated since it determines which messages are visible based on the state
+	   * of the provided key/value map that `ngMessages` listens on.
+	   *
+	   * @usage
+	   * ```html
+	   * <!-- using attribute directives -->
+	   * <ANY ng-messages="expression">
+	   *   <ANY ng-message-exp="expressionValue">...</ANY>
+	   * </ANY>
+	   *
+	   * <!-- or by using element directives -->
+	   * <ng-messages for="expression">
+	   *   <ng-message when-exp="expressionValue">...</ng-message>
+	   * </ng-messages>
+	   * ```
+	   *
+	   * {@link module:ngMessages Click here} to learn more about `ngMessages` and `ngMessage`.
+	   *
+	   * @param {expression} ngMessageExp|whenExp an expression value corresponding to the message key.
+	   */
+	  .directive('ngMessageExp', ngMessageDirectiveFactory());
+
+	  function ngMessageDirectiveFactory() {
+	    return ['$animate', function ($animate) {
+	      return {
+	        restrict: 'AE',
+	        transclude: 'element',
+	        priority: 1, // must run before ngBind, otherwise the text is set on the comment
+	        terminal: true,
+	        require: '^^ngMessages',
+	        link: function link(scope, element, attrs, ngMessagesCtrl, $transclude) {
+	          var commentNode = element[0];
+
+	          var records;
+	          var staticExp = attrs.ngMessage || attrs.when;
+	          var dynamicExp = attrs.ngMessageExp || attrs.whenExp;
+	          var assignRecords = function assignRecords(items) {
+	            records = items ? isArray(items) ? items : items.split(/[\s,]+/) : null;
+	            ngMessagesCtrl.reRender();
+	          };
+
+	          if (dynamicExp) {
+	            assignRecords(scope.$eval(dynamicExp));
+	            scope.$watchCollection(dynamicExp, assignRecords);
+	          } else {
+	            assignRecords(staticExp);
+	          }
+
+	          var currentElement, messageCtrl;
+	          ngMessagesCtrl.register(commentNode, messageCtrl = {
+	            test: function test(name) {
+	              return contains(records, name);
+	            },
+	            attach: function attach() {
+	              if (!currentElement) {
+	                $transclude(function (elm, newScope) {
+	                  $animate.enter(elm, null, element);
+	                  currentElement = elm;
+
+	                  // Each time we attach this node to a message we get a new id that we can match
+	                  // when we are destroying the node later.
+	                  var $$attachId = currentElement.$$attachId = ngMessagesCtrl.getAttachId();
+
+	                  // in the event that the element or a parent element is destroyed
+	                  // by another structural directive then it's time
+	                  // to deregister the message from the controller
+	                  currentElement.on('$destroy', function () {
+	                    if (currentElement && currentElement.$$attachId === $$attachId) {
+	                      ngMessagesCtrl.deregister(commentNode);
+	                      messageCtrl.detach();
+	                    }
+	                    newScope.$destroy();
+	                  });
+	                });
+	              }
+	            },
+	            detach: function detach() {
+	              if (currentElement) {
+	                var elm = currentElement;
+	                currentElement = null;
+	                $animate.leave(elm);
+	              }
+	            }
+	          });
+	        }
+	      };
+	    }];
+
+	    function contains(collection, key) {
+	      if (collection) {
+	        return isArray(collection) ? collection.indexOf(key) >= 0 : collection.hasOwnProperty(key);
+	      }
+	    }
+	  }
+	})(window, window.angular);
 
 /***/ }
 /******/ ]);

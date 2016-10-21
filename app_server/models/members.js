@@ -11,3 +11,18 @@ var userSchema = new mongoose.Schema({
 })
 
 mongoose.model('Member', userSchema)
+
+/*
+[
+	"_id":{
+	[
+		{
+			"data":"01.09.2016",
+			"value": 158,
+			"actualy": true
+		}
+
+	]
+}
+]
+*/

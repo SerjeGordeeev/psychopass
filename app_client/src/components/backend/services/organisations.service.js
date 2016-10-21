@@ -22,8 +22,8 @@
       return $http.put('/api/organisations?id=' + payload.id, payload.file)
     }
 
-    var upload = function (file) {
-      return $$uploader.upload('/api/organisations/upload', file, null)
+    var upload = function (payload) {
+      return $$uploader.upload('/api/organisations/upload', payload.file, null)
     }
 
     return {
