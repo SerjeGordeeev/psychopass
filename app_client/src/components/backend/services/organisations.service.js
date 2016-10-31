@@ -19,7 +19,7 @@
     }
 
     var put = function (payload) {
-      return $http.put('/api/organisations?id=' + payload.id, payload.file)
+      return $http.put('/api/organisations?id=' + payload.id, payload)
     }
 
     var upload = function (payload) {
