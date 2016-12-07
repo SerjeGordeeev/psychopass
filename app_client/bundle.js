@@ -47463,37 +47463,37 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./admin/admin.js": 96,
-		"./auth/authCtrl.js": 36,
-		"./backend/services/admin.service.js": 98,
-		"./backend/services/authentication.service.js": 39,
-		"./backend/services/groups.service.js": 43,
-		"./backend/services/organisations.service.js": 44,
-		"./backend/services/profiles.service.js": 45,
-		"./backend/services/props.service.js": 46,
-		"./backend/services/upload.service.js": 47,
-		"./common/directives/alert/flash-alert.js": 48,
-		"./common/directives/header/components/top-menu/topMenuCtrl.js": 52,
-		"./common/directives/header/components/top-menu/topMenuDir.js": 53,
-		"./common/directives/header/components/user-profile/userProfileCtrl.js": 57,
-		"./common/directives/header/components/user-profile/userProfileDir.js": 58,
-		"./common/directives/header/navigationCtrl.js": 62,
-		"./common/directives/header/navigationDir.js": 63,
-		"./common/directives/nav-bar/navBarCtrl.js": 67,
-		"./common/directives/nav-bar/navBarDir.js": 68,
-		"./common/directives/preloader/preloader.js": 72,
-		"./common/directives/tool-bar/toolBarCtrl.js": 76,
-		"./common/directives/tool-bar/toolBarDir.js": 77,
-		"./groups/edit/dialog/addMembersCtrl.js": 81,
-		"./groups/edit/groupCtrl.js": 84,
-		"./groups/groupsCtrl.js": 86,
-		"./home/homeCtrl.js": 87,
-		"./members/memberCtrl.js": 88,
-		"./my-group/myGroupCtrl.js": 89,
-		"./organisations/edit/organisationCtrl.js": 92,
-		"./organisations/organisationsCtrl.js": 93,
-		"./props/propsCtrl.js": 94,
-		"./psychologs/psychologsCtrl.js": 95
+		"./admin/admin.js": 36,
+		"./auth/authCtrl.js": 38,
+		"./backend/services/admin.service.js": 41,
+		"./backend/services/authentication.service.js": 42,
+		"./backend/services/groups.service.js": 46,
+		"./backend/services/organisations.service.js": 47,
+		"./backend/services/profiles.service.js": 48,
+		"./backend/services/props.service.js": 49,
+		"./backend/services/upload.service.js": 50,
+		"./common/directives/alert/flash-alert.js": 51,
+		"./common/directives/header/components/top-menu/topMenuCtrl.js": 55,
+		"./common/directives/header/components/top-menu/topMenuDir.js": 56,
+		"./common/directives/header/components/user-profile/userProfileCtrl.js": 60,
+		"./common/directives/header/components/user-profile/userProfileDir.js": 61,
+		"./common/directives/header/navigationCtrl.js": 65,
+		"./common/directives/header/navigationDir.js": 66,
+		"./common/directives/nav-bar/navBarCtrl.js": 70,
+		"./common/directives/nav-bar/navBarDir.js": 71,
+		"./common/directives/preloader/preloader.js": 75,
+		"./common/directives/tool-bar/toolBarCtrl.js": 79,
+		"./common/directives/tool-bar/toolBarDir.js": 80,
+		"./groups/edit/dialog/addMembersCtrl.js": 84,
+		"./groups/edit/groupCtrl.js": 87,
+		"./groups/groupsCtrl.js": 89,
+		"./home/homeCtrl.js": 90,
+		"./members/memberCtrl.js": 91,
+		"./my-group/myGroupCtrl.js": 92,
+		"./organisations/edit/organisationCtrl.js": 95,
+		"./organisations/organisationsCtrl.js": 96,
+		"./props/propsCtrl.js": 97,
+		"./psychologs/psychologsCtrl.js": 98
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -47516,6 +47516,43 @@
 	'use strict';
 
 	__webpack_require__(37);
+	angular.module('psApp').controller('adminCtrl', adminCtrl);
+
+	function adminCtrl(authentication, $$admin, $location, flashAlert) {
+
+		var vm = this;
+
+		vm.checkCRUDRights = authentication.checkCRUDRights;
+
+		vm.getBDBackup = getBDBackup;
+
+		init();
+
+		function init() {
+			if (!vm.checkCRUDRights()) $location.path('/');
+		}
+
+		function getBDBackup() {
+			console.log('asd');
+			$$admin.getBDBackup().then(function () {
+				flashAlert.success('Данные успешно экспортированны');
+			});
+		}
+	}
+
+/***/ },
+/* 37 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\" main_layout\" ng-init=\"mayCRUD = adminCtrl.checkCRUDRights()\">\n\t<navigation></navigation>\n\t<div class=\"page_content\">\n\t\t<span class=\"page_title\">Администрирование</span>\n\t\t<md-card layout=\"row\">\n\t\t\t<md-button flex=\"none\" class=\"md-raised md-primary\" ng-click=\"adminC.getBDBackup()\">Скачать дамп БД</md-button>\n\t\t\t<md-button flex=\"none\" class=\"md-raised md-primary\" ng-click=\"\">Импорт базы данных</md-button>\n\t\t</md-card>\n\t</div>\n</div>";
+
+/***/ },
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(39);
 	angular.module('psApp').controller('authCtrl', authCtrl);
 
 	function authCtrl(authentication, $$organisations, $location, flashAlert) {
@@ -47576,13 +47613,13 @@
 	}
 
 /***/ },
-/* 37 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(38);
+	var content = __webpack_require__(40);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -47602,7 +47639,7 @@
 	}
 
 /***/ },
-/* 38 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -47616,7 +47653,27 @@
 
 
 /***/ },
-/* 39 */
+/* 41 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('psApp').service('$$admin', admin);
+
+	admin.$inject = ['$http'];
+	function admin($http) {
+
+		var getBDBackup = function getBDBackup() {
+			return $http.get('/api/backup');
+		};
+
+		return {
+			getBDBackup: getBDBackup
+		};
+	}
+
+/***/ },
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47625,7 +47682,7 @@
 
 	authentication.$inject = ['$http', '$window'];
 
-	var decodeToken = __webpack_require__(40);
+	var decodeToken = __webpack_require__(43);
 
 	function authentication($http, $window) {
 	  var vm = this;
@@ -47722,12 +47779,12 @@
 	}
 
 /***/ },
-/* 40 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var base64_url_decode = __webpack_require__(41);
+	var base64_url_decode = __webpack_require__(44);
 
 	module.exports = function (token, options) {
 	  if (typeof token !== 'string') {
@@ -47740,12 +47797,12 @@
 	};
 
 /***/ },
-/* 41 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var atob = __webpack_require__(42);
+	var atob = __webpack_require__(45);
 
 	function b64DecodeUnicode(str) {
 	  return decodeURIComponent(atob(str).replace(/(.)/g, function (m, p) {
@@ -47780,7 +47837,7 @@
 	};
 
 /***/ },
-/* 42 */
+/* 45 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -47823,7 +47880,7 @@
 	module.exports = typeof window !== 'undefined' && window.atob && window.atob.bind(window) || polyfill;
 
 /***/ },
-/* 43 */
+/* 46 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -47867,7 +47924,7 @@
 	}
 
 /***/ },
-/* 44 */
+/* 47 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -47917,7 +47974,7 @@
 	}
 
 /***/ },
-/* 45 */
+/* 48 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -47966,7 +48023,7 @@
 	}
 
 /***/ },
-/* 46 */
+/* 49 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48011,7 +48068,7 @@
 	}
 
 /***/ },
-/* 47 */
+/* 50 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48040,12 +48097,12 @@
 	}
 
 /***/ },
-/* 48 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	__webpack_require__(49);
+	__webpack_require__(52);
 	angular.module("alert", []).constant("alertConfig", {
 	  success: "alert-success",
 	  error: "alert-danger",
@@ -48093,7 +48150,7 @@
 	}).directive("alertFlash", ["flashAlert", function (a) {
 	  return {
 	    restrict: "E",
-	    template: __webpack_require__(51),
+	    template: __webpack_require__(54),
 	    scope: {},
 	    link: function link(b) {
 	      b.$watch(a.getAlert, function () {
@@ -48104,13 +48161,13 @@
 	}]);
 
 /***/ },
-/* 49 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(50);
+	var content = __webpack_require__(53);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -48130,7 +48187,7 @@
 	}
 
 /***/ },
-/* 50 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -48144,13 +48201,13 @@
 
 
 /***/ },
-/* 51 */
+/* 54 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class='alert-container'>\n  <div class='repeat-animation' ng-repeat='alert in alerts' ng-click=\"alert.remove()\">\n    <div class='alert' ng-class='alert.typeOfAlert' ng-bind='alert.msg'></div>\n  </div>\n</div>";
 
 /***/ },
-/* 52 */
+/* 55 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48213,31 +48270,31 @@
 	}
 
 /***/ },
-/* 53 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('topMenu', topMenu);
 
-	__webpack_require__(54);
+	__webpack_require__(57);
 	function topMenu() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(56),
+	    template: __webpack_require__(59),
 	    controller: 'topMenuCtrl',
 	    controllerAs: 'tm'
 	  };
 	}
 
 /***/ },
-/* 54 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(55);
+	var content = __webpack_require__(58);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -48257,7 +48314,7 @@
 	}
 
 /***/ },
-/* 55 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -48271,13 +48328,13 @@
 
 
 /***/ },
-/* 56 */
+/* 59 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"top_menu\">\n        <a ng-href=\"{{page.href}}\" ng-class=\"{'active_link':tm.activePage.indexOf(page.href)>-1}\" name=\"page.title\" ng-repeat=\"page in tm.pages\">{{page.title}}</a>\n</div>";
 
 /***/ },
-/* 57 */
+/* 60 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48304,31 +48361,31 @@
 	}
 
 /***/ },
-/* 58 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('userProfile', userProfile);
 
-	__webpack_require__(59);
+	__webpack_require__(62);
 	function userProfile() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(61),
+	    template: __webpack_require__(64),
 	    controller: 'userProfileCtrl',
 	    controllerAs: 'vm'
 	  };
 	}
 
 /***/ },
-/* 59 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(60);
+	var content = __webpack_require__(63);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -48348,7 +48405,7 @@
 	}
 
 /***/ },
-/* 60 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -48362,13 +48419,13 @@
 
 
 /***/ },
-/* 61 */
+/* 64 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"user_profile\" layout>\n    <div class=\"layout-column\">\n        <span>{{::vm.user.name}}</span>\n        <span style=\"font-size: .8em;\">{{::vm.user.role}}</span>\n    </div>\n\n    <md-button class=\"md-icon-button\" aria-label=\"Выйти\" ng-click=\"vm.logout()\">\n        <md-icon md-svg-icon=\"/src/img/ic_exit_to_app_black_24px.svg\"></md-icon>\n    </md-button>\n</div>";
 
 /***/ },
-/* 62 */
+/* 65 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48381,30 +48438,30 @@
 	}
 
 /***/ },
-/* 63 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('navigation', navigation);
 
-	__webpack_require__(64);
+	__webpack_require__(67);
 	function navigation() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(66),
+	    template: __webpack_require__(69),
 	    controller: 'navigationCtrl as navvm'
 	  };
 	}
 
 /***/ },
-/* 64 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(65);
+	var content = __webpack_require__(68);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -48424,7 +48481,7 @@
 	}
 
 /***/ },
-/* 65 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -48438,13 +48495,13 @@
 
 
 /***/ },
-/* 66 */
+/* 69 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"navigation navbar navbar-default\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n      <div class=\"md-toolbar-tools\">\n        <h2>\n          <a ng-href=\"/\">Психологический модуль НОП ПОЛЕТ</a>\n        </h2>\n        <top-menu></top-menu>\n        <span flex></span>\n        <user-profile></user-profile>\n      </div>\n    </md-toolbar>\n  </md-card>\n</div>\n";
 
 /***/ },
-/* 67 */
+/* 70 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48457,30 +48514,30 @@
 	}
 
 /***/ },
-/* 68 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('navBar', navBar);
 
-	__webpack_require__(69);
+	__webpack_require__(72);
 	function navBar() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(71),
+	    template: __webpack_require__(74),
 	    controller: 'navBarCtrl as navb'
 	  };
 	}
 
 /***/ },
-/* 69 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(70);
+	var content = __webpack_require__(73);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -48500,7 +48557,7 @@
 	}
 
 /***/ },
-/* 70 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -48514,13 +48571,13 @@
 
 
 /***/ },
-/* 71 */
+/* 74 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\" navbar navbar-default\">\n  Navbar\n</div>\n";
 
 /***/ },
-/* 72 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -48529,7 +48586,7 @@
 		"use strict";
 
 		var DIRECTIVE_PARAMS = {
-			template: __webpack_require__(73),
+			template: __webpack_require__(76),
 			scope: {
 				promise: "="
 			},
@@ -48541,7 +48598,7 @@
 			return DIRECTIVE_PARAMS;
 		});
 
-		__webpack_require__(74);
+		__webpack_require__(77);
 
 		/**
 	  * @ngInject
@@ -48566,19 +48623,19 @@
 	})();
 
 /***/ },
-/* 73 */
+/* 76 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"ajax-loader\" ng-if=\"alCtrl.state === 0\" layout=\"row\" layout-align=\"center center\">\n\t<md-progress-circular md-mode=\"indeterminate\" class=\"md-hue-2\"></md-progress-circular>\n</div>";
 
 /***/ },
-/* 74 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(75);
+	var content = __webpack_require__(78);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -48598,7 +48655,7 @@
 	}
 
 /***/ },
-/* 75 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -48612,7 +48669,7 @@
 
 
 /***/ },
-/* 76 */
+/* 79 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48627,18 +48684,18 @@
 	}
 
 /***/ },
-/* 77 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('toolBar', toolBar);
 
-	__webpack_require__(78);
+	__webpack_require__(81);
 	function toolBar() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(80),
+	    template: __webpack_require__(83),
 	    controller: 'toolBarCtrl as tb',
 	    scope: {
 	      filters: '='
@@ -48647,13 +48704,13 @@
 	}
 
 /***/ },
-/* 78 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(79);
+	var content = __webpack_require__(82);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -48673,7 +48730,7 @@
 	}
 
 /***/ },
-/* 79 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -48687,18 +48744,18 @@
 
 
 /***/ },
-/* 80 */
+/* 83 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"tool_bar\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <div ng-repeat=\"filter in filters\">\n        <md-input-container ng-style=\"{'min-width': filter.title.length*12+'px'}\">\n          <label>{{filter.title}}</label>\n          <md-select ng-model=\"filter.value\">\n            <md-option ng-value=\"null\">Все</md-option>\n            <md-option ng-repeat=\"option in filter.options\" ng-value=\"option.value\">\n              {{option.name}}\n            </md-option>\n          </md-select>\n        </md-input-container>\n      </div>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n  </md-card>\n</div>\n";
 
 /***/ },
-/* 81 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(82);
+	__webpack_require__(85);
 	module.exports = function ($$organisations, $$groups, $$profiles, $routeParams, $mdDialog, $mdMedia, $rootScope, $scope, authentication, flashAlert) {
 
 		var vm = this;
@@ -48779,13 +48836,13 @@
 	};
 
 /***/ },
-/* 82 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(83);
+	var content = __webpack_require__(86);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -48805,7 +48862,7 @@
 	}
 
 /***/ },
-/* 83 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -48819,7 +48876,7 @@
 
 
 /***/ },
-/* 84 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48860,9 +48917,9 @@
 		function showDialog(ev) {
 			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
 			$mdDialog.show({
-				controller: __webpack_require__(81),
+				controller: __webpack_require__(84),
 				controllerAs: 'dlg',
-				template: __webpack_require__(85),
+				template: __webpack_require__(88),
 				parent: angular.element(document.body),
 				targetEvent: ev,
 				clickOutsideToClose: true,
@@ -48897,13 +48954,13 @@
 	}
 
 /***/ },
-/* 85 */
+/* 88 */
 /***/ function(module, exports) {
 
 	module.exports = "<md-dialog class=\"add_members_dialog\" aria-label=\"Добавить участников\"  ng-cloak>\n\t<form>\n\t\t<md-toolbar>\n\t\t\t<div class=\"md-toolbar-tools\">\n\t\t\t\t<h2>Добавить участников</h2>\n\t\t\t\t<span flex></span>\n\t\t\t\t<md-input-container  md-no-float class=\"md-block\" flex=\"20\">\n\t\t\t\t\t<label>Организация</label>\n\t\t\t\t\t<md-select ng-model=\"dlg.filters.organisation.value\">\n\t\t\t\t\t\t<md-option ng-value=\"null\">Все</md-option>\n\t\t\t\t\t\t<md-option ng-repeat=\"org in dlg.organisations\" ng-value=\"org._id\">\n\t\t\t\t\t\t\t{{org.name}}\n\t\t\t\t\t\t</md-option>\n\t\t\t\t\t</md-select>\n\t\t\t\t</md-input-container>\n\t\t\t</div>\n\t\t</md-toolbar>\n\t\t<md-dialog-content>\n\t\t\t<div class=\"md-dialog-content\">\n\t\t\t\t<md-list class=\"layout-fill\">\n\t\t\t\t\t<md-list-item class=\"md-2-line\" ng-repeat=\"member in dlg.members | filter: dlg.filters.organisation.f\">\n\t\t\t\t\t\t<md-checkbox class=\"md-primary\" ng-model=\"member.selected\" aria-label=\"Выбрать участника\">\n\t\t\t\t\t\t\t{{ member.selected }}\n\t\t\t\t\t\t</md-checkbox>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.organisationData.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<md-divider ng-if=\"!$last\"></md-divider>\n\t\t\t\t\t</md-list-item>\n\t\t\t\t\t<md-list-item ng-if=\"!dlg.members.length\">На данный момент нет участников без группы</md-list-item>\n\t\t\t\t</md-list>\n\t\t\t</div>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions layout=\"row\">\n\t\t\t<span flex></span>\n\t\t\t<md-button class=\"md-raised\" ng-click=\"dlg.addMembersToGroup()\" style=\"margin-right:20px;\">\n\t\t\t\tДобавить\n\t\t\t</md-button>\n\t\t</md-dialog-actions>\n\t</form>\n</md-dialog>\n";
 
 /***/ },
-/* 86 */
+/* 89 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49034,7 +49091,7 @@
 	}
 
 /***/ },
-/* 87 */
+/* 90 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49046,7 +49103,7 @@
 	}
 
 /***/ },
-/* 88 */
+/* 91 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49101,12 +49158,12 @@
 	}
 
 /***/ },
-/* 89 */
+/* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(90);
+	__webpack_require__(93);
 	angular.module('psApp').controller('myGroupCtrl', myGroupCtrl);
 
 	myGroupCtrl.$inject = ['$q', 'authentication', '$$profiles', '$$groups', '$$props', 'flashAlert', '$scope'];
@@ -49259,13 +49316,13 @@
 	}
 
 /***/ },
-/* 90 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(91);
+	var content = __webpack_require__(94);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -49285,7 +49342,7 @@
 	}
 
 /***/ },
-/* 91 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -49299,7 +49356,7 @@
 
 
 /***/ },
-/* 92 */
+/* 95 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49417,7 +49474,7 @@
 	}
 
 /***/ },
-/* 93 */
+/* 96 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49523,7 +49580,7 @@
 	}
 
 /***/ },
-/* 94 */
+/* 97 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49617,7 +49674,7 @@
 	}
 
 /***/ },
-/* 95 */
+/* 98 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49656,63 +49713,6 @@
 				});
 			});
 		}
-	}
-
-/***/ },
-/* 96 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	__webpack_require__(97);
-	angular.module('psApp').controller('adminCtrl', adminCtrl);
-
-	function adminCtrl(authentication, $$admin, $location, flashAlert) {
-
-		var vm = this;
-
-		vm.checkCRUDRights = authentication.checkCRUDRights;
-
-		vm.getBDBackup = getBDBackup;
-
-		init();
-
-		function init() {
-			if (!vm.checkCRUDRights()) $location.path('/');
-		}
-
-		function getBDBackup() {
-			console.log('asd');
-			$$admin.getBDBackup().then(function () {
-				flashAlert.success('Данные успешно экспортированны');
-			});
-		}
-	}
-
-/***/ },
-/* 97 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\" main_layout\" ng-init=\"mayCRUD = adminCtrl.checkCRUDRights()\">\n\t<navigation></navigation>\n\t<div class=\"page_content\">\n\t\t<span class=\"page_title\">Администрирование</span>\n\t\t<md-card layout=\"row\">\n\t\t\t<md-button flex=\"none\" class=\"md-raised md-primary\" ng-click=\"adminC.getBDBackup()\">Скачать дамп БД</md-button>\n\t\t\t<md-button flex=\"none\" class=\"md-raised md-primary\" ng-click=\"\">Импорт базы данных</md-button>\n\t\t</md-card>\n\t</div>\n</div>";
-
-/***/ },
-/* 98 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('psApp').service('$$admin', admin);
-
-	admin.$inject = ['$http'];
-	function admin($http) {
-
-		var getBDBackup = function getBDBackup() {
-			return $http.get('/api/backup');
-		};
-
-		return {
-			getBDBackup: getBDBackup
-		};
 	}
 
 /***/ }
