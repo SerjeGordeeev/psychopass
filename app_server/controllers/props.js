@@ -20,14 +20,23 @@ module.exports.delete = function (req, res) {
     Prop.findOne({'_id': mongoose.Types.ObjectId(req.query.id)}, (err, data)=>{
         if(err) dataError(res,err)
         else {
-            data.remove(err=>{
-                if(err) dataError(res,err)
-                else{
-                    res.status(200)
-                    res.json({
-                        message: 'Характеристика успешно удалена'
-                    })
-                }
+            User.find({role:'student'},(err, users)=>{
+                users.forEach(user=>{
+                    console.log(user.properties)
+                })
+                res.status(200)
+                res.json({
+                    message: 'Характеристика успешно удалена'
+                })
+/*                data.remove(err=>{
+                    if(err) dataError(res,err)
+                    else{
+                        res.status(200)
+                        res.json({
+                            message: 'Характеристика успешно удалена'
+                        })
+                    }
+                })*/
             })
         }
     })

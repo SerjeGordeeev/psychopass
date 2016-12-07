@@ -43,6 +43,11 @@
         title:'Характеристики',
         href:'/props',
         access: ['admin','psycholog', 'org']
+      },
+      {
+        title:'Администрирование',
+        href:'/admin',
+        access: ['admin']
       }
     ]
 

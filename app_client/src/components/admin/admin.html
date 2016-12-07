@@ -1,0 +1,10 @@
+<div class=" main_layout" ng-init="mayCRUD = adminCtrl.checkCRUDRights()">
+	<navigation></navigation>
+	<div class="page_content">
+		<span class="page_title">Администрирование</span>
+		<md-card layout="row">
+			<md-button flex="none" class="md-raised md-primary" ng-click="adminC.getBDBackup()">Скачать дамп БД</md-button>
+			<md-button flex="none" class="md-raised md-primary" ng-click="">Импорт базы данных</md-button>
+		</md-card>
+	</div>
+</div>

@@ -30,7 +30,7 @@
 
 					<md-input-container  md-no-float class="md-block" flex="15">
 						<label>Тип характеристики</label>
-						<md-select ng-model="prop.type" ng-change="prs.update(prop)">
+						<md-select ng-disabled="!mayCRUD" ng-model="prop.type" ng-change="prs.update(prop)">
 							<md-option ng-value="'number'">Числовая</md-option>
 							<md-option ng-value="'formal'">Формальная</md-option>
 						</md-select>

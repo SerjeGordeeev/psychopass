@@ -50,7 +50,9 @@
       if(isLoggedIn()){
         var token = getToken()
         let payload =  decodeToken(token)
+
         return {
+          id: payload._id,
           email : payload.email,
           name : payload.name,
           role: payload.role,
@@ -80,6 +82,12 @@
       let userRole = currentUser().role
       return vm.crudRights.includes(userRole)
     }
+
+    function actualizeUserInfo(){
+      return $http.post('/api/login', {id:currentUser().id}).success(function(data) {
+        saveToken(data)
+      })
+    }
     
     return {
       currentUser : currentUser,
@@ -90,6 +98,7 @@
       login : login,
       logout : logout,
       roleTitle : roleTitle,
-      checkCRUDRights: checkCRUDRights
+      checkCRUDRights : checkCRUDRights,
+      actualizeUserInfo : actualizeUserInfo
     }
   }

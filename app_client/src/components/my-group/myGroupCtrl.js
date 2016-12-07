@@ -3,15 +3,17 @@ angular
 	.module('psApp')
 	.controller('myGroupCtrl', myGroupCtrl)
 
-myGroupCtrl.$inject = ['authentication','$$profiles', '$$groups','$$props','flashAlert']
+myGroupCtrl.$inject = ['$q','authentication','$$profiles', '$$groups','$$props','flashAlert', '$scope']
 
-function myGroupCtrl(authentication, $$profiles, $$groups, $$props, flashAlert) {
+function myGroupCtrl($q,authentication, $$profiles, $$groups, $$props, flashAlert, $scope) {
 	var vm = this
 
 	vm.group = {
 		id: authentication.currentUser().group
 	}
 	vm.props = []
+	vm.tableMode = false
+	vm.promise = null
 
 	vm.findProp = findProp
 	vm.getActuallyVal = getActuallyVal
@@ -22,10 +24,34 @@ function myGroupCtrl(authentication, $$profiles, $$groups, $$props, flashAlert) 
 
 	function init(){
 
+		authentication.actualizeUserInfo()
+
+		vm.group = {
+			id: authentication.currentUser().group
+		}
+
 		if(vm.group.id){
-			getMembers()
+			vm.promise = $q.all({
+				members: $$profiles.getList({
+					group: vm.group.id,
+					role: 'student'
+				}),
+				group: 	$$groups.getList({
+					id: vm.group.id
+				}),
+				props: $$props.getList()
+			}).then(data=>{
+				console.log(data)
+				vm.group.members = data.members.data
+				vm.group.groupData = data.group.data[0]
+				vm.props = data.props.data
+			})
+/*			getMembers()
 			getGroup()
-			getProps()
+			getProps()*/
+		}
+		else{
+			//console.log(authentication.currentUser())
 		}
 	}
 
@@ -35,6 +61,7 @@ function myGroupCtrl(authentication, $$profiles, $$groups, $$props, flashAlert) 
 			role: 'student'
 		}).then(resp => {
 			vm.group.members = resp.data
+
 		})
 	}
 

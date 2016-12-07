@@ -21,8 +21,8 @@ module.exports.register = function(req, res) {
 
   var user = new User()
 
-  let password = generatePassword(12, false)
-
+  let password = generatePassword(6, false)
+  console.log(password)
   user.name = req.body.name
   user.email = req.body.email
   user.login = req.body.login
@@ -51,26 +51,40 @@ module.exports.register = function(req, res) {
 
 module.exports.login = function(req, res) {
 
-  passport.authenticate('local', function(err, user, info){
-    var token
+  if(req.body.id){
+    User.find({_id:mongoose.Types.ObjectId(req.body.id)},(err, user)=>{
+      if(err) dataError(res,err)
+      else{
+        let token = (new User()).generateJwt.call(user)
+        res.status(200)
+        res.json({
+          "token" : token
+        })
 
-    // If Passport throws/catches an error
-    if (err) {
-      res.status(404).json(err)
-      return
-    }
+      }
+    })
+  }else{
+    passport.authenticate('local', function(err, user, info){
+      let token
 
-    // If a user is found
-    if(user){
-      token = user.generateJwt()
-      res.status(200)
-      res.json({
-        "token" : token
-      })
-    } else {
-      // If user is not found
-      res.status(401).json(info)
-    }
-  })(req, res)
+      // If Passport throws/catches an error
+      if (err) {
+        res.status(404).json(err)
+        return
+      }
+
+      // If a user is found
+      if(user){
+        token = user.generateJwt()
+        res.status(200)
+        res.json({
+          "token" : token
+        })
+      } else {
+        // If user is not found
+        res.status(401).json(info)
+      }
+    })(req, res)
+  }
 
 }

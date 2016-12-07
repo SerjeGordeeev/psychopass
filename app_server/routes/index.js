@@ -11,6 +11,7 @@ const ctrlAuth = require('../controllers/authentication')
 const ctrlOrgs = require('../controllers/organisations')
 const ctrlGroups = require('../controllers/groups')
 const ctrlProps = require('../controllers/props')
+const ctrlAdmin = require('../controllers/admin')
 
 // profiles
 router.get('/profiles', ctrlProfiles.getList)
@@ -42,5 +43,7 @@ router.post('/props', ctrlProps.add)
 router.delete('/props', ctrlProps.delete)
 router.put('/props', ctrlProps.update)
 
+//admin
+router.get('/backup', ctrlAdmin.getBDBackup)
 
 module.exports = router

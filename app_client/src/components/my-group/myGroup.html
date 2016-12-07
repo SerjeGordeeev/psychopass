@@ -1,10 +1,15 @@
 <div class="my_group main_layout">
 	<navigation></navigation>
 	<div class="page_content">
+		<ajax-loader promise="mg.promise"></ajax-loader>
 		<span class="page_title">{{mg.group.groupData.name?mg.group.groupData.name:'На данный момент на вас не назначена группа'}}</span>
+			<md-card>
 
-
-			<md-list class="layout-fill">
+				<md-switch ng-model="mg.tableMode" aria-label="Вид">
+					Вид: {{ mg.tableMode?'Таблица':'Список' }}
+				</md-switch>
+			</md-card>
+			<md-list class="layout-fill" ng-if="!mg.tableMode">
 					<md-list-item class="md-2-line" ng-repeat="member in mg.group.members  | orderBy: 'name'">
 						<md-card flex>
 						<md-content flex>
@@ -64,8 +69,25 @@
 						</md-content>
 						</md-card>
 					</md-list-item>
-				<md-list-item ng-if="!mg.group.members.length">На данный момент в вашей группе нет участников</md-list-item>
+				<md-list-item ng-if="!mg.group.members.length">
+					<md-card>На данный момент в вашей группе нет участников</md-card>
+				</md-list-item>
 			</md-list>
-
+			<md-card ng-if="mg.tableMode">
+				<table>
+					<thead>
+					<tr>
+						<th>ФИО</th>
+						<th ng-repeat="prop in mg.props">{{prop.name}}</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr ng-repeat="member in mg.group.members  | orderBy: 'name'">
+						<td>{{::member.name}}</td>
+						<td ng-repeat="prop in member.properties">{{prop.actuallVal}}<span ng-if="!prop.actuallVal">нет</span></td>
+					</tr>
+					</tbody>
+				</table>
+			</md-card>
 	</div>
 </div>

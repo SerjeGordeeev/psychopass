@@ -5,6 +5,11 @@ const angular = require('angular')
 require('angular-material')
 require('../node_modules/angular-material/angular-material.min.css')
 
+require('lodash')
+require('md-data-table')
+require('../node_modules/md-data-table/dist/md-data-table-style.css')
+require('angular-sanitize')
+
 require('v-accordion')
 require('../node_modules/v-accordion/dist/v-accordion.min.css')
 
@@ -12,7 +17,7 @@ require('ng-file-upload')
 require('angular-messages')
 //require('moment')
 
-	angular.module('psApp', ['ngMaterial','ngRoute','alert','vAccordion', 'ngFileUpload'])
+	angular.module('psApp', ['ngMaterial','ngRoute','alert','vAccordion', 'ngFileUpload','mdDataTable'])
 		//.constant('moment', window.moment)
 
 	function config ($routeProvider, $locationProvider, flashAlertProvider) {
@@ -69,6 +74,11 @@ require('angular-messages')
 				templateUrl: 'src/components/my-group/myGroup.html',
 				controller: 'myGroupCtrl',
 				controllerAs: 'mg'
+			})
+			.when('/admin', {
+				templateUrl: 'src/components/admin/admin.html',
+				controller: 'adminCtrl',
+				controllerAs: 'adminC'
 			})
 			.otherwise({redirectTo: '/'})
 		
