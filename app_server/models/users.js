@@ -13,6 +13,7 @@ var userSchema = new mongoose.Schema({
 	role:{ type: String, required: true },
 	organisation: { type: String, required: false },
 	group: { type: String, required: false },
+	course: { type: String, required: false },
 	properties: Array,
 	hash: String,
 	salt: String

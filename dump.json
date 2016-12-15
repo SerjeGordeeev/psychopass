@@ -1,0 +1,1124 @@
+{
+  "users": [
+    {
+      "_id": "580e7e6745f28e00109cc414",
+      "hash": "7453a54f649f826db0c4395fd377a728d8bee11c5ebdf6556f9b3d629210dd651ba6dd1af6d6a8a95ac892cd480591b81cc44cf05816b2ef763fdc4129c968fa",
+      "salt": "e95e1499bc3a9dba29429abe6e64da5b",
+      "group": null,
+      "role": "admin",
+      "openPassword": "acq3uyFLnrtB",
+      "organisation": null,
+      "login": "admin113",
+      "email": "sergeygordeev95@gmail.com",
+      "name": "Сергей Гордеев",
+      "__v": 0,
+      "properties": []
+    },
+    {
+      "_id": "580e83e545f28e00109cc416",
+      "hash": "daf6c8142dc7428da92e618168d74d9beeca0cd79508046c1efec536ae4bf5f2c279d5d72a332751aab8ff731f20c86b3ebda913a775fd1e697378d142551dd4",
+      "salt": "1687ac93bcb9325df1e85a8081b9f109",
+      "group": null,
+      "role": "org",
+      "openPassword": "uk7cXl4QEUi7",
+      "organisation": null,
+      "login": "org111",
+      "email": "test@lalala.com",
+      "name": "Танюшка Никифорова",
+      "__v": 0,
+      "properties": []
+    },
+    {
+      "_id": "58426a204a59620004012852",
+      "hash": "d9b03a641a3c0ac0ab3698249c2f170e7c8f0f7194d4ccb3bb2e98cc8e8665fd8fe57ba58f6016b96c5c0012cd923433691e6e2a1a7344df13ca90f08547616c",
+      "salt": "c93e84c5033cf30024c0b6d911f06ac7",
+      "group": null,
+      "role": "psycholog",
+      "openPassword": "LvNEQ5iTbT8R",
+      "organisation": "58372f070ca9160004ef812b",
+      "login": "kolesnikovaei",
+      "email": "kolesnikovaei@yandex.ru",
+      "name": "Колесникова Екатерина Ивановна",
+      "__v": 0,
+      "properties": []
+    },
+    {
+      "_id": "58426be84a59620004012854",
+      "hash": "7ece6334a6c8cf78d80c2c45ca367c7594053472e6e6b217003562ff21f21ce6cacb2c592c0a3cf2a52a67e5f6c91c47d095130c894a8f5fe01745b9ac3a5df6",
+      "salt": "964b7bead1108f8c222f60e80f873f18",
+      "group": null,
+      "role": "psycholog",
+      "openPassword": "vsqLepgZ44ou",
+      "organisation": "58372f070ca9160004ef812b",
+      "login": "delevivs",
+      "email": "delevi@mail.ru",
+      "name": "Делеви Виктор Семенович",
+      "__v": 0,
+      "properties": []
+    },
+    {
+      "_id": "58426c824a59620004012855",
+      "hash": "b54d56dec94e55d891752cf075e22907d93e5dc06628ea148f89182a7f35a956c70151481cab51897a936f273c50ed465f4b5898a64f5f29fe14adac6136e03c",
+      "salt": "045640e75b508ea4a2fdcb64f104039d",
+      "group": null,
+      "role": "psycholog",
+      "openPassword": "573hWESDh7cP",
+      "organisation": "58372f070ca9160004ef812b",
+      "login": "semenovatv",
+      "email": "tatvensem@yandex.ru",
+      "name": "Семенова Татьяна Вениаминовна",
+      "__v": 0,
+      "properties": []
+    },
+    {
+      "_id": "58426ca74a59620004012856",
+      "hash": "574ea25aa91ce24c3a56b1a1b88ffc53082801ba8a210b788ffaf37e651184b8c9478d152ddc609cf5d4d107495da73e8b95a9cbdd56bcc1ec86ea42a0913a4a",
+      "salt": "5dd6d15ee55d5dbbd5853a52a1d7dfbb",
+      "group": null,
+      "role": "psycholog",
+      "openPassword": "OX7diCzE7hfM",
+      "organisation": "58372f070ca9160004ef812b",
+      "login": "terehinaap",
+      "email": "terehina.a.p@mail.ru",
+      "name": "Терехина Анжелика Петровна",
+      "__v": 0,
+      "properties": []
+    },
+    {
+      "_id": "58426d034a59620004012857",
+      "hash": "0509283e1104fd04f10f04301c75fdb9ece6ca8f946f39d19f4ad34963769b0607bbdd93fa90f7c15894791fa3da6082042bdb6e57d1607e201252c48779664e",
+      "salt": "ea4a17e3af10c32c9dbbd1fc4435a9a8",
+      "group": null,
+      "role": "psycholog",
+      "openPassword": "gaOMNVAgavFm",
+      "organisation": "58372f070ca9160004ef812b",
+      "login": "lisetskyks",
+      "email": "dekan-ks@mail.ru",
+      "name": "Лисецкий Константин Сергеевич",
+      "__v": 0,
+      "properties": []
+    },
+    {
+      "_id": "58426d3a4a59620004012858",
+      "hash": "06a5ec77fd0ec18fb64ff882625e3bdb373223c8e7486cab95be5b0ca8c62df84c6c7c22971860419232dc58f9b103b740473582d9f7083400d3f6f31b64d616",
+      "salt": "af57f51a014c01cf830a3643cf304ff8",
+      "group": null,
+      "role": "psycholog",
+      "openPassword": "pra6ctqeGVE5",
+      "organisation": "58372f070ca9160004ef812b",
+      "login": "belyaevaev",
+      "email": "elenabel65@mail.ru",
+      "name": "Беляева Елена Викторовна",
+      "__v": 0,
+      "properties": []
+    },
+    {
+      "_id": "58426d7b4a59620004012859",
+      "hash": "72e7c5ff8dc3b292e2837fd657cb0c8f7713cb38965b80d0ff323d568485329895144b91a453ebf28f42e2fd837405135e65505749726026f4f86705ca23c0ed",
+      "salt": "baf467fcf839268b86101b1264d5ec32",
+      "group": null,
+      "role": "psycholog",
+      "openPassword": "PrleO6NdpU9Q",
+      "organisation": "58372f070ca9160004ef812b",
+      "login": "shapkinain",
+      "email": "eirenes@hotbox.ru",
+      "name": "Шапкина Ирина Николаевна",
+      "__v": 0,
+      "properties": []
+    },
+    {
+      "_id": "58426df54a5962000401285c",
+      "hash": "a53d46cbb752ff3743b8957e4a789c1c65ad0bac9dedb56bda0f6b1aaf6142742e8f550103a11e6bd2c9e21b5c1be1e04b050d396a490a85854b2215756af4b8",
+      "salt": "c10d14d8dae641262ac2e1fe322dc3a9",
+      "group": null,
+      "role": "psycholog",
+      "openPassword": "2jU6fWmUkOer",
+      "organisation": "58372f070ca9160004ef812b",
+      "login": "lipinanv",
+      "email": "LipinaNV@mgpu.ru",
+      "name": "Липина Наталья Владимировна",
+      "__v": 0,
+      "properties": []
+    },
+    {
+      "_id": "58426e2d4a5962000401285d",
+      "hash": "b2e5722d6e8382e1501c9b8242a68f5466a29df9b01d4bf64f5ed0568528522593a213790a52497f82a8b3f4792eee2ef313424c815d5414f1aaa57865f8dea2",
+      "salt": "f76b8f9995590c732c0f9deb42b96b22",
+      "group": null,
+      "role": "psycholog",
+      "openPassword": "uRPxKEYMYTeC",
+      "organisation": "58372f070ca9160004ef812b",
+      "login": "zudilinaiu",
+      "email": "Zudilina-irina@rambler.ru",
+      "name": "Зудилина Ирина Юрьевна",
+      "__v": 0,
+      "properties": []
+    },
+    {
+      "_id": "58426e704a5962000401285e",
+      "hash": "e57aed594bde58a128463a14bdb9f2b0a9ab7e0ee613d8fe0cecd33e6a727200fc564ef07be582cad43f0abe19323a9cbe47ac5575bac41ca8241fffa7117fc4",
+      "salt": "c96f5b8e24af50090143abd8b8043473",
+      "group": null,
+      "role": "psycholog",
+      "openPassword": "wteQe5GcZqO7",
+      "organisation": "58372f070ca9160004ef812b",
+      "login": "naumovanv",
+      "email": "Natalyvs@mail.ru",
+      "name": "Наумова Наталья Валентиновна",
+      "__v": 0,
+      "properties": []
+    },
+    {
+      "_id": "58426eb24a5962000401285f",
+      "hash": "c6596ea86a76329eebbc66528c6bb4558438742156348ad6bf4c41b7a6e1903d53512c8e88f7e64c8797c942327b9ff642142a8e3ec1204d19dab229066371b4",
+      "salt": "f20a273ec2b15326d0db2e55b483f72a",
+      "group": null,
+      "role": "psycholog",
+      "openPassword": "X7GmJUor_KI2",
+      "organisation": "58372f070ca9160004ef812b",
+      "login": "denisovaea",
+      "email": "e_a_denisova@mail.ru",
+      "name": "Денисова Елена Анатольевна",
+      "__v": 0,
+      "properties": []
+    },
+    {
+      "_id": "58426f9f4a59620004012861",
+      "hash": "24e87c6d2a70bb84e2a8e4da899e370151110b0d4e43d4091ddbc5899c6a54c157126301eda8d9ce6345d52f0c8712cbda1564d3be63d4bac5b90ec34780c51d",
+      "salt": "d601320f8be9a689fc637746bb8b017d",
+      "group": null,
+      "role": "psycholog",
+      "openPassword": "6Xa6xtj1OBOf",
+      "organisation": "58372f070ca9160004ef812b",
+      "login": "kovshovaos",
+      "email": "Ol1955ga@yandex.ru",
+      "name": "Ковшова Ольга Степановна",
+      "__v": 0,
+      "properties": []
+    },
+    {
+      "_id": "58426fda4a59620004012862",
+      "hash": "07ab4e132186ca6b7fa1273eaa437c4a06655eb66e3da26a12a9bbf2de4706c54aa7dab76c10c5c720578d716037d1a394b8c0cebe1434c6f291f6c312be7f82",
+      "salt": "a7036c82a67eb00cff2e855842d64f04",
+      "group": null,
+      "role": "psycholog",
+      "openPassword": "3nXAt9dDxCIj",
+      "organisation": "58372f070ca9160004ef812b",
+      "login": "gudzovskayaaa",
+      "email": "aag_1@rambler.ru",
+      "name": "Гудзовская Алла Анатольевна",
+      "__v": 0,
+      "properties": []
+    },
+    {
+      "_id": "58471d9086143200040a0f56",
+      "login": "gOvnQUtIblvY",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Гордеев Сергей Юрьевич",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "58427af04a59620004012870",
+      "login": "RugKbRbRtHQu",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Афонасенко Елизавета Сергеевна",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "58427af54a59620004012871",
+      "login": "KPFqo1F3UVCs",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Баротова Анна Жумабоиевна",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "58427afa4a59620004012872",
+      "login": "sQYfYcA57G3G",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Борисова Ольга Александровна",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "58427afe4a59620004012873",
+      "login": "_VTKPNT3b1Kf",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Бурлакова Ольга Дмитриевна",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "58427b034a59620004012874",
+      "login": "EJHvFx6IeM8a",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Валеева Эльмира Зуфаровна",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "584274724a5962000401286f",
+      "login": "m8HPnkhwrgUa",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Адякова Евгения",
+      "__v": 3,
+      "group": "58372f130ca9160004ef812c",
+      "properties": [
+        {
+          "_id": "5842872a4a59620004012880",
+          "data": [
+            {
+              "date": "2016-12-06T19:55:14.459Z",
+              "value": null,
+              "actually": false
+            },
+            {
+              "actually": false,
+              "date": "2016-12-06T20:03:45.495Z",
+              "value": 1995
+            },
+            {
+              "value": 1995,
+              "date": "2016-12-06T20:05:23.460Z",
+              "actually": false
+            },
+            {
+              "value": 1995,
+              "date": "2016-12-06T20:05:53.533Z",
+              "actually": true
+            }
+          ],
+          "actuallVal": 1995
+        },
+        {
+          "_id": "584284134a59620004012877",
+          "data": [
+            {
+              "date": "2016-12-06T19:55:14.475Z",
+              "value": null,
+              "actually": false
+            },
+            {
+              "actually": false,
+              "date": "2016-12-06T20:03:45.495Z",
+              "value": 8
+            },
+            {
+              "value": 8,
+              "date": "2016-12-06T20:05:23.460Z",
+              "actually": false
+            },
+            {
+              "value": 8,
+              "date": "2016-12-06T20:05:53.533Z",
+              "actually": true
+            }
+          ],
+          "actuallVal": 8
+        },
+        {
+          "_id": "584286bd4a5962000401287f",
+          "data": [
+            {
+              "date": "2016-12-06T19:55:14.478Z",
+              "value": null,
+              "actually": false
+            },
+            {
+              "actually": false,
+              "date": "2016-12-06T20:03:45.495Z",
+              "value": 1
+            },
+            {
+              "value": 1,
+              "date": "2016-12-06T20:05:23.460Z",
+              "actually": false
+            },
+            {
+              "value": 1,
+              "date": "2016-12-06T20:05:53.533Z",
+              "actually": true
+            }
+          ],
+          "actuallVal": 1
+        },
+        {
+          "_id": "584284664a59620004012878",
+          "data": [
+            {
+              "date": "2016-12-06T19:55:14.482Z",
+              "value": null,
+              "actually": false
+            },
+            {
+              "actually": false,
+              "date": "2016-12-06T20:03:45.495Z",
+              "value": 9
+            },
+            {
+              "value": 9,
+              "date": "2016-12-06T20:05:23.460Z",
+              "actually": false
+            },
+            {
+              "value": 9,
+              "date": "2016-12-06T20:05:53.533Z",
+              "actually": true
+            }
+          ],
+          "actuallVal": 9
+        },
+        {
+          "_id": "584283a44a59620004012876",
+          "data": [
+            {
+              "date": "2016-12-06T19:55:14.485Z",
+              "value": null,
+              "actually": false
+            },
+            {
+              "actually": false,
+              "date": "2016-12-06T20:03:45.496Z",
+              "value": 8
+            },
+            {
+              "value": 8,
+              "date": "2016-12-06T20:05:23.460Z",
+              "actually": false
+            },
+            {
+              "value": 8,
+              "date": "2016-12-06T20:05:53.533Z",
+              "actually": true
+            }
+          ],
+          "actuallVal": 8
+        },
+        {
+          "_id": "584284b74a5962000401287a",
+          "data": [
+            {
+              "date": "2016-12-06T19:55:14.490Z",
+              "value": null,
+              "actually": false
+            },
+            {
+              "actually": false,
+              "date": "2016-12-06T20:03:45.496Z",
+              "value": 9
+            },
+            {
+              "value": 9,
+              "date": "2016-12-06T20:05:23.460Z",
+              "actually": false
+            },
+            {
+              "value": 9,
+              "date": "2016-12-06T20:05:53.533Z",
+              "actually": true
+            }
+          ],
+          "actuallVal": 9
+        },
+        {
+          "_id": "5842850a4a5962000401287c",
+          "data": [
+            {
+              "date": "2016-12-06T19:55:14.493Z",
+              "value": null,
+              "actually": false
+            },
+            {
+              "actually": false,
+              "date": "2016-12-06T20:03:45.496Z",
+              "value": 10
+            },
+            {
+              "value": 10,
+              "date": "2016-12-06T20:05:23.460Z",
+              "actually": false
+            },
+            {
+              "value": 10,
+              "date": "2016-12-06T20:05:53.533Z",
+              "actually": true
+            }
+          ],
+          "actuallVal": 10
+        },
+        {
+          "_id": "584284a04a59620004012879",
+          "data": [
+            {
+              "date": "2016-12-06T19:55:14.500Z",
+              "value": null,
+              "actually": false
+            },
+            {
+              "actually": false,
+              "date": "2016-12-06T20:03:45.496Z",
+              "value": 7
+            },
+            {
+              "value": 7,
+              "date": "2016-12-06T20:05:23.460Z",
+              "actually": false
+            },
+            {
+              "value": 7,
+              "date": "2016-12-06T20:05:53.533Z",
+              "actually": true
+            }
+          ],
+          "actuallVal": 7
+        },
+        {
+          "_id": "584284d74a5962000401287b",
+          "data": [
+            {
+              "date": "2016-12-06T19:55:14.503Z",
+              "value": null,
+              "actually": false
+            },
+            {
+              "actually": false,
+              "date": "2016-12-06T20:03:45.496Z",
+              "value": 10
+            },
+            {
+              "value": 10,
+              "date": "2016-12-06T20:05:23.460Z",
+              "actually": false
+            },
+            {
+              "value": 10,
+              "date": "2016-12-06T20:05:53.533Z",
+              "actually": true
+            }
+          ],
+          "actuallVal": 10
+        },
+        {
+          "_id": "584287484a59620004012881",
+          "data": [
+            {
+              "date": "2016-12-06T19:55:14.509Z",
+              "value": null,
+              "actually": false
+            },
+            {
+              "actually": false,
+              "date": "2016-12-06T20:03:45.496Z",
+              "value": 75
+            },
+            {
+              "value": 75,
+              "date": "2016-12-06T20:05:23.460Z",
+              "actually": false
+            },
+            {
+              "value": 75,
+              "date": "2016-12-06T20:05:53.533Z",
+              "actually": true
+            }
+          ],
+          "actuallVal": 75
+        },
+        {
+          "_id": "584288444a59620004012882",
+          "data": [
+            {
+              "date": "2016-12-06T19:55:14.511Z",
+              "value": null,
+              "actually": false
+            },
+            {
+              "actually": false,
+              "date": "2016-12-06T20:03:45.496Z",
+              "value": 14
+            },
+            {
+              "value": 14,
+              "date": "2016-12-06T20:05:23.460Z",
+              "actually": false
+            },
+            {
+              "value": 50,
+              "date": "2016-12-06T20:05:53.533Z",
+              "actually": true
+            }
+          ],
+          "actuallVal": 50
+        },
+        {
+          "_id": "584286224a5962000401287e",
+          "data": [
+            {
+              "date": "2016-12-06T19:55:14.514Z",
+              "value": null,
+              "actually": false
+            },
+            {
+              "actually": false,
+              "date": "2016-12-06T20:03:45.496Z",
+              "value": "планировать, ставить цели и задачи на краткосрочную и долгосрочную перспективу"
+            },
+            {
+              "value": "планировать, ставить цели и задачи на краткосрочную и долгосрочную перспективу",
+              "date": "2016-12-06T20:05:23.460Z",
+              "actually": false
+            },
+            {
+              "value": "планировать, ставить цели и задачи на краткосрочную и долгосрочную перспективу",
+              "date": "2016-12-06T20:05:53.533Z",
+              "actually": true
+            }
+          ],
+          "actuallVal": "планировать, ставить цели и задачи на краткосрочную и долгосрочную перспективу"
+        },
+        {
+          "_id": "584285664a5962000401287d",
+          "data": [
+            {
+              "date": "2016-12-06T19:55:14.517Z",
+              "value": null,
+              "actually": false
+            },
+            {
+              "actually": false,
+              "date": "2016-12-06T20:03:45.496Z",
+              "value": "Как повысить эффективность своего труда"
+            },
+            {
+              "value": "Как повысить эффективность своего труда",
+              "date": "2016-12-06T20:05:23.460Z",
+              "actually": false
+            },
+            {
+              "value": "Как повысить эффективность своего труда",
+              "date": "2016-12-06T20:05:53.533Z",
+              "actually": true
+            }
+          ],
+          "actuallVal": "Как повысить эффективность своего труда"
+        }
+      ]
+    },
+    {
+      "_id": "58471dad86143200040a0f57",
+      "login": "qZKiv7_yoJ5t",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Горынцев Владислав Олегович",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "58471dbb86143200040a0f58",
+      "login": "tbMddyTmzgOd",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Дробжева Дарья Александровна",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "58471dc686143200040a0f59",
+      "login": "NwERDiO7eiWE",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Ежова Анастасия Алексеевна",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "58471dd086143200040a0f5a",
+      "login": "5nyduYOWJ8V3",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Ершихина Екатерина Владимировна",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "58471de786143200040a0f5b",
+      "login": "vqEoc_viWz1N",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Михайленко Мария Алексеевна",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "58471dfe86143200040a0f5d",
+      "login": "M6RrGnd3jCKl",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Муталлапов Искандар Ильшатович",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "58471e0886143200040a0f5e",
+      "login": "Jq5NmVShdiBq",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Пальникова Ксения Олеговна",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "58471e1186143200040a0f5f",
+      "login": "EQm2qNMewnMC",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Тульговец Александра Михайловна",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "58471e1c86143200040a0f60",
+      "login": "vNcGKssR7GhK",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Фадина Юлия Александровна",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "58471df086143200040a0f5c",
+      "login": "JcsUh82iCyzs",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Моршнева Екатерина Александровна",
+      "__v": 0,
+      "group": "58372f130ca9160004ef812c",
+      "properties": []
+    },
+    {
+      "_id": "58471e6b86143200040a0f63",
+      "login": "kwS99oJ6G7pN",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Балабашина Юлия Владимировна",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471e7d86143200040a0f64",
+      "login": "v6Hm1M9P5_X1",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Волхонский Иван Андреевич",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471e7d86143200040a0f65",
+      "login": "bTqHR8bo3FnF",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Вавилонская Марина Андреевна",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471e9386143200040a0f66",
+      "login": "uCEegvLbPdmr",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Галкин Владислав Валерьевич",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471e9d86143200040a0f67",
+      "login": "bM_YVhECTKPb",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Глаженков Александр Викторович",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471ea586143200040a0f68",
+      "login": "zodFofEKOTKR",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Двирник Юлия Сергеевна",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471eb886143200040a0f69",
+      "login": "BHKIq9k3IFaf",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Зыблев Антон",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471ec386143200040a0f6a",
+      "login": "TJU1gnuyKhBN",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Карачёва Анастасия Альбертовна",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471ed386143200040a0f6b",
+      "login": "7CG4SsOVJ_ff",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Карпова Анастасия Михайловна",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471edd86143200040a0f6c",
+      "login": "PKZTT5kcf_Y4",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Киселева Анастасия Евгеньевна",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471ee686143200040a0f6d",
+      "login": "ncSRc8eEBPZu",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Молева Наталия Юрьевна",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471eee86143200040a0f6e",
+      "login": "eUUf8RXj1HLk",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Моросовский Евгений Юрьевич",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471ef986143200040a0f6f",
+      "login": "imYUM_3hLKjK",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Никитин Максим Алексеевич",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471f0686143200040a0f70",
+      "login": "scVbS7wKilUx",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Подусова Дарья Сергеевна",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471f1086143200040a0f71",
+      "login": "Jn82kHTmBdw_",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Рузова Ирина Александровна",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471f1886143200040a0f72",
+      "login": "HOVZH6REBeD6",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Тихонов Алексей Вадимович",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    },
+    {
+      "_id": "58471f2186143200040a0f73",
+      "login": "C5YWQKDjZ1hz",
+      "organisation": "584272314a59620004012863",
+      "role": "student",
+      "name": "Шмидт Мария Сергеевна",
+      "__v": 0,
+      "group": "58471e4b86143200040a0f62",
+      "properties": []
+    }
+  ],
+  "groups": [
+    {
+      "_id": "58372f130ca9160004ef812c",
+      "mentor": "58426a204a59620004012852",
+      "name": "СамГТУ АСИ - 4 курс",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584590de64f43f0004897217",
+      "mentor": null,
+      "name": "СамГТУ АСИ - 2 курс",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "58471e3f86143200040a0f61",
+      "mentor": null,
+      "name": "СамГТУ АСИ - 1 курс",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "58471e4b86143200040a0f62",
+      "mentor": null,
+      "name": "СамГТУ АСИ - 3 курс",
+      "__v": 0,
+      "members": []
+    }
+  ],
+  "organisations": [
+    {
+      "_id": "580e8b0445f28e00109cc41a",
+      "is_psycho": false,
+      "name": "СамГТУ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "58372f070ca9160004ef812b",
+      "is_psycho": true,
+      "name": "Межвузовская кафедра МИРОСТ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584272314a59620004012863",
+      "is_psycho": false,
+      "name": "СамГТУ АСИ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273884a59620004012864",
+      "is_psycho": false,
+      "name": "ПГУТИ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273954a59620004012865",
+      "is_psycho": false,
+      "name": "СУ им. Королева (соц-гум. и естеств. инст-т)",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "5842739d4a59620004012866",
+      "is_psycho": false,
+      "name": "СГСПУ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273a24a59620004012867",
+      "is_psycho": false,
+      "name": "СамГУПС",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273aa4a59620004012868",
+      "is_psycho": false,
+      "name": "СФ МГПУ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273b24a59620004012869",
+      "is_psycho": false,
+      "name": "СГСХА",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273bc4a5962000401286a",
+      "is_psycho": false,
+      "name": "СаГА",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273c54a5962000401286b",
+      "is_psycho": false,
+      "name": "ТГУ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273cd4a5962000401286c",
+      "is_psycho": false,
+      "name": "СГЭУ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273d44a5962000401286d",
+      "is_psycho": false,
+      "name": "СамГМУ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273dc4a5962000401286e",
+      "is_psycho": false,
+      "name": "СГИК",
+      "__v": 0,
+      "members": []
+    }
+  ],
+  "props": [
+    {
+      "_id": "580e8b0445f28e00109cc41a",
+      "is_psycho": false,
+      "name": "СамГТУ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "58372f070ca9160004ef812b",
+      "is_psycho": true,
+      "name": "Межвузовская кафедра МИРОСТ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584272314a59620004012863",
+      "is_psycho": false,
+      "name": "СамГТУ АСИ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273884a59620004012864",
+      "is_psycho": false,
+      "name": "ПГУТИ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273954a59620004012865",
+      "is_psycho": false,
+      "name": "СУ им. Королева (соц-гум. и естеств. инст-т)",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "5842739d4a59620004012866",
+      "is_psycho": false,
+      "name": "СГСПУ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273a24a59620004012867",
+      "is_psycho": false,
+      "name": "СамГУПС",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273aa4a59620004012868",
+      "is_psycho": false,
+      "name": "СФ МГПУ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273b24a59620004012869",
+      "is_psycho": false,
+      "name": "СГСХА",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273bc4a5962000401286a",
+      "is_psycho": false,
+      "name": "СаГА",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273c54a5962000401286b",
+      "is_psycho": false,
+      "name": "ТГУ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273cd4a5962000401286c",
+      "is_psycho": false,
+      "name": "СГЭУ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273d44a5962000401286d",
+      "is_psycho": false,
+      "name": "СамГМУ",
+      "__v": 0,
+      "members": []
+    },
+    {
+      "_id": "584273dc4a5962000401286e",
+      "is_psycho": false,
+      "name": "СГИК",
+      "__v": 0,
+      "members": []
+    }
+  ],
+  "date": "2016-12-07T00:41:16.409Z"
+}

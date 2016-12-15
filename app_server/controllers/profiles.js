@@ -9,7 +9,7 @@ const await = require('asyncawait/await');
 
 module.exports.getList = function (req, res) {
   let query = User.find(cleanQueryObj(req.query))
-  query.select('name role group organisation email properties').exec(function(err, users){
+  query.select('name role group organisation email properties course').exec(function(err, users){
     if(err) dataError(res,err)
     else{
       res.status(200)

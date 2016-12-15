@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Organisation = mongoose.model('Organisation')
+//const Props = mongoose.model('Properties')
 const User = mongoose.model('User')
 const async = require('async')
 const url = require('url')
@@ -17,7 +18,7 @@ module.exports.getList = function (req, res) {
 			if(req.query.with_members){
 				async.filter(organisation, function(org, callback){
 					let query = User.find({'organisation': org._id})
-					query.select('name email role group')
+					query.select('name email role group course properties')
 					query.exec({'organisation': org._id}, function (err, users) {
 						org.members = users
 						callback(null, !err)
