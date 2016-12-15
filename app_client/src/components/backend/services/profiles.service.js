@@ -26,12 +26,24 @@
       return $$uploader.upload('/api/profiles/upload?id='+payload.id, payload.file, null)
     }
 
+    var courses = function(){
+      return [
+        {value: 1, name: '1'},
+        {value: 2, name: '2'},
+        {value: 3, name: '3'},
+        {value: 4, name: '4'}
+/*        {value: 5, name: 'магистратура 1'},
+        {value: 6, name: 'магистратура 2'}*/
+      ]
+    }
+
     return {
       getList : getList,
       post: post,
       remove: remove,
       put: put,
-      upload: upload
+      upload: upload,
+      courses: courses
     }
 
     function generateQueryString(payload){

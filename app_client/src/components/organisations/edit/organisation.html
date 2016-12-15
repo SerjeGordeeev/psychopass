@@ -19,7 +19,10 @@
 
 		<md-card>
 			<md-list class="layout-fill">
-				<md-list-item class="md-2-line" ng-repeat="member in org.org.members | orderBy: 'name' | filter: org.withGroupFilter">
+				<md-list-item class="md-2-line" ng-repeat="member in org.org.members | orderBy: 'name'
+				| filter: org.withGroupFilter
+				| filter: org.courseFilter
+				| filter: org.propsFilter">
 
 					<div ng-if="!mayCRUD || org.org.is_psycho" flex="30" class="md-list-item-text">
 						<h3>{{::member.name}}</h3>
@@ -28,6 +31,12 @@
 
 					<md-input-container  ng-if="mayCRUD && !org.org.is_psycho"  md-no-float class="md-block" flex="40">
 						<input ng-disabled="!mayCRUD" placeholder="Имя участника" ng-model="member.name" ng-blur="org.update(member)">
+					</md-input-container>
+
+					<md-input-container  ng-if="mayCRUD && !org.org.is_psycho"  md-no-float class="md-block" flex="20">
+						<md-select ng-disabled="!mayCRUD" placeholder="Курс" ng-model="member.course" ng-change="org.update(member)">
+							<md-option ng-value="course.value" ng-repeat="course in org.courses">{{course.name}}</md-option>
+						</md-select>
 					</md-input-container>
 
 					<h5 flex>{{::member.email}}</h5>

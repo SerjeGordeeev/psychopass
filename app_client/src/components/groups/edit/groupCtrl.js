@@ -17,6 +17,15 @@ function groupCtrl($$groups, $routeParams, authentication, $mdDialog, $mdMedia, 
 		members: []
 	}
 
+	vm.courses = $$profiles.courses()
+	vm.filters = [
+		{
+			title: 'Курс',
+			options: vm.courses
+		}
+	]
+
+	vm.courseFilter = courseFilter
 	vm.checkCRUDRights = authentication.checkCRUDRights
 	vm.showDialog = showDialog
 	vm.remove = remove
@@ -70,6 +79,11 @@ function groupCtrl($$groups, $routeParams, authentication, $mdDialog, $mdMedia, 
 
 	function reloadData() {
 		init()
+	}
+
+	function courseFilter(member){
+		if(vm.filters[0].value == null) return true
+		else return vm.filters[0].value == member.course
 	}
 
 }

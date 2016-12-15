@@ -19,14 +19,14 @@
 
 
 					<md-input-container  md-no-float class="md-block" flex="20">
-						<!--<label>Название организации</label>-->
 						<input ng-disabled="!mayCRUD" placeholder="Название характеристики" ng-model="prop.name" ng-blur="prs.update(prop)">
-					</md-input-container>
-					<md-input-container  md-no-float class="md-block" flex="">
-						<!--<label>Название организации</label>-->
-						<input ng-disabled="!mayCRUD" placeholder="Описание" ng-model="prop.description" ng-blur="prs.update(prop)">
+						<md-tooltip md-direction="bottom">{{prop.name}}</md-tooltip>
 					</md-input-container>
 
+					<md-input-container  md-no-float class="md-block" flex="">
+						<input ng-disabled="!mayCRUD" placeholder="Описание" ng-model="prop.description" ng-blur="prs.update(prop)">
+						<md-tooltip md-direction="bottom">{{prop.description}}</md-tooltip>
+					</md-input-container>
 
 					<md-input-container  md-no-float class="md-block" flex="15">
 						<label>Тип характеристики</label>

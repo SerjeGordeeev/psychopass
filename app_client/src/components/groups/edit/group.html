@@ -2,7 +2,7 @@
 	<navigation></navigation>
 	<div class="page_content">
 		<span class="page_title">{{group.group.name}}</span>
-		<!--<tool-bar filters="group.filters"></tool-bar>-->
+		<tool-bar filters="group.filters"></tool-bar>
 
 		<md-list-item ng-if="mayCRUD">
 			<md-button class="md-raised  add" ng-click="group.showDialog($event)" flex>
@@ -12,9 +12,12 @@
 
 		<md-card>
 			<md-list class="layout-fill">
-				<md-list-item class="md-2-line" ng-repeat="member in group.group.members">
-					<div flex class="md-list-item-text">
+				<md-list-item class="md-2-line" ng-repeat="member in group.group.members | filter: group.courseFilter">
+					<div flex="30" class="md-list-item-text">
 						<h3>{{::member.name}}</h3>
+					</div>
+					<div flex="none" class="md-list-item-text">
+						<h3 style="text-align: center">{{::member.course}}</h3>
 					</div>
 					<span flex></span>
 					<md-input-container  class="md-block">

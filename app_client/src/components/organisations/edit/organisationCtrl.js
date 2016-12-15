@@ -9,6 +9,8 @@ function organisationCtrl($$organisations, $$groups, $$profiles, authentication,
 
 	var vm = this
 
+	vm.courses = $$profiles.courses()
+	
 	vm.members = []
 	vm.org = {
 		id: $routeParams.id,
@@ -24,6 +26,17 @@ function organisationCtrl($$organisations, $$groups, $$profiles, authentication,
 				{name: 'Назначена', value:true},
 				{name: 'Не назначена', value:false}
 			]
+		},
+		{
+			title: 'Курс',
+			options: vm.courses
+		},
+		{
+			title: 'Характеристики',
+			options: [
+				{name: 'Проставлены', value:true},
+				{name: 'Не проставлены', value:false}
+			]
 		}
 	]
 
@@ -35,6 +48,8 @@ function organisationCtrl($$organisations, $$groups, $$profiles, authentication,
 	vm.update = update
 	vm.import = importCSV
 	vm.withGroupFilter = withGroupFilter
+	vm.courseFilter = courseFilter
+	vm.propsFilter = propsFilter
 
 	init()
 
@@ -93,7 +108,8 @@ function organisationCtrl($$organisations, $$groups, $$profiles, authentication,
 	function update(member){
 		$$profiles.put({
 			id: member._id,
-			name: member.name
+			name: member.name,
+			course: member.course
 		}).then(data=>{
 			flashAlert.success(data.data.message)
 		}).catch(data=>{
@@ -116,6 +132,17 @@ function organisationCtrl($$organisations, $$groups, $$profiles, authentication,
 	function withGroupFilter(member){
 		if(vm.filters[0].value == null) return true
 		else return vm.filters[0].value == !!member.group
+	}
+
+	function courseFilter(member){
+		if(vm.filters[1].value == null) return true
+		else return vm.filters[1].value == member.course
+	}
+
+	function propsFilter(member){
+		//console.log(vm.filters[2].value , (member.properties.length != 0))
+		if(vm.filters[2].value == null) return true
+		else return vm.filters[2].value == (member.properties.length != 0)
 	}
 
 }
