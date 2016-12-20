@@ -110,7 +110,7 @@ module.exports.add = function (req, res) {
 module.exports.upload = function (req, res) {
   Upload.uploadFile(req, res, function (users) {
 
-    let beginDate, endDate;
+    let beginDate = '17.11.2016', endDate;
 
     Props.find({}, (err, props)=>{
 
@@ -136,7 +136,7 @@ module.exports.upload = function (req, res) {
                 userData.props[name] = []
               }
               userData.props[name].push({
-                actually : false,
+                actually : true,
                 date : beginDate,
                 value : userData[prop]
               })
@@ -156,19 +156,26 @@ module.exports.upload = function (req, res) {
          // console.log(userData.props)
 
           props.forEach(prop => {
-            if(userData.props[prop.name]){
-              user.properties = []
-              user.properties.push({
-                _id: prop._id,
-                actuallVal: userData.props[prop.name].find(item=>item.actually).value,
-                data: userData.props[prop.name]
-              })
+            try{
+              if(userData.props[prop.name]){
+                user.properties = []
+                user.properties.push({
+                  _id: prop._id,
+                  actuallVal: userData.props[prop.name].find(item=>item.actually).value,
+                  data: userData.props[prop.name]
+                })
+              }
             }
+            catch(err){
+              console.log(userData.props[prop.name],prop)
+              throw err
+            }
+
           })
           user.organisation = req.query.id
           user.role = 'student'
           user.login = generateLogin(12, false)
-          console.log(user)
+          //console.log(user)
           // console.log('User login', user.login)
           saveUser(user, res, callback)
 
