@@ -26,6 +26,8 @@ function myGroupCtrl($q,authentication, $$profiles, $$groups, $$props, flashAler
 
 		authentication.actualizeUserInfo()
 
+		vm.createTableBody = createTableBody
+
 		vm.group = {
 			id: authentication.currentUser().group
 		}
@@ -41,18 +43,25 @@ function myGroupCtrl($q,authentication, $$profiles, $$groups, $$props, flashAler
 				}),
 				props: $$props.getList()
 			}).then(data=>{
-				console.log(data)
+			/*	console.log(data)*/
 				vm.group.members = data.members.data
 				vm.group.groupData = data.group.data[0]
 				vm.props = data.props.data
+				console.log(vm.props, vm.group.members)
 			})
-/*			getMembers()
-			getGroup()
-			getProps()*/
+
 		}
 		else{
 			//console.log(authentication.currentUser())
 		}
+	}
+
+	function createTableBody(userProps){
+		let result = []
+			vm.props.forEach(prop=>{
+				result.push(userProps.find(value=>value._id == prop._id))
+			})
+		return result
 	}
 
 	function getMembers(){
@@ -79,26 +88,6 @@ function myGroupCtrl($q,authentication, $$profiles, $$groups, $$props, flashAler
 			vm.props = resp.data
 		})
 	}
-
-/*	function findProp(propId, props, with_actually){
-		let field = props.find(prop=>prop._id==propId)
-		if(!with_actually) return field
-		if(field) field = field.data.find(a=> a.actually == true)
-		if(field) return field
-		else{
-			props.push({
-				_id: propId,
-				data: [
-					{
-						date: new Date(),
-						value: null,
-						actually: true
-					}
-				]
-			})
-			return props[props.length-1]
-		}
-	}*/
 
 	function findProp(propId, props){
 		let prop = props.find(prop=>prop._id==propId)

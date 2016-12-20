@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const User = mongoose.model('User')
+const Props = mongoose.model('Property')
 const _async = require('async')
 const generateLogin = require('password-generator')
 const Upload = require('./utils/upload')
@@ -108,34 +109,83 @@ module.exports.add = function (req, res) {
 
 module.exports.upload = function (req, res) {
   Upload.uploadFile(req, res, function (users) {
-    let err = false
-    users.forEach(user=>{
-      if(!user['Имя']) err = true
-    })
 
-    if(!err) {
-      _async.filter(users, function (userData, callback) {
-        let user = new User()
+    let beginDate, endDate;
 
-        user.name = userData['Имя']
-        user.organisation = req.query.id
-        user.role = 'student'
-        user.login = generateLogin(12, false)
-       // console.log('User login', user.login)
-        saveUser(user, res, callback)
+    Props.find({}, (err, props)=>{
 
-      }, function (err) {
-        if (err) dataError(res, err)
-        else {
-          res.status(200)
-          res.json({message: 'Представители успешно импортированы'})
-        }
+      let error = false
+      users.forEach(user=>{
+        if(!user['Студент']) err = true
       })
-    }
-    else{
-      res.status(422)
-      res.json({message: 'Ошибка в составлении списка пользователей'})
-    }
+
+      if(!error) {
+        _async.filter(users, function (userData, callback) {
+
+          let user = new User()
+
+          user.name = userData['Студент']
+          user.course = userData['Курс']
+
+          userData.props = {}
+
+          for(let prop in userData){
+            if(prop.includes('было')) {
+              let name = prop.replace(' было', '')
+              if(!userData.props[name]){
+                userData.props[name] = []
+              }
+              userData.props[name].push({
+                actually : false,
+                date : beginDate,
+                value : userData[prop]
+              })
+            }
+            if(prop.includes('стало')) {
+              let name = prop.replace(' стало', '')
+              if(!userData.props[name]){
+                userData.props[name] = []
+              }
+              userData.props[name].push({
+                actually : true,
+                date : endDate,
+                value : userData[prop]
+              })
+            }
+          }
+         // console.log(userData.props)
+
+          props.forEach(prop => {
+            if(userData.props[prop.name]){
+              user.properties = []
+              user.properties.push({
+                _id: prop._id,
+                actuallVal: userData.props[prop.name].find(item=>item.actually).value,
+                data: userData.props[prop.name]
+              })
+            }
+          })
+          user.organisation = req.query.id
+          user.role = 'student'
+          user.login = generateLogin(12, false)
+          console.log(user)
+          // console.log('User login', user.login)
+          saveUser(user, res, callback)
+
+        }, function (err) {
+          if (err) dataError(res, err)
+          else {
+            res.status(200)
+            res.json({message: 'Представители успешно импортированы'})
+          }
+        })
+      }
+      else{
+        res.status(422)
+        res.json({message: 'Ошибка в составлении списка пользователей'})
+      }
+
+    })
 
   })
 }

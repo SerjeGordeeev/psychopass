@@ -84,7 +84,7 @@
 					<tbody>
 					<tr ng-repeat="member in mg.group.members  | orderBy: 'name'">
 						<td>{{::member.name}}</td>
-						<td ng-repeat="prop in member.properties">{{prop.actuallVal}}<span ng-if="!prop.actuallVal">нет</span></td>
+						<td ng-repeat="prop in mg.createTableBody(member.properties)">{{prop.actuallVal}}<span ng-if="!prop.actuallVal">нет</span></td>
 					</tr>
 					</tbody>
 				</table>
