@@ -155,10 +155,12 @@ module.exports.upload = function (req, res) {
           }
          // console.log(userData.props)
 
+          user.properties = []
           props.forEach(prop => {
+           // console.log(prop.name)
             try{
               if(userData.props[prop.name]){
-                user.properties = []
+              //  console.log('nice')
                 user.properties.push({
                   _id: prop._id,
                   actuallVal: userData.props[prop.name].find(item=>item.actually).value,
@@ -172,6 +174,7 @@ module.exports.upload = function (req, res) {
             }
 
           })
+         // console.log(user.properties)
           user.organisation = req.query.id
           user.role = 'student'
           user.login = generateLogin(12, false)
@@ -220,3 +223,4 @@ function saveUser(user, res, callback){
 
     })
 }
+
