@@ -144,7 +144,7 @@ function organisationCtrl($$organisations, $$groups, $$profiles, authentication,
 		if(vm.filters[2].value == null) return true
 		else{
 			console.log(member.name, member.properties.filter(prop=>prop.actuallVal).length)
-			return vm.filters[2].value == member.properties.filter(prop=>prop.actuallVal).length > 0//(member.properties.length != 0)
+			return vm.filters[2].value == member.properties.filter(prop=>prop.actuallVal).length > 1//(member.properties.length != 0)
 		}
 	}
 

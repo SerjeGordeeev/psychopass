@@ -49613,7 +49613,7 @@
 				}).length);
 				return vm.filters[2].value == member.properties.filter(function (prop) {
 					return prop.actuallVal;
-				}).length > 0; //(member.properties.length != 0)
+				}).length > 1; //(member.properties.length != 0)
 			}
 		}
 	}
