@@ -142,7 +142,10 @@ function organisationCtrl($$organisations, $$groups, $$profiles, authentication,
 	function propsFilter(member){
 		//console.log(vm.filters[2].value , (member.properties.length != 0))
 		if(vm.filters[2].value == null) return true
-		else return vm.filters[2].value == (member.properties.length != 0)
+		else{
+			console.log(member.name, member.properties.filter(prop=>prop.actuallVal).length)
+			return vm.filters[2].value == member.properties.filter(prop=>prop.actuallVal).length > 0//(member.properties.length != 0)
+		}
 	}
 
 }
