@@ -1,0 +1,17 @@
+.prop_table{
+  overflow-x: auto;
+  table{
+    min-width: 100%;
+    width: 100%;
+    tbody,thead{
+      // width: 100%;
+    }
+    td,th{
+      padding:.5em;
+      &:nth-child(1n+2){
+        text-align: center;
+      }
+      span{opacity: .3 !important;}
+    }
+  }
+}

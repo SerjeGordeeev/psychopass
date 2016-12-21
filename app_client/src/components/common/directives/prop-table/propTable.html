@@ -1,0 +1,16 @@
+<md-card class="prop_table">
+    <table>
+        <thead>
+        <tr>
+            <th>ФИО</th>
+            <th ng-repeat="prop in pTbCtrl.props">{{prop.name}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="member in pTbCtrl.members  | orderBy: 'name' | filter: pTbCtrl.applyFilters">
+            <td>{{::member.name}}</td>
+            <td ng-repeat="prop in pTbCtrl.createTableBody(member.properties) track by $index ">{{prop.actuallVal}}<span ng-if="!prop|| !prop.actuallVal">нет</span></td>
+        </tr>
+        </tbody>
+    </table>
+</md-card>

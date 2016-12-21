@@ -3,15 +3,16 @@ angular
 	.module('psApp')
 	.controller('organisationCtrl', organisationCtrl)
 
-organisationCtrl.$inject = ['$$organisations','$$groups', '$$profiles','authentication','$routeParams', 'flashAlert']
+organisationCtrl.$inject = ['$q','$$organisations','$$groups', '$$profiles', '$$props', 'authentication','$routeParams', 'flashAlert']
 
-function organisationCtrl($$organisations, $$groups, $$profiles, authentication, $routeParams, flashAlert) {
+function organisationCtrl($q, $$organisations, $$groups, $$profiles, $$props, authentication, $routeParams, flashAlert) {
 
 	var vm = this
 
 	vm.courses = $$profiles.courses()
 	
 	vm.members = []
+	vm.tableMode = false
 	vm.org = {
 		id: $routeParams.id,
 		name: null,
@@ -58,15 +59,22 @@ function organisationCtrl($$organisations, $$groups, $$profiles, authentication,
 	}
 
 	function getOrganisation(){
-		$$organisations.getList({
-			id: vm.org.id,
-			with_members: true
-		}).then(res => {
-			vm.org.name = res.data[0].name
-			vm.org.is_psycho = res.data[0].is_psycho
-			vm.org.members = res.data[0].members
+
+		$q.all({
+			organisation: 	$$organisations.getList({
+				id: vm.org.id,
+				with_members: true
+			}),
+			props: $$props.getList()
+		}).then(res=>{
+			console.log(res)
+			vm.org.name = res.organisation.data[0].name
+			vm.org.is_psycho = res.organisation.data[0].is_psycho
+			vm.org.members = res.organisation.data[0].members
+			vm.props = res.props.data
 			getGroups()
 		})
+		
 	}
 
 	function getGroups(){

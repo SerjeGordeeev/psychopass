@@ -11,6 +11,7 @@
       controller: 'toolBarCtrl as tb',
       scope: {
         filters: '='
-      }
+      },
+      transclude: true
     }
   }

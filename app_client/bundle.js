@@ -47591,18 +47591,19 @@
 		"./common/directives/nav-bar/navBarCtrl.js": 70,
 		"./common/directives/nav-bar/navBarDir.js": 71,
 		"./common/directives/preloader/preloader.js": 75,
-		"./common/directives/tool-bar/toolBarCtrl.js": 79,
-		"./common/directives/tool-bar/toolBarDir.js": 80,
-		"./groups/edit/dialog/addMembersCtrl.js": 84,
-		"./groups/edit/groupCtrl.js": 87,
-		"./groups/groupsCtrl.js": 89,
-		"./home/homeCtrl.js": 90,
-		"./members/memberCtrl.js": 91,
-		"./my-group/myGroupCtrl.js": 92,
-		"./organisations/edit/organisationCtrl.js": 95,
-		"./organisations/organisationsCtrl.js": 96,
-		"./props/propsCtrl.js": 97,
-		"./psychologs/psychologsCtrl.js": 98
+		"./common/directives/prop-table/propTableDir.js": 79,
+		"./common/directives/tool-bar/toolBarCtrl.js": 81,
+		"./common/directives/tool-bar/toolBarDir.js": 82,
+		"./groups/edit/dialog/addMembersCtrl.js": 86,
+		"./groups/edit/groupCtrl.js": 89,
+		"./groups/groupsCtrl.js": 91,
+		"./home/homeCtrl.js": 92,
+		"./members/memberCtrl.js": 93,
+		"./my-group/myGroupCtrl.js": 94,
+		"./organisations/edit/organisationCtrl.js": 97,
+		"./organisations/organisationsCtrl.js": 98,
+		"./props/propsCtrl.js": 99,
+		"./psychologs/psychologsCtrl.js": 100
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -48787,6 +48788,76 @@
 
 /***/ },
 /* 79 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	angular.module('psApp').directive('propTable', propTable);
+
+	__webpack_require__(101);
+	function propTable() {
+	    return {
+	        restrict: 'E',
+	        template: __webpack_require__(80),
+	        controller: 'propTableCtrl as pTbCtrl',
+	        scope: {
+	            members: '=',
+	            props: '=',
+	            filters: '='
+	        }
+	    };
+	}
+
+	angular.module('psApp').controller('propTableCtrl', propTableCtrl);
+
+	propTableCtrl.$inject = ['$scope', '$$props'];
+	function propTableCtrl($scope, $$props) {
+	    var vm = this;
+
+	    /*    $$props.getList().then(data=>{
+	            console.log(data)
+	            
+	        })*/
+	    //console.log($scope.filters)
+	    vm.props = $scope.props;
+	    vm.members = $scope.members;
+
+	    vm.createTableBody = createTableBody;
+	    vm.applyFilters = applyFilters;
+
+	    function createTableBody(userProps) {
+
+	        var result = [];
+	        vm.props.forEach(function (prop) {
+	            result.push(userProps.find(function (value) {
+	                return value._id == prop._id;
+	            }));
+	        });
+	        // console.log(result)
+
+	        return result;
+	    }
+
+	    function applyFilters(item) {
+	        // console.log(item)
+	        var result = $scope.filters.map(function (filter) {
+	            return filter(item);
+	        }).filter(function (result) {
+	            return result;
+	        });
+
+	        return result.length == $scope.filters.length;
+	    }
+	}
+
+/***/ },
+/* 80 */
+/***/ function(module, exports) {
+
+	module.exports = "<md-card class=\"prop_table\">\n    <table>\n        <thead>\n        <tr>\n            <th>ФИО</th>\n            <th ng-repeat=\"prop in pTbCtrl.props\">{{prop.name}}</th>\n        </tr>\n        </thead>\n        <tbody>\n        <tr ng-repeat=\"member in pTbCtrl.members  | orderBy: 'name' | filter: pTbCtrl.applyFilters\">\n            <td>{{::member.name}}</td>\n            <td ng-repeat=\"prop in pTbCtrl.createTableBody(member.properties) track by $index \">{{prop.actuallVal}}<span ng-if=\"!prop|| !prop.actuallVal\">нет</span></td>\n        </tr>\n        </tbody>\n    </table>\n</md-card>";
+
+/***/ },
+/* 81 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48801,33 +48872,34 @@
 	}
 
 /***/ },
-/* 80 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	angular.module('psApp').directive('toolBar', toolBar);
 
-	__webpack_require__(81);
+	__webpack_require__(83);
 	function toolBar() {
 	  return {
 	    restrict: 'E',
-	    template: __webpack_require__(83),
+	    template: __webpack_require__(85),
 	    controller: 'toolBarCtrl as tb',
 	    scope: {
 	      filters: '='
-	    }
+	    },
+	    transclude: true
 	  };
 	}
 
 /***/ },
-/* 81 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(82);
+	var content = __webpack_require__(84);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -48847,7 +48919,7 @@
 	}
 
 /***/ },
-/* 82 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -48861,18 +48933,18 @@
 
 
 /***/ },
-/* 83 */
+/* 85 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"tool_bar\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <div ng-repeat=\"filter in filters\">\n        <md-input-container ng-style=\"{'min-width': filter.title.length*12+'px'}\">\n          <label>{{filter.title}}</label>\n          <md-select ng-model=\"filter.value\">\n            <md-option ng-value=\"null\">Все</md-option>\n            <md-option ng-repeat=\"option in filter.options\" ng-value=\"option.value\">\n              {{option.name}}\n            </md-option>\n          </md-select>\n        </md-input-container>\n      </div>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n  </md-card>\n</div>\n";
+	module.exports = "<div class=\"tool_bar\">\n  <md-card>\n    <md-toolbar class=\"md-hue-2\">\n    <div class=\"md-toolbar-tools\">\n      <div ng-repeat=\"filter in filters\">\n        <md-input-container ng-style=\"{'min-width': filter.title.length*12+'px'}\">\n          <label>{{filter.title}}</label>\n          <md-select ng-model=\"filter.value\">\n            <md-option ng-value=\"null\">Все</md-option>\n            <md-option ng-repeat=\"option in filter.options\" ng-value=\"option.value\">\n              {{option.name}}\n            </md-option>\n          </md-select>\n        </md-input-container>\n      </div>\n      <div ng-transclude></div>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n  </md-card>\n</div>\n";
 
 /***/ },
-/* 84 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(85);
+	__webpack_require__(87);
 	module.exports = function ($$organisations, $$groups, $$profiles, $routeParams, $mdDialog, $mdMedia, $rootScope, $scope, authentication, flashAlert) {
 
 		var vm = this;
@@ -48953,13 +49025,13 @@
 	};
 
 /***/ },
-/* 85 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(86);
+	var content = __webpack_require__(88);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -48979,7 +49051,7 @@
 	}
 
 /***/ },
-/* 86 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -48993,7 +49065,7 @@
 
 
 /***/ },
-/* 87 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49041,9 +49113,9 @@
 		function showDialog(ev) {
 			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
 			$mdDialog.show({
-				controller: __webpack_require__(84),
+				controller: __webpack_require__(86),
 				controllerAs: 'dlg',
-				template: __webpack_require__(88),
+				template: __webpack_require__(90),
 				parent: angular.element(document.body),
 				targetEvent: ev,
 				clickOutsideToClose: true,
@@ -49082,13 +49154,13 @@
 	}
 
 /***/ },
-/* 88 */
+/* 90 */
 /***/ function(module, exports) {
 
 	module.exports = "<md-dialog class=\"add_members_dialog\" aria-label=\"Добавить участников\"  ng-cloak>\n\t<form>\n\t\t<md-toolbar>\n\t\t\t<div class=\"md-toolbar-tools\">\n\t\t\t\t<h2>Добавить участников</h2>\n\t\t\t\t<span flex></span>\n\t\t\t\t<md-input-container  md-no-float class=\"md-block\" flex=\"20\">\n\t\t\t\t\t<label>Организация</label>\n\t\t\t\t\t<md-select ng-model=\"dlg.filters.organisation.value\">\n\t\t\t\t\t\t<md-option ng-value=\"null\">Все</md-option>\n\t\t\t\t\t\t<md-option ng-repeat=\"org in dlg.organisations\" ng-value=\"org._id\">\n\t\t\t\t\t\t\t{{org.name}}\n\t\t\t\t\t\t</md-option>\n\t\t\t\t\t</md-select>\n\t\t\t\t</md-input-container>\n\t\t\t</div>\n\t\t</md-toolbar>\n\t\t<md-dialog-content>\n\t\t\t<div class=\"md-dialog-content\">\n\t\t\t\t<md-list class=\"layout-fill\">\n\t\t\t\t\t<md-list-item class=\"md-2-line\" ng-repeat=\"member in dlg.members | filter: dlg.filters.organisation.f\">\n\t\t\t\t\t\t<md-checkbox class=\"md-primary\" ng-model=\"member.selected\" aria-label=\"Выбрать участника\">\n\t\t\t\t\t\t\t{{ member.selected }}\n\t\t\t\t\t\t</md-checkbox>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div flex=\"30\" class=\"md-list-item-text\">\n\t\t\t\t\t\t\t<h3>{{::member.organisationData.name}}</h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<md-divider ng-if=\"!$last\"></md-divider>\n\t\t\t\t\t</md-list-item>\n\t\t\t\t\t<md-list-item ng-if=\"!dlg.members.length\">На данный момент нет участников без группы</md-list-item>\n\t\t\t\t</md-list>\n\t\t\t</div>\n\t\t</md-dialog-content>\n\t\t<md-dialog-actions layout=\"row\">\n\t\t\t<span flex></span>\n\t\t\t<md-button class=\"md-raised\" ng-click=\"dlg.addMembersToGroup()\" style=\"margin-right:20px;\">\n\t\t\t\tДобавить\n\t\t\t</md-button>\n\t\t</md-dialog-actions>\n\t</form>\n</md-dialog>\n";
 
 /***/ },
-/* 89 */
+/* 91 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49219,7 +49291,7 @@
 	}
 
 /***/ },
-/* 90 */
+/* 92 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49231,7 +49303,7 @@
 	}
 
 /***/ },
-/* 91 */
+/* 93 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49286,12 +49358,12 @@
 	}
 
 /***/ },
-/* 92 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(93);
+	__webpack_require__(95);
 	angular.module('psApp').controller('myGroupCtrl', myGroupCtrl);
 
 	myGroupCtrl.$inject = ['$q', 'authentication', '$$profiles', '$$groups', '$$props', 'flashAlert', '$scope'];
@@ -49434,13 +49506,13 @@
 	}
 
 /***/ },
-/* 93 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(94);
+	var content = __webpack_require__(96);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -49460,7 +49532,7 @@
 	}
 
 /***/ },
-/* 94 */
+/* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -49474,22 +49546,23 @@
 
 
 /***/ },
-/* 95 */
+/* 97 */
 /***/ function(module, exports) {
 
 	'use strict';
 
 	angular.module('psApp').controller('organisationCtrl', organisationCtrl);
 
-	organisationCtrl.$inject = ['$$organisations', '$$groups', '$$profiles', 'authentication', '$routeParams', 'flashAlert'];
+	organisationCtrl.$inject = ['$q', '$$organisations', '$$groups', '$$profiles', '$$props', 'authentication', '$routeParams', 'flashAlert'];
 
-	function organisationCtrl($$organisations, $$groups, $$profiles, authentication, $routeParams, flashAlert) {
+	function organisationCtrl($q, $$organisations, $$groups, $$profiles, $$props, authentication, $routeParams, flashAlert) {
 
 		var vm = this;
 
 		vm.courses = $$profiles.courses();
 
 		vm.members = [];
+		vm.tableMode = false;
 		vm.org = {
 			id: $routeParams.id,
 			name: null,
@@ -49526,13 +49599,19 @@
 		}
 
 		function getOrganisation() {
-			$$organisations.getList({
-				id: vm.org.id,
-				with_members: true
+
+			$q.all({
+				organisation: $$organisations.getList({
+					id: vm.org.id,
+					with_members: true
+				}),
+				props: $$props.getList()
 			}).then(function (res) {
-				vm.org.name = res.data[0].name;
-				vm.org.is_psycho = res.data[0].is_psycho;
-				vm.org.members = res.data[0].members;
+				console.log(res);
+				vm.org.name = res.organisation.data[0].name;
+				vm.org.is_psycho = res.organisation.data[0].is_psycho;
+				vm.org.members = res.organisation.data[0].members;
+				vm.props = res.props.data;
 				getGroups();
 			});
 		}
@@ -49619,7 +49698,7 @@
 	}
 
 /***/ },
-/* 96 */
+/* 98 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49725,7 +49804,7 @@
 	}
 
 /***/ },
-/* 97 */
+/* 99 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49819,7 +49898,7 @@
 	}
 
 /***/ },
-/* 98 */
+/* 100 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49859,6 +49938,46 @@
 			});
 		}
 	}
+
+/***/ },
+/* 101 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(102);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./prop_table.scss", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./../../../../../../node_modules/sass-loader/index.js!./../../../../../../node_modules/sass-resources-loader/lib/loader.js!./prop_table.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 102 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "ng-view {\n  width: 100vw;\n  height: 100vh; }\n\n.main_layout {\n  background: #67b3ff;\n  width: 100vw;\n  height: 100vh; }\n  .main_layout .page_content {\n    height: calc(100vh - 64px);\n    max-height: calc(100vh - 64px);\n    background-color: #d2d2d2;\n    box-sizing: border-box;\n    overflow-y: scroll;\n    overflow-x: hidden; }\n    .main_layout .page_content .page_title {\n      font-size: 1.5em;\n      padding: .4em;\n      color: #fff;\n      width: 100%;\n      background-color: #181818;\n      box-sizing: border-box;\n      display: block; }\n\n.add {\n  padding: 6px 12px !important;\n  color: #fff !important;\n  background-color: #67b3ff !important;\n  border: 2px dashed #67b3ff !important;\n  box-shadow: none !important; }\n\n.delete_button[disabled] {\n  opacity: .5 !important; }\n\nmd-list-item {\n  padding: 0 1em; }\n  md-list-item .md-raised {\n    background: #67b3ff !important;\n    color: #fff !important; }\n  md-list-item .delete_button {\n    background: #e04136 !important; }\n    md-list-item .delete_button svg {\n      fill: #fff; }\n  md-list-item md-input-container input:focus {\n    border-color: #67b3ff !important; }\n  md-list-item md-input-container md-option[selected] {\n    color: #67b3ff !important; }\n\n.prop_table {\n  overflow-x: auto; }\n  .prop_table table {\n    min-width: 100%;\n    width: 100%; }\n    .prop_table table td, .prop_table table th {\n      padding: .5em; }\n      .prop_table table td:nth-child(1n+2), .prop_table table th:nth-child(1n+2) {\n        text-align: center; }\n      .prop_table table td span, .prop_table table th span {\n        opacity: .3 !important; }\n", ""]);
+
+	// exports
+
 
 /***/ }
 /******/ ]);
