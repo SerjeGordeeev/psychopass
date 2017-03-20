@@ -1,0 +1,48 @@
+<div class=" main_layout" ng-init="mayCRUD = nmDistC.checkCRUDRights()">
+	<navigation></navigation>
+	<div class="page_content">
+		<span class="page_title">Нормальное распределение</span>
+		<md-card layout="column">
+			<md-table-container flex>
+				<table md-table md-progress="nmDistC.promise" flex>
+					<thead md-head>
+						<tr md-row>
+							<th md-column>Характеристика</th>
+							<th md-column>Кол-во результатов</th>
+							<th md-column>min</th>
+							<th md-column>max</th>
+							<th md-column>&mu;</th>
+							<th md-column>&sigma;</th>
+							<th md-column> x < &mu; - &sigma;</th>
+							<th md-column> x > &mu; + &sigma;</th>
+							<th md-column>График</th>
+						</tr>
+					</thead>
+					<tbody md-body>
+						<tr md-row ng-repeat="result in nmDistC.results">
+							<td md-cell>{{result.propName}}</td>
+							<td md-cell>{{result.valuesCount}}</td>
+							<td md-cell>{{result.minValue}}</td>
+							<td md-cell>{{result.maxValue}}</td>
+							<td md-cell>{{result.mu}}</td>
+							<td md-cell>{{result.sigma}}</td>
+							<td md-cell>{{result.upper}}</td>
+							<td md-cell>{{result.lower}}</td>
+							<td md-cell>
+								<md-button ng-click="result.showGraph = !result.showGraph" class="md-raised md-primary">{{result.showGraph?'Скрыть':'Показать'}}</md-button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</md-table-container>
+			
+			<md-list>
+				<md-list-item ng-repeat="result in nmDistC.results" ng-if="result.showGraph">
+					<!-- <h3>{{result.propName}}</h3> -->
+					<graph prop="result" flex></graph>
+				</md-list-item>
+			</md-list>
+
+		</md-card>
+	</div>
+</div>

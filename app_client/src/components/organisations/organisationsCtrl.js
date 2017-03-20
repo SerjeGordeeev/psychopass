@@ -3,9 +3,11 @@ angular
 	.module('psApp')
 	.controller('organisationsCtrl', organisationsCtrl)
 
-organisationsCtrl.$inject = ['$$organisations','authentication','flashAlert', '$$profiles']
+	require("./styles.scss");
 
-function organisationsCtrl($$organisations, authentication, flashAlert, $$profiles) {
+organisationsCtrl.$inject = ['$$organisations','authentication','flashAlert', '$$profiles', '$$export']
+
+function organisationsCtrl($$organisations, authentication, flashAlert, $$profiles, $$export) {
 
 	var vm = this
 
@@ -13,27 +15,37 @@ function organisationsCtrl($$organisations, authentication, flashAlert, $$profil
 	vm.filters = [],
 	vm.crudRights = ['admin','org']
 
+	vm.psychoCount = 0;
+	vm.educCount = 0;
+
 	vm.psychoFilter = psychoFilter
 	vm.add = add
 	vm.remove = remove
 	vm.update = update
 	vm.import = importCSV
+	vm.downloadCSV = downloadCSV
 	vm.checkCRUDRights = authentication.checkCRUDRights
 
 	init()
 
 	createFilters(['Учебные', 'Психологические'], 'Тип организации')
 	function init(){
+
+		
 		$$organisations.getList({
 			with_members: true
 		}).then(data=>{
 			vm.orgs = data.data
 			$$profiles.getList().then(resp=>{
 				vm.orgs.forEach(org=>{
+					vm.psychoCount+=org.is_psycho?1:0;
 					org.membersCount = resp.data.filter(member=>member.organisation == org._id).length
-				}) 
+				})
+				vm.educCount = vm.orgs.length - vm.psychoCount; 
 			})
 		})
+
+
 	}
 
 	function createFilters(options, title){
@@ -97,6 +109,13 @@ function organisationsCtrl($$organisations, authentication, flashAlert, $$profil
 			init()
 		}).catch(err=>{
 			if(err) flashAlert.error(err.data.message)
+		})
+	}
+
+	function downloadCSV() {
+		console.log("sa")
+		$$export.download('organisations').then(()=>{
+			console.log("DOWNLOAD")
 		})
 	}
 }

@@ -23,8 +23,8 @@ function myGroupCtrl($q,authentication, $$profiles, $$groups, $$props, flashAler
 	init()
 
 	function init(){
-
-		authentication.actualizeUserInfo()
+		console.log(authentication.currentUser())
+		//authentication.actualizeUserInfo()
 
 		vm.createTableBody = createTableBody
 

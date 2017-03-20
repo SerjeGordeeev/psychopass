@@ -5,7 +5,7 @@
 		<tool-bar filters="orgs.filters"></tool-bar>
 
 		<md-list-item ng-if="mayCRUD">
-			<md-button class="md-raised  add" ng-click="orgs.add()" flex="80">
+			<md-button class="md-raised  add" ng-click="orgs.add()" flex="65">
 				<span>Добавить организацию</span>
 			</md-button>
 			<md-button class="md-raised add" ngf-select="orgs.import($file, $invalidFiles)"
@@ -15,10 +15,25 @@
 			           flex="15">
 				<span>Импорт CSV</span>
 			</md-button>
+			<md-button class="md-raised add" flex="15" ng-click="orgs.downloadCSV()">
+				<span>Экспорт CSV</span>
+			</md-button>
 		<!--	<upload-button callback="orgs.import"></upload-button>-->
 		</md-list-item>
 
 		<md-card>
+			<div layout="row">
+				<div layout="column" layout-align="start start" class="table-info">
+					<span>Психологических: {{orgs.psychoCount}}</span>
+					<span>Учебных: {{orgs.educCount}}</span>
+				</div>
+<!-- 				<div>
+	<md-button>
+		
+	</md-button>
+</div> -->
+			</div>
+
 			<md-list class="layout-fill">
 				<md-list-item class="md-2-line" ng-repeat="org in orgs.orgs | filter: orgs.psychoFilter | orderBy: 'name'">
 
@@ -40,7 +55,7 @@
 
 					<md-input-container  class="md-block">
 						<md-button flex ng-if="mayCRUD" style="margin:0" class="md-raised" aria-label="Представители организации" ng-href="organisations/{{org._id}}">
-							Представители <b>({{org.membersCount}})</b>
+							{{org.is_psycho?'Психологи':'Участники'}} <b>({{org.membersCount}})</b>
 						</md-button>
 					</md-input-container>
 

@@ -45,10 +45,15 @@
         access: ['admin','psycholog', 'org']
       },
       {
+        title:'Анализ',
+        href:'/analize',
+        access: ['admin', 'org']
+      }/*,
+      {
         title:'Администрирование',
         href:'/admin',
         access: ['admin']
-      }
+      }*/
     ]
 
     getPages()

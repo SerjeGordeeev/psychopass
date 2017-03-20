@@ -46,4 +46,6 @@ router.put('/props', ctrlProps.update)
 //admin
 router.get('/backup', ctrlAdmin.getBDBackup)
 
+router.get('/reports/:query', ctrlAdmin.downloadCSV)
+
 module.exports = router

@@ -2,11 +2,7 @@
 	<navigation></navigation>
 	<div class="page_content">
 		<span class="page_title">{{org.org.name}}</span>
-		<tool-bar filters="org.filters">
-			<md-switch ng-model="org.tableMode" aria-label="Показать характеристики">
-				Показать характеристики: {{ org.tableMode?'Да':'Нет' }}
-			</md-switch>
-		</tool-bar>
+		<tool-bar filters="org.filters"></tool-bar>
 
 		<md-list-item ng-if="mayCRUD && !org.org.is_psycho">
 			<md-button class="md-raised  add" ng-click="org.add()" flex="80">
@@ -21,8 +17,7 @@
 			</md-button>
 		</md-list-item>
 
-		<!-- СПИСОК -->
-		<md-card ng-if="!org.tableMode">
+		<md-card>
 			<md-list class="layout-fill">
 				<md-list-item class="md-2-line" ng-repeat="member in org.org.members | orderBy: 'name'
 				| filter: org.withGroupFilter
@@ -60,9 +55,5 @@
 				<md-list-item ng-if="!org.org.members.length">Нет {{org.org.is_psycho?'представителей':'участников'}}</md-list-item>
 			</md-list>
 		</md-card>
-
-		<!-- ТАБЛИЦА -->
-		<prop-table  ng-if="org.tableMode" members="org.org.members" props="org.props" filters="[org.withGroupFilter, org.courseFilter, org.propsFilter]"></prop-table>
-
 	</div>
 </div>

@@ -71,6 +71,20 @@ ng-view{
   }
 }
 
+/* md-list-item{
+  padding-top: 12px;
+  height: 50px !important;
+  min-height: 0 !important;
+  md-input-container{
+    margin: 0 !important;
+    .md-errors-spacer{
+      display: none !important;
+    }
+  }
+} */
+
+
+
 md-list-item{
   //&:hover .delete_button{display: block;}
   padding: 0 1em;
@@ -93,4 +107,9 @@ md-list-item{
       color: $cold-color !important;
     }
   }
+}
+
+a{
+  text-decoration: none !important;
+  color: inherit !important;
 }

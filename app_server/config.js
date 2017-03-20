@@ -20,7 +20,19 @@ app.use('/api', rotesApi)
 
 module.exports = app
 
-let staticRouts = ['home','groups','organisations','members','psychologs','auth','props','my_group','admin']
+let staticRouts = [
+	'home',
+	'groups',
+	'organisations',
+	'members',
+	'psychologs',
+	'auth',
+	'props',
+	'my_group',
+	'admin',
+	'analize'
+];
+
 initStaticRouts(staticRouts)
 function initStaticRouts(routs){
 	routs.forEach(route =>{

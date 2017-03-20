@@ -1,0 +1,14 @@
+<div class=" main_layout" ng-init="mayCRUD = analizeC.checkCRUDRights()">
+	<navigation></navigation>
+	<div class="page_content">
+		<span class="page_title">Анализ данных</span>
+		<md-card layout="row">
+			<md-list>
+				<md-list-item ng-repeat="report in analizeC.reports" layout="row">
+					<span>{{$index+1}}.</span>
+					<a ng-href="{{report.href}}">{{report.title}}</a>
+				</md-list-item>
+			</md-list>
+		</md-card>
+	</div>
+</div>
